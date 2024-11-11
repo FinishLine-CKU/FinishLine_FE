@@ -1,0 +1,324 @@
+/* 초기화 스타일 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* 전체 컨테이너 스타일 */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Lato';
+  color: #333;
+  background-color: #FFFEFB;
+}
+
+/* 헤더 스타일 */
+.login-header {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 로고 스타일 */
+.logo {
+  height: 120px;
+  width: auto;
+  margin-right: auto;
+}
+
+/* 네비게이션 링크와 로그인 버튼을 감싸는 컨테이너 */
+.header-links {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+/* 네비게이션 링크 스타일 */
+.nav-links {
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-family: 'Lato';
+}
+
+/* 로그인 버튼 스타일 */
+.login-button {
+  background-color: #2B2A28;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+/* 메인 섹션 */
+.login-main {
+  flex: 1;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  margin: 20px auto;
+  padding-bottom: 50px;
+}
+
+/* Welcome Icon 스타일 */
+.welcome-icon {
+  display: block;
+  margin: 0 auto 10px;
+  height: 130px;
+}
+
+/* Welcome 텍스트 스타일 */
+.welcome-text {
+  font-size: 32px;
+  margin-bottom: 45px;
+}
+
+/* 로그인 제목 */
+.login-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* 로그인 설명 텍스트 */
+.login-description {
+  font-size: 13px;
+  color: #888888;
+  margin-bottom: 30px;
+}
+
+/* 로그인 폼 스타일 */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form label {
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+  font-weight: normal;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 7px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* "비밀번호를 잊으셨나요?" 스타일 */
+.password-label {
+  position: relative;
+}
+
+.forgot-password {
+  position: absolute;
+  right: 0;
+  bottom: -10px;
+  color: #006277;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* 로그인 버튼 스타일 */
+.submit-button {
+  width: 80%;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 50px;
+}
+
+/* 회원가입 영역 스타일 */
+.register {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* 회원가입 왼쪽과 오른쪽 회색 선 */
+.register::before,
+.register::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #cccccc;
+  margin: 0 50px;
+}
+
+.register-text {
+  color: #888888;
+  font-size: 12px;
+}
+
+.register-link {
+  font-size: 14px;
+  font-weight: bold;
+  color: #006277;
+  margin-left: 10px;
+}
+
+/* 푸터 스타일 */
+.login-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background-color: #2B2A28;
+  color: #ffffff;
+  font-family: 'Lato';
+  font-size: 10px;
+}
+
+/* 푸터 왼쪽 섹션 */
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-logo-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.footer-logo {
+  height: 20px;
+  margin-right: 3px;
+}
+
+.footer-text {
+  font-size: 11px;
+  color: #ffffff;
+}
+
+/* CONTACT 버튼 스타일 */
+.contact-circle {
+  background-color: #ffffff;
+  color: #2B2A28;
+  padding: 3px 7px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 7px;
+  border: 1px solid #2B2A28;
+  display: inline-block;
+  margin-top: 23px;
+  margin-bottom: 5px;
+}
+
+/* 푸터 오른쪽 섹션 */
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 한국어 드롭다운 버튼 */
+.footer-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  position: relative;
+  margin-left: 200px;
+}
+
+.footer-button {
+  background-color: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 3px 10px;
+  border-radius: 15px;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.footer-button .arrow {
+  font-size: 8px;
+}
+
+/* 드롭다운 메뉴 스타일 */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%; 
+  transform: translateX(-50%); 
+  background-color: #2B2A28;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80px;
+  max-height: 100px;
+  overflow-y: auto;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 1000;
+}
+
+.dropdown-menu a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 10px;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #444444;
+}
+
+/* 푸터 링크 스타일 */
+.footer-links {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+  margin-left: auto;
+}
+
+.footer-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 10px;
+}
+
+/* 마지막 문구 스타일 */
+.footer-right p {
+  margin-top: 10px;
+  color: #ffffff;
+  text-align: center;
+  margin-left: auto;
+}
