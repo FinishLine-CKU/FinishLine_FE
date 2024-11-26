@@ -186,10 +186,9 @@ const styles = StyleSheet.create({
 
     },
     cap: {
-        width: '120px',
-        height: '120px',
-        marginLeft: '10px',
-        marginTop: '80px', 
+        width: '140px',
+        height: '140px',
+        marginTop: '70px', 
     },
     credits: {
         fontSize: '20px',

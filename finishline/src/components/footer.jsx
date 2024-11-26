@@ -42,17 +42,19 @@ function Footer() {
         <footer className={css(styles.footer)}>
 
             {/* 푸터 왼쪽 영역 */}
-                    <div className={css(styles.footerLeft)}>
+            <div className={css(styles.footerLeft)}>
                 <div className={css(styles.footerLogoSection)}>
-                    
+
                     {/* 로고 이미지 클릭 시 네이버 폼 링크로 연결 */}
-                    <a 
-                        href="네이버 폼링크 넣기, 홈페이지에서 바로연결x 새창이 떠서 들어가기" 
-                        target="_blank" 
+                    <a
+                        href="네이버 폼링크 넣기, 홈페이지에서 바로연결x 새창이 떠서 들어가기"
+                        target="_blank"
                         rel="noopener noreferrer"
                     >
                         <img src={logo3} alt="Finish Line Logo" className={css(styles.footerLogo)} />
                     </a>
+
+
                     <p className={css(styles.footerLeftText)}>의 사용 후기를 알려주세요!</p>
                 </div>
                 <p className={css(styles.footerService)}>더 나은 서비스로 보답하겠습니다.</p>
@@ -69,7 +71,7 @@ function Footer() {
                     </button>
                     {isLanguageOpen && (
                         <div className={css(styles.dropdownMenu)}>
-                            
+
                             {/* a href="" 안에 맞는 링크를 넣기 */}
                             <a href="" className={css(styles.dropdownLink)} onClick={handleLanguageSelect}>English</a>
                             <a href="" className={css(styles.dropdownLink)} onClick={handleLanguageSelect}>한국어</a>
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
         margin: '0px',
     },
 
-     // contact 원
+    // contact 원
     contactCircle: {
         backgroundColor: '#ffffff',
         color: '#2B2A28',
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
         color: 'inherit', // 부모 요소의 색상 상속
         ':hover': {
             textDecoration: 'none', // 호버 상태에서도 밑줄 제거
-         },
+        },
     },
 
     // 깃허브 링크
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
         color: 'inherit', // 부모 요소의 색상 상속
         ':hover': {
             textDecoration: 'none', // 호버 상태에서도 밑줄 제거
-         },
+        },
     },
 
     // 푸터 오른쪽 영역 스타일
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '5px', 
+        gap: '5px',
     },
 
     // 버튼 안에 화살표
