@@ -128,11 +128,12 @@ const styles = StyleSheet.create({
         display: 'flex', // Flexbox 사용
         flexDirection: 'column', // 세로 정렬
         justifyContent: 'space-between', // 헤더, 본문, 푸터 간 간격 조정
+        position: 'relative', // 푸터 드롭다운 위치 충돌 방지
     },
- 
+
     logo: {
         height: '120px',
-        
+
     },
     title: {
         fontSize: '26px',
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold', // 볼드체
         color: '#333',
         marginBottom: '10px',
-        marginRight: '30%', 
+        marginRight: '30%',
     },
 
     grayLine: {
@@ -182,13 +183,13 @@ const styles = StyleSheet.create({
         transform: 'translate(-50%, -50%)',
         textAlign: 'center',
         width: '100%', // 추가: 너비 확보
-        
+
 
     },
     cap: {
         width: '140px',
         height: '140px',
-        marginTop: '70px', 
+        marginTop: '70px',
     },
     credits: {
         fontSize: '20px',
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     remainingText: {
         fontSize: '20px',
         fontWeight: 'bold',
-        
+
     },
 
     infoText: {
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
         marginBottom: '5px', // 제목과 회색 선 간격
     },
 
-    
+
     detailsSection: {
         display: 'flex',
         justifyContent: 'space-around',
@@ -269,19 +270,19 @@ const styles = StyleSheet.create({
     },
 
     highlightNumber: {
-        fontSize: '20px', 
-        color: '#364876', 
+        fontSize: '20px',
+        color: '#364876',
         fontWeight: 'bold',
     },
 
     buttonWrapper: {
         position: 'absolute', // 위치를 절대값으로 설정
-        marginTop:'220px',
+        marginTop: '220px',
         left: '50%', // 좌우 중앙 정렬
         transform: 'translateX(-50%)', // X축으로 중앙 정렬 보정
         textAlign: 'center',
     },
-    
+
     addButton: {
         fontSize: '12px',
         fontWeight: 'bold',
@@ -296,7 +297,7 @@ const styles = StyleSheet.create({
             backgroundColor: '#2a3d6a', // 버튼에 호버 효과
         },
     },
-    
+
 });
 
 export default GraduateCheck;

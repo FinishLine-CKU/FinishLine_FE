@@ -2,12 +2,14 @@
 
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import { useNavigate } from 'react-router-dom'; // React Router의 onClick 컴포넌트 import
 import Header from '../components/header'; // Header 컴포넌트 import
 import Footer from '../components/footer'; // Footer 컴포넌트 import
 import logo2 from '../assets/images/logo2.png'; // 로고 이미지 import
 
 // LoginPage 컴포넌트
 function LoginPage() {
+    const navigate = useNavigate(); // useNavigate 초기화
     return (
         <div className={css(styles.loginContainer)}>
             {/* Header 컴포넌트 */}
@@ -40,7 +42,14 @@ function LoginPage() {
                         />
                         <a href="비밀번호 분실실" className={css(styles.forgotPassword)}>비밀번호를 잊으셨나요?</a>
                     </label>
-                    <button type="중앙 로그인 버튼" className={css(styles.submitButton)}>로그인</button>
+                    <button
+                        className={css(styles.submitButton)}
+                        onClick={() => navigate('/userGuide')} // 로그인 하면 이용가이드로 이동할 수 있게 했고, 일단 버튼만 누르면
+                    // 가지는데 나중에는 로그인을 해야 갈 수 있게 해주세요.
+
+                    >
+                        로그인
+                    </button>
                 </form>
 
                 {/* 회원가입 섹션 */}
@@ -69,6 +78,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        textAlign: 'center', // 기존 설정 유지
+        position: 'relative', // 푸터 드롭다운 위치 충돌 방지
     },
 
     // 메인 섹션

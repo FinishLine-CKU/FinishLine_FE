@@ -4,13 +4,20 @@ import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import UserHeader from '../components/userHeader';
 import Footer from '../components/footer';
-import logo2 from '../assets/images/logo2.png'; // 로고 이미지
+import logo2 from '../assets/images/logo2.png';
+import certification from '../assets/images/certification.png'; // 회원가입 및 학생인증
+import login from '../assets/images/login.png'; // 로그인
+import subject from '../assets/images/subject.png'; // 기이수 과목 등록
+import requirements from '../assets/images/requirements.png'; // 졸업요건 검사
+import arrow from '../assets/images/arrow.png'; // 화살표 이미지
 
 function UserGuide() {
     return (
         <div className={css(styles.userGuideContainer)}>
             <UserHeader additionalBoldLink="/userGuide" /> {/* 특정 링크 강조 */}
+
             <main className={css(styles.mainContent)}>
+
                 {/* 상단 로고 및 타이틀 */}
                 <div className={css(styles.logoSection)}>
                     <img src={logo2} alt="Finish Line Logo" className={css(styles.guideLogo)} />
@@ -27,24 +34,34 @@ function UserGuide() {
                     {/* 회원가입 및 학생인증 */}
                     <div className={css(styles.step)}>
                         <div className={css(styles.stepImage)}>
-                            <div className={css(styles.placeholder)}>이미지</div>
+
+                            <img src={certification} alt="회원 가입 및 학생인증" className={css(styles.placeholder)} />
+
                         </div>
                         <h2 className={css(styles.stepTitle)}>회원가입 및 학생인증</h2>
                         <p className={css(styles.stepDescription)}>
-                            대학 포털 ID/PW를 입력하여 학생인증을 하고<br />
-                            추가 정보(예: 자격) 및 비밀번호를 설정하여 회원가입을 합니다.
+                            대학 포털 ID/PW를 입력하여<br />
+                            학생인증을 하고<br />
+                            <br />
+                            추가 정보(어학 자격) 및 비밀번호를 <br />
+                            설정하여 회원가입을 합니다.
                         </p>
                         <p className={css(styles.notice)}>
+                            <br /><br />
                             학생 인증을 위해 입력한 비밀번호는<br />
-                            학생 인증이후 사용자에 저장되지 않습니다.
+                            학생 인증에만 사용되며 저장되지 않습니다.
                         </p>
                         <button className={css(styles.signupButton)}>회원가입</button>
                     </div>
 
+                    <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
+
                     {/* 로그인 */}
                     <div className={css(styles.step)}>
                         <div className={css(styles.stepImage)}>
-                            <div className={css(styles.placeholder)}>이미지</div>
+
+                            <img src={login} alt="로그인" className={css(styles.placeholder)} />
+
                         </div>
                         <h2 className={css(styles.stepTitle)}>로그인</h2>
                         <p className={css(styles.stepDescription)}>
@@ -54,39 +71,72 @@ function UserGuide() {
                         <button className={css(styles.loginButton)}>로그인</button>
                     </div>
 
+                    <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
+
                     {/* 기이수 과목 등록 */}
                     <div className={css(styles.step)}>
                         <div className={css(styles.stepImage)}>
-                            <div className={css(styles.placeholder)}>이미지</div>
+
+
+                            <img src={subject} alt="기이수 과목 등록" className={css(styles.placeholder)} />
+
                         </div>
                         <h2 className={css(styles.stepTitle)}>기이수 과목 등록</h2>
                         <p className={css(styles.stepDescription)}>
-                            카톨릭관동대 포털 통합정보시스템 →<br />
-                            학적관리 → 개인 설정 및 정보 → 학적 →<br />
-                            인트라넷 설정 진입 후 PDF 저장
+                            가톨릭관동대 포털 종합정보시스템 ＞<br />
+                            학적관리 ＞ 학기별 성적조회 및 출력 ＞ <br />
+                            년도/학기 설정 및 검색 ＞<br />
+                            인쇄 ＞ PDF 저장
+                            <br />
+                            <br />
+                            다운받은 PDF를 첨부하여<br />
+                            기이수 과목을 등록합니다.
                         </p>
                         <p className={css(styles.notice)}>
                             첨부한 PDF의 성적은 저장되지 않으며<br />
-                            F학점 처리 시 최종 반영되지 않습니다.
+                            F와 NP 처리된 과목은 반영되지 않습니다.
                         </p>
-                        <button className={css(styles.actionButton)}>등록하기</button>
+                        <button
+                            className={css(styles.subjectButton)}
+
+                            // 버튼 클릭 시 이동할 링크 설정
+                            onClick={() => (window.location.href = '/기이수 과목 링크')}
+                        >
+                            등록하기
+                        </button>
                     </div>
+
+                    <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
 
                     {/* 졸업요건 검사 */}
                     <div className={css(styles.step)}>
                         <div className={css(styles.stepImage)}>
-                            <div className={css(styles.placeholder)}>이미지</div>
+
+                            <img src={requirements} alt="졸업요건 검사" className={css(styles.placeholder)} />
+
                         </div>
                         <h2 className={css(styles.stepTitle)}>졸업요건 검사</h2>
                         <p className={css(styles.stepDescription)}>
-                            기이수 과목의 점검과 입력된 데이터 기반으로<br />
-                            부족한 학점 항목을<br />
-                            계산하여 보여줍니다.
+                            기이수 과목의 학점과 <br />
+                            입학년도의 교육과정 및 졸업요건을<br />
+                            비교하여 부족한 영역의<br />
+                            학점을 계산하여 보여줍니다.
                         </p>
                         <p className={css(styles.notice)}>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
                             기이수 과목 등록을 먼저 진행해주세요.
                         </p>
-                        <button className={css(styles.actionButton)}>결과보기</button>
+                        <button
+                            className={css(styles.requirementsButton)}
+
+                            // 버튼 클릭 시 이동할 링크 설정
+                            onClick={() => (window.location.href = '/graduateCheck')}
+                        >
+                            결과보기
+                        </button>
                     </div>
                 </div>
             </main>
@@ -103,7 +153,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        minHeight: '100vh',
+        minHeight: '150vh',
+
     },
     mainContent: {
         padding: '40px 20px',
@@ -112,60 +163,82 @@ const styles = StyleSheet.create({
         marginBottom: '40px',
     },
     guideLogo: {
-        height: '80px',
-        marginBottom: '20px',
+        height: '120px',
+
     },
+
+    // 이용 가이드
     title: {
         fontSize: '30px',
         fontWeight: 'bold',
         color: '#000',
         marginBottom: '10px',
     },
+
+    // 이용 가이드 아래 설명
     subtitle: {
         fontSize: '14px',
-        color: '#d5d3d1',
+        color: '#7A828A',
         lineHeight: '1.5',
+
     },
+
+    // 이용가이드 과정 전체 섹션
     stepsSection: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '20px',
-        marginTop: '40px',
+        display: 'flex', // Flexbox로 변경
+        justifyContent: 'space-between', // 요소 간의 간격을 균등 배치
+        alignItems: 'flex-start', // 텍스트와 이미지를 위쪽 정렬
+        flexWrap: 'nowrap', // 줄바꿈 방지
+        marginBottom: '100px',
+
+
     },
+
+    // 이용가이드 과정 별 세로 섹션
     step: {
-        textAlign: 'center',
-        padding: '10px',
+        textAlign: 'center', // 텍스트 정렬
+        alignItems: 'center', // 텍스트와 버튼을 가운데 정렬
+        padding: '40px',
+
+
     },
-    stepImage: {
-        marginBottom: '10px',
-    },
+
+    // 회원가입 및 학생인증, 로그인, 기이수 과목 등록, 졸업요건 검사 이미지
     placeholder: {
-        width: '100%',
-        height: '120px',
-        backgroundColor: '#ccc',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: '14px',
-        color: '#666',
+        width: '178px',
     },
+
+    // 화살표 이미지
+    arrowImage: {
+        marginTop: '120px',
+        width: '40px',
+    },
+
+    // 회원가입 및 학생인증, 로그인, 기이수 과목 등록, 졸업요건 검사
     stepTitle: {
-        fontSize: '18px',
+        fontSize: '25px',
         fontWeight: 'bold',
         marginBottom: '10px',
         color: '#000',
     },
+
+    // 회색 설명
     stepDescription: {
         fontSize: '14px',
-        color: '#d5d3d1',
+        color: '#7A828A',
         lineHeight: '1.5',
         marginBottom: '10px',
+
     },
+
+    // 청록색 설명
     notice: {
-        fontSize: '12px',
+        fontSize: '13px',
         color: '#006277',
         marginBottom: '10px',
     },
+
+    // 회원가입 및 학생인증 버튼
     signupButton: {
         fontSize: '14px',
         fontWeight: 'bold',
@@ -174,11 +247,15 @@ const styles = StyleSheet.create({
         border: 'none',
         borderRadius: '5px',
         padding: '10px 20px',
-        cursor: 'pointer',
+        marginTop: '57px',
+        cursor: 'not-allowed', // 클릭 불가 커서
+        pointerEvents: 'none', // 클릭 이벤트 차단
         ':hover': {
             backgroundColor: '#1565c0',
         },
     },
+
+    // 로그인 버튼
     loginButton: {
         fontSize: '14px',
         fontWeight: 'bold',
@@ -187,12 +264,16 @@ const styles = StyleSheet.create({
         border: 'none',
         borderRadius: '5px',
         padding: '10px 20px',
-        cursor: 'pointer',
+        marginTop: '200px',
+        cursor: 'not-allowed', // 클릭 불가 커서
+        pointerEvents: 'none', // 클릭 이벤트 차단
         ':hover': {
             backgroundColor: '', // 호버 시 더 어두운 색
         },
     },
-    actionButton: {
+
+    // 기이수 과목 등록 버튼
+    subjectButton: {
         fontSize: '14px',
         fontWeight: 'bold',
         color: '#fff',
@@ -201,10 +282,29 @@ const styles = StyleSheet.create({
         borderRadius: '5px',
         padding: '10px 20px',
         cursor: 'pointer',
+        marginTop: '49px',
         ':hover': {
             backgroundColor: '#2a3d6a',
         },
     },
+
+    // 졸업요건 검사 버튼
+    requirementsButton: {
+        fontSize: '14px',
+        fontWeight: 'bold',
+        color: '#fff',
+        backgroundColor: '#2B2A28',
+        border: 'none',
+        borderRadius: '5px',
+        padding: '10px 20px',
+        cursor: 'pointer',
+        marginTop: '60px',
+        ':hover': {
+            backgroundColor: '#2a3d6a',
+        },
+    },
+
+
 });
 
 export default UserGuide;

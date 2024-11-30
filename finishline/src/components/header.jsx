@@ -2,17 +2,18 @@
 
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
+import { Link, useNavigate } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
 
 // 이미지 파일 import
 import logo1 from '../assets/images/logo1.png';
 
 // Header 컴포넌트
 function Header() {
+    const navigate = useNavigate(); // useNavigate 초기화
     return (
         <header className={css(styles.header)}>
-             {/* 로고 */}
-                <img src={logo1} alt="Logo" className={css(styles.logo)} />
+            {/* 로고 */}
+            <img src={logo1} alt="Logo" className={css(styles.logo)} />
 
 
             {/* 네비게이션 및 로그인 버튼 */}
@@ -20,9 +21,16 @@ function Header() {
                 <nav className={css(styles.navLinks)}>
                     <Link to="/userGuide" className={css(styles.navLink)}>이용 가이드</Link>
                     <Link to="/graduateCheck" className={css(styles.navLink)}>졸업 요건 검사</Link>
-                    <Link to="/기이수과목폴더 이름" className={css(styles.navLink)}>기이수 과목 관리</Link>  
+                    <Link to="/기이수과목폴더 이름" className={css(styles.navLink)}>기이수 과목 관리</Link>
                 </nav>
-                <button className={css(styles.loginButton)}>로그인</button>
+                <button
+                    className={css(styles.loginButton)}
+                    onClick={() => navigate('/userGuide')} // 로그인 하면 이용가이드로 이동할 수 있게 했고, 일단 버튼만 누르면
+                // 가지는데 나중에는 로그인을 해야 갈 수 있게 해주세요.
+
+                >
+                    로그인
+                </button>
             </div>
         </header>
     );

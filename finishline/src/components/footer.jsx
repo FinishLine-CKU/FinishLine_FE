@@ -3,9 +3,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 // import { useTranslation } from 'react-i18next'; // useTranslation 추가
 import { StyleSheet, css } from 'aphrodite';
-import { Link } from 'react-router-dom';
-
-// 이미지 파일 import
 import logo3 from '../assets/images/logo3.png';
 
 // Footer 컴포넌트
@@ -38,6 +35,7 @@ function Footer() {
         };
     }, [isLanguageOpen]);
 
+
     return (
         <footer className={css(styles.footer)}>
 
@@ -54,13 +52,30 @@ function Footer() {
                         <img src={logo3} alt="Finish Line Logo" className={css(styles.footerLogo)} />
                     </a>
 
-
                     <p className={css(styles.footerLeftText)}>의 사용 후기를 알려주세요!</p>
                 </div>
                 <p className={css(styles.footerService)}>더 나은 서비스로 보답하겠습니다.</p>
                 <div className={css(styles.contactCircle)}>CONTACT</div>
-                <Link to="/팀 이메일 링크" className={css(styles.footerTeam)}>softwareTeam@cku.ac.kr</Link>
-                <Link to="/깃허브링크" className={css(styles.footerGitLink)}>www.softwareTeam.github.com</Link>
+
+                <a
+                    href="팀 이메일 링크"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={css(styles.footerTeam)}
+                >
+                    softwareTeam@cku.ac.kr
+                </a>
+
+                {/* 깃허브 링크 */}
+                <a
+                    href="깃허브 링크"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={css(styles.footerGitLink)}
+                >
+                    www.softwareTeam.github.com
+                </a>
+
             </div>
 
             {/* 푸터 오른쪽 영역 */}
@@ -81,9 +96,26 @@ function Footer() {
 
                 <div className={css(styles.footerLinks)}>
 
-                    {/* a href="" 안에 맞는 링크를 넣기 */}
-                    <a href="/누르면 처리방침 이동" className={css(styles.footerLink)}>개인정보 처리방침</a>
-                    <a href="/누르면 약관 이동" className={css(styles.footerLink)}>이용약관</a>
+
+                    <a
+                        href="개인정보 처리 방침 링크"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={css(styles.footerLinks)}
+                    >
+                        개인정보 처리방침
+                    </a>
+
+                    {/* 깃허브 링크 */}
+                    <a
+                        href="이용약관 링크"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={css(styles.footerLink)}
+                    >
+                        이용약관
+                    </a>
+
                 </div>
                 <p className={css(styles.footerRightText)}>
                     &copy; 2024 CKU Software Engineering student All rights reserved.
@@ -127,7 +159,7 @@ const styles = StyleSheet.create({
     footerLogo: {
         height: '20px',
         marginTop: '20px',
-        marginRight: '3px',
+        marginRight: '2px',
         marginBottom: '0px',
     },
 
@@ -141,6 +173,8 @@ const styles = StyleSheet.create({
     // 서비스 텍스트
     footerService: {
         margin: '0px',
+        marginLeft: '4px', // 오른쪽으로 이동
+
     },
 
     // contact 원
@@ -154,6 +188,7 @@ const styles = StyleSheet.create({
         border: '1px solid #2B2A28',
         display: 'inline-block',
         marginTop: '25px',
+        marginBottom: '5px',
     },
 
     // 팀 이메일
@@ -161,13 +196,12 @@ const styles = StyleSheet.create({
         margin: '0',
         padding: '0',
         fontSize: '11px',
-        marginTop: '8px',
+        marginTop: '2px',
         textDecoration: 'none', // 밑줄 제거
-        color: 'inherit', // 부모 요소의 색상 상속
-        ':hover': {
-            textDecoration: 'none', // 호버 상태에서도 밑줄 제거
-        },
+        color: '#ffffff',       // 흰색으로 설정
+
     },
+
 
     // 깃허브 링크
     footerGitLink: {
@@ -176,10 +210,8 @@ const styles = StyleSheet.create({
         fontSize: '11px',
         marginTop: '2px',
         textDecoration: 'none', // 밑줄 제거
-        color: 'inherit', // 부모 요소의 색상 상속
-        ':hover': {
-            textDecoration: 'none', // 호버 상태에서도 밑줄 제거
-        },
+        color: '#ffffff',       // 흰색으로 설정
+
     },
 
     // 푸터 오른쪽 영역 스타일
@@ -213,6 +245,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: '5px',
+        position: 'relative', // 드롭다운의 위치 기준을 이 컨테이너로 설정
+        marginRight: '20px',
+        marginBottom: '12px',
     },
 
     // 버튼 안에 화살표
@@ -224,12 +259,10 @@ const styles = StyleSheet.create({
     dropdownMenu: {
         position: 'absolute',
         top: '100%',
-        left: '50%',
-        transform: 'translateX(-50%)',
         backgroundColor: '#2B2A28',
         border: '1px solid #ccc',
         borderRadius: '5px',
-        width: '80px',
+        width: '64px',
         maxHeight: '100px',
         overflowY: 'auto',
         padding: '2px',
@@ -237,6 +270,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: '3px',
         zIndex: 1000,
+        transform: 'none', // 다른 페이지의 transform 영향을 제거
     },
 
     // 드롭다운 클릭시 나오는 한국어, English 스타일
@@ -253,10 +287,15 @@ const styles = StyleSheet.create({
 
     // 개인정보 처리방침
     footerLinks: {
-        display: 'flex',
-        gap: '20px',
-        marginTop: '10px',
-        marginLeft: 'auto',
+        display: 'flex',          // 수평 정렬
+        gap: '10px',              // 링크 간 간격
+        textDecoration: 'none',
+        color: '#ffffff',
+        marginLeft: 'auto',       // 자동으로 오른쪽 정렬
+        marginRight: '20px',      // 오른쪽으로 추가 간격
+        justifyContent: 'flex-end', // 링크를 오른쪽 끝으로 정렬
+
+
     },
 
     // 이용약관
@@ -271,6 +310,7 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         textAlign: 'center',
         marginLeft: 'auto',
+        marginRight: '20px',
     },
 });
 
