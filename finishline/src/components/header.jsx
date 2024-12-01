@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Link } from 'react-router-dom';
 import Modal from '../components/modal/loginService'; // 모달 컴포넌트 import
+import { useLocation } from 'react-router-dom';
 
 // 이미지 파일 import
 import logo1 from '../assets/images/logo1.png';
 
 function Header() {
+    const location = useLocation(); // 현재 경로를 가져옴
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
     const openModal = () => {
@@ -23,13 +25,25 @@ function Header() {
 
     return (
         <header className={css(styles.header)}>
-            {/* 로고 */}
-            <img src={logo1} alt="Logo" className={css(styles.logo)} />
+
+            {/* 로고 홈 버튼. */}
+            <Link to="/loginPage">
+                <img src={logo1} alt="Logo" className={css(styles.logo)} />
+            </Link>
+
 
             {/* 네비게이션 및 로그인 버튼 */}
             <div className={css(styles.headerLinks)}>
                 <nav className={css(styles.navLinks)}>
-                    <Link to="/userGuide" className={css(styles.navLink)}>이용 가이드</Link>
+                    <Link
+                        to="/userGuide"
+                        className={css(
+                            styles.navLink,
+                            location.pathname === '/userGuide' && styles.activeNavLink // 현재 경로가 '/userGuide'일 때 스타일 추가
+                        )}
+                    >
+                        이용 가이드
+                    </Link>
                     <span
                         className={css(styles.navLink)}
                         onClick={openModal} // 모달 열기
@@ -80,6 +94,11 @@ const styles = StyleSheet.create({
         marginTop: '2%',
         padding: '0 90px',
     },
+
+    activeNavLink: {
+        fontWeight: 'bold', // 볼드 효과
+    },
+
     navLinks: {
         display: 'flex',
         gap: '50px',
@@ -101,6 +120,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         borderRadius: '10px',
     },
+
 });
 
 export default Header;

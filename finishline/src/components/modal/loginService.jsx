@@ -16,7 +16,7 @@ const Modal = ({ isOpen, onClose }) => {
                     <span className={css(styles.bold)}>학생 인증을 완료한 회원</span>만 이용 가능합니다.<br />
                     서비스 이용을 위해 로그인 해주세요.
                 </p>
-                <button className={css(styles.loginButton)} onClick={onClose}>닫기</button>
+                <button className={css(styles.loginButton)} onClick={onClose}>로그인</button>
             </div>
         </div>
     );

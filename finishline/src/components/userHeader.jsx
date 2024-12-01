@@ -31,7 +31,7 @@ function UserHeader({ additionalBoldLink }) {
     return (
         <header className={css(styles.userHeader)}>
 
-            {/* 로고 홈 버튼 임시로 로그인페이지 이지만 마이페이지로 설정해두면 될거 같음. */}
+            {/* 로고 홈 버튼. */}
             <Link to="/loginPage">
                 <img src={logo1} alt="Logo" className={css(styles.logo)} />
             </Link>

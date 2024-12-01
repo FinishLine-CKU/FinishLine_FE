@@ -1,9 +1,11 @@
 // src/pages/userGuide.js
 
-import React from 'react';
+import React, { useState } from 'react'; // useState를 명시적으로 import
+import { useNavigate } from 'react-router-dom'; // useNavigate import 추가
 import { StyleSheet, css } from 'aphrodite';
-import UserHeader from '../components/userHeader';
+import Header from '../components/header';
 import Footer from '../components/footer';
+import Modal from '../components/modal/loginService'; // 모달 컴포넌트 import
 import logo2 from '../assets/images/logo2.png';
 import certification from '../assets/images/certification.png'; // 회원가입 및 학생인증
 import login from '../assets/images/login.png'; // 로그인
@@ -11,10 +13,24 @@ import subject from '../assets/images/subject.png'; // 기이수 과목 등록
 import requirements from '../assets/images/requirements.png'; // 졸업요건 검사
 import arrow from '../assets/images/arrow.png'; // 화살표 이미지
 
+
 function UserGuide() {
+    const navigate = useNavigate(); // 누락된 navigate 선언 추가
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+    const [modalContent, setModalContent] = useState(''); // 모달 내용 관리
+
+    const openModal = (content) => {
+        setModalContent(content); // 클릭된 버튼에 따라 모달 내용 설정
+        setIsModalOpen(true); // 모달 열기
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false); // 모달 닫기
+    };
+
     return (
         <div className={css(styles.userGuideContainer)}>
-            <UserHeader additionalBoldLink="/userGuide" /> {/* 특정 링크 강조 */}
+            <Header additionalBoldLink="/userGuide" /> {/* 특정 링크 강조 */}
 
             <main className={css(styles.mainContent)}>
 
@@ -51,7 +67,13 @@ function UserGuide() {
                             학생 인증을 위해 입력한 비밀번호는<br />
                             학생 인증에만 사용되며 저장되지 않습니다.
                         </p>
-                        <button className={css(styles.signupButton)}>회원가입</button>
+                        {/* 회원가입 버튼 */}
+                        <button
+                            className={css(styles.signupButton)}
+                            onClick={() => navigate('/회원가입 링크')}
+                        >
+                            회원가입
+                        </button>
                     </div>
 
                     <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
@@ -68,7 +90,12 @@ function UserGuide() {
                             학번과 Finish Line 비밀번호를<br />
                             사용하여 로그인을 합니다.
                         </p>
-                        <button className={css(styles.loginButton)}>로그인</button>
+                        <button
+                            className={css(styles.loginButton)}
+                            onClick={() => navigate('/loginPage')}
+                        >
+                            로그인
+                        </button>
                     </div>
 
                     <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
@@ -98,12 +125,11 @@ function UserGuide() {
                         </p>
                         <button
                             className={css(styles.subjectButton)}
-
-                            // 버튼 클릭 시 이동할 링크 설정
-                            onClick={() => (window.location.href = '/기이수 과목 링크')}
+                            onClick={() => openModal('졸업요건 검사')} // 모달 열기
                         >
                             등록하기
                         </button>
+
                     </div>
 
                     <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
@@ -131,15 +157,21 @@ function UserGuide() {
                         </p>
                         <button
                             className={css(styles.requirementsButton)}
-
-                            // 버튼 클릭 시 이동할 링크 설정
-                            onClick={() => (window.location.href = '/graduateCheck')}
+                            onClick={() => openModal('졸업요건 검사')} // 모달 열기
                         >
                             결과보기
                         </button>
                     </div>
                 </div>
             </main>
+
+            {/* 모달 컴포넌트 */}
+            {isModalOpen && (
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                    <h2>{modalContent}</h2>
+                    <p>이 모달은 "{modalContent}" 버튼을 눌렀을 때 열립니다.</p>
+                </Modal>
+            )}
             <Footer />
         </div>
     );
@@ -249,7 +281,7 @@ const styles = StyleSheet.create({
         borderRadius: '5px',
         padding: '10px 20px',
         cursor: 'pointer',
-        marginTop: '57px',
+        marginTop: '69px',
         ':hover': {
             backgroundColor: '#2a3d6a',
         },
@@ -263,9 +295,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#2B2A28',
         border: 'none',
         borderRadius: '5px',
-        padding: '10px 20px',
+        padding: '10px 25px',
         cursor: 'pointer',
-        marginTop: '202px',
+        marginTop: '213px',
         ':hover': {
             backgroundColor: '#2a3d6a',
         },
@@ -281,7 +313,7 @@ const styles = StyleSheet.create({
         borderRadius: '5px',
         padding: '10px 20px',
         cursor: 'pointer',
-        marginTop: '49px',
+        marginTop: '61px',
         ':hover': {
             backgroundColor: '#2a3d6a',
         },
@@ -297,7 +329,7 @@ const styles = StyleSheet.create({
         borderRadius: '5px',
         padding: '10px 20px',
         cursor: 'pointer',
-        marginTop: '60px',
+        marginTop: '72px',
         ':hover': {
             backgroundColor: '#2a3d6a',
         },
