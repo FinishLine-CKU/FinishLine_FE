@@ -3,12 +3,21 @@
 
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import { useNavigate } from 'react-router-dom'; // useNavigate import
 import UserHeader from '../components/userHeader';
 import Footer from '../components/footer';
 import logo2 from '../assets/images/logo2.png'; // 로고 이미지
 import cap from '../assets/images/cap.png'; // 원 안에 넣을 이미지
+import danger from '../assets/images/danger.png'; // 이수 통과
+import pass from '../assets/images/pass.png'; // 이수 실패
 
 const GraduateCheck = () => {
+    const navigate = useNavigate(); // useNavigate 호출
+
+    const handleButtonClick = () => {
+        navigate('/기이수 과목 링크'); // 기이수 과목 링크 넣기 
+    };
+
     const totalCredits = 130;
     const completedCredits = 102;
 
@@ -72,43 +81,73 @@ const GraduateCheck = () => {
                 <p className={css(styles.infoText)}>아래에서 부족한 영역을 확인하세요.</p>
             </div>
 
-            {/* 전공과 교양 섹션 */}
             <div className={css(styles.detailsSection)}>
-                {/* 전공 */}
-                <div className={css(styles.majorSection)}>
-                    <div className={css(styles.horizontalRow)}>
-                        <h2 className={css(styles.subtitle)}>전공</h2>
-                        <p className={css(styles.creditsText)}>
-                            <span className={css(styles.highlightNumber)}>59</span> / 69 학점
+                {/* 왼쪽 그룹: 전공, 일반선택 */}
+                <div className={css(styles.leftSection)}>
+                    <div className={css(styles.majorSection)}>
+                        <div className={css(styles.horizontalRow)}>
+                            <h2 className={css(styles.subtitle)}>전공</h2>
+                            <p className={css(styles.creditsText)}>
+                                <span className={css(styles.highlightNumber)}>59</span> / 69 학점
+                            </p>
+                        </div>
+                        <div className={css(styles.majorGrayLine)} />
+                        <p className={css(styles.alertText)}>
+                            <img src={danger} alt="부족 아이콘" className={css(styles.icon)} />
+                            전공 학점 <span className={css(styles.dangerHighLight)}>10 학점</span> 부족합니다.
                         </p>
                     </div>
-                    <div className={css(styles.majorGrayLine)} />
-                    <p className={css(styles.alertText)}>
-                        <span className={css(styles.alertIcon)}>⚠️</span> 전공 학점{' '}
-                        <span className={css(styles.highlight)}>10 학점</span> 부족합니다.
-                    </p>
+
+                    <div className={css(styles.majorSection)}>
+                        <div className={css(styles.horizontalRow)}>
+                            <h2 className={css(styles.subtitle)}>일반선택</h2>
+                            <p className={css(styles.creditsText)}>
+                                <span className={css(styles.highlightNumber)}>19</span> / 25 학점
+                            </p>
+                        </div>
+                        <div className={css(styles.majorGrayLine)} />
+                        <p className={css(styles.alertText)}>
+                            <img src={danger} alt="부족 아이콘" className={css(styles.icon)} />
+                            일반선택 학점 <span className={css(styles.dangerHighLight)}>6 학점</span> 부족합니다.
+                        </p>
+                    </div>
                 </div>
 
-                {/* 교양 */}
-                <div className={css(styles.generalSection)}>
-                    <div className={css(styles.horizontalRow)}>
-                        <h2 className={css(styles.subtitle)}>교양</h2>
-                        <p className={css(styles.creditsText)}>
-                            <span className={css(styles.highlightNumber)}>24</span> / 36 학점
+                {/* 오른쪽 그룹: 교양 */}
+                <div className={css(styles.rightSection)}>
+                    <div className={css(styles.generalSection)}>
+                        <div className={css(styles.horizontalRow)}>
+                            <h2 className={css(styles.subtitle)}>교양</h2>
+                            <p className={css(styles.creditsText)}>
+                                <span className={css(styles.highlightNumber)}>24</span> / 36 학점
+                            </p>
+                        </div>
+                        <div className={css(styles.generalGrayLine)} />
+                        <p className={css(styles.congratulationText)}>축하합니다🎉</p>
+                        <p className={css(styles.alertText)}>
+                            <img src={pass} alt="이수 완료 아이콘" className={css(styles.icon)} />
+                            교양 필수 <span className={css(styles.passHighLight)}>이수 완료</span> 했습니다!
                         </p>
+                        <p className={css(styles.infoText)}>추가로 수강해야하는 영역을 확인하세요.</p>
+                        <p className={css(styles.alertText)}>
+                            <img src={danger} alt="부족 아이콘" className={css(styles.icon)} />
+                            교양 선택 <span className={css(styles.dangerHighLight)}>12 학점</span> 부족합니다.
+                        </p>
+                        <div className={css(styles.additionalInfo)}>
+                            <p>정보기술, 자연과학, 수리와과학 중 1과목 (2학점)</p>
+                            <p>인간과문학, 역사와사회, 철학과예술 중 4과목 (8학점)</p>
+                            <p>인간과문학, 언어와문화 중 1과목 (2학점)</p>
+                        </div>
                     </div>
-                    <div className={css(styles.generalGrayLine)} />
-                    <p className={css(styles.alertText)}>
-                        <span className={css(styles.successIcon)}>✅</span> 교양 필수 이수 완료 했습니다!
-                    </p>
-                    <p className={css(styles.alertText)}>
-                        <span className={css(styles.alertIcon)}>⚠️</span> 교양 선택{' '}
-                        <span className={css(styles.highlight)}>12 학점</span> 부족합니다.
-                    </p>
 
                     {/* 기이수과목 추가하기 버튼 */}
                     <div className={css(styles.buttonWrapper)}>
-                        <button className={css(styles.addButton)}>기이수과목 추가하기</button>
+                        <button
+                            className={css(styles.addButton)}
+                            onClick={handleButtonClick} // 클릭 시 페이지 이동
+                        >
+                            기이수과목 추가하기
+                        </button>
                     </div>
                 </div>
             </div>
@@ -131,8 +170,12 @@ const styles = StyleSheet.create({
         position: 'relative', // 푸터 드롭다운 위치 충돌 방지
     },
 
+
+
     logo: {
-        height: '120px',
+        display: 'block',
+        margin: '0 auto 0px',
+        height: '130px',
 
     },
     title: {
@@ -205,7 +248,6 @@ const styles = StyleSheet.create({
 
     infoText: {
         fontSize: '12px',
-
         color: '#333',
 
     },
@@ -229,30 +271,41 @@ const styles = StyleSheet.create({
 
     horizontalRow: {
         display: 'flex',
-        justifyContent: 'space-between', // 제목과 학점을 양쪽으로 배치
         alignItems: 'center', // 세로 정렬
-        gap: '10px',
-        marginBottom: '5px', // 제목과 회색 선 간격
+        gap: '12px',
     },
 
 
     detailsSection: {
         display: 'flex',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between', // 양쪽으로 정렬
         marginTop: '40px',
-        marginBottom: '400px', // 이걸로 전체 높이 조절
+        marginBottom: '330px',
+        padding: '0 20%', // 좌우 여백 추가
     },
 
+    leftSection: {
+        textAlign: 'left', // 왼쪽 정렬
+    },
+
+
     subtitle: {
-        fontSize: '18px',
+        fontSize: '20px',
         fontWeight: 'bold',
     },
     creditsText: {
         fontSize: '20px',
         fontWeight: 'bold',
     },
+
+    congratulationText: {
+        fontSize: '13px',
+        marginRight: '138px',
+
+    },
+
     alertText: {
-        fontSize: '14px',
+        fontSize: '20px',
         marginTop: '10px',
         fontWeight: 'bold',
     },
@@ -264,10 +317,19 @@ const styles = StyleSheet.create({
         marginRight: '5px',
         color: '#2ecc71',
     },
-    highlight: {
+
+    // 통과 초록색 문구로 꾸미기
+    passHighLight: {
+        color: '#86c46d',
+        fontWeight: 'bold',
+    },
+
+    // 이수부족 빨간색 문구로 꾸미기
+    dangerHighLight: {
         color: '#e74c3c',
         fontWeight: 'bold',
     },
+
 
     highlightNumber: {
         fontSize: '20px',
@@ -275,14 +337,34 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
+    additionalInfo: {
+        color: '#3c5184', // 텍스트 색상
+        fontWeight: 'bold', // 텍스트 굵기
+        fontSize: '12px', // 텍스트 크기
+        paddingLeft: '70px', // 왼쪽 여백 추가 (목록 스타일 느낌을 위해)
+        textAlign: 'left', // 텍스트 왼쪽 정렬
+        lineHeight: '1.5', // 줄 간격 조정
+    },
+
+    // 통과, 부족 아이콘 
+    icon: {
+        width: '50px', // 원하는 크기 설정
+        height: '50px',
+        marginRight: '8px', // 텍스트와 간격
+        verticalAlign: 'middle', // 텍스트와 아이콘 정렬
+        margin: '0px',
+    },
+
+    // 버튼 위치
     buttonWrapper: {
         position: 'absolute', // 위치를 절대값으로 설정
-        marginTop: '220px',
+        marginTop: '140px',
         left: '50%', // 좌우 중앙 정렬
         transform: 'translateX(-50%)', // X축으로 중앙 정렬 보정
         textAlign: 'center',
     },
 
+    // 버튼 꾸미기
     addButton: {
         fontSize: '12px',
         fontWeight: 'bold',

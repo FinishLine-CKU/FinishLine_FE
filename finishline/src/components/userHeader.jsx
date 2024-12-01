@@ -43,7 +43,9 @@ function UserHeader({ additionalBoldLink }) {
                     {/* additionalBoldLink를 사용해서 필요한 페이지에서만 bold가 가능하게 */}
                     <Link to="/userGuide" className={css(styles.navLink, additionalBoldLink === '/userGuide' && styles.bold)}>이용 가이드</Link>
                     <Link to="/graduateCheck" className={css(styles.navLink, additionalBoldLink === '/graduateCheck' && styles.bold)}>졸업 요건 검사</Link>
-                    <Link to="/completedCourses" className={css(styles.navLink, additionalBoldLink === '/completedCourses' && styles.bold)}>기이수 과목 관리</Link>
+
+                    {/* 기이수 과목 링크 점검 */}
+                    <Link to="/임시" className={css(styles.navLink, additionalBoldLink === '/임시' && styles.bold)}>기이수 과목 관리</Link>
 
                     {/* 사용자 인사말 */}
                     <div className={css(styles.helloContainer)} ref={dropdownRef}>
@@ -79,71 +81,70 @@ function UserHeader({ additionalBoldLink }) {
 
 // 스타일 정의
 const styles = StyleSheet.create({
+    // 헤더 컨테이너 스타일 (수평 정렬 보장)
     userHeader: {
         width: '100%',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        alignItems: 'center', // 세로축 정렬 (중앙 정렬)
+        justifyContent: 'space-between', // 양쪽 정렬
+        padding: '10px 20px', // 위아래 여백 추가
+        boxSizing: 'border-box', // 패딩 포함 크기 계산
     },
 
     // 로고 스타일
     logo: {
-        height: '100px',
+        height: '110px',
         width: 'auto',
         marginRight: 'auto',
-        padding: '0 30px',
     },
 
     // 헤더 링크 섹션 스타일
     headerLinks: {
         display: 'flex',
-        alignItems: 'center',
-        gap: '60px',
-        padding: '0 90px',
+        alignItems: 'center', // 수직 정렬
+        gap: '50px', // 링크 간격
     },
 
     // 네비게이션 링크 스타일
     navLinks: {
         display: 'flex',
-        gap: '50px',
         alignItems: 'center',
+        gap: '30px', // 각 네비게이션 간격
     },
 
-    // 헤더 이용가이드, 졸업요건 검사, 기이수 과목관리, 사용자 이름
+    // 공통 링크 스타일
     navLink: {
         textDecoration: 'none',
-        color: '#333',
+        color: '#2B2A28',
         fontFamily: 'Lato, sans-serif',
+        fontSize: '16px', // 텍스트 크기 조정
     },
 
-    // 헤더 볼드가 필요한 헤더에 볼드체 해주기
+    // 볼드 스타일
     bold: {
         fontWeight: 'bold',
     },
 
-    // 반갑습니다, 홍길동 컨테이너
+    // 사용자 정보 섹션
     helloContainer: {
-        position: 'relative', // 드롭다운 위치 기준
         display: 'flex',
-        alignItems: 'center',
-        gap: '5px',
+        alignItems: 'center', // 수직 정렬
+        gap: '10px', // 텍스트와 아이콘 간격
     },
 
-    // 반갑습니다
     hello: {
         fontWeight: 'bold',
+        fontSize: '16px',
     },
 
-    // 사용자 이름 
     user: {
         color: '#006277',
         fontWeight: 'bold',
-        fontSize: '18px',
-        textDecoration: 'underline', // 밑줄 추가
+        fontSize: '16px',
+        textDecoration: 'underline',
         cursor: 'pointer',
     },
 
-    // 드롭다운 메뉴
     dropdownMenu: {
         position: 'absolute',
         top: '100%',
@@ -151,24 +152,22 @@ const styles = StyleSheet.create({
         backgroundColor: '#2B2A28',
         border: '1px solid #ccc',
         borderRadius: '5px',
-        width: '80px',
+        width: '120px',
         zIndex: 1000,
         display: 'flex',
         flexDirection: 'column',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        marginTop: '3px',
+        marginTop: '10px',
     },
 
-    // 드롭다운 링크 스타일
     dropdownLink: {
         color: '#ffffff',
         textDecoration: 'none',
-        fontSize: '12px',
-        padding: '8px 10px',
-        borderRadius: '3px',
+        fontSize: '14px',
+        padding: '10px 15px',
         fontWeight: 'bold',
         cursor: 'pointer',
-        whiteSpace: 'nowrap', // 텍스트 줄바꿈 방지
+        whiteSpace: 'nowrap',
         ':hover': {
             backgroundColor: '#444444',
         },

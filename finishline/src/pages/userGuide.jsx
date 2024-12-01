@@ -163,8 +163,9 @@ const styles = StyleSheet.create({
         marginBottom: '40px',
     },
     guideLogo: {
-        height: '120px',
-
+        display: 'block',
+        margin: '0 auto 0px',
+        height: '130px',
     },
 
     // 이용 가이드
@@ -243,15 +244,14 @@ const styles = StyleSheet.create({
         fontSize: '14px',
         fontWeight: 'bold',
         color: '#fff',
-        backgroundColor: '#d5d3d1',
+        backgroundColor: '#2B2A28',
         border: 'none',
         borderRadius: '5px',
         padding: '10px 20px',
+        cursor: 'pointer',
         marginTop: '57px',
-        cursor: 'not-allowed', // 클릭 불가 커서
-        pointerEvents: 'none', // 클릭 이벤트 차단
         ':hover': {
-            backgroundColor: '#1565c0',
+            backgroundColor: '#2a3d6a',
         },
     },
 
@@ -260,15 +260,14 @@ const styles = StyleSheet.create({
         fontSize: '14px',
         fontWeight: 'bold',
         color: '#fff',
-        backgroundColor: '#d5d3d1',
+        backgroundColor: '#2B2A28',
         border: 'none',
         borderRadius: '5px',
         padding: '10px 20px',
-        marginTop: '200px',
-        cursor: 'not-allowed', // 클릭 불가 커서
-        pointerEvents: 'none', // 클릭 이벤트 차단
+        cursor: 'pointer',
+        marginTop: '202px',
         ':hover': {
-            backgroundColor: '', // 호버 시 더 어두운 색
+            backgroundColor: '#2a3d6a',
         },
     },
 

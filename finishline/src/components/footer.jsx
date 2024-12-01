@@ -1,24 +1,25 @@
-// src/components/footer.js
-
-import React, { useState, useRef, useEffect } from 'react';
-// import { useTranslation } from 'react-i18next'; // useTranslation 추가
+import { useState, useRef, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import { Link } from 'react-router-dom';
 import logo3 from '../assets/images/logo3.png';
 
 // Footer 컴포넌트
 function Footer() {
-    // const { t, i18n } = useTranslation(); // useTranslation 초기화, 다국어기능 
     const [isLanguageOpen, setIsLanguageOpen] = useState(false); // 언어 드롭다운 상태 관리
     const languageRef = useRef(null); // 드롭다운 메뉴 참조 생성
+    const [isSitemapOpen, setIsSitemapOpen] = useState(false); // 사이트맵 드롭다운 상태 관리
+    const sitemapRef = useRef(null); // 사이트맵 드롭다운 메뉴 참조 생성
 
     // 언어 드롭다운 토글
     const toggleLanguageDropdown = () => {
         setIsLanguageOpen((prev) => !prev);
+        setIsSitemapOpen(false); // 언어 드롭다운 열릴 때 사이트맵 드롭다운 닫기
     };
 
-    // 언어 선택 시 드롭다운 닫기
-    const handleLanguageSelect = () => {
-        setIsLanguageOpen(false);
+    // 사이트맵 드롭다운 토글
+    const toggleSitemapDropdown = () => {
+        setIsSitemapOpen((prev) => !prev);
+        setIsLanguageOpen(false); // 사이트맵 드롭다운 열릴 때 언어 드롭다운 닫기
     };
 
     // 메뉴 외부 클릭 시 드롭다운 닫기 설정
@@ -27,23 +28,22 @@ function Footer() {
             if (isLanguageOpen && languageRef.current && !languageRef.current.contains(event.target)) {
                 setIsLanguageOpen(false);
             }
+            if (isSitemapOpen && sitemapRef.current && !sitemapRef.current.contains(event.target)) {
+                setIsSitemapOpen(false);
+            }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isLanguageOpen]);
-
+    }, [isLanguageOpen, isSitemapOpen]);
 
     return (
         <footer className={css(styles.footer)}>
-
             {/* 푸터 왼쪽 영역 */}
             <div className={css(styles.footerLeft)}>
                 <div className={css(styles.footerLogoSection)}>
-
-                    {/* 로고 이미지 클릭 시 네이버 폼 링크로 연결 */}
                     <a
                         href="네이버 폼링크 넣기, 홈페이지에서 바로연결x 새창이 떠서 들어가기"
                         target="_blank"
@@ -51,71 +51,44 @@ function Footer() {
                     >
                         <img src={logo3} alt="Finish Line Logo" className={css(styles.footerLogo)} />
                     </a>
-
                     <p className={css(styles.footerLeftText)}>의 사용 후기를 알려주세요!</p>
                 </div>
                 <p className={css(styles.footerService)}>더 나은 서비스로 보답하겠습니다.</p>
                 <div className={css(styles.contactCircle)}>CONTACT</div>
-
-                <a
-                    href="팀 이메일 링크"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={css(styles.footerTeam)}
-                >
-                    softwareTeam@cku.ac.kr
-                </a>
-
-                {/* 깃허브 링크 */}
-                <a
-                    href="깃허브 링크"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={css(styles.footerGitLink)}
-                >
-                    www.softwareTeam.github.com
-                </a>
-
+                <Link to="/팀 이메일 링크" className={css(styles.footerTeam)}>softwareTeam@cku.ac.kr</Link>
+                <a href="https://github.com/FinishLine-CKU/FinishLine_FE" className={css(styles.footerGitLink)} target="_blank" rel="noopener noreferrer">www.github.com/FinishLine-CKU/FinishLine_FE</a>
             </div>
 
             {/* 푸터 오른쪽 영역 */}
             <div className={css(styles.footerRight)}>
-                <div className={css(styles.footerButtons)} ref={languageRef}>
-                    <button className={css(styles.footerButton)} onClick={toggleLanguageDropdown}>
-                        <i className=""></i> 한국어 <span className={css(styles.arrow)}>▼</span>
-                    </button>
-                    {isLanguageOpen && (
-                        <div className={css(styles.dropdownMenu)}>
-
-                            {/* a href="" 안에 맞는 링크를 넣기 */}
-                            <a href="" className={css(styles.dropdownLink)} onClick={handleLanguageSelect}>English</a>
-                            <a href="" className={css(styles.dropdownLink)} onClick={handleLanguageSelect}>한국어</a>
-                        </div>
-                    )}
+                <div className={css(styles.buttonContainer)}>
+                    <div className={css(styles.footerButtons)} ref={languageRef}>
+                        <button className={css(styles.footerButton)} onClick={toggleLanguageDropdown}>
+                            <i className=""></i> 한국어 <span className={css(styles.arrow)}>▼</span>
+                        </button>
+                        {isLanguageOpen && (
+                            <div className={css(styles.dropdownMenu)}>
+                                <a href="" className={css(styles.dropdownLink)} onClick={() => setIsLanguageOpen(false)}>한국어</a>
+                                <a href="" className={css(styles.dropdownLink)} onClick={() => setIsLanguageOpen(false)}>English</a>
+                            </div>
+                        )}
+                    </div>
+                    <div className={css(styles.footerButtons)} ref={sitemapRef}>
+                        <button className={css(styles.footerButton)} onClick={toggleSitemapDropdown}>
+                            <i className=""></i> 사이트맵 <span className={css(styles.arrow)}>▼</span>
+                        </button>
+                        {isSitemapOpen && (
+                            <div className={css(styles.dropdownMenu)}>
+                                <Link to="/userGuide" className={css(styles.dropdownLink)} onClick={() => setIsSitemapOpen(false)}>이용가이드</Link>
+                                <Link to="/graduateCheck" className={css(styles.dropdownLink)} onClick={() => setIsSitemapOpen(false)}>졸업요건검사</Link>
+                                <Link to="" className={css(styles.dropdownLink)} onClick={() => setIsSitemapOpen(false)}>기이수과목관리</Link>
+                            </div>
+                        )}
+                    </div>
                 </div>
-
                 <div className={css(styles.footerLinks)}>
-
-
-                    <a
-                        href="개인정보 처리 방침 링크"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={css(styles.footerLinks)}
-                    >
-                        개인정보 처리방침
-                    </a>
-
-                    {/* 깃허브 링크 */}
-                    <a
-                        href="이용약관 링크"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={css(styles.footerLink)}
-                    >
-                        이용약관
-                    </a>
-
+                    <a href="/누르면 처리방침 이동" className={css(styles.footerLink)}>개인정보 처리방침</a>
+                    <a href="/누르면 약관 이동" className={css(styles.footerLink)}>이용약관</a>
                 </div>
                 <p className={css(styles.footerRightText)}>
                     &copy; 2024 CKU Software Engineering student All rights reserved.
@@ -153,14 +126,16 @@ const styles = StyleSheet.create({
     footerLogoSection: {
         display: 'flex',
         alignItems: 'center',
+        marginLeft: '-5px',
     },
 
     // 푸터 왼쪽 로고
     footerLogo: {
-        height: '20px',
+        height: '25px',
         marginTop: '20px',
-        marginRight: '2px',
         marginBottom: '0px',
+        marginRight: '3px',
+
     },
 
     // 사용후기 텍스트
@@ -173,8 +148,6 @@ const styles = StyleSheet.create({
     // 서비스 텍스트
     footerService: {
         margin: '0px',
-        marginLeft: '4px', // 오른쪽으로 이동
-
     },
 
     // contact 원
@@ -188,51 +161,57 @@ const styles = StyleSheet.create({
         border: '1px solid #2B2A28',
         display: 'inline-block',
         marginTop: '25px',
-        marginBottom: '5px',
     },
 
     // 팀 이메일
     footerTeam: {
         margin: '0',
         padding: '0',
-        fontSize: '11px',
-        marginTop: '2px',
+        fontSize: '10px',
+        marginTop: '8px',
         textDecoration: 'none', // 밑줄 제거
-        color: '#ffffff',       // 흰색으로 설정
-
+        color: 'inherit', // 부모 요소의 색상 상속
+        ':hover': {
+            textDecoration: 'none', // 호버 상태에서도 밑줄 제거
+        },
     },
-
 
     // 깃허브 링크
     footerGitLink: {
         margin: '0',
         padding: '0',
-        fontSize: '11px',
+        fontSize: '10px',
         marginTop: '2px',
         textDecoration: 'none', // 밑줄 제거
-        color: '#ffffff',       // 흰색으로 설정
-
+        color: 'inherit', // 부모 요소의 색상 상속
+        ':hover': {
+            textDecoration: 'none', // 호버 상태에서도 밑줄 제거
+        },
     },
 
     // 푸터 오른쪽 영역 스타일
     footerRight: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         marginRight: '30px',
-        marginTop: '-20px',
+        marginTop: '-15px',
+    },
+
+    // 새로운 버튼 컨테이너 스타일
+    buttonContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '10px',
+        marginTop: '90px',
+    },
+
+    // 버튼 스타일 수정
+    footerButtons: {
+        position: 'relative',
     },
 
     // 버튼 안의 한국어
-    footerButtons: {
-        display: 'flex',
-        gap: '10px',
-        marginTop: '100px',
-        position: 'relative',
-        marginLeft: '400px',
-    },
-
-    // 한국어 버튼 스타일
     footerButton: {
         backgroundColor: 'transparent',
         border: '1px solid #ffffff',
@@ -245,9 +224,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: '5px',
-        position: 'relative', // 드롭다운의 위치 기준을 이 컨테이너로 설정
-        marginRight: '20px',
-        marginBottom: '12px',
     },
 
     // 버튼 안에 화살표
@@ -259,10 +235,12 @@ const styles = StyleSheet.create({
     dropdownMenu: {
         position: 'absolute',
         top: '100%',
+        left: '50%',
+        transform: 'translateX(-50%)',
         backgroundColor: '#2B2A28',
         border: '1px solid #ccc',
         borderRadius: '5px',
-        width: '64px',
+        width: '80px',
         maxHeight: '100px',
         overflowY: 'auto',
         padding: '2px',
@@ -270,7 +248,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: '3px',
         zIndex: 1000,
-        transform: 'none', // 다른 페이지의 transform 영향을 제거
     },
 
     // 드롭다운 클릭시 나오는 한국어, English 스타일
@@ -287,15 +264,10 @@ const styles = StyleSheet.create({
 
     // 개인정보 처리방침
     footerLinks: {
-        display: 'flex',          // 수평 정렬
-        gap: '10px',              // 링크 간 간격
-        textDecoration: 'none',
-        color: '#ffffff',
-        marginLeft: 'auto',       // 자동으로 오른쪽 정렬
-        marginRight: '20px',      // 오른쪽으로 추가 간격
-        justifyContent: 'flex-end', // 링크를 오른쪽 끝으로 정렬
-
-
+        display: 'flex',
+        gap: '20px',
+        marginTop: '20px',
+        marginLeft: 'auto',
     },
 
     // 이용약관
@@ -310,7 +282,6 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         textAlign: 'center',
         marginLeft: 'auto',
-        marginRight: '20px',
     },
 });
 

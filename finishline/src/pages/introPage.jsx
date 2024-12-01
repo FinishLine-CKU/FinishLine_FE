@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     // 드롭다운 클릭시 나오는 창 스타일
     dropdownMenu: {
         position: 'absolute',
-        top: '100%',
+        top: '70%',
         backgroundColor: '#2B2A28',
         border: '1px solid #ccc',
         borderRadius: '5px',
@@ -356,6 +356,7 @@ const styles = StyleSheet.create({
         gap: '3px',
         zIndex: 1000,
         transform: 'none', // 다른 페이지의 transform 영향을 제거
+
     },
 
     // 드롭다운 클릭시 나오는 한국어, English 스타일
