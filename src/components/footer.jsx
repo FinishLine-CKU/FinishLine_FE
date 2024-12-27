@@ -1,9 +1,35 @@
+import { useState, useRef, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { MdLanguage } from 'react-icons/md';
-import { RiArrowDropDownLine } from 'react-icons/ri';
+import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import formLink from '../assets/images/formLink.png';
 
 function Footer() {
+
+    const languageButtonRef = useRef();
+    const sitemapButtonRef = useRef();
+    const [languageDropdown, setLanguageDropdown] = useState(false);
+    const [sitemapDropdown, setSitemapDropdown] = useState(false);
+    const [selectedLanguage, setSelectedLanguage] = useState('한국어');
+    
+    useEffect(() => {
+
+        const clickOthers = (event) => {
+            if (languageButtonRef.current && !languageButtonRef.current.contains(event.target)) {
+                setLanguageDropdown(false);
+            }
+            if (sitemapButtonRef.current && !sitemapButtonRef.current.contains(event.target)) {
+                setSitemapDropdown(false);
+            }
+        };
+
+        document.addEventListener('mousedown', clickOthers);
+
+        return () => {
+            document.removeEventListener('mousedown', clickOthers);
+        };
+    }, []);
+
     return (
         <footer className={css(styles.footerContainer)}>
             <div className={css(styles.footerLeftSection)}>
@@ -17,13 +43,32 @@ function Footer() {
                 <a href="https://github.com/FinishLine-CKU" target="_blank" className={css(styles.contactGithub)} title="깃허브">https://github.com/FinishLine-CKU</a>
             </div>
             <div className={css(styles.footerRightSection)}>
-                <div className={css(styles.buttonMenu)}>
-                    <button className={css(styles.languageOption)}>
-                        <MdLanguage />한국어<RiArrowDropDownLine className={css(styles.dropdownIcon)}/>
-                    </button>
-                    <button className={css(styles.footerNavigation)}>
-                        사이트맵<RiArrowDropDownLine className={css(styles.dropdownIcon)}/>
-                    </button>
+                <div className={css(styles.menuButtons)}>
+                    <div className={css(styles.languageButtonContainer)} ref={languageButtonRef}>
+                        <button className={css(styles.languageButton)} onClick={() => {setLanguageDropdown(!languageDropdown); setSitemapDropdown(false);}}>
+                            <MdLanguage />{selectedLanguage} { languageDropdown ? <RiArrowDropUpLine className={css(styles.dropdownIcon)}/> : <RiArrowDropDownLine className={css(styles.dropdownIcon)}/> }
+                        </button>
+                        { languageDropdown ? 
+                            <ul className={css(styles.dropdownOptions)}>
+                                <li className={css(styles.options)} onClick={() => {setSelectedLanguage('한국어'); setLanguageDropdown(false);}}><a>🇰🇷 한국어</a></li>
+                                <li className={css(styles.options)} onClick={() => {setSelectedLanguage('English'); setLanguageDropdown(false);}}><a>🇺🇸 English</a></li>
+                                <li className={css(styles.options)} onClick={() => {setSelectedLanguage('Tiếng Việt'); setLanguageDropdown(false);}}><a>🇻🇳 Tiếng Việt</a></li>
+                            </ul> : null
+                        }
+                    </div>
+                    <div className={css(styles.languageButtonContainer)} ref={sitemapButtonRef}>
+                        <button className={css(styles.footerNavigation)} onClick={()=>{setSitemapDropdown(!sitemapDropdown); setLanguageDropdown(false);}}>
+                            사이트맵 { sitemapDropdown ? <RiArrowDropUpLine className={css(styles.dropdownIcon)}/> : <RiArrowDropDownLine className={css(styles.dropdownIcon)}/> }
+                        </button>
+                        { sitemapDropdown ?
+                            <ul className={css(styles.dropdownOptions)}>
+                                <a href="" className={css(styles.links)}><li className={css(styles.options)}>이용가이드</li></a>
+                                <a href="" className={css(styles.links)}><li className={css(styles.options)}>졸업요건검사</li></a>
+                                <a href="" className={css(styles.links)}><li className={css(styles.options)}>기이수과목관리</li></a>
+                                <a href="" className={css(styles.links)}><li className={css(styles.options)}>마이페이지</li></a>
+                            </ul> : null
+                        }
+                    </div>
                 </div>
                 <div className={css(styles.siteInfo)}>
                     <a href="" target="_blank" className={css(styles.privercyInfo)} title="개인정보처리방침">개인정보처리방침</a>
@@ -44,6 +89,7 @@ const styles = StyleSheet.create({
         padding : '30px',
         backgroundColor: '#2B2A28',
         color: '#FFFEFB',
+        fontFamily: 'Lato',
     },
     footerLeftSection: {
         display: 'flex',
@@ -97,12 +143,16 @@ const styles = StyleSheet.create({
         width: '310px',
         backgroundColor: '#2B2A28',
     },
-    buttonMenu: {
+    menuButtons: {
         display: 'flex',
-        marginBottom: '14px',
+        marginBottom: '14px', // 14px / 55px
         gap: '11px',
     },
-    languageOption: {
+    languageButtonContainer: {
+        position: 'relative',
+        flexDirection: 'column',
+    },
+    languageButton: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -113,9 +163,50 @@ const styles = StyleSheet.create({
         fontSize: '10px',
         backgroundColor: 'transparent',
         color: '#FFFEFB',
+        ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            backgroundColor: '#201F1D',
+            color: '#C6C6C6',
+        },
     },
     dropdownIcon: {
         marginRight: '-4px',
+    },
+    dropdownOptions: {
+        position: 'absolute',
+        top: '15px',
+        width: '100%',
+        maxHeight: '65px',
+        overflowY: 'auto',
+        padding: '0px',
+        border: '0.5px solid #FFFEFB',
+        fontSize: '10px',
+        textAlign: 'left',
+        backgroundColor: '#2B2A28',
+        '::-webkit-scrollbar': {
+            width: '2px',
+        },
+        '::-webkit-scrollbar-thumb': {
+            backgroundColor: '#CACACA',
+            borderRadius: '20px',
+        },
+        // scrollbarWidth: 'thin',
+        listStyle: 'none',
+    },
+    options: {
+        padding: '6px 0 4px 3px',
+        color: '#FFFEFB',
+        ':hover': {
+            backgroundColor: '#201F1D',
+            color: '#42BCD6',
+            cursor: 'pointer',
+        },
+    },
+    links: {
+        color: '#FFFEFB',
+        textDecorationLine: 'none',
     },
     footerNavigation: {
         display: 'flex',
@@ -128,6 +219,13 @@ const styles = StyleSheet.create({
         fontSize: '10px',
         backgroundColor: 'transparent',
         color: '#FFFEFB',
+        ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            backgroundColor: '#201F1D',
+            color: '#C6C6C6',
+        },
     },
     siteInfo: {
         display: 'flex',
@@ -148,4 +246,5 @@ const styles = StyleSheet.create({
         fontSize: '10px',
     }
 });
+
 export default Footer;
