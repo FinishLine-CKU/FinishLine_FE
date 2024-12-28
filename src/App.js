@@ -1,12 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 import Header from './components/header';
+import Template from './components/template';
 import Footer from './components/footer';
 
 function App() {
   return (
     <div className="App">
       <Header />
+      <Template title="" subtitle="" />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
