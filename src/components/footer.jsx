@@ -46,9 +46,9 @@ function Footer() {
                         </button>
                         { languageDropdown ? 
                             <ul className={css(styles.dropdownOptions)}>
-                                <li className={css(styles.options)} onClick={() => {setSelectedLanguage('한국어'); setLanguageDropdown(false);}}><a>🇰🇷 한국어</a></li>
-                                <li className={css(styles.options)} onClick={() => {setSelectedLanguage('English'); setLanguageDropdown(false);}}><a>🇺🇸 English</a></li>
-                                <li className={css(styles.options)} onClick={() => {setSelectedLanguage('Tiếng Việt'); setLanguageDropdown(false);}}><a>🇻🇳 Tiếng Việt</a></li>
+                                <li className={css(styles.options)} onClick={() => {setSelectedLanguage('한국어'); setLanguageDropdown(false);}}><a>한국어</a></li>
+                                <li className={css(styles.options)} onClick={() => {setSelectedLanguage('English'); setLanguageDropdown(false);}}><a>English</a></li>
+                                <li className={css(styles.options)} onClick={() => {setSelectedLanguage('Tiếng Việt'); setLanguageDropdown(false);}}><a>Tiếng Việt</a></li>
                             </ul> : null
                         }
                     </div>
@@ -173,23 +173,17 @@ const styles = StyleSheet.create({
     dropdownOptions: {
         position: 'absolute',
         top: '15px',
-        width: '100%',
+        left: '-5%',
+        width: '110%',
         padding: '0px',
         border: '0.5px solid #FFFEFB',
         fontSize: '10px',
         textAlign: 'left',
         backgroundColor: '#2B2A28',
-        '::-webkit-scrollbar': {
-            width: '2px',
-        },
-        '::-webkit-scrollbar-thumb': {
-            backgroundColor: '#CACACA',
-            borderRadius: '20px',
-        },
         listStyle: 'none',
     },
     options: {
-        padding: '6px 0 4px 3px',
+        padding: '5px 0 5px 6px',
         color: '#FFFEFB',
         ':hover': {
             backgroundColor: '#201F1D',
