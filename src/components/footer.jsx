@@ -5,15 +5,13 @@ import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import formLink from '../assets/images/formLink.png';
 
 function Footer() {
-
     const languageButtonRef = useRef();
     const sitemapButtonRef = useRef();
     const [languageDropdown, setLanguageDropdown] = useState(false);
     const [sitemapDropdown, setSitemapDropdown] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState('한국어');
-    
-    useEffect(() => {
 
+    useEffect(() => {
         const clickOthers = (event) => {
             if (languageButtonRef.current && !languageButtonRef.current.contains(event.target)) {
                 setLanguageDropdown(false);
@@ -22,9 +20,7 @@ function Footer() {
                 setSitemapDropdown(false);
             }
         };
-
         document.addEventListener('mousedown', clickOthers);
-
         return () => {
             document.removeEventListener('mousedown', clickOthers);
         };
@@ -95,7 +91,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        width: '210px',
+        width: '250px',
         backgroundColor: '#2B2A28',
     },
     surveyLink: {
@@ -106,7 +102,7 @@ const styles = StyleSheet.create({
     },
     formText: {
         marginLeft: '3px',
-        fontSize: '10px',
+        fontSize: '11px',
         color: '#FFFEFB',
     },
     serviceText: {
@@ -116,10 +112,10 @@ const styles = StyleSheet.create({
     },
     contactIndex: {
         display: 'inline-block',
-        margin: '25px 0 10px',
+        margin: '20px 0 10px',
         padding: '2px 7px',
         borderRadius: '10px',
-        fontSize: '7px',
+        fontSize: '8px',
         fontWeight: '900',
         backgroundColor: '#FFFEFB',
         color: '#2B2A28',
@@ -145,7 +141,7 @@ const styles = StyleSheet.create({
     },
     menuButtons: {
         display: 'flex',
-        marginBottom: '14px', // 14px / 55px
+        marginBottom: '50px',
         gap: '11px',
     },
     languageButtonContainer: {
@@ -178,8 +174,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '15px',
         width: '100%',
-        maxHeight: '65px',
-        overflowY: 'auto',
         padding: '0px',
         border: '0.5px solid #FFFEFB',
         fontSize: '10px',
@@ -192,7 +186,6 @@ const styles = StyleSheet.create({
             backgroundColor: '#CACACA',
             borderRadius: '20px',
         },
-        // scrollbarWidth: 'thin',
         listStyle: 'none',
     },
     options: {
