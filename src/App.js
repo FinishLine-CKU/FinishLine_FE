@@ -1,29 +1,17 @@
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css';
-import Header from './components/header';
-import Template from './components/template';
-import Footer from './components/footer';
+import DonLecture from './pages/doneLecturePage';
+import UploadPdf from './pages/uploadPdfPage';
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Template title="" subtitle="" />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <Footer />
+      <Router>
+        <Routes>
+          <Route path="/uploadpdf" element={<UploadPdf />} />
+          <Route path="/donelecture" element={<DonLecture />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
