@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
             cursor: 'pointer',
             backgroundColor: '#2B2A28',
             color: '#FFFEFB',
-            transitionDuration: '0.3s',
+            transitionDuration: '0.2s',
         },
         ':active:not(:disabled)': {
             backgroundColor: '#595650',
