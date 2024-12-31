@@ -3,7 +3,7 @@ import Template from '../components/template';
 import Header from  '../components/header';
 import Footer from '../components/footer';
 
-function DoneLecture() {
+function DoneLecturePage() {
     return (
       <div>
         <Header />
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
     
 });
 
-export default DoneLecture;
+export default DoneLecturePage;
