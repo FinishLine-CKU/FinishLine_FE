@@ -1,22 +1,25 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
 import Footer from '../components/footer';
 
 function UploadPdfPage() {
-  const imageInput = useRef();
   const [fileNames, setFileNames] = useState([]);
 
-  const onCickImageUpload = () => {
-    imageInput.current.click();
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setFileNames(file.name);
+  const fileInputHandler = useCallback((event) => {
+    const files = event.target && event.target.files;
+    if (files) {
+      const newFileNamesArray = Array.from(files)
+        .slice(0, 25 - fileNames.length)
+        .map(file => file.name);
+  
+      setFileNames(prevFileNames => [...prevFileNames, ...newFileNamesArray]);
     }
+  }, [fileNames]);
+
+  const handleDeleteFile = (index) => {
+    setFileNames((prevFileNames) => prevFileNames.filter((_, i) => i !== index));
   };
 
     return (
@@ -29,14 +32,41 @@ function UploadPdfPage() {
             <hr className={css(styles.custom_hr)}/>
               <div className={css(styles.itemfilecontainer)}>
                 <p className={css(styles.custom_text)}>파일 선택</p>
-                <div className={css(styles.itemboxcontainer)}>
-                  {/* <p className={css(styles.custom_text_box)}>파일을 선택해주세요. (최대 25장)</p> */}
-                  <p className={css(styles.custom_text_box)}>
-                    {fileNames ? ` ${fileNames}` : "파일을 선택해주세요. (최대 25장)"}
-                  </p>
-                  <input type="file" style={{ display: "none" }} ref={imageInput} />
-                  <button className={css(styles.itemfileButton)} onClick={onCickImageUpload} onChange={handleFileChange}>파일 업로드</button>
-                </div>
+                <div 
+                    className={css(styles.itemboxcontainerScrollable)} 
+                  >
+                    <input 
+                      type="file" 
+                      style={{ display: "none" }} 
+                      id="uploadpdf" 
+                      name="pdf" 
+                      accept=".pdf" 
+                      onChange={fileInputHandler}
+                    />
+                    <div className={css(styles.filenameContainerScrollable)}>
+                      {fileNames.length === 0 ? (
+                        <p className={css(styles.custom_text_box)}>파일을 선택해주세요. (최대 25장)</p>
+                      ) : (
+                        fileNames.map((fileName, index) => (
+                          <div key={index} className={css(styles.fileNameButtonContainer)}>
+                            <button className={css(styles.fileNameButton)}>
+                              {fileName}
+                              <button
+                                            onClick={() => handleDeleteFile(index)}
+                                            className={css(styles.deleteButton)}
+                                            type="button"
+                                        >
+                                            ×
+                                        </button>
+                            </button>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                  <div className={css(styles.itemboxcontainerScrollabletest)} >
+                  <label htmlFor="uploadpdf" className={css(styles.itemfileButton)}>파일 업로드</label>
+                  </div>
                   <button className={css(styles.itemregistButton)}>등록하기</button>
               </div>
               <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 
@@ -59,10 +89,11 @@ const styles = StyleSheet.create({
     marginTop: '50px',
     display: 'flex',
     flexDirection: 'column',
-    width: '35%',
+    width: '40%',
   },
   title: {
     marginBottom: '5px',
+    fontSize: '23px',
   },
   custom_hr: {
     width: '100%',
@@ -77,6 +108,7 @@ const styles = StyleSheet.create({
   itemboxcontainer: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     marginLeft: '10px',
     width: '70%',
     height: '45%',
@@ -85,7 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F6F6', 
   },
   itemregistButton: {
-    marginLeft: '5px',
+    //marginLeft: '3px',
     border: '1px soild black',
     borderRadius: '5px',
     backgroundColor: 'transparent',
@@ -95,9 +127,8 @@ const styles = StyleSheet.create({
     fontSize: '12px',
   },
   itemfileButton: {
-    marginTop: '5px',
     marginRight: '5px',
-    width: '70px',
+    width: '60px',
     height: '20px',
     backgroundColor: 'rgba(90, 87, 87, 0.81)',
     border: '1px solid #CACACA',
@@ -109,21 +140,103 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFFEFB',
     marginLeft: 'auto',
-    padding: '5px',
+    padding: '3px',
   },
   custom_text: {
     fontSize: '18px',
   },
   custom_text_box: {
+    flexDirection: 'row',
     marginLeft: '10px',
-    marginTop: '5px',
     fontSize: '13px',
     color: '#CACACA',
+    justifyContent: 'center',  // 수직 중앙 정렬
   },
   custom_b_text: {
+    marginTop: '10px',
     fontSize: '13px',
     color: '#006277',
+    textAlign: 'center',
   },
+  filenameContainer: {
+    display: 'flex',
+    flexDirection: 'column', 
+    marginLeft: '10px',
+  },
+  itemboxcontainerScrollable: {
+    display: 'flex',
+    flexDirection: 'row',
+    position: 'relative',
+    alignItems: 'center',
+    //marginLeft: '3px',  // 간격 제거
+    paddingLeft: '0px',  // 패딩 제거
+    width: '60%',
+    height: '100px',
+    overflow: 'auto',
+    borderTop: '1px solid #CCC',
+    borderBottom: '1px solid #CCC',
+    borderLeft: '1px solid #CCC',
+    backgroundColor: '#F6F6F6',
+    borderTopLeftRadius: '5px',
+    borderBottomLeftRadius: '5px',
+  },
+  filenameContainerScrollable: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '10px',
+    width: '100%',
+    height: '100px',
+  },
+  itemboxcontainerScrollabletest: {
+    display: 'flex',
+    flexDirection: 'row',
+    position: 'relative',
+    alignItems: 'center',
+    marginLeft: '0px',  // 간격 제거
+    paddingLeft: '0px',  // 패딩 제거
+    width: '13%',
+    height: '100px',
+    borderTop: '1px solid #CCC',
+    borderBottom: '1px solid #CCC',
+    borderRight: '1px solid #CCC',
+    backgroundColor: '#F6F6F6',
+    borderTopRightRadius: '5px',
+    borderBottomRightRadius: '5px',
+  },
+  fileNameButtonContainer: {
+    marginBottom: '5px', // 파일 이름 간 간격을 주기 위해 추가
+  },
+  fileNameButton: {
+    flex: 1,
+    minHeight: '30px',
+    height: '30px',
+    padding: '0 13px',
+    border: '1px solid #CACACA',
+    borderRadius: '6px',
+    fontSize: '13px',
+    color: 'black',
+    backgroundColor: '#fff',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: '8px',
+    wordBreak: 'break-all',
+    cursor: 'pointer',  // 버튼처럼 보이게 하기 위해 추가
+  },
+  deleteButton: {
+    background: 'none',
+    border: 'none',
+    color: '#FF4444',
+    cursor: 'pointer',
+    fontSize: '16px',
+    padding: '0 5px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ':hover': {
+        color: '#FF0000',
+    }
+},
 });
 
 export default UploadPdfPage;
