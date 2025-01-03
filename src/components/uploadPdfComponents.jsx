@@ -9,10 +9,15 @@ function UploadPdfComponents() {
   const fileInputHandler = useCallback((event) => {
     const files = event.target && event.target.files;
     if (files) {
-      const newFileNamesArray = Array.from(files)
-        .slice(0, 25 - fileNames.length)
-        .map(file => file.name);
+      const newFilesArray = Array.from(files)
+        .slice(0, 25 - fileNames.length);
   
+      setSelectedFiles(prevSelectedFiles => [
+        ...prevSelectedFiles,
+        ...newFilesArray
+      ]);
+  
+      const newFileNamesArray = newFilesArray.map(file => file.name);
       setFileNames(prevFileNames => [...prevFileNames, ...newFileNamesArray]);
     }
   }, [fileNames]);
@@ -39,7 +44,7 @@ function UploadPdfComponents() {
             },
         });
 
-        localStorage.setItem('completedLectures', 'true');
+        localStorage.setItem('uploadPdfPage', 'true');
         
         alert('파일이 성공적으로 업로드되었습니다.');
         setSelectedFiles([]);
@@ -65,6 +70,7 @@ function UploadPdfComponents() {
                       id="uploadpdf" 
                       name="pdf" 
                       accept=".pdf" 
+                      multiple
                       onChange={fileInputHandler}/>
                     <div className={css(styles.itemBoxContainerScrollable)}>
                       {fileNames.length === 0 ? (
