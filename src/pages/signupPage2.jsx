@@ -119,24 +119,48 @@ const MICRO_DEGREE = [
 function SignupPage2() {
     const [additionalMajorType, setAdditionalMajorType] = useState('');
     const [additionalMajor, setAdditionalMajor] = useState('');
-    const [password, setPassword] =useState('');
+    const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
+    const [error, setError] = useState('');
+    const [checkError, setCheckError] = useState('');
 
-    const noneSelectMajor = () => {
-        if (additionalMajorType !== '') {
-            if(additionalMajor === '') {
-                return true
-            } else {
-                return false
-            }
+    const passwordFormat = (e) => {
+        const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!#^%*?&])[a-zA-Z\d@$!#^%*?&]{8,20}$/;
+        const input = e.target.value;
+        setPassword(input)
+        if (input ===  ''){
+            setError('비밀번호 필수 입력');
         } else {
-            return false
+            if (regex.test(input)){
+                setError('');
+            } else {
+                setError('영문 대/소문자, 숫자, 특수문자를 포함하여 8~20자 입력해주세요.');
+            }
         };
     };
-    const passwordInput = () => {
-
+    const passwordCorrect = (e) => {
+        const input = e.target.value;
+        setPasswordCheck(input);
+        if (password !== '') {
+            if (password === input) {
+                setCheckError('');
+            } else {
+                setCheckError('비밀번호가 일치하지 않습니다.');
+            };
+        } else {
+            setError('비밀번호 필수 입력');
+        };
     };
-    const passwordFormat = () => {
-        const format = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#^%*?&])[A-Za-z\d@$!#^%*?&]{8,20}$/;
+    const finalCheck = () => {
+        if (password !== '' && passwordCheck !== '' && error === '' && checkError === '') {
+            if (additionalMajorType === '' || (additionalMajorType !== '' && additionalMajor !== '')) {
+                return false
+            } else {
+                return true
+            }
+        } else {
+            return true
+        };
     };
 
     return (
@@ -181,13 +205,19 @@ function SignupPage2() {
                                 <option value={item.value}>{item.label}</option>
                             )) }
                         </select>
-                        <label className={css(styles.infoLable)}>비밀번호 설정<span className={css(styles.essential)}> *</span></label>
-                        <input className={css(styles.additionalInfo)} type="password" placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
-                        <label className={css(styles.infoLable)}>비밀번호 확인<span className={css(styles.essential)}> *</span></label>
-                        <input className={css(styles.additionalInfo)} type="password" placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
+                        <div className={css(styles.pwLabelSpace)}>
+                            <label className={css(styles.infoLable)}>비밀번호 설정<span className={css(styles.essential)}> *</span></label>
+                            { error ? <span className={css(styles.errorMessage)}>{error}</span> : null }
+                        </div>
+                        <input className={css(error ? styles.ErrorAdditionalInfo : styles.additionalInfo)} type="password" onBlur={passwordFormat} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
+                        <div className={css(styles.pwLabelSpace)}>
+                            <label className={css(styles.infoLable)}>비밀번호 확인<span className={css(styles.essential)}> *</span></label>
+                            { checkError ? <span className={css(styles.errorMessage)}>{checkError}</span> : null }
+                        </div>
+                        <input className={css(checkError ? styles.ErrorAdditionalInfo : styles.additionalInfo)} type="password" onChange={passwordCorrect} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
                     </div>
                 </div>
-                <button className={css(styles.signUpButton)} disabled={noneSelectMajor()}>가입하기</button>
+                <button className={css(styles.signUpButton)} disabled={finalCheck()}>가입하기</button>
             </div>
             <Footer />
         </>
@@ -288,9 +318,23 @@ const styles = StyleSheet.create({
             outline: '1px solid #2B2A28',
         },
     },
+    pwLabelSpace: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+        alignItems: 'center',
+    },
     essential: {
-        color: 'red',
+        color: '#FF4921',
         fontSize: '14px'
+    },
+    errorMessage: {
+        color: '#FF4921',
+        fontSize: '12px',
+        fontFamily: 'Lato',
+        fontWeight: '600',
+        margin: '0 0 6px auto',
+
     },
     additionalInfo: {
         marginBottom: '30px',
@@ -306,6 +350,22 @@ const styles = StyleSheet.create({
         ':focus': {
             color: '#2B2A28',
             outline: '1px solid #2B2A28',
+        },
+    },
+    ErrorAdditionalInfo: {
+        marginBottom: '30px',
+        padding: '0 0 0 15px',
+        width: '410px',
+        height: '46px',
+        border: '1.5px solid #FF4921',
+        borderRadius: '6px',
+        fontFamily: 'Lato',
+        fontSize: '16px',
+        fontWeight: '500',
+        color: '#7A828A',
+        ':focus': {
+            color: '#2B2A28',
+            outline: '0.5px solid #FF4921',
         },
     },
     signUpButton: {
