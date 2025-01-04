@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { StyleSheet, css } from 'aphrodite';
-import { useNavigate } from 'react-router-dom';
-import Header from '../components/header';
-import Template from '../components/template';
-import Footer from '../components/footer';
+import React, { useState } from "react";
+import { StyleSheet, css } from "aphrodite";
+import { useNavigate } from "react-router-dom";
+import Header from "../components/header";
+import Template from "../components/template";
+import Footer from "../components/footer";
 
 function LoginPage() {
-    const [studentId, setStudentId] = useState('');
-    const [password, setPassword] = useState('');
+    const [studentId, setStudentId] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
         if (studentId && password) {
-            navigate('/dashboard');
+            navigate("/dashboard");
         } else {
-            alert('학번과 비밀번호를 모두 입력해주세요.');
+            alert("학번과 비밀번호를 모두 입력해주세요.");
         }
     };
 
@@ -26,7 +26,9 @@ function LoginPage() {
             <main className={css(styles.loginContainer)}>
                 <div className={css(styles.loginContent)}>
                     <h1 className={css(styles.loginTitle)}>로그인</h1>
-                    <p className={css(styles.loginDescription)}>Finish Line에 등록한 학번과 비밀번호를 입력해주세요.</p>
+                    <p className={css(styles.loginDescription)}>
+                        Finish Line에 등록한 학번과 비밀번호를 입력해주세요.
+                    </p>
                     <form className={css(styles.loginForm)} onSubmit={handleLogin}>
                         <label className={css(styles.formLabel)}>
                             학번
@@ -70,115 +72,115 @@ function LoginPage() {
 
 const styles = StyleSheet.create({
     pageContainer: {
-        minHeight: '122vh',
-        display: 'flex',
-        flexDirection: 'column',
+        minHeight: "122vh",
+        display: "flex",
+        flexDirection: "column",
     },
     loginContainer: {
         flex: 1,
-        fontFamily: 'Lato',
-        color: '#333',
-        backgroundColor: '#FFFEFB',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-        position: 'relative',
+        fontFamily: "Lato",
+        color: "#333",
+        backgroundColor: "#FFFEFB",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        position: "relative",
     },
     loginContent: {
-        width: '100%',
-        maxWidth: '400px',
-        padding: '40px 20px',
+        width: "100%",
+        maxWidth: "400px",
+        padding: "40px 20px",
     },
     loginTitle: {
-        fontSize: '28px',
+        fontSize: "28px",
         fontWeight: 600,
-        marginBottom: '8px',
+        marginBottom: "8px",
     },
     loginDescription: {
-        fontSize: '15px',
-        color: '#888888',
-        marginBottom: '50px',
+        fontSize: "15px",
+        color: "#888888",
+        marginBottom: "50px",
     },
     loginForm: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
     },
     formLabel: {
-        width: '112%',
-        textAlign: 'left',
-        fontWeight: 'normal',
-        fontSize: '14px',
-        marginBottom: '15px',
+        width: "112%",
+        textAlign: "left",
+        fontWeight: "normal",
+        fontSize: "14px",
+        marginBottom: "15px",
     },
     formInput: {
-        width: '100%',
-        padding: '14px',
-        marginTop: '7px',
-        marginBottom: '15px',
-        border: '1px solid #ccc',
-        borderRadius: '7px',
-        boxSizing: 'border-box',
+        width: "100%",
+        padding: "14px",
+        marginTop: "7px",
+        marginBottom: "15px",
+        border: "1px solid #ccc",
+        borderRadius: "7px",
+        boxSizing: "border-box",
     },
     passwordLabel: {
-        position: 'relative',
+        position: "relative",
     },
     forgotPassword: {
-        position: 'absolute',
-        right: '0px',
-        bottom: '-10px',
-        color: '#006277',
-        fontSize: '12px',
-        fontWeight: 'bold',
-        textDecoration: 'none',
-        ':hover': {
-            textDecoration: 'underline',
+        position: "absolute",
+        right: "0px",
+        bottom: "-10px",
+        color: "#006277",
+        fontSize: "12px",
+        fontWeight: "bold",
+        textDecoration: "none",
+        ":hover": {
+            textDecoration: "underline",
         },
     },
     submitButton: {
-        width: '112%',
-        padding: '12px',
-        backgroundColor: '#2B2A28',
-        color: '#ffffff',
-        border: 'none',
-        borderRadius: '10px',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        cursor: 'pointer',
-        marginTop: '30px',
-        boxSizing: 'border-box',
+        width: "112%",
+        padding: "12px",
+        backgroundColor: "#2B2A28",
+        color: "#ffffff",
+        border: "none",
+        borderRadius: "10px",
+        fontSize: "16px",
+        fontWeight: "bold",
+        cursor: "pointer",
+        marginTop: "30px",
+        boxSizing: "border-box",
     },
     registerSection: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: '35px',
-        width: '117%',
-        flexWrap: 'nowrap',
-        marginLeft: '-34px',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "35px",
+        width: "117%",
+        flexWrap: "nowrap",
+        marginLeft: "-34px",
     },
     line: {
         flexGrow: 1,
-        height: '1px',
-        backgroundColor: '#cccccc',
-        margin: '0 10px',
+        height: "1px",
+        backgroundColor: "#cccccc",
+        margin: "0 10px",
     },
     registerText: {
-        color: '#888888',
-        fontSize: '12px',
-        whiteSpace: 'nowrap',
+        color: "#888888",
+        fontSize: "12px",
+        whiteSpace: "nowrap",
     },
     registerLink: {
-        fontSize: '14px',
-        fontWeight: 'bold',
-        color: '#006277',
-        marginLeft: '10px',
-        textDecoration: 'none',
-        whiteSpace: 'nowrap',
-        ':hover': {
-            textDecoration: 'none',
+        fontSize: "14px",
+        fontWeight: "bold",
+        color: "#006277",
+        marginLeft: "10px",
+        textDecoration: "none",
+        whiteSpace: "nowrap",
+        ":hover": {
+            textDecoration: "none",
         },
     },
 });
