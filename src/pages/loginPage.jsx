@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/header';
+import Template from '../components/template';
+import Footer from '../components/footer';
 
 function LoginPage() {
     const [studentId, setStudentId] = useState('');
@@ -10,7 +13,6 @@ function LoginPage() {
     const handleLogin = (e) => {
         e.preventDefault();
         if (studentId && password) {
-            // 실제 로그인 로직은 백엔드 API 연동 필요
             navigate('/dashboard');
         } else {
             alert('학번과 비밀번호를 모두 입력해주세요.');
@@ -19,84 +21,165 @@ function LoginPage() {
 
     return (
         <div className={css(styles.pageContainer)}>
-            
+            <Header />
+            <Template title="Welcome to Finish Line!" subtitle="" />
             <main className={css(styles.loginContainer)}>
-                <h1 className={css(styles.pageTitle)}>로그인</h1>
-                <p className={css(styles.pageSubtitle)}>Finish Line 서비스에 로그인하세요</p>
-                
-                <form onSubmit={handleLogin} className={css(styles.loginForm)}>
-                    <input
-                        type="text"
-                        placeholder="학번"
-                        value={studentId}
-                        onChange={(e) => setStudentId(e.target.value)}
-                        className={css(styles.inputField)}
-                    />
-                    <input
-                        type="password"
-                        placeholder="비밀번호"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={css(styles.inputField)}
-                    />
-                    <button type="submit" className={css(styles.loginButton)}>
-                        로그인
-                    </button>
-                </form>
+                <div className={css(styles.loginContent)}>
+                    <h1 className={css(styles.loginTitle)}>로그인</h1>
+                    <p className={css(styles.loginDescription)}>Finish Line에 등록한 학번과 비밀번호를 입력해주세요.</p>
+                    <form className={css(styles.loginForm)} onSubmit={handleLogin}>
+                        <label className={css(styles.formLabel)}>
+                            학번
+                            <input
+                                type="text"
+                                placeholder="학번을 입력하세요."
+                                className={css(styles.formInput)}
+                                value={studentId}
+                                onChange={(e) => setStudentId(e.target.value)}
+                            />
+                        </label>
+                        <label className={css(styles.formLabel, styles.passwordLabel)}>
+                            비밀번호
+                            <input
+                                type="password"
+                                placeholder="비밀번호를 입력하세요."
+                                className={css(styles.formInput)}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <a href="/password-reset" className={css(styles.forgotPassword)}>
+                                비밀번호를 잊으셨나요?
+                            </a>
+                        </label>
+                        <button type="submit" className={css(styles.submitButton)}>
+                            로그인
+                        </button>
+                    </form>
+                    <div className={css(styles.registerSection)}>
+                        <div className={css(styles.line)}></div>
+                        <span className={css(styles.registerText)}>아직 회원이 아니신가요?</span>
+                        <a href="/signup" className={css(styles.registerLink)}>회원가입</a>
+                        <div className={css(styles.line)}></div>
+                    </div>
+                </div>
             </main>
-            
+            <Footer />
         </div>
     );
 }
 
 const styles = StyleSheet.create({
     pageContainer: {
+        minHeight: '122vh',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
     },
     loginContainer: {
         flex: 1,
+        fontFamily: 'Lato',
+        color: '#333',
+        backgroundColor: '#FFFEFB',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#FFFEFB',
-        padding: '20px',
+        textAlign: 'center',
+        position: 'relative',
     },
-    pageTitle: {
-        fontFamily: 'Lato',
-        fontWeight: 'bold',
-        fontSize: '30px',
-        marginBottom: '10px',
+    loginContent: {
+        width: '100%',
+        maxWidth: '400px',
+        padding: '40px 20px',
     },
-    pageSubtitle: {
-        color: '#7A828A',
-        fontFamily: 'Lato',
+    loginTitle: {
+        fontSize: '28px',
+        fontWeight: 600,
+        marginBottom: '8px',
+    },
+    loginDescription: {
         fontSize: '15px',
-        fontWeight: '500',
-        marginBottom: '30px',
+        color: '#888888',
+        marginBottom: '50px',
     },
     loginForm: {
         display: 'flex',
         flexDirection: 'column',
-        width: '300px',
+        alignItems: 'center',
+        width: '100%',
     },
-    inputField: {
-        padding: '10px',
-        margin: '10px 0',
+    formLabel: {
+        width: '112%',
+        textAlign: 'left',
+        fontWeight: 'normal',
+        fontSize: '14px',
+        marginBottom: '15px',
+    },
+    formInput: {
+        width: '100%',
+        padding: '14px',
+        marginTop: '7px',
+        marginBottom: '15px',
         border: '1px solid #ccc',
-        borderRadius: '5px',
+        borderRadius: '7px',
+        boxSizing: 'border-box',
     },
-    loginButton: {
-        padding: '10px',
-        backgroundColor: '#006277',
-        color: 'white',
-        border: 'none',
-        borderRadius: '5px',
-        marginTop: '10px',
-        cursor: 'pointer',
+    passwordLabel: {
+        position: 'relative',
+    },
+    forgotPassword: {
+        position: 'absolute',
+        right: '0px',
+        bottom: '-10px',
+        color: '#006277',
+        fontSize: '12px',
         fontWeight: 'bold',
+        textDecoration: 'none',
+        ':hover': {
+            textDecoration: 'underline',
+        },
+    },
+    submitButton: {
+        width: '112%',
+        padding: '12px',
+        backgroundColor: '#2B2A28',
+        color: '#ffffff',
+        border: 'none',
+        borderRadius: '10px',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        marginTop: '30px',
+        boxSizing: 'border-box',
+    },
+    registerSection: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '35px',
+        width: '117%',
+        flexWrap: 'nowrap',
+        marginLeft: '-34px',
+    },
+    line: {
+        flexGrow: 1,
+        height: '1px',
+        backgroundColor: '#cccccc',
+        margin: '0 10px',
+    },
+    registerText: {
+        color: '#888888',
+        fontSize: '12px',
+        whiteSpace: 'nowrap',
+    },
+    registerLink: {
+        fontSize: '14px',
+        fontWeight: 'bold',
+        color: '#006277',
+        marginLeft: '10px',
+        textDecoration: 'none',
+        whiteSpace: 'nowrap',
+        ':hover': {
+            textDecoration: 'none',
+        },
     },
 });
 

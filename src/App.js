@@ -1,19 +1,19 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/header';
-import Footer from './components/footer';
+import './App.css';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import SignupPage1 from './pages/signupPage1';
 import LoginPage from './pages/loginPage';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
         <Routes>
-          <Route path="/" element={<LoginPage />} />
-          {/* 추가적인 라우트는 여기에 설정 */}
+          {/* 기본 경로를 loginPage로 리다이렉트 */}
+          <Route path="/" element={<Navigate to="/loginPage" />} />
+          <Route path="/loginPage" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage1 />} />
+          <Route path="/userGuidePage" element={<userGuidePage />} />
         </Routes>
-        <Footer />
       </div>
     </Router>
   );
