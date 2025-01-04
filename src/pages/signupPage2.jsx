@@ -379,6 +379,9 @@ const styles = StyleSheet.create({
         fontSize: '17px',
         color: '#FFFEFB',
         backgroundColor: '#2B2A28',
+        ':hover:not(:disabled)': {
+            cursor: 'pointer',
+        },
         ':active:not(:disabled)': {
             backgroundColor: '#595650',
             color: '#FFFEFB',
