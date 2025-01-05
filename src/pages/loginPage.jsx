@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     loginContainer: {
-        flex: 1,
+        flex: '1',
         fontFamily: 'Lato',
         color: '#333',
         backgroundColor: '#FFFEFB',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     },
     loginTitle: {
         fontSize: '28px',
-        fontWeight: 600,
+        fontWeight: '600',
         marginBottom: '8px',
     },
     loginDescription: {
