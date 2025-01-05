@@ -167,22 +167,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#cccccc',
         margin: '0 10px',
     },
-    registerText: {
-        color: '#888888',
-        fontSize: '12px',
-        whiteSpace: 'nowrap',
-    },
-    registerLink: {
-        fontSize: '14px',
-        fontWeight: 'bold',
-        color: '#006277',
-        marginLeft: '10px',
-        textDecoration: 'none',
-        whiteSpace: 'nowrap',
-        ':hover': {
-            textDecoration: 'none',
-        },
-    },
+
+        
+    
 });
 
 export default LoginPage;
