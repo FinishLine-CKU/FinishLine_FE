@@ -1,16 +1,16 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/loginPage';
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <div className="App">
         <Routes>
           <Route path="/loginPage" element={<LoginPage />} />
         </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
