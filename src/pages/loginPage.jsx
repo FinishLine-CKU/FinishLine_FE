@@ -122,6 +122,9 @@ const styles = StyleSheet.create({
         border: '1px solid #ccc',
         borderRadius: '7px',
         boxSizing: 'border-box',
+        ':focus': {
+            outline: '1px solid #2B2A28',
+        }
     },
     passwordLabel: {
         position: 'relative',
@@ -150,6 +153,9 @@ const styles = StyleSheet.create({
         cursor: 'pointer',
         marginTop: '30px',
         boxSizing: 'border-box',
+        ':active': {
+            backgroundColor: '#595650',
+        }
     },
     registerSection: {
         display: 'flex',
