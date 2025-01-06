@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
@@ -7,9 +8,27 @@ import whiteCKULogo from '../assets/images/whiteCKULogo.png'
 
 function SignupPage1() {
     const [agree, setAgree] = useState(false);
+    const [studentId, setStudentId] = useState('');
+    const [studentPW, setStudentPW] = useState('');
     const checkedState = (e) => {
         setAgree(e.target.checked);
-    }
+    };
+    const studentAuth = async () => {
+        if (studentId === '' || studentPW === '') {
+            alert("가톨릭관동대 포털 아이디와 비밀번호를 모두 입력해주세요.");
+        } else {
+            try {
+                const response = await axios.post('student_auth/', {
+                    studentId : studentId,
+                    studentPW : studentPW,
+                })
+
+            } catch {
+
+            };
+        };
+    };
+
 
     return (
         <>
@@ -94,11 +113,11 @@ function SignupPage1() {
                         <span className={css(styles.guideCertification)}><a href="https://nsso.cku.ac.kr/sso/usr/cku/login/view" className={css(styles.ckuLoginLink)} target="_blank">가톨릭관동대학교 포털</a> 아이디와 비밀번호를 입력해주세요.</span>
                         <div className={css(styles.inputContainer)}>
                             <label className={css(styles.inputLabel)}>아이디</label>
-                            <input className={css(styles.certificationInput)} type="text" placeholder="아이디를 입력하세요."></input>
+                            <input className={css(styles.certificationInput)} value={studentId} onChange={(e) => setStudentId(e.target.value)} type="text" placeholder="아이디를 입력하세요."></input>
                             <label className={css(styles.inputLabel)}>비밀번호</label>
-                            <input className={css(styles.certificationInput)} type="password" placeholder="비밀번호를 입력하세요."></input>
+                            <input className={css(styles.certificationInput)} value={studentPW} onChange={(e) => setStudentPW(e.target.value)} type="password" placeholder="비밀번호를 입력하세요."></input>
                         </div>
-                        <button className={css(styles.certificationButton)} disabled={!agree}>재학생 인증</button>
+                        <button className={css(styles.certificationButton)} onClick={studentAuth} disabled={!agree}>재학생 인증</button>
                         <span className={css(styles.exception)}>가톨릭관동대 통합 로그인을 통해 학생인증이 진행됩니다. 약관 동의 후 인증을 진행해주세요.</span>
                     </div>
                     
