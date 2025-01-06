@@ -59,39 +59,45 @@ function UploadPdfComponents() {
       <div>
         <div className={css(styles.container)}>
           <div className={css(styles.donelistcontainer)}>
-          <h2 className={css(styles.title)}>기이수과목 등록</h2>
+          <div className={css(styles.titleContainer)}>
+            <h2 className={css(styles.title)}>기이수과목 등록</h2>
+            </div>
             <hr className={css(styles.custom_hr)}/>
               <div className={css(styles.itemRowcontainer)}>
+              <div className={css(styles.itemTextcontainer)}>
                 <p className={css(styles.custom_text)}>파일 선택</p>
-                <div className={css(styles.itemboxcontainer)} >
-                    <input 
-                      type="file" 
-                      style={{ display: "none" }} 
-                      id="uploadpdf" 
-                      name="pdf" 
-                      accept=".pdf" 
-                      multiple
-                      onChange={fileInputHandler}/>
-                    <div className={css(styles.itemBoxContainerScrollable)}>
-                      {fileNames.length === 0 ? (
-                        <p className={css(styles.custom_text_box)}>파일을 선택해주세요. (최대 25장)</p>
-                      ) : (
-                        fileNames.map((fileName, index) => (
-                          <div key={index} className={css(styles.fileNameButtonContainer)}>
-                            <button className={css(styles.itemfileNameButton)}>
-                              {fileName}
-                              <button
-                                onClick={() => handleDeleteFile(index)}
-                                className={css(styles.itemdeleteButton)}
-                                type="button">×</button>
-                            </button>
-                          </div>
-                        ))
-                      )}
+                </div>
+                <div className={css(styles.containerSecond)}>
+                  <div className={css(styles.itemboxcontainer)} >
+                      <input 
+                        type="file" 
+                        style={{ display: "none" }} 
+                        id="uploadpdf" 
+                        name="pdf" 
+                        accept=".pdf" 
+                        multiple
+                        onChange={fileInputHandler}/>
+                      <div className={css(styles.itemBoxContainerScrollable)}>
+                        {fileNames.length === 0 ? (
+                          <p className={css(styles.custom_text_box)}>파일을 선택해주세요. (최대 25장)</p>
+                        ) : (
+                          fileNames.map((fileName, index) => (
+                            <div key={index} className={css(styles.fileNameButtonContainer)}>
+                              <button className={css(styles.itemfileNameButton)}>
+                                {fileName}
+                                <button
+                                  onClick={() => handleDeleteFile(index)}
+                                  className={css(styles.itemdeleteButton)}
+                                  type="button">×</button>
+                              </button>
+                            </div>
+                          ))
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className={css(styles.itemboxcontainerScrollableSecond)} >
-                  <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>파일 업로드</label>
+                    <div className={css(styles.itemboxcontainerScrollableSecond)} >
+                      <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>파일 업로드</label>
+                    </div>
                   </div>
                   <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
               </div>
@@ -114,14 +120,23 @@ const styles = StyleSheet.create({
     marginTop: '50px',
     display: 'flex',
     flexDirection: 'column',
-    width: '40%',
+    alignItems: 'center',
   },
   title: {
     marginBottom: '5px',
+    fontFamily: 'Lato',
+    fontSize: '23px',
+    fontWeight: '600',
+    textAlign: 'left',
+  },
+  titleContainer: {
+    width: '728px',
+    marginBottom: '5px',
+    fontFamily: 'Lato',
     fontSize: '23px',
   },
   custom_hr: {
-    width: '100%',
+    width: '728px',
     border: '1px solid #E4E4E4',
   },
   itemRowcontainer: {
@@ -131,14 +146,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   itemRegistButton: {
-    border: '1px soild black',
+    border: '1px solid black',
     borderRadius: '5px',
     backgroundColor: 'transparent',
     color: 'black',
     width: '70px',
     height: '33px',
     fontSize: '12px',
-    marginLeft: '5px',
+    marginLeft: '1%',
     cursor: 'pointer',
     ':hover': {
       backgroundColor: '#444444',
@@ -153,10 +168,11 @@ const styles = StyleSheet.create({
     border: '1px solid #CACACA',
     borderRadius: '5px',
     fontSize: '11px',
-    fontWeight: 600,
+    fontWeight: '600',
     display: 'flex',
     alignItems: 'center',
-    textAlign: 'center',
+    // textAlign: 'center',
+    justifyContent: 'center',
     color: '#FFFEFB',
     marginLeft: 'auto',
     padding: '3px',
@@ -166,17 +182,21 @@ const styles = StyleSheet.create({
     }
   },
   custom_text: {
+    fontFamily: 'Lato',
     fontSize: '18px',
+    fontWeight: '600',
   },
   custom_text_box: {
     flexDirection: 'row',
     marginLeft: '10px',
+    fontFamily: 'Lato',
     fontSize: '13px',
     color: '#CACACA',
     marginTop: '40px',
   },
   custom_b_text: {
     marginTop: '10px',
+    fontFamily: 'Lato',
     fontSize: '13px',
     color: '#006277',
     textAlign: 'center',
@@ -192,7 +212,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'center',
     overflowY: 'auto',
-    width: '63%',
+    width: '490px',
     height: '100px',
     borderTop: '1px solid #CCC',
     borderBottom: '1px solid #CCC',
@@ -200,12 +220,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F6F6',
     borderTopLeftRadius: '5px',
     borderBottomLeftRadius: '5px',
-    marginLeft: '5px',
+    marginLeft: '1%',
   },
   itemBoxContainerScrollable: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
+    width: '450px',
     height: '100px',
   },
   itemboxcontainerScrollableSecond: {
@@ -215,7 +235,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: '0px',
     paddingLeft: '0px',
-    width: '13%',
+    width: '80px',
     height: '100px',
     borderTop: '1px solid #CCC',
     borderBottom: '1px solid #CCC',
@@ -234,6 +254,7 @@ const styles = StyleSheet.create({
     padding: '0 13px',
     border: '1px solid #CACACA',
     borderRadius: '6px',
+    fontFamily: 'Lato',
     fontSize: '13px',
     color: 'black',
     backgroundColor: '#fff',
@@ -249,6 +270,7 @@ const styles = StyleSheet.create({
     border: 'none',
     color: '#FF4444',
     cursor: 'pointer',
+    fontFamily: 'Lato',
     fontSize: '16px',
     padding: '0 5px',
     display: 'flex',
@@ -257,7 +279,15 @@ const styles = StyleSheet.create({
     ':hover': {
         color: '#FF0000',
     }
-},
+  },
+  containerSecond: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  itemTextcontainer: {
+    width: '75px',
+  },  
 });
 
 export default UploadPdfComponents;
