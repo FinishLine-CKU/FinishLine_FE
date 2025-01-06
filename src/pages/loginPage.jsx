@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header";
@@ -60,7 +60,7 @@ function LoginPage() {
                     <div className={css(styles.registerSection)}>
                         <div className={css(styles.line)}></div>
                         <span className={css(styles.registerText)}>아직 회원이 아니신가요?</span>
-                        <a href="/signup" className={css(styles.registerLink)}>회원가입</a>
+                        <a href="/signupPage1" className={css(styles.registerLink)}>회원가입</a>
                         <div className={css(styles.line)}></div>
                     </div>
                 </div>
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     formLabel: {
         width: '112%',
         textAlign: 'left',
-        fontWeight: 'normal',
         fontSize: '14px',
         marginBottom: '15px',
     },
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
         marginLeft: '-34px',
     },
     line: {
-        flexGrow: 1,
+        flexGrow: '1',
         height: '1px',
         backgroundColor: '#cccccc',
         margin: '0 10px',
