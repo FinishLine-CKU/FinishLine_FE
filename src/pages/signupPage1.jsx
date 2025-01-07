@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
-import whiteCKULogo from '../assets/images/whiteCKULogo.png'
+import whiteCKULogo from '../assets/images/whiteCKULogo.png';
 
 function SignupPage1() {
     const [agree, setAgree] = useState(false);
@@ -20,22 +20,23 @@ function SignupPage1() {
             alert("가톨릭관동대 포털 아이디와 비밀번호를 모두 입력해주세요.");
         } else {
             try {
-                const response = await axios.post('student_auth/', {
+                const response = await axios.post('http://127.0.0.1:8000/user/student_auth/', {
                     studentId : studentId,
                     studentPW : studentPW,
-                })
-                if (response.data) {
-                    navigate('/signupPage2', { state: { studentId, studentPW }});
+                });
+                if (response.data.student_id && response.data.name && response.data.major) {
+                    const { student_id, name, major } = response.data;
+                    navigate('/signupPage2', { state: { student_id, name, major}});
+                    window.scrollTo(0, 0);
                 } else {
-                    alert("재학정보를 확인할 수 없습니다.");
+                    const { fault } = response.data;
+                    alert(fault);
                 };
-
             } catch {
-                alert("인증과정에서 오류가 발생했습니다. 다시 시도해주세요.");
+                alert("인증과정에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
             };
         };
     };
-
 
     return (
         <>
@@ -117,7 +118,7 @@ function SignupPage1() {
                     <span className={css(styles.containerTitle)}>학생인증</span>
                     <div className={css(styles.certificationContainer)}>
                         <img src={whiteCKULogo} className={css(styles.univLogo)} />
-                        <span className={css(styles.guideCertification)}><a href="https://nsso.cku.ac.kr/sso/usr/cku/login/view" className={css(styles.ckuLoginLink)} target="_blank">가톨릭관동대학교 포털</a> 아이디와 비밀번호를 입력해주세요.</span>
+                        <span className={css(styles.guideCertification)}><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.ckuLoginLink)} target="_blank">가톨릭관동대학교 포털</a> 아이디와 비밀번호를 입력해주세요.</span>
                         <div className={css(styles.inputContainer)}>
                             <label className={css(styles.inputLabel)}>아이디</label>
                             <input className={css(styles.certificationInput)} value={studentId} onChange={(e) => setStudentId(e.target.value)} type="text" placeholder="아이디를 입력하세요."></input>
