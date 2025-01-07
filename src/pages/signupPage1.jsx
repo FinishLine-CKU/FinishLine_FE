@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate, useNavigation } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
 import Header from '../components/header';
@@ -10,6 +11,7 @@ function SignupPage1() {
     const [agree, setAgree] = useState(false);
     const [studentId, setStudentId] = useState('');
     const [studentPW, setStudentPW] = useState('');
+    const navigate = useNavigate();
     const checkedState = (e) => {
         setAgree(e.target.checked);
     };
@@ -22,9 +24,14 @@ function SignupPage1() {
                     studentId : studentId,
                     studentPW : studentPW,
                 })
+                if (response.data) {
+                    navigate('/signupPage2', { state: { studentId, studentPW }});
+                } else {
+                    alert("재학정보를 확인할 수 없습니다.");
+                };
 
             } catch {
-
+                alert("인증과정에서 오류가 발생했습니다. 다시 시도해주세요.");
             };
         };
     };
