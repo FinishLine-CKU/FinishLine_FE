@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import Header from '../components/header';
 import Template from '../components/template';
@@ -123,6 +124,8 @@ function SignupPage2() {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [error, setError] = useState('');
     const [checkError, setCheckError] = useState('');
+    const location = useLocation();
+    const { student_id, name, major } = location.state;
 
     const passwordFormat = (e) => {
         const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!#^%*?&])[a-zA-Z\d@$!#^%*?&]{8,20}$/;
@@ -172,11 +175,11 @@ function SignupPage2() {
                     <span className={css(styles.containerTitle)}>기본 정보 확인</span>
                     <div className={css(styles.infoContainer)}>
                         <label className={css(styles.infoLable)}>이름</label>
-                        <input className={css(styles.defaultInfo)} disabled="true" value="홍길동"></input>
+                        <input className={css(styles.defaultInfo)} disabled="true" value={name}></input>
                         <label className={css(styles.infoLable)}>학과</label>
-                        <input className={css(styles.defaultInfo)} disabled="true" value="소프트웨어학과"></input>
+                        <input className={css(styles.defaultInfo)} disabled="true" value={major}></input>
                         <label className={css(styles.infoLable)}>학번</label>
-                        <input className={css(styles.defaultInfo)} disabled="true" value="20240000"></input>
+                        <input className={css(styles.defaultInfo)} disabled="true" value={student_id}></input>
                     </div>
                 </div>
                 <div className={css(styles.additionalInfoArea)}>
