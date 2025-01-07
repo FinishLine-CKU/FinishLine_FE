@@ -1,10 +1,30 @@
+import React, { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
 import Footer from '../components/footer';
+import DoneLectureComponents from '../components/doneLectureComponents';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
+import axios from 'axios';
 
 function DoneLecturePage() {
+  const [subjectCode, setSubjectCode] = useState('');
+  const [subjectData, setSubjectData] = useState(null);
+  const [error, setError] = useState(null);
+
+  const SubjectSearch = async () => {
+    setError(null);
+    setSubjectData(null);
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/');
+        setSubjectData(response.data);
+    } catch (error) {
+      setError('과목 정보를 가져오는데 실패했습니다.');
+      console.error('Error fetching data: ', error);
+      alert('이건 백 만들고 해야할 것 같습니다.');
+    }
+  };
+
     return (
       <div>
         <Header />
@@ -21,6 +41,9 @@ function DoneLecturePage() {
                 type="text" 
                 id="lectureCode" 
                 name="Code" 
+                value={subjectCode}
+                onChange={(e) => setSubjectCode(e.target.value)}
+                placeholder="과목 코드를 입력하세요"
                 style={{
                   width: '600px',
                   height: '30px', 
@@ -32,8 +55,16 @@ function DoneLecturePage() {
                   outline: 'none',
                   backgroundColor: 'transparent',
                 }}/>
-              <button className={css(styles.itemSearchButton)}>검색</button>
-            </div>   
+              <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>검색</button>
+            </div>
+            <DoneLectureComponents/>
+            <button className={css(styles.itemAddButton)}>추가하기</button>   
+            <div className={css(styles.secondTitleContainer)}>
+              <h2 className={css(styles.secondTitle)}>내 기이수 과목</h2>
+              <button className={css(styles.itemSaveButton)}>저장하기</button>
+            </div>
+            <hr className={css(styles.second_custom_hr)}/>
+            <button className={css(styles.itemGraduButton)}>졸업요건 검사</button>
           </div>   
         </div>
         <UploadPdfPageComponents />
@@ -61,12 +92,22 @@ const styles = StyleSheet.create({
     fontSize: '23px',
     textAlign: 'left',
   },
+  secondTitle: {
+    //marginBottom: '5px',
+    fontFamily: 'Lato',
+    fontSize: '23px',
+  },
   titleContainer: {
     width: '728px',
     alignItems: 'center',
     justifyContent: 'center',
   },
   custom_hr: {
+    width: '728px',
+    border: '1px solid #E4E4E4',
+  },
+  second_custom_hr: {
+    marginTop: '1px',
     width: '728px',
     border: '1px solid #E4E4E4',
   },
@@ -105,6 +146,59 @@ const styles = StyleSheet.create({
       backgroundColor: '#444444',
       color: '#FFFEFB',
     }
+  },
+  itemAddButton: {
+    marginTop: '30px',
+    width: '70px',
+    height: '30px',
+    borderRadius: '5px',
+    border: '1px solid transparent',
+    backgroundColor: 'black',
+    color: '#FFFFFF',
+    cursor: 'pointer',
+    ':hover': {
+      outline: '1px solid black',
+      backgroundColor: '#FFFFFF',
+      color: 'black',
+    }
+  },
+  secondTitleContainer: {
+    width: '728px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  itemSaveButton: {
+    width: '70px',
+    height: '30px',
+    borderRadius: '5px',
+    border: '1px solid transparent',
+    backgroundColor: 'black',
+    color: '#FFFFFF',
+    cursor: 'pointer',
+    ':hover': {
+      outline: '1px solid black',
+      backgroundColor: '#FFFFFF',
+      color: 'black',
+    }
+  },
+  itemGraduButton: {
+    width: '10%',
+    height: '50px',
+    borderRadius: '5px',
+    border: '1px solid transparent',
+    backgroundColor: '#006277',
+    color: '#FFFFFF',
+    cursor: 'pointer',
+    ':hover': {
+      outline: '1px solid black',
+      backgroundColor: '#FFFFFF',
+      color: 'black',
+    },
+    fontFamily: 'Lato',
+    fontSize: '15px',
+    fontWeight: '600'
   },
 });
 
