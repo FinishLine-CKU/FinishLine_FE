@@ -29,8 +29,8 @@ function SignupPage1() {
                     navigate('/signupPage2', { state: { student_id, name, major}});
                     window.scrollTo(0, 0);
                 } else {
-                    const { fault } = response.data;
-                    alert(fault);
+                    const { error } = response.data;
+                    alert(error);
                 };
             } catch {
                 alert("인증과정에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
