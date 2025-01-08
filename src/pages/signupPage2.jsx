@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
+import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
@@ -124,6 +125,7 @@ function SignupPage2() {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [error, setError] = useState('');
     const [checkError, setCheckError] = useState('');
+    const [microDegree, setMicroDegree] = useState('');
     const location = useLocation();
     const { student_id, name, major } = location.state;
 
@@ -165,6 +167,21 @@ function SignupPage2() {
             return true
         };
     };
+    const registerInfo = async () => {
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/user/register_info/', {
+                name : name,
+                major : MAJOR.find(item => item.label === major).value,
+                student_id : student_id,
+                additionalMajorType : additionalMajorType,
+                additionalMajor : additionalMajor,
+                microDegree : microDegree,
+                password : password
+            });
+        } catch {
+
+        };
+    };
 
     return (
         <>
@@ -202,7 +219,7 @@ function SignupPage2() {
                                 </> ) : ( <option value=""></option> ) }
                         </select>
                         <label className={css(styles.infoLable)}>소단위전공</label>
-                        <select className={css(styles.majorSelect)}>
+                        <select className={css(styles.majorSelect)} onChange={(e) => setMicroDegree(e.target.value)}>
                             <option value="">해당 없음</option>
                             { MICRO_DEGREE.map((item) => (
                                 <option value={item.value}>{item.label}</option>
@@ -220,7 +237,7 @@ function SignupPage2() {
                         <input className={css(checkError ? styles.ErrorAdditionalInfo : styles.additionalInfo)} type="password" onChange={passwordCorrect} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
                     </div>
                 </div>
-                <button className={css(styles.signUpButton)} disabled={finalCheck()}>가입하기</button>
+                <button className={css(styles.signUpButton)} disabled={finalCheck()} onClick={registerInfo}>가입하기</button>
             </div>
             <Footer />
         </>
