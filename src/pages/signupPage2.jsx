@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
 import Header from '../components/header';
@@ -126,6 +126,7 @@ function SignupPage2() {
     const [error, setError] = useState('');
     const [checkError, setCheckError] = useState('');
     const [microDegree, setMicroDegree] = useState('');
+    const navigate = useNavigate();
     const location = useLocation();
     const { student_id, name, major } = location.state;
 
@@ -178,8 +179,15 @@ function SignupPage2() {
                 microDegree : microDegree,
                 password : password
             });
+            if (response.data === true) {
+                alert("정상적으로 회원가입 완료되었습니다.");
+                navigate('/loginPage');
+                window.scrollTo(0, 0);
+            } else {
+                alert("회원 정보가 정상적으로 저장되지 않았습니다. 잠시 후 다시 시도해주세요.");
+            };
         } catch {
-
+            alert("서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
         };
     };
 
