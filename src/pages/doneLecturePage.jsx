@@ -11,13 +11,13 @@ function DoneLecturePage() {
 
       // 정적 데이터 추가
       const initialLectureInfo = [
-        { year: 2025, semester: 1, sub_code: '743262-001', sub_name: '지역문학으로배우는로컬리티와토포필리아', sub_area: '창의융합:인간과문학', sub_sub: '기초', credit: 3 },
+        { year: 2025, semester: 1, sub_code: '743262-001', sub_name: '지역문학으로배우는로컬리티와토포필리아', sub_area: '교양선택', sub_sub: '창의융합:인간과문학', credit: 3 },
       ];
     
       const initialMyLectureList = [
-        { year: 2024, semester: 1, sub_code: '743262-003', sub_name: '지역문학으로배우는로컬리티와토포필리아', sub_area: '창의융합:인간과문학', sub_sub: '기초', credit: 3 },
-        { year: 2024, semester: 1, sub_code: '743262-004', sub_name: '지역문학으로배우는로컬리티와토포필리아', sub_area: '창의융합:인간과문학', sub_sub: '기초', credit: 3 },
-        { year: 2024, semester: 1, sub_code: '743262-005', sub_name: '지역문학으로배우는로컬리티와토포필리아', sub_area: '창의융합:인간과문학', sub_sub: '기초', credit: 3 },
+        { year: 2018, semester: 1, sub_code: '010119-001', sub_name: '논리적사고와글쓰기', sub_area: '교양필수', sub_sub: '학문기초:논리적사고와글쓰기', credit: 2 },
+        { year: 2024, semester: 1, sub_code: '020217-001', sub_name: '생활속의교통', sub_area: '교양선택', sub_sub: '창의융합:인간과문학', credit: 2 },
+        { year: 2024, semester: 1, sub_code: '742534-001', sub_name: '오라클중심의데이터베이스와실습', sub_area: '전공선택', sub_sub: '', credit: 3 },
       ];
 
   const [lectureCode, setLectureCode] = useState('');

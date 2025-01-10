@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   oldCell: {
     border: '2px solid #E0E0E0',
-    color: '#90EE90',
+    color: '#006696',
     fontFamily: 'Lato',
     fontSize: '10px',
     fontWeight: '600',
