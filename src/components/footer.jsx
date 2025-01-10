@@ -58,7 +58,7 @@ function Footer() {
                         </button>
                         { sitemapDropdown ?
                             <ul className={css(styles.dropdownOptions)}>
-                                <a href="" className={css(styles.links)}><li className={css(styles.options)}>이용가이드</li></a>
+                                <a href="/userGuidePage" className={css(styles.links)}><li className={css(styles.options)}>이용가이드</li></a>
                                 <a href="" className={css(styles.links)}><li className={css(styles.options)}>졸업요건검사</li></a>
                                 <a href="" className={css(styles.links)}><li className={css(styles.options)}>기이수과목관리</li></a>
                                 <a href="" className={css(styles.links)}><li className={css(styles.options)}>마이페이지</li></a>
