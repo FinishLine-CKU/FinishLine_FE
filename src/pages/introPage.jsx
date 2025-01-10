@@ -5,7 +5,7 @@ import { MdLanguage } from 'react-icons/md';
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 
 import background from '../assets/images/backGround.png';
-import whiteCKULogo from '../assets/images/whiteCKULogo.png';
+import introLogo from '../assets/images/introLogo.png';
 import finishlineLogo from '../assets/images/finishlineLogo.png';
 import formLink from '../assets/images/formLink.png';
 
@@ -35,7 +35,7 @@ function IntroPage() {
     return (
         <div className={css(styles.introContainer)} style={{ backgroundImage: `url(${background})` }}>
             {/* 대학교 로고 */}
-            <img src={whiteCKULogo} alt="University Logo" className={css(styles.universityLogo)} />
+            <img src={introLogo} alt="University Logo" className={css(styles.universityLogo)} />
 
             {/* 중앙 콘텐츠 */}
             <div className={css(styles.centerContent)}>
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '20px',
         right: '20px',
-        width: '130px',
+        width: '155px',
     },
     centerContent: {
         textAlign: 'right',
