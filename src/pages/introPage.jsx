@@ -103,7 +103,7 @@ function IntroPage() {
 
 const styles = StyleSheet.create({
     introContainer: {
-        backgroundSize: '1920px 1080px',
+        backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         minHeight: '100vh',
