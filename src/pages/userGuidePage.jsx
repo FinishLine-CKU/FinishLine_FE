@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -12,11 +11,10 @@ import subject from "../assets/images/subject.png";
 import requirements from "../assets/images/requirements.png";
 import arrow from "../assets/images/arrow.png";
 
-const CommonButton = ({ text, onClick, disabled }) => (
+const CommonButton = ({ text, onClick }) => (
     <button
         className={css(styles.commonButton)}
         onClick={onClick}
-        disabled={disabled}
     >
         {text}
     </button>
@@ -24,35 +22,15 @@ const CommonButton = ({ text, onClick, disabled }) => (
 
 CommonButton.propTypes = {
     text: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-};
-
-CommonButton.defaultProps = {
-    disabled: false,
+    onClick: PropTypes.func.isRequired
 };
 
 function UserGuidePage() {
     const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [setIsModalOpen] = useState(false);
-    const [setModalContent] = useState("");
-
-    useEffect(() => {
-        const token = localStorage.getItem("userToken");
-        if (token) {
-            setIsLoggedIn(true);
-        }
-    }, []);
-
-    const openModal = (content) => {
-        setModalContent(content);
-        setIsModalOpen(true);
-    };
 
     return (
         <div className={css(styles.userGuideContainer)}>
-            <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <Header />
             <Template 
                 title="이용 가이드" 
                 subtitle={
@@ -83,7 +61,6 @@ function UserGuidePage() {
                         <CommonButton 
                             text="회원가입"
                             onClick={() => navigate("/signupPage1")}
-                            disabled={isLoggedIn}
                         />
                     </div>
 
@@ -101,7 +78,6 @@ function UserGuidePage() {
                         <CommonButton 
                             text="로그인"
                             onClick={() => navigate("/loginPage")}
-                            disabled={isLoggedIn}
                         />
                     </div>
 
@@ -126,7 +102,7 @@ function UserGuidePage() {
                         </p>
                         <CommonButton 
                             text="등록하기"
-                            onClick={() => openModal("졸업요건 검사")}
+                            onClick={() => navigate("/subjectPage")}
                         />
                     </div>
 
@@ -143,12 +119,9 @@ function UserGuidePage() {
                             비교하여 부족한 영역의<br />
                             학점을 계산하여 보여줍니다.
                         </p>
-                        <p className={css(styles.notice)}>
-                            {isLoggedIn && "기이수 과목 등록을 먼저 진행해주세요."}
-                        </p>
                         <CommonButton 
                             text="결과보기"
-                            onClick={() => openModal("졸업요건 검사")}
+                            onClick={() => navigate("/requirementsPage")}
                         />
                     </div>
                 </div>
@@ -239,8 +212,11 @@ const styles = StyleSheet.create({
         left: '50%',
         transform: 'translateX(-50%)',  // 가로 가운데 정렬
         whiteSpace: 'nowrap',           
-        ':hover': {
-            backgroundColor: '#2a3d6a', // 버튼 커서 가져다 대었을때 무슨 색깔로 할지 임시로 파란색
+       ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            backgroundColor: '#595650',
         },
         ':disabled': {
             backgroundColor: '#d5d3d1',
