@@ -9,7 +9,7 @@ function UploadPdfPage() {
 
 
     return (
-      <div>
+      <div className={css(styles.container)}>
         <Header />
         <Template title="기이수 과목 관리" />
         <UploadPdfPageComponents />
@@ -19,7 +19,11 @@ function UploadPdfPage() {
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+  },
 });
 
 export default UploadPdfPage;
