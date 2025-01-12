@@ -10,14 +10,16 @@ import axios from 'axios';
 function DoneLecturePage() {
 
       // 정적 데이터 추가
-      const initialLectureInfo = [
-        { year: 2025, semester: 1, sub_code: '743262-001', sub_name: '지역문학으로배우는로컬리티와토포필리아', sub_area: '교양선택', sub_sub: '창의융합:인간과문학', credit: 3 },
-      ];
+      const initialLectureInfo =
+        [{ year: 2025, semester: 1, sub_code: '402807-001', sub_name: '임상실습전교육(ICM)II(CPX+OSCE+CPX/OSCE시험)', sub_area: '전공필수', sub_sub: '', credit: 3 }];
     
       const initialMyLectureList = [
-        { year: 2018, semester: 1, sub_code: '010119-001', sub_name: '논리적사고와글쓰기', sub_area: '교양필수', sub_sub: '학문기초:논리적사고와글쓰기', credit: 2 },
-        { year: 2024, semester: 1, sub_code: '020217-001', sub_name: '생활속의교통', sub_area: '교양선택', sub_sub: '창의융합:인간과문학', credit: 2 },
-        { year: 2024, semester: 1, sub_code: '742534-001', sub_name: '오라클중심의데이터베이스와실습', sub_area: '전공선택', sub_sub: '', credit: 3 },
+        { year: 2018, semester: 1, sub_code: '010064-024', sub_name: '대학영어I', sub_area: '교양필수', sub_sub: '대학외국어1', credit: 2 },
+        { year: 2024, semester: 1, sub_code: '020217-001', sub_name: '생활속의교통', sub_area: '교양선택', sub_sub: '인간과문학', credit: 2 },
+        { year: 2024, semester: 1, sub_code: '408140-001', sub_name: '안경조제가공학및실습Ⅲ', sub_area: '전공선택', sub_sub: '', credit: 3 },
+        { year: 2018, semester: 1, sub_code: '010119-003', sub_name: '논리적사고와글쓰기', sub_area: '교양필수', sub_sub: '논리적사고와글쓰기', credit: 2 },
+        { year: 2024, semester: 1, sub_code: '024705-001', sub_name: '교양인을위한기초대학수학', sub_area: '교양선택', sub_sub: '균형3', credit: 2 },
+        { year: 2024, semester: 1, sub_code: '742534-002', sub_name: '오라클중심의데이터베이스와실습', sub_area: '전공선택', sub_sub: '', credit: 3 },
       ];
 
   const [lectureCode, setLectureCode] = useState('');
@@ -83,22 +85,12 @@ function DoneLecturePage() {
                 value={lectureCode}
                 onChange={(e) => setLectureCode(e.target.value)}
                 placeholder="과목 코드를 입력하세요"
-                style={{
-                  width: '424px',
-                  height: '27px', 
-                  padding: '10px', 
-                  fontFamily: 'Lato',
-                  fontSize: '16px', 
-                  border: '1px solid #CACACA', 
-                  borderRadius: '4px', 
-                  outline: 'none',
-                  backgroundColor: 'transparent',
-                }}/>
+                className={css(styles.inputContainer)}/>
               <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>검색</button>
             </div>
             <div className={css(styles.tableContainer)}>
               {lectureData && lectureData.length > 0 ? (
-              <SubSearchComponents subjects={lectureData} onDelete={(index) => deleteButton(index, 'lectureData')}  onAdd={handleAddSubject} />
+              <SubSearchComponents subjects={lectureData}  onAdd={handleAddSubject} />
               ) : null}
             </div>
             <div className={css(styles.secondTitleContainer)}>
@@ -134,6 +126,18 @@ const styles = StyleSheet.create({
   tableContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  inputContainer: {
+    width: '424px',
+    height: '27px', 
+    padding: '10px',
+    paddingLeft: '16px', 
+    fontFamily: 'Lato',
+    fontSize: '16px', 
+    border: '1px solid #CACACA', 
+    borderRadius: '4px', 
+    outline: 'none',
+    backgroundColor: 'transparent',
   },
   tableContainerSecond: {
     justifyContent: 'center',
@@ -195,12 +199,9 @@ const styles = StyleSheet.create({
     height: '46px',
     fontFamily: 'Lato',
     fontSize: '15px',
+    fontWeight: '600',
     marginLeft: '15px',
     cursor: 'pointer',
-    ':hover': {
-      backgroundColor: '#444444',
-      color: '#FFFEFB',
-    }
   },
   itemAddButton: {
     marginTop: '30px',
@@ -212,10 +213,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     color: '#FFFFFF',
     cursor: 'pointer',
-    ':hover': {
-      outline: '1px solid black',
-      backgroundColor: '#FFFFFF',
-      color: 'black',
+    ':active': {
+        backgroundColor: '#595650',
     },
     fontFamily: 'Lato',
     fontSize: '12px',
@@ -237,10 +236,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     color: '#FFFFFF',
     cursor: 'pointer',
-    ':hover': {
-      outline: '1px solid black',
-      backgroundColor: '#FFFFFF',
-      color: 'black',
+    ':active': {
+      backgroundColor: '#595650',
     },
     fontFamily: 'Lato',
     fontSize: '12px',
@@ -254,10 +251,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#006277',
     color: '#FFFFFF',
     cursor: 'pointer',
-    ':hover': {
-      outline: '1px solid black',
-      backgroundColor: '#FFFFFF',
-      color: 'black',
+    ':active': {
+      backgroundColor: '#004c56',
     },
     fontFamily: 'Lato',
     fontSize: '15px',

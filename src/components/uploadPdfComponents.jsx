@@ -155,10 +155,6 @@ const styles = StyleSheet.create({
     fontSize: '12px',
     marginLeft: '1%',
     cursor: 'pointer',
-    ':hover': {
-      backgroundColor: '#444444',
-      color: '#FFFEFB',
-    }
   },
   itemUploadButton: {
     marginRight: '5px',
@@ -174,6 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: '#FFFEFB',
     marginLeft: 'auto',
+    marginRight: '5px',
     padding: '3px',
     cursor: 'pointer',
     ':hover': {
@@ -184,6 +181,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontSize: '18px',
     fontWeight: '600',
+    whiteSpace: 'nowrap',
   },
   custom_text_box: {
     flexDirection: 'row',
@@ -224,7 +222,7 @@ const styles = StyleSheet.create({
   itemBoxContainerScrollable: {
     display: 'flex',
     flexDirection: 'column',
-    width: '307px',
+    width: '300px',
     height: '100px',
   },
   itemboxcontainerScrollableSecond: {
@@ -234,7 +232,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: '0px',
     paddingLeft: '0px',
-    width: '60px',
+    width: '70px',
     height: '100px',
     borderTop: '1px solid #CCC',
     borderBottom: '1px solid #CCC',
@@ -285,7 +283,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   itemTextcontainer: {
-    width: '75px',
+    width: '80px',
   },  
 });
 

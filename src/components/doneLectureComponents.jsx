@@ -1,7 +1,7 @@
 import { StyleSheet, css } from 'aphrodite';
 import { useState } from 'react';
 
-export function SubSearchComponents({subjects, onDelete, onAdd}) {
+export function SubSearchComponents({subjects, onAdd}) {
 
     return (
         <div className={css(styles.Container)}>
@@ -25,15 +25,11 @@ export function SubSearchComponents({subjects, onDelete, onAdd}) {
                       <td className={css(styles.cell)}>{subject.year}</td>
                       <td className={css(styles.cell)}>{subject.semester}</td>
                       <td className={css(styles.cell)}>{subject.sub_code}</td>
-                      <td className={css(styles.cell)}>{subject.sub_name}</td>
+                      <td className={css(styles.cell)}  title={subject.sub_name && subject.sub_name.length > 16 ? subject.sub_name : undefined}>{subject.sub_name}</td>
                       <td className={css(styles.cell)}>{subject.sub_area}</td>
                       <td className={css(styles.cell)}>{subject.sub_sub}</td>
                       <td className={css(styles.cell)}>{subject.credit}</td>
-                      <td className={css(styles.cell)}>
-                          <button className={css(styles.itemDeleteButton)} onClick={() => onDelete(subject.sub_code)}> 
-                            삭제
-                          </button>
-                      </td>
+                      <td className={css(styles.lastCell)}></td>
                   </tr>
                   ))
               }
@@ -81,25 +77,25 @@ export function DoneSubComponents({ subjects, onDelete }) {
         {sortedSubjects && sortedSubjects.length > 0 &&
             sortedSubjects.slice(0, 5).map((subject) => (
               <tr key={subject.sub_code}>
-                <td className={css(styles.cell, subject.isNew ? styles.oldCell : styles.cell)}>
+                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
                   {subject.year}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.oldCell : styles.cell)}>
+                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
                   {subject.semester}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.oldCell : styles.cell)}>
+                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
                   {subject.sub_code}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.oldCell : styles.cell)}>
+                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)} title={subject.sub_name && subject.sub_name.length > 16 ? subject.sub_name : undefined}>
                   {subject.sub_name}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.oldCell : styles.cell)}>
+                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
                   {subject.sub_area}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.oldCell : styles.cell)}>
+                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
                   {subject.sub_sub}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.oldCell : styles.cell)}>
+                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
                   {subject.credit}
                 </td>
                 <td className={css(styles.lastCell)}>
@@ -112,7 +108,7 @@ export function DoneSubComponents({ subjects, onDelete }) {
           {sortedSubjects.length > 5 && !isExpanded && (
             <tr>
               <td colSpan="8" className={css(styles.expandTrButton)}>
-                <button className={css(styles.expandButton)} onClick={toggleExpansion}>펼치기</button>
+                <button className={css(styles.expandButton)} onClick={toggleExpansion}> 더보기</button>
               </td>
             </tr>
           )}
@@ -135,7 +131,7 @@ export function DoneSubComponents({ subjects, onDelete }) {
           {isExpanded && (
           <tr>
             <td colSpan="8" className={css(styles.expandTrButton)}>
-              <button className={css(styles.expandButton)} onClick={toggleExpansion}>닫기</button>
+              <button className={css(styles.expandButton)} onClick={toggleExpansion}> 닫기</button>
             </td>
           </tr>
           )}
@@ -158,8 +154,8 @@ const styles = StyleSheet.create({
   addContainer: {
     width: '540px',
     display: 'flex',
-    justifyContent: 'center', // 수평 중앙 정렬
-    alignItems: 'center',     // 수직 중앙 정렬
+    justifyContent: 'center', 
+    alignItems: 'center', 
   },
   headerCell: {
     border: '2px solid #E0E0E0',
@@ -171,6 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.06)',
     fontWeight: '600',
     textAlign: 'center',
+    wordWrap: 'break-word',
   },
   cell: {
     border: '2px solid #E0E0E0',
@@ -181,8 +178,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     height: '35px',
     backgroundColor: '#FFFFFF',
+    wordWrap: 'break-word',
+    maxWidth: '120px', 
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
-  oldCell: {
+  AddCell: {
     border: '2px solid #E0E0E0',
     color: '#006696',
     fontFamily: 'Lato',
@@ -225,10 +227,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     color: '#FFFFFF',
     cursor: 'pointer',
-    ':hover': {
-      outline: '1px solid black',
-      backgroundColor: '#FFFFFF',
-      color: 'black',
+    ':active': {
+      backgroundColor: '#595650',
     },
     fontFamily: 'Lato',
     fontSize: '12px',
