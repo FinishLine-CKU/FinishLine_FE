@@ -11,6 +11,8 @@ import subject from "../assets/images/subject.png";
 import requirements from "../assets/images/requirements.png";
 import arrow from "../assets/images/arrow.png";
 
+
+
 const CommonButton = ({ text, onClick }) => (
     <button
         className={css(styles.commonButton)}
@@ -139,10 +141,11 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        minHeight: '150vh',
+        
     },
     mainContent: {
         padding: '50px',
+        paddingBottom: '350px', 
     },
     stepsSection: {
         display: 'flex',
@@ -190,12 +193,12 @@ const styles = StyleSheet.create({
         fontSize: '15px',
         color: '#006277',
         width: '150%',
-        height: '1000px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
+        marginTop: '500px',
     },
     commonButton: {
         fontFamily: 'Lato',
