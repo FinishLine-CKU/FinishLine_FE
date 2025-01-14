@@ -22,13 +22,13 @@ export function SubSearchComponents({subjects, onAdd}) {
               {subjects && subjects.length > 0 && 
                 subjects.map((subject, index) => (
                   <tr key={subject.sub_code}>
-                      <td className={css(styles.cell)}>{subject.year}</td>
-                      <td className={css(styles.cell)}>{subject.semester}</td>
-                      <td className={css(styles.cell)}>{subject.sub_code}</td>
-                      <td className={css(styles.cell)}  title={subject.sub_name && subject.sub_name.length > 16 ? subject.sub_name : undefined}>{subject.sub_name}</td>
-                      <td className={css(styles.cell)}>{subject.sub_area}</td>
-                      <td className={css(styles.cell)}>{subject.sub_sub}</td>
-                      <td className={css(styles.cell)}>{subject.credit}</td>
+                      <td className={css(styles.yearCell)}>{subject.year}</td>
+                      <td className={css(styles.semesterCell)}>{subject.semester}</td>
+                      <td className={css(styles.codeCell)}>{subject.sub_code}</td>
+                      <td className={css(styles.nameCell)}  title={subject.sub_name && subject.sub_name.length > 14 ? subject.sub_name : undefined}>{subject.sub_name}</td>
+                      <td className={css(styles.areaCell)}>{subject.sub_area}</td>
+                      <td className={css(styles.subCell)}>{subject.sub_sub}</td>
+                      <td className={css(styles.creditCell)}>{subject.credit}</td>
                       <td className={css(styles.lastCell)}></td>
                   </tr>
                   ))
@@ -77,25 +77,25 @@ export function DoneSubComponents({ subjects, onDelete }) {
         {sortedSubjects && sortedSubjects.length > 0 &&
             sortedSubjects.slice(0, 5).map((subject) => (
               <tr key={subject.sub_code}>
-                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
+                <td className={css(styles.yearCell, subject.isNew ? styles.AddCell : styles.yearCell)}>
                   {subject.year}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
+                <td className={css(styles.semesterCell, subject.isNew ? styles.AddCell : styles.semesterCell)}>
                   {subject.semester}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
+                <td className={css(styles.codeCell, subject.isNew ? styles.AddCell : styles.codeCell)}>
                   {subject.sub_code}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)} title={subject.sub_name && subject.sub_name.length > 16 ? subject.sub_name : undefined}>
+                <td className={css(styles.nameCell, subject.isNew ? styles.AddCell : styles.nameCell)} title={subject.sub_name && subject.sub_name.length > 16 ? subject.sub_name : undefined}>
                   {subject.sub_name}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
+                <td className={css(styles.areaCell, subject.isNew ? styles.AddCell : styles.areaCell)}>
                   {subject.sub_area}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
+                <td className={css(styles.subCell, subject.isNew ? styles.AddCell : styles.subCell)}>
                   {subject.sub_sub}
                 </td>
-                <td className={css(styles.cell, subject.isNew ? styles.AddCell : styles.cell)}>
+                <td className={css(styles.creditCell, subject.isNew ? styles.AddCell : styles.creditCell)}>
                   {subject.credit}
                 </td>
                 <td className={css(styles.lastCell)}>
@@ -108,7 +108,7 @@ export function DoneSubComponents({ subjects, onDelete }) {
           {sortedSubjects.length > 5 && !isExpanded && (
             <tr>
               <td colSpan="8" className={css(styles.expandTrButton)}>
-                <button className={css(styles.expandButton)} onClick={toggleExpansion}> 더보기</button>
+                <button className={css(styles.expandButton)} onClick={toggleExpansion}>더보기</button>
               </td>
             </tr>
           )}
@@ -122,16 +122,14 @@ export function DoneSubComponents({ subjects, onDelete }) {
               <td className={css(styles.cell)}>{subject.sub_area}</td>
               <td className={css(styles.cell)}>{subject.sub_sub}</td>
               <td className={css(styles.cell)}>{subject.credit}</td>
-              <td className={css(styles.lastCell)}>
-              
-              </td>
+              <td className={css(styles.lastCell)}></td>
             </tr>
           ))}
 
           {isExpanded && (
           <tr>
             <td colSpan="8" className={css(styles.expandTrButton)}>
-              <button className={css(styles.expandButton)} onClick={toggleExpansion}> 닫기</button>
+              <button className={css(styles.expandButton)} onClick={toggleExpansion}>닫기</button>
             </td>
           </tr>
           )}
@@ -150,6 +148,7 @@ const styles = StyleSheet.create({
     borderCollapse: 'collapse',
     borderRadius: '4px',
     overflow: 'hidden',
+    tableLayout: 'auto',
   },
   addContainer: {
     width: '540px',
@@ -184,6 +183,100 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
+  yearCell: {
+    width: '40px',
+    height: '35px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+  },
+  semesterCell: {
+    width: '20px',
+    height: '35px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+  },
+  codeCell: {
+    width: '30px',
+    height: '35px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+  },
+  nameCell: {
+    width: '180px',
+    height: '35px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFFFF',
+    wordWrap: 'break-word',
+    maxWidth: '180px', 
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  areaCell: {
+    width: '35px',
+    height: '35px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+  },
+  subCell: {
+    width: '80px',
+    height: '35px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+  },
+  creditCell: {
+    width: '20px',
+    height: '35px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+  },
   AddCell: {
     border: '2px solid #E0E0E0',
     color: '#006696',
@@ -195,6 +288,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   lastCell: {
+    width: '40px',
     border: '2px solid #E0E0E0',
     color: '#333333',
     fontFamily: 'Lato',
@@ -203,7 +297,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     minHeight: '35px',
     backgroundColor: '#FFFFFF',
-    minWidth: '20px',
   },
   itemDeleteButton: {
     border: '1px solid black',
@@ -211,7 +304,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     color: 'black',
     width: '40px',
-    height: '18px',
+    height: '20px',
     fontFamily: 'Lato',
     fontSize: '10px',
     fontWeight: '600',
