@@ -1,34 +1,31 @@
 import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"; 
 import Header from "../components/header";
 import Template from "../components/template";
 import Footer from "../components/footer";
-
 import certification from "../assets/images/certification.png";
 import login from "../assets/images/login.png";
 import subject from "../assets/images/subject.png";
 import requirements from "../assets/images/requirements.png";
 import arrow from "../assets/images/arrow.png";
 
-
-
-const CommonButton = ({ text, onClick }) => (
-    <button
-        className={css(styles.commonButton)}
-        onClick={onClick}
-    >
-        {text}
-    </button>
-);
-
-CommonButton.propTypes = {
-    text: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
-};
-
 function UserGuidePage() {
     const navigate = useNavigate();
+
+    const CommonButton = ({ text, onClick }) => (
+        <button
+            className={css(styles.commonButton)}
+            onClick={onClick}
+        >
+            {text}
+        </button>
+    );
+    
+    CommonButton.propTypes = {
+        text: PropTypes.string.isRequired,
+        onClick: PropTypes.func.isRequired
+    };
 
     return (
         <div className={css(styles.userGuideContainer)}>
@@ -62,7 +59,7 @@ function UserGuidePage() {
                         </p>
                         <CommonButton 
                             text="회원가입"
-                            onClick={() => navigate("/signupPage1")}
+                            onClick={() => {window.scrollTo(0, 0); navigate("/signupPage1");}}
                         />
                     </div>
 
@@ -79,7 +76,7 @@ function UserGuidePage() {
                         </p>
                         <CommonButton 
                             text="로그인"
-                            onClick={() => navigate("/loginPage")}
+                            onClick={() => {window.scrollTo(0, 0); navigate("/loginPage");}}
                         />
                     </div>
 
@@ -104,7 +101,7 @@ function UserGuidePage() {
                         </p>
                         <CommonButton 
                             text="등록하기"
-                            onClick={() => navigate("/subjectPage")}
+                            onClick={() => {window.scrollTo(0, 0); navigate("/subjectPage");}}
                         />
                     </div>
 
@@ -123,7 +120,7 @@ function UserGuidePage() {
                         </p>
                         <CommonButton 
                             text="결과보기"
-                            onClick={() => navigate("/requirementsPage")}
+                            onClick={() => {window.scrollTo(0, 0); navigate("/requirementsPage");}}
                         />
                     </div>
                 </div>
@@ -141,7 +138,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        
     },
     mainContent: {
         padding: '50px',
