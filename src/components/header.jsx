@@ -1,35 +1,36 @@
 import { StyleSheet, css } from 'aphrodite';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';                // useEffect 
+// import { useNavigate } from 'react-router-dom';
+// import PropTypes from 'prop-types';
 import mainLogo from '../assets/images/mainLogo.png';
 
-function Header({ onLoginChange }) {
-    const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+function Header({ onLoginChange }) {                        // { onLoginChange }
+    // const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);    // setIsLoggedIn
 
-    useEffect(() => {
-        // 로그인 상태 체크
-        const token = localStorage.getItem('userToken');
-        if (token) {
-            setIsLoggedIn(true);
-        }
-        // 부모 컴포넌트에 로그인 상태 전달
-        if (onLoginChange) {
-            onLoginChange(isLoggedIn);
-        }
-    }, [isLoggedIn, onLoginChange]);
+    // useEffect(() => {
+    //     // 로그인 상태 체크
+    //     const token = localStorage.getItem('userToken');
+    //     if (token) {
+    //         setIsLoggedIn(true);
+    //     }
+    //     // 부모 컴포넌트에 로그인 상태 전달
+    //     if (onLoginChange) {
+    //         onLoginChange(isLoggedIn);
+    //     }
+    // }, [isLoggedIn, onLoginChange]);
 
-    const handleLogin = () => {
-        if (isLoggedIn) {
-            // 로그아웃 처리
-            localStorage.removeItem('userToken');
-            setIsLoggedIn(false);
-        } else {
-            // 로그인 페이지로 이동
-            navigate('/loginPage');
-        }
-    };
+    // const handleLogin = () => {
+    //     if (isLoggedIn) {
+    //         // 로그아웃 처리
+    //         localStorage.removeItem('userToken');
+    //         setIsLoggedIn(false);
+    //     } else {
+    //         // 로그인 페이지로 이동
+    //         navigate('/loginPage');
+    //     }
+    // };
+    
     return (
         <header className={css(styles.headerContainer)}>
             <a href="/">
@@ -68,7 +69,7 @@ function Header({ onLoginChange }) {
                     </li>
                     <li>
                         <button 
-                            onClick={handleLogin} 
+                            // onClick={handleLogin} 
                             className={css(styles.signIn)}
                         >
                             {isLoggedIn ? '로그아웃' : '로그인'}
@@ -80,9 +81,9 @@ function Header({ onLoginChange }) {
     );
 }
 
-Header.propTypes = {
-    onLoginChange: PropTypes.func,
-};
+// Header.propTypes = {
+//     onLoginChange: PropTypes.func,
+// };
 
 const styles = StyleSheet.create({
     headerContainer: {
