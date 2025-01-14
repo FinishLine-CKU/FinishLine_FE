@@ -1,89 +1,27 @@
 import { StyleSheet, css } from 'aphrodite';
-import { useState, useEffect } from 'react';                // useEffect 
-// import { useNavigate } from 'react-router-dom';
-// import PropTypes from 'prop-types';
 import mainLogo from '../assets/images/mainLogo.png';
 
-function Header({ onLoginChange }) {                        // { onLoginChange }
-    // const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);    // setIsLoggedIn
-
-    // useEffect(() => {
-    //     // 로그인 상태 체크
-    //     const token = localStorage.getItem('userToken');
-    //     if (token) {
-    //         setIsLoggedIn(true);
-    //     }
-    //     // 부모 컴포넌트에 로그인 상태 전달
-    //     if (onLoginChange) {
-    //         onLoginChange(isLoggedIn);
-    //     }
-    // }, [isLoggedIn, onLoginChange]);
-
-    // const handleLogin = () => {
-    //     if (isLoggedIn) {
-    //         // 로그아웃 처리
-    //         localStorage.removeItem('userToken');
-    //         setIsLoggedIn(false);
-    //     } else {
-    //         // 로그인 페이지로 이동
-    //         navigate('/loginPage');
-    //     }
-    // };
-    
+function Header() {
     return (
         <header className={css(styles.headerContainer)}>
-            <a href="/">
+            <a href="">
                 <img src={mainLogo} className={css(styles.mainLogo)} alt="mainLogo"/>
             </a>
             <nav className={css(styles.navigationContainer)}>
                 <ul className={css(styles.navigation)}>
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
+                    <li><a href="" className={css(styles.menu)}>졸업요건 검사</a></li>
+                    <li><a href="" className={css(styles.menu)}>기이수과목 관리</a></li>
                     <li>
-                        <a 
-                            href="/graduation-check" 
-                            className={css(styles.menu)}
-                            onClick={(e) => {
-                                if (!isLoggedIn) {
-                                    e.preventDefault();
-                                    alert('로그인이 필요한 서비스입니다.');
-                                }
-                            }}
-                        >
-                            졸업요건 검사
+                        <a href="" className={css(styles.menu)}>
+                            <button className={css(styles.signIn)}>로그인</button>
                         </a>
-                    </li>
-                    <li>
-                        <a 
-                            href="/subject-management" 
-                            className={css(styles.menu)}
-                            onClick={(e) => {
-                                if (!isLoggedIn) {
-                                    e.preventDefault();
-                                    alert('로그인이 필요한 서비스입니다.');
-                                }
-                            }}
-                        >
-                            기이수과목 관리
-                        </a>
-                    </li>
-                    <li>
-                        <button 
-                            // onClick={handleLogin} 
-                            className={css(styles.signIn)}
-                        >
-                            {isLoggedIn ? '로그아웃' : '로그인'}
-                        </button>
                     </li>
                 </ul>
             </nav>
         </header>
-    );
+    )
 }
-
-// Header.propTypes = {
-//     onLoginChange: PropTypes.func,
-// };
 
 const styles = StyleSheet.create({
     headerContainer: {
@@ -132,10 +70,7 @@ const styles = StyleSheet.create({
         ':active': {
             backgroundColor: '#595650',
         }
-    },
-  
+    }
 });
 
 export default Header;
-
-
