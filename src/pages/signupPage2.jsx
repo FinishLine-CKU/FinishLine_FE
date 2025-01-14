@@ -130,6 +130,16 @@ function SignupPage2() {
     const location = useLocation();
     const { student_id, name, major } = location.state;
 
+    const checkMajor = (e) => {
+        const input = e.target.value
+        if (input === MAJOR.find(item => item.label === major).value) {
+            alert('주전공과 동일한 전공은 선택할 수 없습니다.');
+            e.target.value = '';
+            setAdditionalMajor(e.target.value);
+        } else {
+            setAdditionalMajor(input);
+        };
+    };
     const passwordFormat = (e) => {
         const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!#^%*?&])[a-zA-Z\d@$!#^%*?&]{8,20}$/;
         const input = e.target.value;
@@ -217,7 +227,7 @@ function SignupPage2() {
                             <option value="minor">부전공</option>
                             <option value="linked">연계전공</option>
                         </select>
-                        <select className={css(styles.majorSelect)} onChange={(e) => setAdditionalMajor(e.target.value)}>
+                        <select className={css(styles.majorSelect)} onChange={checkMajor}>
                             { additionalMajorType ? (
                                 <>
                                     <option value="">선택</option>
