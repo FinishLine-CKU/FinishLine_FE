@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
@@ -12,7 +12,9 @@ function UploadPdfPage() {
       <div className={css(styles.container)}>
         <Header />
         <Template title="기이수 과목 관리" />
-        <UploadPdfPageComponents />
+          <div className={css(styles.columnContainer)}>
+            <UploadPdfPageComponents/>
+          </div>
         <Footer />
       </div>
     );
@@ -20,9 +22,11 @@ function UploadPdfPage() {
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
+  },
+  columnContainer: {
+    marginBottom: '350px',
   },
 });
 
