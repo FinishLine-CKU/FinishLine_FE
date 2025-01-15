@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
     },
     formInput: {
         width: '100%',
-        padding: '14px',
+        height: '46px',
+        paddingLeft: '15px',
         marginTop: '7px',
         marginBottom: '15px',
         border: '1px solid #ccc',
