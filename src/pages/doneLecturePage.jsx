@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
@@ -36,16 +36,14 @@ function DoneLecturePage() {
   };
 
   const handleAddSubject = () => {
-    setMyLectureList((prevSubjects) => {
-      if (prevSubjects.some((subject) => subject.sub_code === lectureData[0].sub_code)) {
-        alert('이미 추가된 과목입니다.');
-        return prevSubjects;
-      }
+    const isDuplicate = myLectureList.some((subject) => subject.sub_code === lectureData[0].sub_code);
   
-      const updatedSubjects = [...prevSubjects, { ...lectureData[0], isNew: true }];
+    if (isDuplicate) {
+      alert(`${lectureData[0].sub_code} 과목은 이미 추가되었습니다.`);
+      return;
+    }
   
-      return updatedSubjects;
-    });
+    setMyLectureList((prevSubjects) => [...prevSubjects, { ...lectureData[0], isNew: true }]);
   };
 
   const SubjectSearch = async () => {

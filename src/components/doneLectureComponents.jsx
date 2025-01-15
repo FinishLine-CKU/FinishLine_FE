@@ -129,7 +129,7 @@ export function DoneSubComponents({ subjects, onDelete }) {
           {isExpanded && (
           <tr>
             <td colSpan="8" className={css(styles.expandTrButton)}>
-              <button className={css(styles.expandButton)} onClick={toggleExpansion}>닫기</button>
+              <button className={css(styles.expandButton)} onClick={toggleExpansion}> 닫기</button>
             </td>
           </tr>
           )}
