@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     },
     loginDescription: {
         fontSize: '15px',
+        fontWeight: '500',
         color: '#888888',
         marginBottom: '50px',
     },
@@ -112,6 +113,7 @@ const styles = StyleSheet.create({
         width: '112%',
         textAlign: 'left',
         fontSize: '14px',
+        fontFamily: 'Lato',
         marginBottom: '15px',
     },
     formInput: {
@@ -122,6 +124,9 @@ const styles = StyleSheet.create({
         border: '1px solid #ccc',
         borderRadius: '7px',
         boxSizing: 'border-box',
+        fontSize: '15px',
+        fontWeight: '500',
+        fontFamily: 'Lato',
         ':focus': {
             outline: '1px solid #2B2A28',
         }
@@ -135,7 +140,7 @@ const styles = StyleSheet.create({
         bottom: '-10px',
         color: '#006277',
         fontSize: '12px',
-        fontWeight: 'bold',
+        fontWeight: '600',
         textDecoration: 'none',
         ':hover': {
             textDecoration: 'underline',
@@ -174,7 +179,8 @@ const styles = StyleSheet.create({
     },
     registerText: {
         color: '#888888',
-        fontSize: '12px',
+        fontSize: '13px',
+        fontWeight: '500',
         whiteSpace: 'nowrap',
     },
     registerLink: {
