@@ -62,8 +62,9 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: '19px',
         fontFamily: 'Lato',
+        fontWeight: '500',
         lineHeight: '1px',
-        marginRight: '47px',
+        marginRight: '90px',
         textAlign: 'right',
         marginBottom: '20px',
     },
