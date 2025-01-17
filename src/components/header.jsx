@@ -9,7 +9,7 @@ function Header() {
             </a>
             <nav className={css(styles.navigationContainer)}>
                 <ul className={css(styles.navigation)}>
-                    <li><a href="" className={css(styles.menu)}>이용 가이드</a></li>
+                    <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li><a href="" className={css(styles.menu)}>졸업요건 검사</a></li>
                     <li><a href="" className={css(styles.menu)}>기이수과목 관리</a></li>
                     <li>
