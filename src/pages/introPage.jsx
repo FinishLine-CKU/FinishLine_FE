@@ -17,12 +17,15 @@ function IntroPage() {
             <div className={css(styles.centerContent)}>
                 <p className={css(styles.subtitle)}>가톨릭관동대학교 졸업 요건 확인 사이트</p>
                 <img src={finishlineLogo} alt="Finish Line Logo" className={css(styles.mainLogo)} />
-                <button
-                    className={css(styles.checkButton)}
-                    onClick={() => navigate('/loginPage')}
-                >
-                    검사하기
-                </button>
+                <div className={css(styles.buttonContainer)}>
+                    <button
+                        className={css(styles.checkButton)}
+                        onClick={() => navigate('/loginPage')}
+                    >
+                        검사하기
+                    </button>
+                </div>
+                
             </div>
 
             {/* Footer 컴포넌트 사용 */}
@@ -49,14 +52,14 @@ const styles = StyleSheet.create({
         width: '155px',
     },
     centerContent: {
-        textAlign: 'right',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-end',
+        alignItems: 'flex-start',
         justifyContent: 'center',
         position: 'absolute',
-        top: '50%',
+        top: '52%',
         right: '10%',
+        width: '397px',
         transform: 'translateY(-50%)',
     },
     subtitle: {
@@ -64,13 +67,16 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontWeight: '500',
         lineHeight: '1px',
-        marginRight: '90px',
-        textAlign: 'right',
         marginBottom: '20px',
     },
     mainLogo: {
-        width: '397px',
+        width: '100%',
         marginBottom: '20px',
+    },
+    buttonContainer: {
+        width: '90%',
+        display: 'flex',
+        justifyContent: 'center',
     },
     checkButton: {
         padding: '12px 32px',
@@ -83,7 +89,6 @@ const styles = StyleSheet.create({
         borderRadius: '6px',
         cursor: 'pointer',
         marginTop: '13px',
-        marginRight: '139px',
         ':hover': {
             backgroundColor: '#000000',
             border: '3px solid #000000',
