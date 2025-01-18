@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
+import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
@@ -123,7 +125,21 @@ function SignupPage2() {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [error, setError] = useState('');
     const [checkError, setCheckError] = useState('');
+    const [microDegree, setMicroDegree] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { student_id, name, major } = location.state;
 
+    const checkMajor = (e) => {
+        const input = e.target.value
+        if (input === MAJOR.find(item => item.label === major).value) {
+            alert('주전공과 동일한 전공은 선택할 수 없습니다.');
+            e.target.value = '';
+            setAdditionalMajor(e.target.value);
+        } else {
+            setAdditionalMajor(input);
+        };
+    };
     const passwordFormat = (e) => {
         const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!#^%*?&])[a-zA-Z\d@$!#^%*?&]{8,20}$/;
         const input = e.target.value;
@@ -162,6 +178,28 @@ function SignupPage2() {
             return true
         };
     };
+    const registerInfo = async () => {
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/user/register_info/', {
+                name : name,
+                major : MAJOR.find(item => item.label === major).value,
+                student_id : student_id,
+                additionalMajorType : additionalMajorType,
+                additionalMajor : additionalMajor,
+                microDegree : microDegree,
+                password : password
+            });
+            if (response.data === true) {
+                alert("정상적으로 회원가입 완료되었습니다.");
+                navigate('/loginPage');
+                window.scrollTo(0, 0);
+            } else {
+                alert("회원 정보가 정상적으로 저장되지 않았습니다. 잠시 후 다시 시도해주세요.");
+            };
+        } catch {
+            alert("서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        };
+    };
 
     return (
         <>
@@ -172,11 +210,11 @@ function SignupPage2() {
                     <span className={css(styles.containerTitle)}>기본 정보 확인</span>
                     <div className={css(styles.infoContainer)}>
                         <label className={css(styles.infoLable)}>이름</label>
-                        <input className={css(styles.defaultInfo)} disabled="true" value="홍길동"></input>
+                        <input className={css(styles.defaultInfo)} disabled="true" value={name}></input>
                         <label className={css(styles.infoLable)}>학과</label>
-                        <input className={css(styles.defaultInfo)} disabled="true" value="소프트웨어학과"></input>
+                        <input className={css(styles.defaultInfo)} disabled="true" value={major}></input>
                         <label className={css(styles.infoLable)}>학번</label>
-                        <input className={css(styles.defaultInfo)} disabled="true" value="20240000"></input>
+                        <input className={css(styles.defaultInfo)} disabled="true" value={student_id}></input>
                     </div>
                 </div>
                 <div className={css(styles.additionalInfoArea)}>
@@ -189,7 +227,7 @@ function SignupPage2() {
                             <option value="minor">부전공</option>
                             <option value="linked">연계전공</option>
                         </select>
-                        <select className={css(styles.majorSelect)} onChange={(e) => setAdditionalMajor(e.target.value)}>
+                        <select className={css(styles.majorSelect)} onChange={checkMajor}>
                             { additionalMajorType ? (
                                 <>
                                     <option value="">선택</option>
@@ -199,7 +237,7 @@ function SignupPage2() {
                                 </> ) : ( <option value=""></option> ) }
                         </select>
                         <label className={css(styles.infoLable)}>소단위전공</label>
-                        <select className={css(styles.majorSelect)}>
+                        <select className={css(styles.majorSelect)} onChange={(e) => setMicroDegree(e.target.value)}>
                             <option value="">해당 없음</option>
                             { MICRO_DEGREE.map((item) => (
                                 <option value={item.value}>{item.label}</option>
@@ -217,7 +255,7 @@ function SignupPage2() {
                         <input className={css(checkError ? styles.ErrorAdditionalInfo : styles.additionalInfo)} type="password" onChange={passwordCorrect} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
                     </div>
                 </div>
-                <button className={css(styles.signUpButton)} disabled={finalCheck()}>가입하기</button>
+                <button className={css(styles.signUpButton)} disabled={finalCheck()} onClick={registerInfo}>가입하기</button>
             </div>
             <Footer />
         </>
