@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from 'react';
 import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
+import { LoginContext } from '../utils/hooks/loginContext';
+import axios from 'axios';
 import Header from "../components/header";
 import Template from "../components/template";
 import Footer from "../components/footer";
@@ -9,14 +11,32 @@ function LoginPage() {
     const [studentId, setStudentId] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const {loginUserName, setLoginUserName} = useContext(LoginContext);
+    const checkRegister = async () => {
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/user/check_register/', {
+                studentId : studentId,
+                password : password
+            });
+            if (response.data.name) {
+                const { name } = response.data;
+                setLoginUserName({name});
+                navigate("/userGuidePage");
+            } else {
+                const { error } = response.data;
+                alert(error)
+            };
+        } catch {
 
-    const handleLogin = (e) => {
+        };
+    };
+    const checkInput = (e) => {
         e.preventDefault();
         if (studentId && password) {
-            navigate("/dashboard");
+            // navigate("/dashboard");
         } else {
             alert("학번과 비밀번호를 모두 입력해주세요.");
-        }
+        };
     };
 
     return (
@@ -29,7 +49,7 @@ function LoginPage() {
                     <p className={css(styles.loginDescription)}>
                         Finish Line에 등록한 학번과 비밀번호를 입력해주세요.
                     </p>
-                    <form className={css(styles.loginForm)} onSubmit={handleLogin}>
+                    <form className={css(styles.loginForm)} onSubmit={checkInput}>
                         <label className={css(styles.formLabel)}>
                             학번
                             <input
@@ -53,7 +73,7 @@ function LoginPage() {
                                 비밀번호를 잊으셨나요?
                             </a>
                         </label>
-                        <button type="submit" className={css(styles.submitButton)}>
+                        <button type="submit" className={css(styles.submitButton)} onClick={checkRegister}>
                             로그인
                         </button>
                     </form>
