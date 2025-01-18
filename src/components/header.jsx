@@ -1,7 +1,11 @@
+import { Fragment, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import { LoginContext } from '../utils/hooks/loginContext';
 import mainLogo from '../assets/images/mainLogo.png';
 
 function Header() {
+    const {loginUserName} = useContext(LoginContext);
+
     return (
         <header className={css(styles.headerContainer)}>
             <a href="">
@@ -13,10 +17,14 @@ function Header() {
                     <li><a href="" className={css(styles.menu)}>졸업요건 검사</a></li>
                     <li><a href="" className={css(styles.menu)}>기이수과목 관리</a></li>
                     <li>
+                        { loginUserName ? 
+                        <a href="" className={css(styles.menu)}>
+                            <button className={css(styles.signIn)}>로그인했당</button>
+                        </a> :
                         <a href="" className={css(styles.menu)}>
                             <button className={css(styles.signIn)}>로그인</button>
-                        </a>
-                    </li>
+                        </a> }
+                    </li> 
                 </ul>
             </nav>
         </header>
