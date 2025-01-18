@@ -11,7 +11,7 @@ function LoginPage() {
     const [studentId, setStudentId] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const {loginUserName, setLoginUserName} = useContext(LoginContext);
+    const {setLoginUserName} = useContext(LoginContext);
     const checkRegister = async () => {
         try {
             const response = await axios.post('http://127.0.0.1:8000/user/check_register/', {
