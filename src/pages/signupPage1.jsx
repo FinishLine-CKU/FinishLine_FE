@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
@@ -37,6 +37,11 @@ function SignupPage1() {
             };
         };
     };
+    useEffect(() => {
+        if (localStorage.getItem('name')) {
+            navigate("/userGuidePage");
+        }
+    }, []);
 
     return (
         <>
