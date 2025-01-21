@@ -165,7 +165,7 @@ function ManageCoursePage() {
                     </div>
                 </div>
             </div>
-            <Footer transparent={true} />
+            <Footer footerType="manage" />
         </div>
     );
 }
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     },
     section: {
         padding: '24px',
-        borderBottom: '1px solid #E5E7EB'
+        borderBottom: '1px solid #E4E4E4'
     },
     sectionTitle: {
         fontSize: '18px',

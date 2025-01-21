@@ -4,7 +4,8 @@ import { MdLanguage } from 'react-icons/md';
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import formLink from '../assets/images/formLink.png';
 
-function Footer({ transparent }) {
+// props 타입 수정: transparent -> footerType
+function Footer({ footerType = 'default' }) { // 수정된 부분
     const languageButtonRef = useRef();
     const sitemapButtonRef = useRef();
     const [languageDropdown, setLanguageDropdown] = useState(false);
@@ -27,50 +28,142 @@ function Footer({ transparent }) {
     }, []);
 
     return (
-        <footer className={css(transparent ? styles.transparentFooter : styles.footerContainer)}>
-            <div className={css(transparent ? styles.transparentLeftSection : styles.footerLeftSection)}>
-                <a href="" className={css(styles.surveyLink)} target="_blank" title="FinishLine 설문 링크">
-                    <img src={formLink} className={css(styles.formImage)} alt="FinishLine Survey Form" />
-                    <span className={css(styles.formText)}>의 사용 후기를 알려주세요!</span>
+        <footer className={css(
+            footerType === 'transparent' ? styles.transparentFooter :
+            footerType === 'manage' ? styles.manageFooter :
+            styles.footerContainer
+        )}>
+            <div className={css(
+                footerType === 'transparent' ? styles.transparentLeftSection :
+                footerType === 'manage' ? styles.manageLeftSection :
+                styles.footerLeftSection
+            )}>
+                <a 
+                    href="" 
+                    className={css(styles.surveyLink)} 
+                    target="_blank" 
+                    title="FinishLine 설문 링크"
+                >
+                    <img src={formLink} className={css(styles.formImage)}/>
+                    <span className={css(footerType === 'manage' ? styles.manageFormText : styles.formText)}>
+                        의 사용 후기를 알려주세요!
+                    </span>
                 </a>
-                <span className={css(styles.serviceText)}>더 나은 서비스로 보답하겠습니다.</span>
+                <span className={css(footerType === 'manage' ? styles.manageServiceText : styles.serviceText)}>
+                    더 나은 서비스로 보답하겠습니다.
+                </span>
                 <div className={css(styles.contactIndex)}>CONTACT</div>
-                <a href="" target="_blank" className={css(styles.contactMail)} title="메일">finishline@cku.ac.kr</a>
-                <a href="https://github.com/FinishLine-CKU" target="_blank" className={css(styles.contactGithub)} title="깃허브">https://github.com/FinishLine-CKU</a>
+                <a 
+                    href="" 
+                    target="_blank" 
+                    className={css(footerType === 'manage' ? styles.manageContactMail : styles.contactMail)} 
+                    title="메일"
+                >
+                    finishline@cku.ac.kr
+                </a>
+                <a 
+                    href="https://github.com/FinishLine-CKU" 
+                    target="_blank" 
+                    className={css(footerType === 'manage' ? styles.manageContactGithub : styles.contactGithub)} 
+                    title="깃허브"
+                >
+                    https://github.com/FinishLine-CKU
+                </a>
             </div>
-            <div className={css(transparent ? styles.transparentRightSection : styles.footerRightSection)}>
+            <div className={css(
+                footerType === 'transparent' ? styles.transparentRightSection :
+                footerType === 'manage' ? styles.manageRightSection :
+                styles.footerRightSection
+            )}>
                 <div className={css(styles.menuButtons)}>
                     <div className={css(styles.languageButtonContainer)} ref={languageButtonRef}>
-                        <button className={css(styles.languageButton)} onClick={() => { setLanguageDropdown(!languageDropdown); setSitemapDropdown(false); }}>
-                            <MdLanguage />{selectedLanguage} {languageDropdown ? <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> : <RiArrowDropDownLine className={css(styles.dropdownIcon)} />}
+                        <button 
+                            className={css(styles.languageButton)} 
+                            onClick={() => { 
+                                setLanguageDropdown(!languageDropdown); 
+                                setSitemapDropdown(false); 
+                            }}
+                        >
+                            <MdLanguage />
+                            {selectedLanguage} 
+                            {languageDropdown ? 
+                                <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> : 
+                                <RiArrowDropDownLine className={css(styles.dropdownIcon)} />}
                         </button>
-                        {languageDropdown ?
+                        {languageDropdown &&
                             <ul className={css(styles.dropdownOptions)}>
-                                <li className={css(styles.options)} onClick={() => { setSelectedLanguage('한국어'); setLanguageDropdown(false); }}><a>한국어</a></li>
-                                <li className={css(styles.options)} onClick={() => { setSelectedLanguage('English'); setLanguageDropdown(false); }}><a>English</a></li>
-                                <li className={css(styles.options)} onClick={() => { setSelectedLanguage('Tiếng Việt'); setLanguageDropdown(false); }}><a>Tiếng Việt</a></li>
-                            </ul> : null
+                                <li 
+                                    className={css(styles.options)} 
+                                    onClick={() => { 
+                                        setSelectedLanguage('한국어'); 
+                                        setLanguageDropdown(false); 
+                                    }}
+                                >
+                                    <a>한국어</a>
+                                </li>
+                                <li 
+                                    className={css(styles.options)} 
+                                    onClick={() => { 
+                                        setSelectedLanguage('English'); 
+                                        setLanguageDropdown(false); 
+                                    }}
+                                >
+                                    <a>English</a>
+                                </li>
+                                <li 
+                                    className={css(styles.options)} 
+                                    onClick={() => { 
+                                        setSelectedLanguage('Tiếng Việt'); 
+                                        setLanguageDropdown(false); 
+                                    }}
+                                >
+                                    <a>Tiếng Việt</a>
+                                </li>
+                            </ul>
                         }
                     </div>
                     <div className={css(styles.languageButtonContainer)} ref={sitemapButtonRef}>
-                        <button className={css(styles.footerNavigation)} onClick={() => { setSitemapDropdown(!sitemapDropdown); setLanguageDropdown(false); }}>
-                            사이트맵 {sitemapDropdown ? <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> : <RiArrowDropDownLine className={css(styles.dropdownIcon)} />}
+                        <button 
+                            className={css(styles.footerNavigation)} 
+                            onClick={() => { 
+                                setSitemapDropdown(!sitemapDropdown); 
+                                setLanguageDropdown(false); 
+                            }}
+                        >
+                            사이트맵 
+                            {sitemapDropdown ? 
+                                <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> : 
+                                <RiArrowDropDownLine className={css(styles.dropdownIcon)} />}
                         </button>
-                        {sitemapDropdown ?
+                        {sitemapDropdown &&
                             <ul className={css(styles.dropdownOptions)}>
-                                <a href="/userGuidePage" className={css(styles.links)}><li className={css(styles.options)}>이용가이드</li></a>
-                                <a href="" className={css(styles.links)}><li className={css(styles.options)}>졸업요건검사</li></a>
-                                <a href="" className={css(styles.links)}><li className={css(styles.options)}>기이수과목관리</li></a>
-                                <a href="" className={css(styles.links)}><li className={css(styles.options)}>마이페이지</li></a>
-                            </ul> : null
+                                <a href="/userGuidePage" className={css(styles.links)}>
+                                    <li className={css(styles.options)}>이용가이드</li>
+                                </a>
+                                <a href="" className={css(styles.links)}>
+                                    <li className={css(styles.options)}>졸업요건검사</li>
+                                </a>
+                                <a href="" className={css(styles.links)}>
+                                    <li className={css(styles.options)}>기이수과목관리</li>
+                                </a>
+                                <a href="" className={css(styles.links)}>
+                                    <li className={css(styles.options)}>마이페이지</li>
+                                </a>
+                            </ul>
                         }
                     </div>
                 </div>
                 <div className={css(styles.siteInfo)}>
-                    <a href="" target="_blank" className={css(styles.privercyInfo)} title="개인정보처리방침">개인정보처리방침</a>
-                    <a href="" target="_blank" className={css(styles.ruleInfo)} title="이용약관">이용약관</a>
+                    <a href="" target="_blank" className={css(styles.privercyInfo)} title="개인정보처리방침">
+                        개인정보처리방침
+                    </a>
+                    <a href="" target="_blank" className={css(styles.ruleInfo)} title="이용약관">
+                        이용약관
+                    </a>
                 </div>
-                <span className={css(styles.rightInfo)}>© 2024 CKU Software Engineering student All rights reserved.</span>
+                <span className={css(styles.rightInfo)}>
+                    © 2024 CKU Software Engineering student All rights reserved.
+                </span>
             </div>
         </footer>
     );
@@ -107,6 +200,64 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'flex-start',
         width: '250px',
+    },
+    manageFooter: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        height: '110px',
+        marginTop: 'auto',
+        padding: '30px',
+        marginLeft: '256px',  // 사이드바 너비만큼 여백
+        backgroundColor: '#2B2A28',
+        color: '#FFFEFB',
+        fontFamily: 'Lato'
+    },
+    manageLeftSection: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        width: '250px',
+    },
+    manageRightSection: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        width: '310px',
+    },  manageFormText: {
+        marginLeft: '3px',
+        fontSize: '11px',
+        color: '#000000',  // 검정색으로 변경
+    },
+    manageServiceText: {
+        marginTop: '7px',
+        fontSize: '10px',
+        color: '#000000',  // 검정색으로 변경
+    },
+    manageContactMail: {
+        marginBottom: '3px',
+        fontSize: '10px',
+        color: '#000000',  // 검정색으로 변경
+        textDecorationLine: 'none',
+    },
+    manageContactGithub: {
+        fontSize: '10px',
+        color: '#000000',  // 검정색으로 변경
+        textDecorationLine: 'none',
+    },
+    managePrivercyInfo: {
+        fontSize: '10px',
+        color: '#000000',  // 검정색으로 변경
+        textDecorationLine: 'none',
+    },
+    manageRuleInfo: {
+        fontSize: '10px',
+        color: '#000000',  // 검정색으로 변경
+        textDecorationLine: 'none',
+    },
+    manageRightInfo: {
+        fontSize: '10px',
+        color: '#000000',  // 검정색으로 변경
     },
     surveyLink: {
         textDecorationLine: 'none',
