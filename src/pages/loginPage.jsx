@@ -1,7 +1,6 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
-import { LoginContext } from '../utils/hooks/loginContext';
 import axios from 'axios';
 import Header from "../components/header";
 import Template from "../components/template";
@@ -11,7 +10,6 @@ function LoginPage() {
     const [studentId, setStudentId] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const {setLoginUserName} = useContext(LoginContext);
     const checkRegister = async () => {
         try {
             const response = await axios.post('http://127.0.0.1:8000/user/check_register/', {
@@ -20,8 +18,9 @@ function LoginPage() {
             });
             if (response.data.name) {
                 const { name } = response.data;
-                setLoginUserName({name});
+                localStorage.setItem('name', name);
                 navigate("/userGuidePage");
+                window.scrollTo(0, 0);
             } else {
                 const { error } = response.data;
                 alert(error)
@@ -38,6 +37,11 @@ function LoginPage() {
             alert("학번과 비밀번호를 모두 입력해주세요.");
         };
     };
+    useEffect(() => {
+        if (localStorage.getItem('name')) {
+            navigate("/userGuidePage");
+        }
+    }, []);
 
     return (
         <div className={css(styles.pageContainer)}>
