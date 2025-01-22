@@ -6,6 +6,7 @@ import SignupPage2 from './pages/signupPage2';
 import LoginPage from './pages/loginPage';
 import UserGuidePage from './pages/userGuidePage';
 import IntroPage from './pages/introPage';
+import MyPage from './pages/myPage';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/loginPage" element={<LoginPage />} /> 
           <Route path="/userGuidePage" element={<UserGuidePage />} />
           <Route path="/introPage" element={<IntroPage />} />
+          <Route path="/myPage" element={<MyPage />} />
         </Routes>
       </BrowserRouter>
     </div>
