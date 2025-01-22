@@ -10,6 +10,11 @@ function Header() {
             navigate("/loginPage");
         }
     };
+    const myPage = () => {
+        if (localStorage.getItem('name')) {
+            navigate("/myPage");
+        }
+    };
 
     return (
         <header className={css(styles.headerContainer)}>
@@ -25,7 +30,7 @@ function Header() {
                         { localStorage.getItem('name') ? 
                         <div className={css(styles.userInfo)}>
                             <span className={css(styles.hello)} onClick={logOut}>반갑습니다</span>
-                            <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
+                            <span className={css(styles.userName)} onClick={myPage}>{localStorage.getItem('name')}님</span>
                         </div> :
                         <a href="/loginPage" className={css(styles.menu)}>
                             <button className={css(styles.signIn)}>로그인</button>
