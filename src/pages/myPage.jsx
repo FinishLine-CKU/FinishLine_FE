@@ -15,40 +15,82 @@ function MyPage() {
                         <button className={css(styles.button)}>수정</button>
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
-                    <div className={css(styles.contentContainer)}>
-                        <span className={css(styles.contentTitle)}>이름</span>
-                        <span className={css(styles.content)}>{localStorage.getItem('name')}</span>
-                    </div>
-                    <div className={css(styles.contentContainer)}>
-
-                    </div>
-                    <div className={css(styles.contentContainer)}>
-
-                    </div>
-                    <div className={css(styles.contentContainer)}>
-
+                    <div className={css(styles.contentArea)}>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>이름</span>
+                            <span className={css(styles.content)}>{localStorage.getItem('name')}</span>
+                        </div>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>학과</span>
+                            <span className={css(styles.content)}>소프트웨어학과</span>
+                        </div>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>학번</span>
+                            <span className={css(styles.content)}>20201513</span>
+                        </div>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>복수전공</span>
+                            <span className={css(styles.content)}>CG디자인학과</span>
+                        </div>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>소단위전공</span>
+                            <span className={css(styles.content)}>AI리터러시 마이크로디그리</span>
+                        </div>
                     </div>
                 </div>
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
-
+                        <span className={css(styles.title)}>졸업요건검사</span>
+                        <button className={css(styles.button)}>자세히보기</button>
                     </div>
-                    safas
+                    <hr className={css(styles.horizontal)}></hr>
+                    <div className={css(styles.contentArea)}>
+                        <span className={css(styles.graduState)}>졸업까지 28학점 이수해야 합니다!</span>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>전공</span>
+                            <span className={css(styles.graduContent)}>10학점 부족</span>
+                        </div>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>교양필수</span>
+                            <span className={css(styles.graduContent)}>봉사와 실천 (2학점)</span>
+                        </div>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>교양선택</span>
+                            <span className={css(styles.graduContent)}>인간과문학, 역사와사회, 철학과예술 중 4과목 (8학점)</span>
+                        </div>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>일반선택</span>
+                            <span className={css(styles.graduContent)}>6학점 부족</span>
+                        </div>
+                    </div>
+                    
                 </div>
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
-
+                        <span className={css(styles.title)}>내 기이수과목</span>
+                        <button className={css(styles.button)}>추가하기</button>
                     </div>
-                    asdfas
+                    <hr className={css(styles.horizontal)}></hr>
+                    <div className={css(styles.contentArea)}>
+                    </div>
                 </div>
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
-
+                        <span className={css(styles.title)}>계정 설정</span>
                     </div>
-                    fasdfas
+                    <hr className={css(styles.horizontal)}></hr>
+                    <div className={css(styles.contentArea)}>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>비밀번호 변경</span>
+                            <button className={css(styles.button)}>변경하기</button>
+                        </div>
+                        <div className={css(styles.contentContainer)}>
+                            <span className={css(styles.contentTitle)}>회원탈퇴</span>
+                            <button className={css(styles.button)}>탈퇴하기</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
             <Footer />
         </>
     );
@@ -61,6 +103,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: '30px',
         marginTop: '60px',
+        marginBottom: '85px',
         backgroundColor: '#FFFEFB',
         fontFamily: 'Lato',
     },
@@ -87,7 +130,7 @@ const styles = StyleSheet.create({
         height: '25px',
         fontSize: '12px',
         fontFamily: 'Lato',
-        fontWeight: '600',
+        fontWeight: '700',
         border: '1px solid #2B2A28',
         borderRadius: '4px',
         backgroundColor: 'transparent',
@@ -105,14 +148,18 @@ const styles = StyleSheet.create({
     },
     horizontal: {
         width: '478px',
-        border: '1px solid #E4E4E4',
+        border: '1px solid #E4E4E4', 
         marginTop: '0px',
+    },
+    contentArea: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '25px 50px 42px 50px',
+        gap: '30px'
     },
     contentContainer: {
         display: 'flex',
         justifyContent: 'space-between',
-        padding: '20px 48px 15px 45px',
-
     },
     contentTitle: {
         fontSize: '20px',
@@ -126,6 +173,18 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: '#7A828A'
     },
+    graduState: {
+        fontSize: '20px',
+        fontFamily: 'Lato',
+        fontWeight: '500',
+        color: 'red'
+    },
+    graduContent: {
+        fontSize: '18px',
+        fontFamily: 'Lato',
+        fontWeight: '500',
+        color: '#FF4921'
+    }
 });
 
 export default MyPage;
