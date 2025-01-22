@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Footer from '../components/footer';
 import Template from '../components/template';
-import Sidebar from '../components/sideBar';
+import Sidebar from '../components/sideBar.jsx';
 
 function ManageCoursePage() {
     const [selectedYear, setSelectedYear] = useState('2019');

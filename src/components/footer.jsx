@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { MdLanguage } from 'react-icons/md';
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import formLink from '../assets/images/formLink.png';
+import blackFinishlineLogo from '../assets/images/blackFinishlineLogo.png';
 
-// props 타입 수정: transparent -> footerType
-function Footer({ footerType = 'default' }) { // 수정된 부분
+function Footer({ footerType = 'default' }) {
     const languageButtonRef = useRef();
     const sitemapButtonRef = useRef();
     const [languageDropdown, setLanguageDropdown] = useState(false);
@@ -30,21 +30,20 @@ function Footer({ footerType = 'default' }) { // 수정된 부분
     return (
         <footer className={css(
             footerType === 'transparent' ? styles.transparentFooter :
-            footerType === 'manage' ? styles.manageFooter :
-            styles.footerContainer
+                footerType === 'manage' ? styles.manageFooter :
+                    styles.footerContainer
         )}>
             <div className={css(
                 footerType === 'transparent' ? styles.transparentLeftSection :
-                footerType === 'manage' ? styles.manageLeftSection :
-                styles.footerLeftSection
+                    footerType === 'manage' ? styles.manageLeftSection :
+                        styles.footerLeftSection
             )}>
-                <a 
-                    href="" 
-                    className={css(styles.surveyLink)} 
-                    target="_blank" 
-                    title="FinishLine 설문 링크"
-                >
-                    <img src={formLink} className={css(styles.formImage)}/>
+                <a href="" className={css(styles.surveyLink)} target="_blank">
+                    <img
+                        src={footerType === 'manage' ? blackFinishlineLogo : formLink}
+                        className={css(footerType === 'manage' ? styles.manageformImage : styles.formImage)}
+                        alt="FinishLine Logo"
+                    />
                     <span className={css(footerType === 'manage' ? styles.manageFormText : styles.formText)}>
                         의 사용 후기를 알려주세요!
                     </span>
@@ -52,116 +51,96 @@ function Footer({ footerType = 'default' }) { // 수정된 부분
                 <span className={css(footerType === 'manage' ? styles.manageServiceText : styles.serviceText)}>
                     더 나은 서비스로 보답하겠습니다.
                 </span>
-                <div className={css(styles.contactIndex)}>CONTACT</div>
-                <a 
-                    href="" 
-                    target="_blank" 
-                    className={css(footerType === 'manage' ? styles.manageContactMail : styles.contactMail)} 
-                    title="메일"
-                >
+                <div className={css(footerType === 'manage' ? styles.manageContactIndex : styles.contactIndex)}>
+                    CONTACT
+                </div>
+                <a href="" className={css(footerType === 'manage' ? styles.manageContactMail : styles.contactMail)}>
                     finishline@cku.ac.kr
                 </a>
-                <a 
-                    href="https://github.com/FinishLine-CKU" 
-                    target="_blank" 
-                    className={css(footerType === 'manage' ? styles.manageContactGithub : styles.contactGithub)} 
-                    title="깃허브"
-                >
+                <a href="https://github.com/FinishLine-CKU"
+                    className={css(footerType === 'manage' ? styles.manageContactGithub : styles.contactGithub)}>
                     https://github.com/FinishLine-CKU
                 </a>
             </div>
+
             <div className={css(
                 footerType === 'transparent' ? styles.transparentRightSection :
-                footerType === 'manage' ? styles.manageRightSection :
-                styles.footerRightSection
+                    footerType === 'manage' ? styles.manageRightSection :
+                        styles.footerRightSection
             )}>
                 <div className={css(styles.menuButtons)}>
                     <div className={css(styles.languageButtonContainer)} ref={languageButtonRef}>
-                        <button 
-                            className={css(styles.languageButton)} 
-                            onClick={() => { 
-                                setLanguageDropdown(!languageDropdown); 
-                                setSitemapDropdown(false); 
+                        <button
+                            className={css(footerType === 'manage' ? styles.manageLanguageButton : styles.languageButton)}
+                            onClick={() => {
+                                setLanguageDropdown(!languageDropdown);
+                                setSitemapDropdown(false);
                             }}
                         >
                             <MdLanguage />
-                            {selectedLanguage} 
-                            {languageDropdown ? 
-                                <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> : 
-                                <RiArrowDropDownLine className={css(styles.dropdownIcon)} />}
+                            {selectedLanguage}
+                            {languageDropdown ?
+                                <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> :
+                                <RiArrowDropDownLine className={css(styles.dropdownIcon)} />
+                            }
                         </button>
-                        {languageDropdown &&
-                            <ul className={css(styles.dropdownOptions)}>
-                                <li 
-                                    className={css(styles.options)} 
-                                    onClick={() => { 
-                                        setSelectedLanguage('한국어'); 
-                                        setLanguageDropdown(false); 
-                                    }}
-                                >
-                                    <a>한국어</a>
-                                </li>
-                                <li 
-                                    className={css(styles.options)} 
-                                    onClick={() => { 
-                                        setSelectedLanguage('English'); 
-                                        setLanguageDropdown(false); 
-                                    }}
-                                >
-                                    <a>English</a>
-                                </li>
-                                <li 
-                                    className={css(styles.options)} 
-                                    onClick={() => { 
-                                        setSelectedLanguage('Tiếng Việt'); 
-                                        setLanguageDropdown(false); 
-                                    }}
-                                >
-                                    <a>Tiếng Việt</a>
-                                </li>
+                        {languageDropdown && (
+                            <ul className={css(footerType === 'manage' ? styles.manageDropdownOptions : styles.dropdownOptions)}>
+                                {['한국어', 'English', 'Tiếng Việt'].map((lang) => (
+                                    <li
+                                        key={lang}
+                                        className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}
+                                        onClick={() => {
+                                            setSelectedLanguage(lang);
+                                            setLanguageDropdown(false);
+                                        }}
+                                    >
+                                        <a>{lang}</a>
+                                    </li>
+                                ))}
                             </ul>
-                        }
+                        )}
                     </div>
                     <div className={css(styles.languageButtonContainer)} ref={sitemapButtonRef}>
-                        <button 
-                            className={css(styles.footerNavigation)} 
-                            onClick={() => { 
-                                setSitemapDropdown(!sitemapDropdown); 
-                                setLanguageDropdown(false); 
+                        <button
+                            className={css(footerType === 'manage' ? styles.manageFooterNavigation : styles.footerNavigation)}
+                            onClick={() => {
+                                setSitemapDropdown(!sitemapDropdown);
+                                setLanguageDropdown(false);
                             }}
                         >
-                            사이트맵 
-                            {sitemapDropdown ? 
-                                <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> : 
-                                <RiArrowDropDownLine className={css(styles.dropdownIcon)} />}
+                            사이트맵
+                            {sitemapDropdown ?
+                                <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> :
+                                <RiArrowDropDownLine className={css(styles.dropdownIcon)} />
+                            }
                         </button>
-                        {sitemapDropdown &&
+                        {sitemapDropdown && (
                             <ul className={css(styles.dropdownOptions)}>
-                                <a href="/userGuidePage" className={css(styles.links)}>
-                                    <li className={css(styles.options)}>이용가이드</li>
-                                </a>
-                                <a href="" className={css(styles.links)}>
-                                    <li className={css(styles.options)}>졸업요건검사</li>
-                                </a>
-                                <a href="" className={css(styles.links)}>
-                                    <li className={css(styles.options)}>기이수과목관리</li>
-                                </a>
-                                <a href="" className={css(styles.links)}>
-                                    <li className={css(styles.options)}>마이페이지</li>
-                                </a>
+                                {[
+                                    { href: '/userGuidePage', text: '이용가이드' },
+                                    { href: '', text: '졸업요건검사' },
+                                    { href: '', text: '기이수과목관리' },
+                                    { href: '', text: '마이페이지' }
+                                ].map((item) => (
+                                    <a key={item.text} href={item.href} className={css(styles.links)}>
+                                        <li className={css(styles.options)}>{item.text}</li>
+                                    </a>
+                                ))}
                             </ul>
-                        }
+                        )}
                     </div>
                 </div>
+
                 <div className={css(styles.siteInfo)}>
-                    <a href="" target="_blank" className={css(styles.privercyInfo)} title="개인정보처리방침">
+                    <a href="" className={css(footerType === 'manage' ? styles.managePrivercyInfo : styles.privercyInfo)}>
                         개인정보처리방침
                     </a>
-                    <a href="" target="_blank" className={css(styles.ruleInfo)} title="이용약관">
+                    <a href="" className={css(footerType === 'manage' ? styles.manageRuleInfo : styles.ruleInfo)}>
                         이용약관
                     </a>
                 </div>
-                <span className={css(styles.rightInfo)}>
+                <span className={css(footerType === 'manage' ? styles.manageRightInfo : styles.rightInfo)}>
                     © 2024 CKU Software Engineering student All rights reserved.
                 </span>
             </div>
@@ -170,6 +149,7 @@ function Footer({ footerType = 'default' }) { // 수정된 부분
 }
 
 const styles = StyleSheet.create({
+    // 기본 컨테이너 스타일
     footerContainer: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -180,6 +160,22 @@ const styles = StyleSheet.create({
         color: '#FFFEFB',
         fontFamily: 'Lato',
     },
+    footerLeftSection: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        width: '250px',
+        backgroundColor: '#2B2A28',
+    },
+    footerRightSection: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        width: '310px',
+        backgroundColor: '#2B2A28',
+    },
+    // 투명 푸터 스타일
     transparentFooter: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -188,28 +184,27 @@ const styles = StyleSheet.create({
         padding: '30px',
         fontFamily: 'Lato',
     },
-    footerLeftSection: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        width: '250px',
-        backgroundColor: '#2B2A28',
-    },
     transparentLeftSection: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         width: '250px',
     },
+    transparentRightSection: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        width: '310px',
+    },
+    // 관리자 푸터 스타일
     manageFooter: {
         display: 'flex',
         justifyContent: 'space-between',
         height: '110px',
         marginTop: 'auto',
         padding: '30px',
-        marginLeft: '256px',  // 사이드바 너비만큼 여백
-        backgroundColor: '#2B2A28',
-        color: '#FFFEFB',
+        marginLeft: '256px',
         fontFamily: 'Lato'
     },
     manageLeftSection: {
@@ -224,40 +219,113 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
         width: '310px',
-    },  manageFormText: {
+    },
+    manageformImage: {
+        width: '93px',
+    },
+    manageFormText: {
         marginLeft: '3px',
         fontSize: '11px',
-        color: '#000000',  // 검정색으로 변경
+        color: '#000000',
     },
     manageServiceText: {
         marginTop: '7px',
         fontSize: '10px',
-        color: '#000000',  // 검정색으로 변경
+        color: '#000000',
+    },
+    manageContactIndex: {
+        display: 'inline-block',
+        margin: '20px 0 10px',
+        padding: '2px 7px',
+        borderRadius: '10px',
+        fontSize: '8px',
+        fontWeight: '900',
+        backgroundColor: '#2B2A28',
+        color: '#FFFFFF',
     },
     manageContactMail: {
         marginBottom: '3px',
         fontSize: '10px',
-        color: '#000000',  // 검정색으로 변경
+        color: '#000000',
         textDecorationLine: 'none',
     },
     manageContactGithub: {
         fontSize: '10px',
-        color: '#000000',  // 검정색으로 변경
+        color: '#000000',
         textDecorationLine: 'none',
+    },
+    manageLanguageButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '3.5px 10px',
+        gap: '3px',
+        border: '1px solid #000000',
+        borderRadius: '15px',
+        fontSize: '10px',
+        backgroundColor: 'transparent',
+        color: '#000000',
+        ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            backgroundColor: '#F5F5F5',
+            color: '#404040',
+        },
+    },
+    manageDropdownOptions: {
+        position: 'absolute',
+        top: '15px',
+        left: '-5%',
+        width: '110%',
+        padding: '0px',
+        border: '0.5px solid #000000',
+        fontSize: '10px',
+        textAlign: 'left',
+        backgroundColor: '#FFFFFF',
+        listStyle: 'none',
+    },
+    manageOptions: {
+        padding: '5px 0 5px 6px',
+        color: '#000000',
+        ':hover': {
+            backgroundColor: '#F5F5F5',
+            color: '#404040',
+            cursor: 'pointer',
+        },
+    },
+    manageFooterNavigation: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '3.5px 10px',
+        gap: '3px',
+        border: '1px solid #000000',
+        borderRadius: '15px',
+        fontSize: '10px',
+        backgroundColor: 'transparent',
+        color: '#000000',
+        ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            backgroundColor: '#F5F5F5',
+            color: '#404040',
+        },
     },
     managePrivercyInfo: {
         fontSize: '10px',
-        color: '#000000',  // 검정색으로 변경
+        color: '#000000',
         textDecorationLine: 'none',
     },
     manageRuleInfo: {
         fontSize: '10px',
-        color: '#000000',  // 검정색으로 변경
+        color: '#000000',
         textDecorationLine: 'none',
     },
     manageRightInfo: {
         fontSize: '10px',
-        color: '#000000',  // 검정색으로 변경
+        color: '#000000',
     },
     surveyLink: {
         textDecorationLine: 'none',
@@ -296,21 +364,6 @@ const styles = StyleSheet.create({
         color: '#FFFEFB',
         textDecorationLine: 'none',
     },
-    footerRightSection: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-        width: '310px',
-        backgroundColor: '#2B2A28',
-    },
-    transparentRightSection: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-        width: '310px',
-    },
     menuButtons: {
         display: 'flex',
         marginBottom: '50px',
@@ -338,9 +391,6 @@ const styles = StyleSheet.create({
             backgroundColor: '#201F1D',
             color: '#C6C6C6',
         },
-    },
-    dropdownIcon: {
-        marginRight: '-4px',
     },
     dropdownOptions: {
         position: 'absolute',

@@ -25,7 +25,7 @@ function IntroPage() {
                         검사하기
                     </button>
                 </div>
-                
+
             </div>
 
             {/* Footer 컴포넌트 사용 */}

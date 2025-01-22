@@ -72,7 +72,7 @@ function LoginPage() {
 
 const styles = StyleSheet.create({
     pageContainer: {
-        minHeight: '122vh',
+        minHeight: '150vh',
         display: 'flex',
         flexDirection: 'column',
     },
