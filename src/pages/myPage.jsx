@@ -1,9 +1,40 @@
+import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import axios from 'axios';
+import { MAJOR, MICRO_DEGREE } from '../pages/signupPage2';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
 
 function MyPage() {
+    const [major, setMajor] = useState();
+    const [student_id, setStudent_id] = useState();
+    const [sub_major_type, setSub_major_type] = useState();
+    const [sub_major, setSub_major] = useState();
+    const [micro_degree, setMicro_degree] = useState();
+    const SUBMAJORTYPE = [
+        { value: 'double', label: '복수전공' },
+        { value: 'miner', label: '부전공' },
+        { value: 'linked', label: '연계전공' },
+    ]
+    const myInfo = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/user/my_info/', {
+            name : localStorage.getItem('name')
+        });
+        if (response.data.major && response.data.student_id) {
+            const { major, student_id, sub_major_type, sub_major, micro_degree } = response.data;
+            setMajor(MAJOR.find(item => item.value === major).label);
+            setStudent_id(student_id);
+            setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
+            setSub_major(MAJOR.find(item => item.value === sub_major).label);
+            setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
+        }
+    };
+
+    useEffect(() => {
+        myInfo();
+    }, []);
+
     return (
         <>
             <Header />
@@ -22,19 +53,19 @@ function MyPage() {
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>학과</span>
-                            <span className={css(styles.content)}>소프트웨어학과</span>
+                            <span className={css(styles.content)}>{major}</span>
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>학번</span>
-                            <span className={css(styles.content)}>20201513</span>
+                            <span className={css(styles.content)}>{student_id}</span>
                         </div>
                         <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>복수전공</span>
-                            <span className={css(styles.content)}>CG디자인학과</span>
+                            <span className={css(styles.contentTitle)}>{sub_major_type}</span>
+                            <span className={css(styles.content)}>{sub_major}</span>
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>소단위전공</span>
-                            <span className={css(styles.content)}>AI리터러시 마이크로디그리</span>
+                            <span className={css(styles.content)}>{micro_degree}</span>
                         </div>
                     </div>
                 </div>
