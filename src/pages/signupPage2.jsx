@@ -117,6 +117,11 @@ export const MICRO_DEGREE = [
     { value: '260', label: '의료데이터분석&시각화 마이크로디그리' },
     { value: '270', label: '스마트푸드테크와IT 마이크로디그리' },
 ];
+export const SUBMAJORTYPE = [
+    { value: 'double', label: '복수전공' },
+    { value: 'minor', label: '부전공' },
+    { value: 'linked', label: '연계전공' },
+];
 
 function SignupPage2() {
     const [additionalMajorType, setAdditionalMajorType] = useState('');
