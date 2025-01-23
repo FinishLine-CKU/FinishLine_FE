@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
-import { MAJOR, MICRO_DEGREE } from '../pages/signupPage2';
+import { MAJOR, MICRO_DEGREE, SUBMAJORTYPE } from '../pages/signupPage2';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
@@ -12,23 +12,43 @@ function MyPage() {
     const [sub_major_type, setSub_major_type] = useState();
     const [sub_major, setSub_major] = useState();
     const [micro_degree, setMicro_degree] = useState();
-    const SUBMAJORTYPE = [
-        { value: 'double', label: '복수전공' },
-        { value: 'miner', label: '부전공' },
-        { value: 'linked', label: '연계전공' },
-    ]
     const myInfo = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/my_info/', {
             name : localStorage.getItem('name')
         });
         if (response.data.major && response.data.student_id) {
-            const { major, student_id, sub_major_type, sub_major, micro_degree } = response.data;
-            setMajor(MAJOR.find(item => item.value === major).label);
-            setStudent_id(student_id);
-            setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
-            setSub_major(MAJOR.find(item => item.value === sub_major).label);
-            setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
-        }
+            if (response.data.sub_major_type && response.data.sub_major) {
+                if (response.data.micro_degree) {
+                    const { major, student_id, sub_major_type, sub_major, micro_degree } = response.data;
+                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setStudent_id(student_id);
+                    setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
+                    setSub_major(MAJOR.find(item => item.value === sub_major).label);
+                    setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
+                } else {
+                    const { major, student_id, sub_major_type, sub_major } = response.data;
+                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setStudent_id(student_id);
+                    setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
+                    setSub_major(MAJOR.find(item => item.value === sub_major).label);
+                };
+            } else {
+                if (response.data.micro_degree) {
+                    const { major, student_id, micro_degree } = response.data;
+                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setStudent_id(student_id);
+                    setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
+                } else {
+                    const { major, student_id } = response.data;
+                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setStudent_id(student_id);
+                };
+            };
+        } else {
+            const {error} = response.data;
+            setMajor(error);
+            setStudent_id(error);
+        };
     };
 
     useEffect(() => {
@@ -59,14 +79,18 @@ function MyPage() {
                             <span className={css(styles.contentTitle)}>학번</span>
                             <span className={css(styles.content)}>{student_id}</span>
                         </div>
+                        {sub_major && sub_major_type ?
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>{sub_major_type}</span>
                             <span className={css(styles.content)}>{sub_major}</span>
                         </div>
+                        : null}
+                        {micro_degree ? 
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>소단위전공</span>
                             <span className={css(styles.content)}>{micro_degree}</span>
                         </div>
+                        : null}
                     </div>
                 </div>
                 <div className={css(styles.boundaryContainer)}>
