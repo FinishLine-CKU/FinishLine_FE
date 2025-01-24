@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import Header from "../components/header";
 import Template from "../components/template";
 import Footer from "../components/footer";
@@ -9,15 +10,38 @@ function LoginPage() {
     const [studentId, setStudentId] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const checkRegister = async () => {
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/user/check_register/', {
+                studentId : studentId,
+                password : password
+            });
+            if (response.data.name) {
+                const { name } = response.data;
+                localStorage.setItem('name', name);
+                navigate("/userGuidePage");
+                window.scrollTo(0, 0);
+            } else {
+                const { error } = response.data;
+                alert(error)
+            };
+        } catch {
 
-    const handleLogin = (e) => {
+        };
+    };
+    const checkInput = (e) => {
         e.preventDefault();
         if (studentId && password) {
-            navigate("/dashboard");
+            // navigate("/dashboard");
         } else {
             alert("학번과 비밀번호를 모두 입력해주세요.");
-        }
+        };
     };
+    useEffect(() => {
+        if (localStorage.getItem('name')) {
+            navigate("/userGuidePage");
+        }
+    }, []);
 
     return (
         <div className={css(styles.pageContainer)}>
@@ -29,7 +53,7 @@ function LoginPage() {
                     <p className={css(styles.loginDescription)}>
                         Finish Line에 등록한 학번과 비밀번호를 입력해주세요.
                     </p>
-                    <form className={css(styles.loginForm)} onSubmit={handleLogin}>
+                    <form className={css(styles.loginForm)} onSubmit={checkInput}>
                         <label className={css(styles.formLabel)}>
                             학번
                             <input
@@ -53,7 +77,7 @@ function LoginPage() {
                                 비밀번호를 잊으셨나요?
                             </a>
                         </label>
-                        <button type="submit" className={css(styles.submitButton)}>
+                        <button type="submit" className={css(styles.submitButton)} onClick={checkRegister}>
                             로그인
                         </button>
                     </form>
@@ -99,6 +123,7 @@ const styles = StyleSheet.create({
     },
     loginDescription: {
         fontSize: '15px',
+        fontWeight: '500',
         color: '#888888',
         marginBottom: '50px',
     },
@@ -112,16 +137,21 @@ const styles = StyleSheet.create({
         width: '112%',
         textAlign: 'left',
         fontSize: '14px',
+        fontFamily: 'Lato',
         marginBottom: '15px',
     },
     formInput: {
         width: '100%',
-        padding: '14px',
+        height: '46px',
+        paddingLeft: '15px',
         marginTop: '7px',
         marginBottom: '15px',
         border: '1px solid #ccc',
         borderRadius: '7px',
         boxSizing: 'border-box',
+        fontSize: '15px',
+        fontWeight: '500',
+        fontFamily: 'Lato',
         ':focus': {
             outline: '1px solid #2B2A28',
         }
@@ -135,7 +165,7 @@ const styles = StyleSheet.create({
         bottom: '-10px',
         color: '#006277',
         fontSize: '12px',
-        fontWeight: 'bold',
+        fontWeight: '600',
         textDecoration: 'none',
         ':hover': {
             textDecoration: 'underline',
@@ -174,7 +204,8 @@ const styles = StyleSheet.create({
     },
     registerText: {
         color: '#888888',
-        fontSize: '12px',
+        fontSize: '13px',
+        fontWeight: '500',
         whiteSpace: 'nowrap',
     },
     registerLink: {

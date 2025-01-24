@@ -1,6 +1,5 @@
 import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types"; 
 import Header from "../components/header";
 import Template from "../components/template";
 import Footer from "../components/footer";
@@ -12,20 +11,6 @@ import arrow from "../assets/images/arrow.png";
 
 function UserGuidePage() {
     const navigate = useNavigate();
-
-    const CommonButton = ({ text, onClick }) => (
-        <button
-            className={css(styles.commonButton)}
-            onClick={onClick}
-        >
-            {text}
-        </button>
-    );
-    
-    CommonButton.propTypes = {
-        text: PropTypes.string.isRequired,
-        onClick: PropTypes.func.isRequired
-    };
 
     return (
         <div className={css(styles.userGuideContainer)}>
@@ -39,7 +24,6 @@ function UserGuidePage() {
                     </div>
                 } 
             />
-
             <main className={css(styles.mainContent)}>
                 <div className={css(styles.stepsSection)}>
                     <div className={css(styles.step)}>
@@ -57,10 +41,10 @@ function UserGuidePage() {
                             학생 인증을 위해 입력한 비밀번호는<br />
                             학생 인증에만 사용되며 저장되지 않습니다.
                         </p>
-                        <CommonButton 
-                            text="회원가입"
-                            onClick={() => {window.scrollTo(0, 0); navigate("/signupPage1");}}
-                        />
+                        <button className={css(styles.commonButton)} 
+                            disabled={ localStorage.getItem('name') ? true : false }
+                            onClick={() => {navigate("/signupPage1"); window.scrollTo(0, 0);}}>회원가입
+                        </button>
                     </div>
 
                     <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
@@ -74,10 +58,10 @@ function UserGuidePage() {
                             학번과 Finish Line 비밀번호를<br />
                             사용하여 로그인을 합니다.
                         </p>
-                        <CommonButton 
-                            text="로그인"
-                            onClick={() => {window.scrollTo(0, 0); navigate("/loginPage");}}
-                        />
+                        <button className={css(styles.commonButton)} 
+                            disabled={ localStorage.getItem('name') ? true : false } 
+                            onClick={() => {navigate("/loginPage"); window.scrollTo(0, 0);}}>로그인
+                        </button>
                     </div>
 
                     <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
@@ -99,10 +83,9 @@ function UserGuidePage() {
                             첨부한 PDF의 성적은 저장되지 않으며<br />
                             F와 NP 처리된 과목은 반영되지 않습니다.
                         </p>
-                        <CommonButton 
-                            text="등록하기"
-                            onClick={() => {window.scrollTo(0, 0); navigate("/subjectPage");}}
-                        />
+                        <button className={css(styles.commonButton)} 
+                            onClick={() => {navigate("/uploadpdf"); window.scrollTo(0, 0);}}>등록하기
+                        </button>
                     </div>
 
                     <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
@@ -118,10 +101,9 @@ function UserGuidePage() {
                             비교하여 부족한 영역의<br />
                             학점을 계산하여 보여줍니다.
                         </p>
-                        <CommonButton 
-                            text="결과보기"
-                            onClick={() => {window.scrollTo(0, 0); navigate("/requirementsPage");}}
-                        />
+                        <button className={css(styles.commonButton)} 
+                            onClick={() => {navigate(""); window.scrollTo(0, 0);}}>결과보기
+                        </button>
                     </div>
                 </div>
             </main>
@@ -140,8 +122,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     mainContent: {
-        padding: '50px',
-        paddingBottom: '350px', 
+        padding: '50px 115px 350px 115px'
     },
     stepsSection: {
         display: 'flex',

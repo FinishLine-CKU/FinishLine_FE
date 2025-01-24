@@ -1,22 +1,36 @@
+import { useNavigate } from "react-router-dom";
 import { StyleSheet, css } from 'aphrodite';
 import mainLogo from '../assets/images/mainLogo.png';
 
 function Header() {
+    const navigate = useNavigate();
+    const logOut = () => {
+        if (localStorage.getItem('name')) {
+            localStorage.removeItem('name')
+            navigate("/loginPage");
+        }
+    };
+
     return (
         <header className={css(styles.headerContainer)}>
-            <a href="">
+            <a href="/userGuidePage">
                 <img src={mainLogo} className={css(styles.mainLogo)} alt="mainLogo"/>
             </a>
             <nav className={css(styles.navigationContainer)}>
                 <ul className={css(styles.navigation)}>
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li><a href="" className={css(styles.menu)}>졸업요건 검사</a></li>
-                    <li><a href="" className={css(styles.menu)}>기이수과목 관리</a></li>
+                    <li><a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a></li>
                     <li>
-                        <a href="" className={css(styles.menu)}>
+                        { localStorage.getItem('name') ? 
+                        <div className={css(styles.userInfo)}>
+                            <span className={css(styles.hello)} onClick={logOut}>반갑습니다</span>
+                            <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
+                        </div> :
+                        <a href="/loginPage" className={css(styles.menu)}>
                             <button className={css(styles.signIn)}>로그인</button>
-                        </a>
-                    </li>
+                        </a> }
+                    </li> 
                 </ul>
             </nav>
         </header>
@@ -41,6 +55,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: '65px',
         listStyle: 'none',
+    },
+    userInfo: {
+        display: 'flex',
+        alignItems: 'flex-end',
+        gap: '8px',
+        padding: '11px 0 13px 0',
+        ':hover': {
+            cursor: 'pointer',
+        },
+    },
+    hello: {
+        fontFamily: 'Lato',
+        fontSize: '18px',
+        fontWeight: '700',
+    },
+    userName: {
+        fontFamily: 'Lato',
+        fontSize: '20px',
+        fontWeight: '800',
+        color: '#006277',
+        textDecoration : 'underline',
     },
     menu: {
         padding: '13px 0 13px 0',
