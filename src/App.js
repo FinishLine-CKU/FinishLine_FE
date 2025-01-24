@@ -8,6 +8,7 @@ import UserGuidePage from './pages/userGuidePage';
 import IntroPage from './pages/introPage';
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -17,8 +18,8 @@ function App() {
           <Route path="/donelecture" element={<DoneLecturePage />} />
           <Route path="/signupPage2" element={<SignupPage2 />} />
           <Route path="/loginPage" element={<LoginPage />} /> 
-          <Route path="/userGuidePage" element={<UserGuidePage />} /> 
-          <Route path="/introPage" element={<IntroPage />} /> 
+          <Route path="/userGuidePage" element={<UserGuidePage />} />
+          <Route path="/introPage" element={<IntroPage />} />
         </Routes>
       </BrowserRouter>
     </div>
