@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { MAJOR, MICRO_DEGREE, SUBMAJORTYPE } from '../pages/signupPage2';
 import Header from '../components/header';
@@ -12,6 +13,7 @@ function MyPage() {
     const [sub_major_type, setSub_major_type] = useState();
     const [sub_major, setSub_major] = useState();
     const [micro_degree, setMicro_degree] = useState();
+    const navigate = useNavigate();
     const myInfo = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/my_info/', {
             name : localStorage.getItem('name')
@@ -50,6 +52,24 @@ function MyPage() {
             setStudent_id(error);
         };
     };
+    const removeMembership = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/user/remove_membership/', {
+            name : localStorage.getItem('name')
+        });
+        if (response.data) {
+            if (response.data.result === true) {
+                alert('정상적으로 회원탈퇴 되었습니다. 이용해주셔서 감사합니다.');
+                localStorage.removeItem('name');
+                navigate("/loginPage");
+                window.scrollTo(0, 0);
+
+            } else {
+                alert('회원정보를 확인할 수 없습니다. 관리자에게 문의해주세요.');
+            }
+        } else {
+            alert('서버가 불안정 합니다. 잠시 후 다시 시도해주세요.');
+        }
+    }
 
     useEffect(() => {
         myInfo();
@@ -141,7 +161,7 @@ function MyPage() {
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>회원탈퇴</span>
-                            <button className={css(styles.button)}>탈퇴하기</button>
+                            <button className={css(styles.button)} onClick={removeMembership}>탈퇴하기</button>
                         </div>
                     </div>
                 </div>
