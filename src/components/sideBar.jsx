@@ -54,16 +54,19 @@ const Sidebar = () => {
 const styles = StyleSheet.create({
     container: {
         width: '256px',
-        minHeight: '100vh',
         backgroundColor: '#2B2A28',
         color: 'white',
-        position: 'relative'
+        position: 'fixed', // 고정 위치
+        left: 0,
+        top: 0,
+        bottom: 0
     },
     logoSection: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '24px',
+        paddingTop: '50px',
+        paddingBottom: '35px',
         paddingLeft: '16px',
         paddingRight: '16px'
     },
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     menuSection: {
-        padding: '8px 0'
+        padding: '30px 0'
     },
     menuItem: {
         padding: '12px 24px',
@@ -115,9 +118,9 @@ const styles = StyleSheet.create({
     },
     logoutContainer: {
         position: 'absolute',
-        bottom: '32px',
         left: '9px',
-        right: '9px'
+        right: '9px',
+        bottom: '400px', 
     },
     logoutButton: {
         width: '100%',
