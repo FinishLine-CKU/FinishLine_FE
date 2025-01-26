@@ -1,9 +1,18 @@
+import { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import SideBar from '../components/sideBar';
 import Template from '../components/template';
 import Footer from '../components/footer';
-;
+import { MAJOR, SUBMAJORTYPE, MICRO_DEGREE } from '../pages/signupPage2';
+
 function ManageGraduPage() {
+    const [year, setYear] = useState('2025');
+    const [major, setMajor] = useState('');
+    const [additionalMajor, setAdditionalMajor] = useState('');
+    const [microDegree, setMicroDegree] = useState('');
+    const [yearDB, setYearDB] = useState('2025');
+    const [majorDB, setMajorDB] = useState('');
+
     return (
         <>
             <SideBar />
@@ -18,8 +27,37 @@ function ManageGraduPage() {
                         <hr className={css(styles.horizontal)}></hr>
                         <div className={css(styles.contentArea)}>
                             <div className={css(styles.settingContainer)}>
-
-                                <button>생성</button>
+                                <div className={css(styles.selectContainer)}>
+                                    <select className={css(styles.settingYear)} value={year} onChange={(e) => setYear(e.target.value)}>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                    </select>
+                                    <select className={css(styles.settingMajor)} value={major} onChange={(e) => setMajor(e.target.value)}>
+                                        <option value="">전공 설정</option>
+                                        { MAJOR.map((item) => (
+                                            <option value={item.value}>{item.label}</option>
+                                        )) }
+                                    </select>
+                                    <select className={css(styles.settingAdditionalMajor)} value={additionalMajor} onChange={(e) => setAdditionalMajor(e.target.value)}>
+                                        <option value="">추가 전공</option>
+                                        { SUBMAJORTYPE.map((item) => (
+                                            <option value={item.value}>{item.label}</option>
+                                        )) }
+                                    </select>
+                                    <select className={css(styles.settingMicroDegerr)} value={microDegree} onChange={(e) => setMicroDegree(e.target.value)}>
+                                        <option value="">소단위전공</option>
+                                            { MICRO_DEGREE.map((item) => (
+                                                <option value={item.value}>{item.label}</option>
+                                            )) }
+                                    </select>
+                                </div>
+                                <button className={css(styles.settingButton)}>생성</button>
                             </div>
                         </div>
                     </div>
@@ -29,7 +67,25 @@ function ManageGraduPage() {
                         </div>
                         <hr className={css(styles.horizontal)}></hr>
                         <div className={css(styles.contentArea)}>
-
+                            <div className={css(styles.selectContainer)}>
+                                <select className={css(styles.settingYear)} value={yearDB} onChange={(e) => setYearDB(e.target.value)}>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                </select>
+                                <select className={css(styles.settingMajor)} value={majorDB} onChange={(e) => setMajorDB(e.target.value)}>
+                                    <option value="">전공 설정</option>
+                                    { MAJOR.map((item) => (
+                                        <option value={item.value}>{item.label}</option>
+                                    )) }
+                                </select>
+                                <button className={css(styles.settingButton)}>조회</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,12 +136,74 @@ const styles = StyleSheet.create({
     contentArea: {
         display: 'flex',
         flexDirection: 'column',
-
+        marginTop: '15px'
     },
     settingContainer: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        height: '25px'
     },
+    selectContainer: {
+        display: 'flex',
+        height: '25px',
+        gap: '10px',
+    },
+    settingYear: {
+        width: 'auto',
+        padding: '0 8px',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '400px',
+        border: 'solid 1px black',
+        borderRadius: '4px',
+    },
+    settingMajor: {
+        width: '170px',
+        padding: '0 8px',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '400px',
+        border: 'solid 1px black',
+        borderRadius: '4px',
+    },
+    settingAdditionalMajor: {
+        width: 'auto',
+        padding: '0 8px',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '400px',
+        border: 'solid 1px black',
+        borderRadius: '4px',
+    },
+    settingMicroDegerr: {
+        width: '170px',
+        padding: '0 8px',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '400px',
+        border: 'solid 1px black',
+        borderRadius: '4px',
+    },
+    settingButton: {
+        backgroundColor: 'white',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '800',
+        border: 'solid 1px 2B2A28',
+        borderRadius: '4px',
+        borderWidth: '1px',
+        ':hover': {
+            cursor: 'pointer',
+            backgroundColor: '#2B2A28',
+            color: '#FFFEFB',
+            transitionDuration: '0.2s',
+        },
+        ':active': {
+            backgroundColor: '#595650',
+            border: '1x solid #595650',
+            color: '#FFFEFB',
+        },
+    }
 });
 
 export default ManageGraduPage;
