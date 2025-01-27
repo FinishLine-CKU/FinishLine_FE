@@ -167,7 +167,8 @@ function ManageGraduPage() {
 const styles = StyleSheet.create({
     container: {
         marginTop: '80px',
-        marginLeft: '273px'
+        marginLeft: '273px',
+        backgroundColor: '#FFFEFB'
     },
     frame: {
         display: 'flex',
