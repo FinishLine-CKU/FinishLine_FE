@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import SideBar from '../components/sideBar';
 import Template from '../components/template';
@@ -6,12 +6,35 @@ import Footer from '../components/footer';
 import { MAJOR, SUBMAJORTYPE, MICRO_DEGREE } from '../pages/signupPage2';
 
 function ManageGraduPage() {
+    const [visibleTable, setVisibleTable] = useState(false);
     const [year, setYear] = useState('2025');
     const [major, setMajor] = useState('');
     const [additionalMajor, setAdditionalMajor] = useState('');
     const [microDegree, setMicroDegree] = useState('');
     const [yearDB, setYearDB] = useState('2025');
     const [majorDB, setMajorDB] = useState('');
+    const [majorCredit, setMajorCredit] = useState('');
+    const [generalCredit, setGeneralCredit] = useState('');
+    const [generalChooseCredit, setGeneralChooseCredit] = useState('');
+    const [normalCredit, setNormalCredit] = useState('');
+    const [addMajorCredit, setAddMajorCredit] = useState('');
+    const [microDegreeCredit, setMicroDegreeCredit] = useState('');
+    const [totalCredit, setTotalCredit] = useState('0');
+    const creatTable = () => {
+        year && major ? setVisibleTable(true) : alert('등록년도와 전공을 선택해주세요.');
+        if (visibleTable) {
+            alert('이미 테이블이 생성되어있습니다.');
+        }
+    };
+    useEffect(() => {
+        if (!additionalMajor) {
+            setAddMajorCredit(0);
+        }
+        if (!microDegree) {
+            setMicroDegreeCredit(0);
+        }
+        setTotalCredit((parseInt(majorCredit) || 0) + (parseInt(generalCredit) || 0) + (parseInt(generalChooseCredit) || 0) + (parseInt(normalCredit) || 0) + (parseInt(addMajorCredit) || 0) + (parseInt(microDegreeCredit) || 0));
+    }, [additionalMajor, microDegree, majorCredit, generalCredit, generalChooseCredit, normalCredit, addMajorCredit, setAddMajorCredit, microDegreeCredit, setMicroDegreeCredit]);
 
     return (
         <>
@@ -38,27 +61,73 @@ function ManageGraduPage() {
                                         <option value="2024">2024</option>
                                         <option value="2025">2025</option>
                                     </select>
-                                    <select className={css(styles.settingMajor)} value={major} onChange={(e) => setMajor(e.target.value)}>
-                                        <option value="">전공 설정</option>
+                                    <select className={css(styles.settingMajor)} value={major} onChange={(e) => {if (visibleTable && !e.target.value) {alert('작업 중인 졸업요건이 존재합니다. 등록을 마무리해주세요.');return;} setMajor(e.target.value);}}>
+                                        <option value="">전공 선택</option>
                                         { MAJOR.map((item) => (
                                             <option value={item.value}>{item.label}</option>
                                         )) }
                                     </select>
                                     <select className={css(styles.settingAdditionalMajor)} value={additionalMajor} onChange={(e) => setAdditionalMajor(e.target.value)}>
-                                        <option value="">추가 전공</option>
+                                        <option value="">추가 선택</option>
                                         { SUBMAJORTYPE.map((item) => (
                                             <option value={item.value}>{item.label}</option>
                                         )) }
                                     </select>
                                     <select className={css(styles.settingMicroDegerr)} value={microDegree} onChange={(e) => setMicroDegree(e.target.value)}>
-                                        <option value="">소단위전공</option>
+                                        <option value="">소단위 전공 선택</option>
                                             { MICRO_DEGREE.map((item) => (
                                                 <option value={item.value}>{item.label}</option>
                                             )) }
                                     </select>
                                 </div>
-                                <button className={css(styles.settingButton)}>생성</button>
+                                <button className={css(styles.settingButton)} onClick={creatTable}>생성</button>
                             </div>
+                            {visibleTable ?  
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.tabelTitle)}>
+                                    {year}학년도 {major ? MAJOR.find(item => item.value === major).label : null} 
+                                    {additionalMajor ? microDegree ? ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label} + ${MICRO_DEGREE.find(item => item.value === microDegree).label})`  : ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label})` : microDegree ? ` (${MICRO_DEGREE.find(item => item.value === microDegree).label})` : null}
+                                </span>
+                                <table className={css(styles.tableLayout)}>
+                                    <thead>
+                                        <tr>
+                                            <th className={css(styles.tableHeader)}>전공</th>
+                                            <th className={css(styles.tableHeader)}>교양필수</th>
+                                            <th className={css(styles.tableHeader)}>교양선택</th>
+                                            <th className={css(styles.tableHeader)}>일반선택</th>
+                                            {additionalMajor ? 
+                                            <th className={css(styles.tableHeader)}>{SUBMAJORTYPE.find(item => item.value === additionalMajor).label}</th>
+                                            : null}
+                                            {microDegree ? 
+                                            <th className={css(styles.tableHeader)}>소단위</th>
+                                            : null}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setMajorCredit(e.target.value)}></input></td>
+                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setGeneralCredit(e.target.value)}></input></td>
+                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setGeneralChooseCredit(e.target.value)}></input></td>
+                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setNormalCredit(e.target.value)}></input></td>
+                                            {additionalMajor ? 
+                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setAddMajorCredit(e.target.value)}></input></td>
+                                            : null}
+                                            {microDegree ? 
+                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setMicroDegreeCredit(e.target.value)}></input></td>
+                                            : null}
+                                        </tr>
+                                        <tr>
+                                            <td className={css(styles.tableTotalData)} colSpan={additionalMajor ? microDegree ? "6" : "5" : microDegree ? "5" : "4"}>{totalCredit}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            : null}
+                            {visibleTable ?
+                            <div className={css(styles.buttonContainer)}>
+                                <button className={css(styles.registerButton)}>등록하기</button>
+                            </div>
+                            : null}
                         </div>
                     </div>
                     <div className={css(styles.boundaryContainer)}>
@@ -136,7 +205,8 @@ const styles = StyleSheet.create({
     contentArea: {
         display: 'flex',
         flexDirection: 'column',
-        marginTop: '15px'
+        marginTop: '25px',
+        gap: '25px'
     },
     settingContainer: {
         display: 'flex',
@@ -189,7 +259,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontSize: '12px',
         fontWeight: '800',
-        border: 'solid 1px 2B2A28',
+        border: 'solid 1px #2B2A28',
         borderRadius: '4px',
         borderWidth: '1px',
         ':hover': {
@@ -200,7 +270,101 @@ const styles = StyleSheet.create({
         },
         ':active': {
             backgroundColor: '#595650',
-            border: '1x solid #595650',
+            border: '1px solid #595650',
+            color: '#FFFEFB',
+        },
+    },
+    contentContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+    },
+    tabelTitle: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '800'
+    },
+    tableLayout: {
+        marginTop: '10px',
+        border: '1px solid #B9B9B9',
+        borderRadius: '4px',
+        borderSpacing: '0px',
+    },
+    tableRow: {
+        width: 'auto',
+        // height: '34px',
+    },
+    tableHeader: {
+        width: '70px',
+        height: '34px',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '700',
+        backgroundColor: 'rgba(0, 0, 0, 0.06)',
+        borderRight: '1px solid #B9B9B9',
+        ':last-child': {
+            borderRight: '0px'
+        }
+    },
+    tableData: {
+        height: '34px',
+        padding: '0px',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '700',
+        textAlign: 'center',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+        ':last-child': {
+            borderRight: '0px'
+        }
+    },
+    input: {
+        border: '0px',
+        borderRadius: '4px',
+        padding: '0px',
+        width: '100%',
+        height: '100%',
+        textAlign: 'center',
+        fontSize: '12px',
+        fontWeight: '500',
+        fontFamily: 'Lato',
+        color: '#7A828A',
+        ':focus': {
+            outline: 'none',
+        }
+    },
+    tableTotalData: {
+        width: '100%',
+        height: '34px',
+        padding: '0px',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '500',
+        textAlign: 'center',
+        borderTop: '1px solid #B9B9B9',
+        borderCollapse: 'collapse',
+        color: '#7A828A',
+    },
+    buttonContainer: {
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    registerButton: {
+        width: '70px',
+        height: '25px',
+        border: '1px solid #2B2A28',
+        borderRadius: '4px',
+        fontSize: '12px',
+        fontWeight: '600',
+        color: '#FFFEFB',
+        backgroundColor: '#2B2A28',
+        ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            backgroundColor: '#595650',
+            border: '1px solid #595650',
             color: '#FFFEFB',
         },
     }
