@@ -158,7 +158,7 @@ function ManageGraduPage() {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <Footer footerType="manage" />
             </div>
         </>
     );
