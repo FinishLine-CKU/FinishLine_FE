@@ -8,6 +8,7 @@ import UserGuidePage from './pages/userGuidePage';
 import IntroPage from './pages/introPage';
 import MyPage from './pages/myPage';
 import ManageGraduPage from './pages/manageGraduPage';
+import Modal from './components/modal'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+        <Route path="/modal" element={<Modal />} />
           <Route path="/signupPage1" element={<SignupPage1 />} />
           <Route path="/uploadpdf" element={<UploadPdfPage />} />
           <Route path="/donelecture" element={<DoneLecturePage />} />

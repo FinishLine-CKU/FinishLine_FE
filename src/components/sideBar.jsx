@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         gap: '25px',
         paddingTop: '40px',
         paddingLeft: '43px',
-        paddingRight: '85px'
+        paddingRight: '43px'
     },
     menuItem: {
         color: '#FFFEFB',
