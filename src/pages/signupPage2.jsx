@@ -6,7 +6,7 @@ import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
 
-const MAJOR = [
+export const MAJOR = [
     { value: '030501*', label: '의예과' },
     { value: '030502*', label: '간호학과' },
     { value: '030503*', label: '의학과' },
@@ -97,7 +97,7 @@ const MAJOR = [
     { value: '03301002', label: '경찰학부-해양경찰' },
     { value: '033020*', label: '자율전공학부' },
 ];
-const MICRO_DEGREE = [
+export const MICRO_DEGREE = [
     { value: '110', label: '스마트시티 마이크로디그리' },
     { value: '120', label: '재난안전소방 마이크로디그리' },
     { value: '130', label: '지속가능발전 마이크로디그리' },
@@ -116,6 +116,11 @@ const MICRO_DEGREE = [
     { value: '250', label: '미래모빌리티 마이크로디그리' },
     { value: '260', label: '의료데이터분석&시각화 마이크로디그리' },
     { value: '270', label: '스마트푸드테크와IT 마이크로디그리' },
+];
+export const SUBMAJORTYPE = [
+    { value: 'double', label: '복수전공' },
+    { value: 'minor', label: '부전공' },
+    { value: 'linked', label: '연계전공' },
 ];
 
 function SignupPage2() {
