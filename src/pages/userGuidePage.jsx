@@ -1,19 +1,38 @@
+import { useContext } from 'react';
 import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
+import { ModalContext } from '../utils/hooks/modalContext';
 import Header from "../components/header";
 import Template from "../components/template";
 import Footer from "../components/footer";
+import Modal from '../components/modal';
 import certification from "../assets/images/certification.png";
 import login from "../assets/images/login.png";
 import subject from "../assets/images/subject.png";
 import requirements from "../assets/images/requirements.png";
 import arrow from "../assets/images/arrow.png";
+import Symbol from '../assets/images/symbol.png';
 
 function UserGuidePage() {
     const navigate = useNavigate();
+    const { modalState, openModal, closeModal } = useContext(ModalContext);
+    const navigateUploadPDF = () => {
+        navigate("/uploadpdf");
+        window.scrollTo(0, 0);
+    };
+
+    const navigateLoginPage = () => {
+        document.body.style.overflow = 'auto';
+        navigate("/loginPage");
+        closeModal();
+    };
 
     return (
-        <div className={css(styles.userGuideContainer)}>
+        <>
+            {modalState ? 
+            <Modal infoMessage="로그인 안내" infoSymbol={Symbol} mainMessage="로그인이 필요한 서비스입니다." contentMessage={<><b>학생 인증을 완료한 회원</b>만 이용 가능합니다.<br />서비스 이용을 위해 로그인 해주세요.</>} mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={closeModal} />
+            : null}
+            <div className={css(styles.userGuideContainer)}>
             <Header />
             <Template 
                 title="이용 가이드" 
@@ -84,7 +103,7 @@ function UserGuidePage() {
                             F와 NP 처리된 과목은 반영되지 않습니다.
                         </p>
                         <button className={css(styles.commonButton)} 
-                            onClick={() => {navigate("/uploadpdf"); window.scrollTo(0, 0);}}>등록하기
+                            onClick={localStorage.getItem('name') ? navigateUploadPDF : openModal}>등록하기
                         </button>
                     </div>
 
@@ -102,13 +121,14 @@ function UserGuidePage() {
                             학점을 계산하여 보여줍니다.
                         </p>
                         <button className={css(styles.commonButton)} 
-                            onClick={() => {navigate(""); window.scrollTo(0, 0);}}>결과보기
+                            onClick={localStorage.getItem('name') ? () => {navigate(""); window.scrollTo(0, 0);} : openModal}>결과보기
                         </button>
                     </div>
                 </div>
             </main>
             <Footer />
         </div>
+        </>
     );
 }
 

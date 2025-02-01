@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
+import { ModalContext } from '../utils/hooks/modalContext';
 import axios from 'axios';
 import { MAJOR, MICRO_DEGREE, SUBMAJORTYPE } from '../pages/signupPage2';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
+import Modal from '../components/modal';
+import Symbol from '../assets/images/symbol.png';
 
 function MyPage() {
     const [major, setMajor] = useState();
@@ -13,7 +16,9 @@ function MyPage() {
     const [sub_major_type, setSub_major_type] = useState();
     const [sub_major, setSub_major] = useState();
     const [micro_degree, setMicro_degree] = useState();
+    const [removeInfoCheck, setRemoveInfoCheck] = useState(false);
     const navigate = useNavigate();
+    const { modalState, openModal, closeModal } = useContext(ModalContext);
     const myInfo = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/my_info/', {
             name : localStorage.getItem('name')
@@ -58,18 +63,19 @@ function MyPage() {
         });
         if (response.data) {
             if (response.data.result === true) {
-                alert('정상적으로 회원탈퇴 되었습니다. 이용해주셔서 감사합니다.');
                 localStorage.removeItem('name');
+                closeModal();
                 navigate("/loginPage");
-                window.scrollTo(0, 0);
-
             } else {
                 alert('회원정보를 확인할 수 없습니다. 관리자에게 문의해주세요.');
             }
         } else {
             alert('서버가 불안정 합니다. 잠시 후 다시 시도해주세요.');
         }
-    }
+    };
+    const removeCheckModal = () => {
+        setRemoveInfoCheck(true);
+    };
 
     useEffect(() => {
         myInfo();
@@ -77,6 +83,11 @@ function MyPage() {
 
     return (
         <>
+            {modalState ? 
+            removeInfoCheck ? 
+            <Modal infoMessage="회원탈퇴" infoSymbol={Symbol} mainMessage="회원 탈퇴 되었습니다." contentMessage={<>FINISH LINE 을 이용해주셔서 감사합니다.</>} mainButton="확인" mainButtonAction={removeMembership} closeButton={removeMembership} />
+            : <Modal infoMessage="회원탈퇴" infoSymbol={Symbol} mainMessage="정말 탈퇴하시겠습니까?" contentMessage={<>탈퇴 시 모든 회원정보는 <ins className={css(styles.point)}>삭제</ins>되며 복구가 <b>불가능</b>합니다.</>} mainButton="탈퇴하기" mainButtonAction={removeCheckModal} closeButton={closeModal} />
+            : null}
             <Header />
             <Template title="마이페이지" />
             <div className={css(styles.container)}>
@@ -161,7 +172,7 @@ function MyPage() {
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>회원탈퇴</span>
-                            <button className={css(styles.button)} onClick={removeMembership}>탈퇴하기</button>
+                            <button className={css(styles.button)} onClick={openModal}>탈퇴하기</button>
                         </div>
                     </div>
                 </div>
@@ -258,6 +269,9 @@ const styles = StyleSheet.create({
         fontSize: '18px',
         fontFamily: 'Lato',
         fontWeight: '500',
+        color: '#FF4921'
+    },
+    point: {
         color: '#FF4921'
     }
 });

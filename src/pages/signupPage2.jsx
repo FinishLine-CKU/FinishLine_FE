@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
+import { ModalContext } from '../utils/hooks/modalContext';
 import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
+import Modal from '../components/modal';
+import Symbol from '../assets/images/symbol.png';
 
 export const MAJOR = [
     { value: '030501*', label: '의예과' },
@@ -132,6 +135,7 @@ function SignupPage2() {
     const [checkError, setCheckError] = useState('');
     const [microDegree, setMicroDegree] = useState('');
     const navigate = useNavigate();
+    const { modalState, openModal, closeModal } = useContext(ModalContext);
     const location = useLocation();
     const { student_id, name, major } = location.state;
 
@@ -195,9 +199,7 @@ function SignupPage2() {
                 password : password
             });
             if (response.data === true) {
-                alert("정상적으로 회원가입 완료되었습니다.");
-                navigate('/loginPage');
-                window.scrollTo(0, 0);
+                openModal();
             } else {
                 alert("회원 정보가 정상적으로 저장되지 않았습니다. 잠시 후 다시 시도해주세요.");
             };
@@ -205,9 +207,15 @@ function SignupPage2() {
             alert("서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
         };
     };
-
+    const navigateLoginPage = () => {
+        navigate('/loginPage');
+        closeModal();
+    }
     return (
         <>
+            {modalState ?
+            <Modal infoMessage="회원 탈퇴" infoSymbol={Symbol} mainMessage="FINISH LINE 회원가입을 축하합니다!" mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={navigateLoginPage}/>
+            : null}
             <Header />
             <Template title="회원가입" subtitle="졸업요건 검사 서비스 이용을 위해 약관 동의와 학생 인증 절차가 필요합니다."/>
             <div className={css(styles.container)}>
