@@ -162,118 +162,118 @@ function ManageCoursePage() {
                            </div>
                             </div>
                             <div className={css(styles.selectTypeContainer)}>
-    <select
-        className={css(styles.selectType)}
-        value={selectedType}
-        onChange={(e) => setSelectedType(e.target.value)}
-        disabled={visibleTable}
-    >
-        <option value="교양필수">교양필수</option>
-        <option value="교양선택">교양선택</option>
-    </select>
-    <button 
-        className={css(styles.settingButton)}
-        onClick={handleCreate}
-    >
-        생성
-    </button>
-</div>
-                                       {visibleTable && (
-                                            <div className={css(styles.contentContainer)}>
-                                            <span className={css(styles.tableTitle)}>
-                                        {selectedYear}학년도 {selectedDepartment}{' '}
-                                        <span className={css(styles.highlightText)}>{selectedType}</span>
-                                           </span>
-                                    <table className={css(styles.tableLayout)}>
-                                        <thead>
-                                            <tr>
-                                                <th className={css(styles.tableHeader)}>이수영역</th>
-                                                <th className={css(styles.tableHeader)}>학점</th>
-                                                <th className={css(styles.tableHeader)}>조건 (횟수/P/NP)</th>
-                                                <th className={css(styles.tableHeader)}>총학점</th>
-                                                <th className={css(styles.tableHeader)}>대체과목 영역</th>
-                                                <th className={css(styles.tableHeader)}>삭제</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {courseSettings.map((setting, index) => (
-                                                <tr key={index}>
-                                                    <td className={css(styles.tableData)}>
+                            <select
+                                className={css(styles.selectType)}
+                                value={selectedType}
+                                onChange={(e) => setSelectedType(e.target.value)}
+                                disabled={visibleTable}
+                            >
+                                <option value="교양필수">교양필수</option>
+                                <option value="교양선택">교양선택</option>
+                            </select>
+                            <button 
+                                className={css(styles.settingButton)}
+                                onClick={handleCreate}
+                            >
+                                생성
+                            </button>
+                        </div>
+                        {visibleTable && (
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.tableTitle)}>
+                                    {selectedYear}학년도 {selectedDepartment}{' '}
+                                    <span className={css(styles.highlightText)}>{selectedType}</span>
+                                </span>
+                                <table className={css(styles.tableLayout)}>
+                                    <thead>
+                                        <tr>
+                                            <th className={css(styles.tableHeader)}>이수영역</th>
+                                            <th className={css(styles.tableHeader)}>학점</th>
+                                            <th className={css(styles.tableHeader)}>조건 (횟수/P/NP)</th>
+                                            <th className={css(styles.tableHeader)}>총학점</th>
+                                            <th className={css(styles.tableHeader)}>대체과목 영역</th>
+                                            <th className={css(styles.tableHeader)}>삭제</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {courseSettings.map((setting, index) => (
+                                            <tr key={index}>
+                                                <td className={css(styles.tableData)}>
                                                     <select 
-    className={css(styles.input)}
-    value={setting.area}
-    onChange={(e) => handleSettingChange(index, 'area', e.target.value)}
->
-    <option value="">선택</option>
-    {(selectedType === '교양필수' ? requiredAreaOptions : electiveAreaOptions)
-        .map(area => (
-            <option key={area} value={area}>{area}</option>
-        ))
-    }
-</select>
-                                                    </td>
-                                                    <td className={css(styles.tableData)}>
-                                                        <input 
-                                                            type="number"
-                                                            className={css(styles.input)}
-                                                            value={setting.credit}
-                                                            onChange={(e) => handleSettingChange(index, 'credit', e.target.value)}
-                                                            placeholder="학점입력"
-                                                        />
-                                                    </td>
-                                                    <td className={css(styles.tableData)}>
-    <select 
-        className={css(styles.input)}
-        value={setting.condition}
-        onChange={(e) => handleSettingChange(index, 'condition', e.target.value)}
-        style={{
-            fontWeight: setting.condition ? '600' : '400',
-            color: setting.condition ? '#000' : '#7A828A'
-        }}
-    >
-        <option value="">선택</option>
-        {conditionOptions.map(option => (
-            <option 
-                key={option} 
-                value={option}
-                style={{ fontWeight: '600' }}
-            >
-                {option}
-            </option>
-        ))}
-    </select>
-</td>
-                                                    <td className={css(styles.tableData)}>
-                                                        <input 
-                                                            type="number"
-                                                            className={css(styles.input)}
-                                                            value={setting.totalCredit}
-                                                            onChange={(e) => handleSettingChange(index, 'totalCredit', e.target.value)}
-                                                            placeholder="입력"
-                                                        />
-                                                    </td>
-                                                    <td className={css(styles.tableData)}>
-    <select 
-        className={css(styles.input)}
-        value={setting.alternative}
-        onChange={(e) => handleSettingChange(index, 'alternative', e.target.value)}
-    >
-        <option value="">선택</option>
-        {(selectedType === '교양필수' ? requiredAreaOptions : electiveAreaOptions)
-            .map(area => (
-                <option key={area} value={area}>{area}</option>
-            ))
-        }
-    </select>
-</td>
-                                                    <td className={css(styles.tableData)}>
-                                                        <button
-                                                            className={css(styles.deleteButton)}
-                                                            onClick={() => removeRow(index)}
-                                                            disabled={courseSettings.length === 1}
-                                                        >
-                                                            삭제
-                                                        </button>
+                                                        className={css(styles.input)}
+                                                        value={setting.area}
+                                                        onChange={(e) => handleSettingChange(index, 'area', e.target.value)}
+                                                    >
+                                                        <option value="">선택</option>
+                                                        {(selectedType === '교양필수' ? requiredAreaOptions : electiveAreaOptions)
+                                                            .map(area => (
+                                                                <option key={area} value={area}>{area}</option>
+                                                            ))
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td className={css(styles.tableData)}>
+                                                    <input 
+                                                        type="number"
+                                                        className={css(styles.input)}
+                                                        value={setting.credit}
+                                                        onChange={(e) => handleSettingChange(index, 'credit', e.target.value)}
+                                                        placeholder="학점입력"
+                                                    />
+                                                </td>
+                                                <td className={css(styles.tableData)}>
+                                                    <select 
+                                                        className={css(styles.input)}
+                                                        value={setting.condition}
+                                                        onChange={(e) => handleSettingChange(index, 'condition', e.target.value)}
+                                                        style={{
+                                                            fontWeight: setting.condition ? '600' : '400',
+                                                            color: setting.condition ? '#000' : '#7A828A'
+                                                        }}
+                                                    >
+                                                        <option value="">선택</option>
+                                                        {conditionOptions.map(option => (
+                                                            <option 
+                                                                key={option} 
+                                                                value={option}
+                                                                style={{ fontWeight: '600' }}
+                                                            >
+                                                                {option}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td className={css(styles.tableData)}>
+                                                    <input 
+                                                        type="number"
+                                                        className={css(styles.input)}
+                                                        value={setting.totalCredit}
+                                                        onChange={(e) => handleSettingChange(index, 'totalCredit', e.target.value)}
+                                                        placeholder="입력"
+                                                    />
+                                                </td>
+                                                <td className={css(styles.tableData)}>
+                                                    <select 
+                                                        className={css(styles.input)}
+                                                        value={setting.alternative}
+                                                        onChange={(e) => handleSettingChange(index, 'alternative', e.target.value)}
+                                                    >
+                                                        <option value="">선택</option>
+                                                        {(selectedType === '교양필수' ? requiredAreaOptions : electiveAreaOptions)
+                                                            .map(area => (
+                                                                <option key={area} value={area}>{area}</option>
+                                                            ))
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td className={css(styles.tableData)}>
+                                                    <button
+                                                        className={css(styles.deleteButton)}
+                                                        onClick={() => removeRow(index)}
+                                                        disabled={courseSettings.length === 1}
+                                                    >
+                                                        삭제
+                                                    </button>
                                                     </td>
                                                 </tr>
                                             ))}
