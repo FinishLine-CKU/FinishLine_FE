@@ -4,6 +4,7 @@ import Footer from '../components/footer';
 import Template from '../components/template';
 import Sidebar from '../components/sideBar.jsx';
 import axios from 'axios';
+axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
 function ManageCoursePage() {
     const [selectedYear, setSelectedYear] = useState('2019');
@@ -33,7 +34,7 @@ function ManageCoursePage() {
     // 기존 교육과정 데이터 불러오기
     const fetchExistingCourses = async () => {
         try {
-            const response = await axios.get('/api/courses/combinations');
+            const response = await axios.get('/api/manages/liberal-arts/');
             setExistingCourses(response.data);
         } catch (error) {
             console.error('Error fetching existing courses:', error);
@@ -86,35 +87,40 @@ function ManageCoursePage() {
         }
     };
     // 등록 처리
-    const handleSubmit = async () => {
-        if (!courseSettings.every(setting => setting.area && setting.credit)) {
-            alert('모든 필수 항목을 입력해주세요.');
-            return;
-        }
-        try {
-            await axios.post('/api/courses', {
-                year: selectedYear,
-                department: selectedDepartment,
-                type: selectedType,
-                settings: courseSettings
-            });
-            
-            alert('교육과정이 성공적으로 등록되었습니다.');
-            setVisibleTable(false);
-            setCourseSettings([{
-                area: '',
-                credit: '',
-                condition: '',
-                totalCredit: '',
-                alternative: ''
-            }]);
-            
-            fetchExistingCourses();
-        } catch (error) {
-            console.error('Error submitting course:', error);
-            alert('교육과정 등록 중 오류가 발생했습니다.');
-        }
-    };
+// handleSubmit 함수도 수정
+const handleSubmit = async () => {
+    if (!courseSettings.every(setting => setting.area && setting.credit)) {
+        alert('모든 필수 항목을 입력해주세요.');
+        return;
+    }
+    try {
+        const courseData = courseSettings.map(setting => ({
+            department: selectedDepartment,
+            admission_year: selectedYear,
+            completion_area: setting.area,
+            required_credits: setting.credit,
+            conditions: setting.condition,
+            alternative_subject: setting.alternative
+        }));
+
+        await axios.post('/api/manages/liberal-arts/', courseData[0]);  // URL 수정
+        
+        alert('교육과정이 성공적으로 등록되었습니다.');
+        setVisibleTable(false);
+        setCourseSettings([{
+            area: '',
+            credit: '',
+            condition: '',
+            totalCredit: '',
+            alternative: ''
+        }]);
+        
+        fetchExistingCourses();
+    } catch (error) {
+        console.error('Error submitting course:', error);
+        alert('교육과정 등록 중 오류가 발생했습니다.');
+    }
+};
     return (
         <div className={css(styles.container)}>
             <Sidebar />
@@ -345,13 +351,17 @@ const styles = StyleSheet.create({
     frame: {
         display: 'flex',
         flexDirection: 'column',
-        padding: '50px 215px 108px 215px',
-        gap: '30px'
+        padding: '50px 5% 108px 5%',  // 픽셀 대신 퍼센트 사용
+        gap: '30px',
     },
     boundaryContainer: {
         border: '1px solid #E4E4E4',
         borderRadius: '15px',
         padding: '35px 45px 25px 45px',
+        boxSizing: 'border-box',
+        minWidth: 'fit-content',
+        width: '70%',    
+        margin: '0 auto' 
     },
     titleArea: {
         display: 'flex',
@@ -442,10 +452,11 @@ const styles = StyleSheet.create({
        },
    },
    contentContainer: {
-       display: 'flex',
-       flexDirection: 'column',
-       alignItems: 'flex-start',
-   },
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    width: '100%',
+},
    tableTitle: {
     fontFamily: 'Lato',
     fontSize: '15px',
@@ -496,7 +507,7 @@ const styles = StyleSheet.create({
     color: '#7A828A',
    },
    expandButton: {
-       width: '41px',
+       width: '37px',
        height: '32px',
        display: 'flex',
        alignItems: 'center',
