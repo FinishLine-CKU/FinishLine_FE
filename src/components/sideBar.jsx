@@ -53,7 +53,7 @@ const Sidebar = () => {
 
 const styles = StyleSheet.create({
     container: {
-        width: '256px',
+        width: '273px',
         backgroundColor: '#2B2A28',
         color: 'white',
         position: 'fixed', // 고정 위치
@@ -65,22 +65,20 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '50px',
-        paddingBottom: '35px',
-        paddingLeft: '16px',
-        paddingRight: '16px'
+        justifyContent: 'center',
+        height: '236px',
+        gap: '2px'
     },
     sideLogo: {
-        width: '50px',
-        height: '50px'
+        width: '65px',
     },
     mainText: {
-        height: '27px'
+        width: '127px'
     },
     managerText: {
         fontSize: '15px',
         fontWeight: '700',
-        color: '#ffffff',
+        color: '#FFFEFB',
         fontFamily: 'Lato'
 
     },
@@ -88,48 +86,50 @@ const styles = StyleSheet.create({
         marginTop: '32px'
     },
     guideSection: {
-        padding: '16px 0',
-        borderTop: '1px solid #ffffff',
-        borderBottom: '1px solid #ffffff'
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '60px',
+        borderTop: '1px solid #FFFEFB',
+        borderBottom: '1px solid #FFFEFB'
     },
     guideText: {
         fontSize: '15px',
-        fontWeight: '700',
-        color: '#ffffff',
+        fontWeight: '800',
+        color: '#FFFEFB',
         fontFamily: 'Lato',
         textAlign: 'center',
     },
     menuSection: {
-        padding: '30px 0'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '25px',
+        paddingTop: '40px',
+        paddingLeft: '43px',
+        paddingRight: '43px'
     },
     menuItem: {
-        padding: '12px 24px',
-        color: '#ffffff',
+        color: '#FFFEFB',
         cursor: 'pointer',
         fontFamily: 'Lato',
         fontSize: '18px',
         fontWeight: '600',
-        ':hover': {
-            cursor: 'pointer',
-        },
         ':active': {
-            backgroundColor: '#595650',
+            color: '#AFAFAF',
         }
     },
     logoutContainer: {
-        position: 'absolute',
-        left: '9px',
-        right: '9px',
-        bottom: '400px', 
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '130px'
     },
     logoutButton: {
-        width: '100%',
-        padding: '8px',
-        border: '1px solid #ffffff',
-        borderRadius: '9px',
+        width: '253px',
+        padding: '10px',
+        border: '1px solid #FFFEFB',
+        borderRadius: '10px',
         backgroundColor: 'transparent',
-        color: '#ffffff',
-        cursor: 'pointer',
+        color: '#FFFEFB',
         fontSize: '15px',
         fontWeight: '700',
         fontFamily: 'Lato',
