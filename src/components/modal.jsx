@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { IoClose } from 'react-icons/io5';
 import { ModalContext } from '../utils/hooks/modalContext';
