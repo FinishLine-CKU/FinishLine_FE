@@ -10,26 +10,36 @@ import UserGuidePage from './pages/userGuidePage';
 import IntroPage from './pages/introPage';
 import MyPage from './pages/myPage';
 import ManageGraduPage from './pages/manageGraduPage';
-import Modal from './components/modal'
+import FeatureModal from './components/featureModal';
 
 function App() {
   const [modalState, setModalState] = useState(false);
   const [subButtonState, setSubButtonState] = useState(false);
+  const [featModalState, setFeatModalState] = useState(false);
+  const [featButtonState, setFeatButtonState] = useState(true);
   const openModal = () => {
     document.body.style.overflow = 'hidden';
     setModalState(true);
-};
+  };
   const closeModal = () => {
     document.body.style.overflow = 'auto';
     setModalState(false);
-};
+  };
+  const openFeatModal = () => {
+    document.body.style.overflow = 'hidden';
+    setFeatModalState(true);
+  };
+  const closeFeatModal = () => {
+    document.body.style.overflow = 'auto';
+    setFeatModalState(false);
+  };
   
   return (
-    <ModalContext.Provider value={{modalState, setModalState, subButtonState, setSubButtonState, openModal, closeModal}}>
+    <ModalContext.Provider value={{modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal}}>
       <div className="App">
         <BrowserRouter>
           <Routes>
-          <Route path="/modal" element={<Modal />} />
+            <Route path="/featureModal" element={<FeatureModal />} />
             <Route path="/signupPage1" element={<SignupPage1 />} />
             <Route path="/uploadpdf" element={<UploadPdfPage />} />
             <Route path="/donelecture" element={<DoneLecturePage />} />
