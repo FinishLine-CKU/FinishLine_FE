@@ -1,9 +1,13 @@
+import { useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { StyleSheet, css } from 'aphrodite';
+import { ModalContext } from '../utils/hooks/modalContext';
 import mainLogo from '../assets/images/mainLogo.png';
+import Modal from '../components/modal';
 
 function Header() {
     const navigate = useNavigate();
+    const { openModal } = useContext(ModalContext);
     const logOut = () => {
         if (localStorage.getItem('name')) {
             localStorage.removeItem('name')
@@ -24,8 +28,16 @@ function Header() {
             <nav className={css(styles.navigationContainer)}>
                 <ul className={css(styles.navigation)}>
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
-                    <li><a href="" className={css(styles.menu)}>졸업요건 검사</a></li>
-                    <li><a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a></li>
+                    <li>
+                        { localStorage.getItem('name') ? 
+                        <a href="" className={css(styles.menu)}>졸업요건 검사</a>
+                        : <span className={css(styles.menu)} onClick={openModal}>졸업요건 검사</span> }
+                    </li>
+                    <li>
+                        { localStorage.getItem('name') ? 
+                        <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
+                        : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span> }
+                    </li>
                     <li>
                         { localStorage.getItem('name') ? 
                         <div className={css(styles.userInfo)}>
@@ -92,6 +104,7 @@ const styles = StyleSheet.create({
         ':hover': {
             color: '#006277',
             fontWeight: 'bold',
+            cursor: 'pointer',
         },
     },
     signIn: {
