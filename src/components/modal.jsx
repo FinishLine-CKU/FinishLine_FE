@@ -6,7 +6,6 @@ import { ModalContext } from '../utils/hooks/modalContext';
 function Modal({infoMessage, infoSymbol, mainMessage, contentMessage, mainButton, mainButtonAction, subButton, closeButton}) {
     const { subButtonState } = useContext(ModalContext);
     
-
     return (
         <>
             <div className={css(styles.container)}>

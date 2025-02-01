@@ -1,11 +1,11 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { StyleSheet, css } from 'aphrodite';
 import { ModalContext } from '../utils/hooks/modalContext';
 import mainLogo from '../assets/images/mainLogo.png';
-import Modal from '../components/modal';
 
 function Header() {
+    const [optionState, setOptionState] = useState(false);
     const navigate = useNavigate();
     const { openModal } = useContext(ModalContext);
     const logOut = () => {
@@ -40,9 +40,20 @@ function Header() {
                     </li>
                     <li>
                         { localStorage.getItem('name') ? 
-                        <div className={css(styles.userInfo)}>
-                            <span className={css(styles.hello)} onClick={logOut}>반갑습니다</span>
-                            <span className={css(styles.userName)} onClick={myPage}>{localStorage.getItem('name')}님</span>
+                        optionState ?
+                        <>
+                            <div className={css(styles.userInfo)} onClick={() => setOptionState(!optionState)}>
+                                <span className={css(styles.hello)}>반갑습니다</span>
+                                <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
+                            </div>
+                            <div className={css(styles.optionContainer)}>
+                                <span className={css(styles.optionButton)} onClick={myPage}>마이페이지</span>
+                                <span className={css(styles.optionButton)} onClick={logOut}>로그아웃</span>
+                            </div>
+                        </> :
+                        <div className={css(styles.userInfo)} onClick={() => setOptionState(!optionState)}>
+                            <span className={css(styles.hello)}>반갑습니다</span>
+                            <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
                         </div> :
                         <a href="/loginPage" className={css(styles.menu)}>
                             <button className={css(styles.signIn)}>로그인</button>
@@ -122,6 +133,28 @@ const styles = StyleSheet.create({
         },
         ':active': {
             backgroundColor: '#595650',
+        }
+    },
+    optionContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '5px',
+        width: '70px',
+        height: '70px',
+        position: 'absolute',
+        backgroundColor: '#2B2A28',
+        borderRadius: '8px',
+    },
+    optionButton: {
+        padding: '5px 0',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '700',
+        color: '#FFFEFB',
+        ':hover': {
+            cursor: 'pointer'
         }
     }
 });
