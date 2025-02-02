@@ -14,15 +14,18 @@ import Symbol from '../assets/images/symbol.png';
 function MyPage() {
     const [major, setMajor] = useState();
     const [student_id, setStudent_id] = useState();
-    const [sub_major_type, setSub_major_type] = useState();
-    const [sub_major, setSub_major] = useState();
-    const [micro_degree, setMicro_degree] = useState();
+    const [sub_major_type, setSub_major_type] = useState('');
+    const [sub_major, setSub_major] = useState('');
+    const [micro_degree, setMicro_degree] = useState('');
     const [password, setPassword] = useState('');
+    const [checkPassword, setCheckPassword] = useState('');
     const [error, setError] = useState('');
     const [checkError, setCheckError] = useState('');
+    const [closeButtonState, setCloseButtonState] = useState(false);
     const [passwordStateCheck, setPasswordStateCheck] = useState(false);
     const [editInfoCheck, setEditInfoCheck] = useState(false);
     const [removeInfoCheck, setRemoveInfoCheck] = useState(false);
+    const [successChangePW, setSuccessChangePW] = useState(false);
     const navigate = useNavigate();
     const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
     const myInfo = async () => {
@@ -33,7 +36,7 @@ function MyPage() {
             if (response.data.sub_major_type && response.data.sub_major) {
                 if (response.data.micro_degree) {
                     const { major, student_id, sub_major_type, sub_major, micro_degree } = response.data;
-                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setMajor(MAJOR.find(item => item.value === major)?.label);
                     setStudent_id(student_id);
                     setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
                     setSub_major(MAJOR.find(item => item.value === sub_major).label);
@@ -62,6 +65,10 @@ function MyPage() {
             setMajor(error);
             setStudent_id(error);
         };
+    };
+    const closeButtonAction = () => {
+        myInfo();
+        closeFeatModal();
     };
     const removeMembership = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/remove_membership/', {
@@ -120,6 +127,38 @@ function MyPage() {
             }
         };
     };
+    const passwordCorrect = (e) => {
+        const input = e.target.value;
+        setCheckPassword(input);
+        if (password !== '') {
+            if (password === input) {
+                setCheckError('');
+            } else {
+                setCheckError('비밀번호가 일치하지 않습니다.');
+            };
+        } else {
+            setError('비밀번호 필수 입력');
+        };
+    };
+    const saveNewPassword = () => {
+        if (error === '' && checkError === '') {
+            newPassword();
+        } else return;
+    };
+    const newPassword = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/user/change_pw/', {
+            studentId : student_id,
+            password : password
+        });
+        if (response.data.success) {
+            setSuccessChangePW(true);
+            closeFeatModal();
+        }
+        else {
+            const { error } = response.data;
+            alert(error);
+        };
+    };
     const checkMajor = (e) => {
         const input = e.target.value
         if (input === MAJOR.find(item => item.label === major).value) {
@@ -128,6 +167,31 @@ function MyPage() {
             setSub_major(e.target.value);
         } else {
             setSub_major(input);
+        };
+    };
+    const noticeChangePW = () => {
+        setSuccessChangePW(false);
+        closeModal();
+    };
+    const translateInfo = () => {
+        setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || '');
+        setSub_major(MAJOR.find(item => item.value === sub_major)?.label || '');
+        setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree)?.label || '');
+        newInfo();
+    };
+    const newInfo = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/user/change_info/', {
+            studentId : student_id,
+            sub_major_type: sub_major_type,
+            sub_major : sub_major,
+            micro_degree: micro_degree
+        });
+        if (response.data.success) {
+            closeFeatModal();
+        }
+        else {
+            const { error } = response.data;
+            alert(error);
         };
     };
 
@@ -139,8 +203,14 @@ function MyPage() {
     useEffect(() => {
         setError('');
         setCheckError('');
+        setPassword('');
+        setCheckPassword('');
         setPasswordStateCheck(false);
     }, [featModalState]);
+
+    useEffect(() => {
+        setSub_major('');
+    }, [sub_major_type === '']);
 
     return (
         <>
@@ -151,7 +221,7 @@ function MyPage() {
             : null}
             {featModalState ?
             editInfoCheck ?
-            <FeatureModal title="추가 정보" mainContents={
+            <FeatureModal title="추가 정보" closeAction={closeButtonAction} mainContents={
             <div className={css(styles.columnLayout)}>
                 <div className={css(styles.startLayout)}>
                     <label className={css(styles.infoLable)}>복수/부/연계 전공</label>
@@ -160,7 +230,7 @@ function MyPage() {
                         <>
                             <option value="" >해당 없음</option>
                             { SUBMAJORTYPE.map((item) => (
-                            <option value={item.value} selected={item.label === sub_major_type}>{item.label}</option> )) }
+                            <option value={item.value} selected={item.label === sub_major_type ? true : undefined}>{item.label}</option> )) }
                         </>
                         : <>
                             <option value="" >해당 없음</option>
@@ -174,7 +244,7 @@ function MyPage() {
                             <>
                                 <option value="">선택</option>
                                 { MAJOR.map((item) => (
-                                    <option value={item.value} selected={item.label === sub_major}>{item.label}</option>
+                                    <option value={item.value} selected={item.label === sub_major ? true : undefined}>{item.label}</option>
                                 )) }
                             </> ) 
                         : (
@@ -192,7 +262,7 @@ function MyPage() {
                         <>
                             <option value="">해당 없음</option>
                             { MICRO_DEGREE.map((item) => (
-                                <option value={item.value} selected={item.label === micro_degree}>{item.label}</option>
+                                <option value={item.value} selected={item.label === micro_degree ? true : undefined}>{item.label}</option>
                             )) }
                         </>
                         : <>
@@ -204,9 +274,9 @@ function MyPage() {
                         }
                     </select>
                 </div>
-            </div>} buttonText="저장"/>
+            </div>} buttonText="저장" buttonAction={translateInfo} disButton={sub_major_type && !sub_major ? true : undefined} />
             : passwordStateCheck ?
-            <FeatureModal title="비밀번호 변경" mainContents={
+            <FeatureModal title="비밀번호 변경" closeAction={closeFeatModal} mainContents={
                 <div className={css(styles.columnLayout)}>
                     <div className={css(styles.startLayout)}>
                         <div className={css(styles.pwLabelSpace)}>
@@ -218,16 +288,18 @@ function MyPage() {
                             <label className={css(styles.infoLable)}>비밀번호 확인</label>
                             { checkError ? <span className={css(styles.errorMessage)}>{checkError}</span> : null }
                         </div>
-                        <input className={css(styles.certificationInput)} type="password" placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
+                        <input className={css(styles.certificationInput)} type="password" value={checkPassword} onChange={passwordCorrect} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
                     </div>
-                </div>} buttonText="완료" buttonAction={passwordCheck} />
-            : <FeatureModal title="본인 확인" mainContents={
+                </div>} buttonText="저장" buttonAction={saveNewPassword} />
+            : <FeatureModal title="본인 확인" closeAction={closeFeatModal} mainContents={
                 <div className={css(styles.columnLayout)}>
                     <div className={css(styles.startLayout)}>
                         <label className={css(styles.infoLable)}>비밀번호 입력</label>
                         <input className={css(styles.certificationInput)} type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="본인 확인을 위해 비밀번호를 입력하세요."></input>
                     </div>
                 </div>} buttonText="완료" buttonAction={passwordCheck} />
+            : successChangePW ?
+            <Modal infoMessage="비밀번호 변경" infoSymbol={Symbol} mainMessage="비밀번호가 재설정 되었습니다." mainButton="확인" mainButtonAction={noticeChangePW} closeButton={noticeChangePW} />
             : null}
             <Header />
             <Template title="마이페이지" />
@@ -437,7 +509,6 @@ const styles = StyleSheet.create({
     defaultInfo: {
         marginBottom: '30px',
         padding: '0 0 0 15px',
-        // width: '424px',
         height: '46px',
         border: '1px solid #CACACA',
         borderRadius: '6px',
@@ -456,7 +527,6 @@ const styles = StyleSheet.create({
     majorStatus: {
         marginBottom: '10px',
         padding: '0 0 0 15px',
-        // width: '425px',
         height: '46px',
         border: '1px solid #CACACA',
         borderRadius: '6px',

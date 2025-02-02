@@ -3,8 +3,8 @@ import { StyleSheet, css } from 'aphrodite';
 import { IoClose } from 'react-icons/io5';
 import { ModalContext } from '../utils/hooks/modalContext';
 
-function FeatureModal({title, mainContents, buttonText, buttonAction}) {
-    const { closeFeatModal, featButtonState, featCloseButton } = useContext(ModalContext);
+function FeatureModal({closeAction, title, mainContents, buttonText, buttonAction, disButton}) {
+    const { featButtonState, featCloseButton } = useContext(ModalContext);
 
     return (
         <>
@@ -13,7 +13,7 @@ function FeatureModal({title, mainContents, buttonText, buttonAction}) {
                     <div className={css(styles.closeButtonContainer)}>
                         <span className={css(styles.title)}>{title}</span>
                         {featCloseButton ?
-                        <button className={css(styles.close)} onClick={closeFeatModal}><IoClose className={css(styles.closeIcon)}/></button>
+                        <button className={css(styles.close)} onClick={closeAction}><IoClose className={css(styles.closeIcon)}/></button>
                         : <span></span>}
                     </div>
                     <div className={css(styles.mainContents)}>
@@ -21,7 +21,7 @@ function FeatureModal({title, mainContents, buttonText, buttonAction}) {
                     </div>
                     {featButtonState ? 
                     <div className={css(styles.ActionButtonContainer)}>
-                        <button className={css(styles.actionButton)} onClick={buttonAction}>{buttonText}</button>
+                        <button className={css(styles.actionButton)} disabled={disButton ? true : undefined} onClick={buttonAction}>{buttonText}</button>
                     </div>
                     : null}
                 </div>
@@ -97,13 +97,18 @@ const styles = StyleSheet.create({
         fontSize: '16px',
         fontWeight: '700',
         marginRight: '-20px',
-        ':hover': {
+        ':hover:not(:disabled)': {
             cursor: 'pointer'
         },
-        ':active': {
+        ':active:not(:disabled)': {
             backgroundColor: '#595650',
             borderColor: '#595650'
-        }
+        },
+        ':disabled':{
+            color: '#FFFEFB',
+            backgroundColor: '#CACACA',
+            borderColor: '#CACACA'
+        },
     }
 });
 
