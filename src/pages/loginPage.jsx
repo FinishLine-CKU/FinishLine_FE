@@ -32,7 +32,6 @@ function LoginPage() {
     const checkInput = (e) => {
         e.preventDefault();
         if (studentId && password) {
-            // navigate("/dashboard");
         } else {
             alert("학번과 비밀번호를 모두 입력해주세요.");
         };
