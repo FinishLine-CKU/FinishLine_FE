@@ -385,7 +385,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontWeight: '600',
         margin: '0 0 6px auto',
-
     },
     additionalInfo: {
         marginBottom: '30px',

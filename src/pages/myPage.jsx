@@ -10,7 +10,6 @@ import Footer from '../components/footer';
 import Modal from '../components/modal';
 import FeatureModal from '../components/featureModal';
 import Symbol from '../assets/images/symbol.png';
-import whiteCKULogo from '../assets/images/whiteCKULogo.png';
 
 function MyPage() {
     const [major, setMajor] = useState();
@@ -18,13 +17,14 @@ function MyPage() {
     const [sub_major_type, setSub_major_type] = useState();
     const [sub_major, setSub_major] = useState();
     const [micro_degree, setMicro_degree] = useState();
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [checkError, setCheckError] = useState('');
+    const [passwordStateCheck, setPasswordStateCheck] = useState(false);
     const [editInfoCheck, setEditInfoCheck] = useState(false);
     const [removeInfoCheck, setRemoveInfoCheck] = useState(false);
-    // const [additionalMajorType, setAdditionalMajorType] = useState();
-    // const [additionalMajor, setAdditionalMajor] = useState('');
-    // const [microDegree, setMicroDegree] = useState('');
     const navigate = useNavigate();
-    const { modalState, featModalState, openModal, closeModal, openFeatModal, featButtonState, setFeatButtonState } = useContext(ModalContext);
+    const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
     const myInfo = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/my_info/', {
             name : localStorage.getItem('name')
@@ -89,8 +89,36 @@ function MyPage() {
     };
     const noButtonFeatModal = () => {
         setEditInfoCheck(false);
-        setFeatButtonState(false);
+        setFeatButtonState(true);
         openFeatModal();
+    };
+    const passwordCheck = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/user/check_register/', {
+            studentId : student_id,
+            password : password
+        });
+        if (response.data.name === localStorage.getItem('name')) {
+            setPasswordStateCheck(true);
+            setPassword('');
+            closeFeatModal();
+            openFeatModal();
+        } else {
+            alert('비밀번호가 일치하지 않습니다.');
+        }
+    };
+    const passwordFormat = (e) => {
+        const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!#^%*?&])[a-zA-Z\d@$!#^%*?&]{8,20}$/;
+        const input = e.target.value;
+        setPassword(input)
+        if (input ===  ''){
+            setError('비밀번호를 입력하세요.');
+        } else {
+            if (regex.test(input)){
+                setError('');
+            } else {
+                setError('비밀번호 형식이 올바르지 않습니다.');
+            }
+        };
     };
     const checkMajor = (e) => {
         const input = e.target.value
@@ -105,7 +133,14 @@ function MyPage() {
 
     useEffect(() => {
         myInfo();
+        setFeatCloseButton(true);
     }, []);
+
+    useEffect(() => {
+        setError('');
+        setCheckError('');
+        setPasswordStateCheck(false);
+    }, [featModalState]);
 
     return (
         <>
@@ -116,57 +151,83 @@ function MyPage() {
             : null}
             {featModalState ?
             editInfoCheck ?
-            <FeatureModal title="내 정보" mainContents={
+            <FeatureModal title="추가 정보" mainContents={
             <div className={css(styles.columnLayout)}>
                 <div className={css(styles.startLayout)}>
-                    <label className={css(styles.infoLable)}>이름</label>
-                    <input className={css(styles.defaultInfo)} disabled="true" value={localStorage.getItem('name')}></input>
-                    <label className={css(styles.infoLable)}>학과</label>
-                    <input className={css(styles.defaultInfo)} disabled="true" value={major}></input>
-                    <label className={css(styles.infoLable)}>학번</label>
-                    <input className={css(styles.defaultInfo)} disabled="true" value={student_id}></input>
-                </div>
-                <div className={css(styles.startLayout)}>
-                    <span className={css(styles.secTitle)}>추가 정보</span>
-                </div>
-                <div className={css(styles.startLayout)}>
                     <label className={css(styles.infoLable)}>복수/부/연계 전공</label>
-                    <select className={css(styles.majorStatus)} value={sub_major_type} onChange={(e) => setSub_major_type(e.target.value)}>
-                        <option value="">해당 없음</option>
-                        <option value="double">복수전공</option>
-                        <option value="minor">부전공</option>
-                        <option value="linked">연계전공</option>
+                    <select className={css(styles.majorStatus)} onChange={(e) => setSub_major_type(e.target.value)}>
+                        { sub_major_type ? 
+                        <>
+                            <option value="" >해당 없음</option>
+                            { SUBMAJORTYPE.map((item) => (
+                            <option value={item.value} selected={item.label === sub_major_type}>{item.label}</option> )) }
+                        </>
+                        : <>
+                            <option value="" >해당 없음</option>
+                            { SUBMAJORTYPE.map((item) => (
+                            <option value={item.value}>{item.label}</option> )) }
+                        </>}
                     </select>
-                    <select className={css(styles.majorSelect)} value={sub_major} onChange={checkMajor}>
-                        { sub_major_type ? (
+                    <select className={css(styles.majorSelect)} onChange={checkMajor}>
+                        { sub_major_type ? 
+                        sub_major ? (
+                            <>
+                                <option value="">선택</option>
+                                { MAJOR.map((item) => (
+                                    <option value={item.value} selected={item.label === sub_major}>{item.label}</option>
+                                )) }
+                            </> ) 
+                        : (
                             <>
                                 <option value="">선택</option>
                                 { MAJOR.map((item) => (
                                     <option value={item.value}>{item.label}</option>
                                 )) }
-                            </> ) : ( <option value=""></option> ) }
+                            </> )
+                        : ( <option value=""></option> ) }
                     </select>
                     <label className={css(styles.infoLable)}>소단위전공</label>
-                    <select className={css(styles.majorSelect)} value={micro_degree} onChange={(e) => setMicro_degree(e.target.value)}>
-                        <option value="">해당 없음</option>
-                        { MICRO_DEGREE.map((item) => (
+                    <select className={css(styles.majorSelect)} onChange={(e) => setMicro_degree(e.target.value)}>
+                        { micro_degree ?
+                        <>
+                            <option value="">해당 없음</option>
+                            { MICRO_DEGREE.map((item) => (
+                                <option value={item.value} selected={item.label === micro_degree}>{item.label}</option>
+                            )) }
+                        </>
+                        : <>
+                            <option value="">해당 없음</option>
+                            { MICRO_DEGREE.map((item) => (
                             <option value={item.value}>{item.label}</option>
-                        )) }
+                            )) }
+                        </>
+                        }
                     </select>
                 </div>
             </div>} buttonText="저장"/>
-            : <FeatureModal title="학생 인증" mainContents={
-                <div className={css(styles.certificationContainer)}>
-                    <img src={whiteCKULogo} className={css(styles.univLogo)} />
-                    <span className={css(styles.guideCertification)}><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.ckuLoginLink)} target="_blank">가톨릭관동대학교 포털</a> 아이디와 비밀번호를 입력해주세요.</span>
-                    <div className={css(styles.inputContainer)}>
-                        <label className={css(styles.inputLabel)}>아이디</label>
-                        <input className={css(styles.certificationInput)} type="text" placeholder="아이디를 입력하세요."></input>
-                        <label className={css(styles.inputLabel)}>비밀번호</label>
-                        <input className={css(styles.certificationInput)} type="password" placeholder="비밀번호를 입력하세요."></input>
+            : passwordStateCheck ?
+            <FeatureModal title="비밀번호 변경" mainContents={
+                <div className={css(styles.columnLayout)}>
+                    <div className={css(styles.startLayout)}>
+                        <div className={css(styles.pwLabelSpace)}>
+                            <label className={css(styles.infoLable)}>변경할 비밀번호 입력</label>
+                            { error ? <span className={css(styles.errorMessage)}>{error}</span> : null }
+                        </div>
+                        <input className={css(styles.certificationInput)} type="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={passwordFormat} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
+                        <div className={css(styles.pwLabelSpace)}>
+                            <label className={css(styles.infoLable)}>비밀번호 확인</label>
+                            { checkError ? <span className={css(styles.errorMessage)}>{checkError}</span> : null }
+                        </div>
+                        <input className={css(styles.certificationInput)} type="password" placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
                     </div>
-                    <button className={css(styles.certificationButton)}>재학생 인증</button>
-                </div>}/>
+                </div>} buttonText="완료" buttonAction={passwordCheck} />
+            : <FeatureModal title="본인 확인" mainContents={
+                <div className={css(styles.columnLayout)}>
+                    <div className={css(styles.startLayout)}>
+                        <label className={css(styles.infoLable)}>비밀번호 입력</label>
+                        <input className={css(styles.certificationInput)} type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="본인 확인을 위해 비밀번호를 입력하세요."></input>
+                    </div>
+                </div>} buttonText="완료" buttonAction={passwordCheck} />
             : null}
             <Header />
             <Template title="마이페이지" />
@@ -371,6 +432,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: '14px',
         marginBottom: '8px',
+        color: '#2B2A28',
     },
     defaultInfo: {
         marginBottom: '30px',
@@ -430,40 +492,6 @@ const styles = StyleSheet.create({
             outline: '1px solid #2B2A28',
         },
     },
-    certificationContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    univLogo: {
-        width: '134px',
-    },
-    guideCertification: {
-        margin: '25px 0 25px 0',
-        fontFamily: 'Lato',
-        fontWeight: '500',
-        fontSize: '15px',
-        color: '#006277',
-    },
-    ckuLoginLink: {
-        textDecoration: 'none',
-        color: '#006277',
-        ':hover': {
-            textDecoration: 'underline'
-        },
-    },
-    inputContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-    },
-    inputLabel: {
-        margin: '0 0 8px 0',
-        fontFamily: 'Lato',
-        fontSize: '14px',
-        fontWeight: '500',
-        color: '#2B2A28',
-    },
     certificationInput: {
         margin: '0 0 24px 0',
         padding: '0 0 0 15px',
@@ -478,32 +506,18 @@ const styles = StyleSheet.create({
             outline: '1px solid #2B2A28',
         }
     },
-    certificationButton: {
-        margin: '16px 0 10px 0',
-        width: '430px',
-        height: '48px',
-        border: '2px solid #2B2A28',
-        borderRadius: '10px',
-        backgroundColor: 'transparent',
-        color: '#2B2A28',
+    pwLabelSpace: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+        alignItems: 'center',
+    },
+    errorMessage: {
+        color: '#FF4921',
+        fontSize: '12px',
         fontFamily: 'Lato',
-        fontSize: '16px',
-        fontWeight: '700',
-        ':hover:not(:disabled)': {
-            cursor: 'pointer',
-            backgroundColor: '#2B2A28',
-            color: '#FFFEFB',
-            transitionDuration: '0.2s',
-        },
-        ':active:not(:disabled)': {
-            backgroundColor: '#595650',
-            border: '2px solid #595650',
-            color: '#FFFEFB',
-        },
-        ':disabled': {
-            color: '#CACACA',
-            border: '2px solid #CACACA',
-        },
+        fontWeight: '600',
+        margin: '0 0 6px auto',
     },
 });
 
