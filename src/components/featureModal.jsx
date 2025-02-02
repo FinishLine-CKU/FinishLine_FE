@@ -4,7 +4,7 @@ import { IoClose } from 'react-icons/io5';
 import { ModalContext } from '../utils/hooks/modalContext';
 
 function FeatureModal({title, mainContents, buttonText, buttonAction}) {
-    const { closeFeatModal, featButtonState } = useContext(ModalContext);
+    const { closeFeatModal, featButtonState, featCloseButton } = useContext(ModalContext);
 
     return (
         <>
@@ -12,7 +12,9 @@ function FeatureModal({title, mainContents, buttonText, buttonAction}) {
                 <div className={css(styles.modalContainer)}>
                     <div className={css(styles.closeButtonContainer)}>
                         <span className={css(styles.title)}>{title}</span>
+                        {featCloseButton ?
                         <button className={css(styles.close)} onClick={closeFeatModal}><IoClose className={css(styles.closeIcon)}/></button>
+                        : <span></span>}
                     </div>
                     <div className={css(styles.mainContents)}>
                     {mainContents}

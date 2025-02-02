@@ -19,7 +19,7 @@ function Header() {
             navigate("/myPage");
         }
     };
-
+    
     return (
         <header className={css(styles.headerContainer)}>
             <a href="/userGuidePage">

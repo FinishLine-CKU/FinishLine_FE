@@ -17,6 +17,7 @@ function App() {
   const [subButtonState, setSubButtonState] = useState(false);
   const [featModalState, setFeatModalState] = useState(false);
   const [featButtonState, setFeatButtonState] = useState(true);
+  const [featCloseButton, setFeatCloseButton] = useState(true);
   const openModal = () => {
     document.body.style.overflow = 'hidden';
     setModalState(true);
@@ -35,7 +36,7 @@ function App() {
   };
   
   return (
-    <ModalContext.Provider value={{modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal}}>
+    <ModalContext.Provider value={{modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton}}>
       <div className="App">
         <BrowserRouter>
           <Routes>

@@ -1,21 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
+import { ModalContext } from '../utils/hooks/modalContext';
 import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
+import FeatureModal from '../components/featureModal';
 import whiteCKULogo from '../assets/images/whiteCKULogo.png';
+import loading from '../assets/images/loading.gif';
 
 function SignupPage1() {
     const [agree, setAgree] = useState(false);
     const [studentId, setStudentId] = useState('');
     const [studentPW, setStudentPW] = useState('');
     const navigate = useNavigate();
+    const { featModalState, setFeatButtonState, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton } = useContext(ModalContext);
     const checkedState = (e) => {
         setAgree(e.target.checked);
     };
     const studentAuth = async () => {
+        setFeatButtonState(false);
+        setFeatCloseButton(false);
+        openFeatModal();
         if (studentId === '' || studentPW === '') {
             alert("가톨릭관동대 포털 아이디와 비밀번호를 모두 입력해주세요.");
         } else {
@@ -26,13 +33,16 @@ function SignupPage1() {
                 });
                 if (response.data.student_id && response.data.name && response.data.major) {
                     const { student_id, name, major } = response.data;
+                    closeFeatModal();
                     navigate('/signupPage2', { state: { student_id, name, major}});
                     window.scrollTo(0, 0);
                 } else {
                     const { error } = response.data;
+                    closeFeatModal();
                     alert(error);
                 };
             } catch {
+                closeFeatModal();
                 alert("인증과정에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
             };
         };
@@ -45,6 +55,22 @@ function SignupPage1() {
 
     return (
         <>
+            {featModalState ? 
+            <FeatureModal mainContents={
+                <div className={css(styles.modalContainer)}>
+                    <div className={css(styles.icons)}>
+                        <img src={whiteCKULogo} className={css(styles.ckuLogo)}/>
+                        <img src={loading} className={css(styles.loadingGIF)}/>
+                    </div>
+                    <div className={css(styles.modalTitleContainer)}>
+                        <span className={css(styles.modalTitle)}>재학생 확인 중...</span>
+                    </div>
+                    <div className={css(styles.infoMessageContainer)}>
+                        <span className={css(styles.infoMessage)}>5초 정도 소요됩니다. 잠시만 기다려주세요.</span>
+                    </div>
+                </div>
+            }/>
+            : null}
             <Header />
             <Template title="회원가입" subtitle="졸업요건 검사 서비스 이용을 위해 약관 동의와 학생 인증 절차가 필요합니다."/>
             <div className={css(styles.container)}>
@@ -307,6 +333,51 @@ const styles = StyleSheet.create({
         fontSize: '15px',
         color: '#006277',
     },
+    modalContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    icons: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '20px',
+        width: '100%'
+    },
+    ckuLogo: {
+        width: '168px'
+    },
+    loadingGIF: {
+        position: 'absolute',
+        zIndex: '1001',
+        width: '177px',
+        marginTop: '40px',
+        marginLeft: '90px'
+    },
+    modalTitleContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+        margin: '30px 0 20px 0'
+    },
+    modalTitle: {
+        fontFamily: 'Lato',
+        fontWeight: '700',
+        fontSize: '30px',
+        color: '#2B2A28'
+    },
+    infoMessageContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+        marginBottom: '80px'
+    },
+    infoMessage: {
+        fontFamily: 'Lato',
+        fontWeight: '500',
+        fontSize: '20px',
+        color: '#006277'
+    }
 })
 
 export default SignupPage1;
