@@ -56,7 +56,7 @@ function SignupPage1() {
     return (
         <>
             {featModalState ? 
-            <FeatureModal mainContents={
+            <FeatureModal closeAction={closeFeatModal} mainContents={
                 <div className={css(styles.modalContainer)}>
                     <div className={css(styles.icons)}>
                         <img src={whiteCKULogo} className={css(styles.ckuLogo)}/>
