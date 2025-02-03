@@ -1,3 +1,4 @@
+import { useNavigate, useLocation  } from 'react-router-dom';
 import { useState, useCallback } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
@@ -5,6 +6,8 @@ import axios from 'axios';
 function UploadPdfComponents() {
   const [fileNames, setFileNames] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const fileInputHandler = useCallback((event) => {
     const files = event.target && event.target.files;
@@ -38,22 +41,37 @@ function UploadPdfComponents() {
     });
 
     try {
-        const response = await axios.post('http://127.0.0.1:8000/', formData, {
+        const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
 
-        localStorage.setItem('uploadPdfPage', 'true');
-        
-        alert('파일이 성공적으로 업로드되었습니다.');
-        setSelectedFiles([]);
-        setFileNames([]);
+        const data = response.data.data;
+        const duplicateFiles = response.data.duplicate_files;
+
+        if (duplicateFiles.length > 0) {
+            alert(`중복된 파일이 포함되어 있습니다:\n${duplicateFiles.join('\n')}\n기이수과목 관리로 넘어갑니다.`);
+            setSelectedFiles([]);
+            setFileNames([]);
+            navigate('/donelecture');
+        } else {
+          localStorage.setItem('uploadPdfPage', 'true');
+          alert('파일이 성공적으로 업로드되었습니다.');
+          setSelectedFiles([]);
+          setFileNames([]);
+    
+          if (location.pathname === '/donelecture') {
+            window.location.reload();
+          } else {
+            navigate('/donelecture');
+          }
+        }
     } catch (error) {
         console.error('업로드 에러:', error);
         alert(error.response?.data?.message || '파일 업로드 중 오류가 발생했습니다.');
     }
-};
+  };
 
     return (
       <div>
@@ -83,13 +101,13 @@ function UploadPdfComponents() {
                         ) : (
                           fileNames.map((fileName, index) => (
                             <div key={index} className={css(styles.fileNameButtonContainer)}>
-                              <button className={css(styles.itemfileNameButton)}>
+                              <div className={css(styles.itemfileNameButton)}>
                                 {fileName}
                                 <button
                                   onClick={() => handleDeleteFile(index)}
                                   className={css(styles.itemdeleteButton)}
                                   type="button">×</button>
-                              </button>
+                              </div>
                             </div>
                           ))
                         )}
@@ -170,7 +188,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: '#FFFEFB',
     marginLeft: 'auto',
-    marginRight: '5px',
     padding: '3px',
     cursor: 'pointer',
     ':hover': {
