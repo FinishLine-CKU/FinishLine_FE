@@ -61,7 +61,7 @@ function UserGuidePage() {
                             학생 인증에만 사용되며 저장되지 않습니다.
                         </p>
                         <button className={css(styles.commonButton)} 
-                            disabled={ localStorage.getItem('name') ? true : false }
+                            disabled={ localStorage.getItem('idToken') ? true : false }
                             onClick={() => {navigate("/signupPage1"); window.scrollTo(0, 0);}}>회원가입
                         </button>
                     </div>
@@ -78,7 +78,7 @@ function UserGuidePage() {
                             사용하여 로그인을 합니다.
                         </p>
                         <button className={css(styles.commonButton)} 
-                            disabled={ localStorage.getItem('name') ? true : false } 
+                            disabled={ localStorage.getItem('idToken') ? true : false } 
                             onClick={() => {navigate("/loginPage"); window.scrollTo(0, 0);}}>로그인
                         </button>
                     </div>
@@ -103,7 +103,7 @@ function UserGuidePage() {
                             F와 NP 처리된 과목은 반영되지 않습니다.
                         </p>
                         <button className={css(styles.commonButton)} 
-                            onClick={localStorage.getItem('name') ? navigateUploadPDF : openModal}>등록하기
+                            onClick={localStorage.getItem('idToken') ? navigateUploadPDF : openModal}>등록하기
                         </button>
                     </div>
 
@@ -121,7 +121,7 @@ function UserGuidePage() {
                             학점을 계산하여 보여줍니다.
                         </p>
                         <button className={css(styles.commonButton)} 
-                            onClick={localStorage.getItem('name') ? () => {navigate(""); window.scrollTo(0, 0);} : openModal}>결과보기
+                            onClick={localStorage.getItem('idToken') ? () => {navigate(""); window.scrollTo(0, 0);} : openModal}>결과보기
                         </button>
                     </div>
                 </div>

@@ -9,13 +9,13 @@ function Header() {
     const navigate = useNavigate();
     const { openModal } = useContext(ModalContext);
     const logOut = () => {
-        if (localStorage.getItem('name')) {
-            localStorage.removeItem('name')
+        if (localStorage.getItem('idToken')) {
+            localStorage.clear();
             navigate("/loginPage");
         }
     };
     const myPage = () => {
-        if (localStorage.getItem('name')) {
+        if (localStorage.getItem('idToken')) {
             navigate("/myPage");
         }
     };
@@ -29,17 +29,17 @@ function Header() {
                 <ul className={css(styles.navigation)}>
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li>
-                        { localStorage.getItem('name') ? 
+                        { localStorage.getItem('idToken') ? 
                         <a href="" className={css(styles.menu)}>졸업요건 검사</a>
                         : <span className={css(styles.menu)} onClick={openModal}>졸업요건 검사</span> }
                     </li>
                     <li>
-                        { localStorage.getItem('name') ? 
+                        { localStorage.getItem('idToken') ? 
                         <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
                         : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span> }
                     </li>
                     <li>
-                        { localStorage.getItem('name') ? 
+                        { localStorage.getItem('idToken') ? 
                         optionState ?
                         <>
                             <div className={css(styles.userInfo)} onClick={() => setOptionState(!optionState)}>
