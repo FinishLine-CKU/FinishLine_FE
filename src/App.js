@@ -8,6 +8,7 @@ import UserGuidePage from './pages/userGuidePage';
 import IntroPage from './pages/introPage';
 import MyPage from './pages/myPage';
 import ManageGraduPage from './pages/manageGraduPage';
+import GraduTestPage from './pages/graduTestPage';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/introPage" element={<IntroPage />} />
           <Route path="/myPage" element={<MyPage />} />
           <Route path="/manageGraduPage" element={<ManageGraduPage />} />
+          <Route path="/GraduTestPage" element={<GraduTestPage />} />
         </Routes>
       </BrowserRouter>
     </div>
