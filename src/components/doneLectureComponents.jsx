@@ -2,6 +2,12 @@ import { StyleSheet, css } from 'aphrodite';
 import { useState } from 'react';
 
 export function SubSearchComponents({subjects, onAdd}) {
+    const [filteredSubjects, setFilteredSubjects] = useState(subjects);
+
+    const handleSelect = (selectedSubject) => {
+      setFilteredSubjects([selectedSubject]);
+    };
+  
 
     return (
         <div className={css(styles.Container)}>
@@ -21,22 +27,23 @@ export function SubSearchComponents({subjects, onAdd}) {
             <tbody>
               {subjects && subjects.length > 0 && 
                 subjects.map((subject, index) => (
-                  <tr key={subject.sub_code}>
+                  <tr key={subject.lecture_code}>
                       <td className={css(styles.yearCell)}>{subject.year}</td>
                       <td className={css(styles.semesterCell)}>{subject.semester}</td>
-                      <td className={css(styles.codeCell)}>{subject.sub_code}</td>
-                      <td className={css(styles.nameCell)}  title={subject.sub_name && subject.sub_name.length > 14 ? subject.sub_name : undefined}>{subject.sub_name}</td>
-                      <td className={css(styles.areaCell)}>{subject.sub_area}</td>
-                      <td className={css(styles.subCell)}>{subject.sub_sub}</td>
+                      <td className={css(styles.codeCell)}>{subject.lecture_code}</td>
+                      <td className={css(styles.nameCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
+                      <td className={css(styles.typeCell)} title={subject.lecture_type}>{subject.lecture_type}</td>
+                      <td className={css(styles.topicCell)}>{subject.lecture_topic}</td>
                       <td className={css(styles.creditCell)}>{subject.credit}</td>
-                      <td className={css(styles.lastCell)}></td>
+                      <td className={css(styles.lastCell)}>
+                      </td>
                   </tr>
                   ))
               }
             </tbody>
           </table>
           <div className={css(styles.addContainer)}>
-              <button className={css(styles.itemAddButton)} onClick={() => onAdd(subjects)}>
+              <button className={css(styles.itemAddButton)} onClick={() => onAdd(filteredSubjects)}>
                 추가하기
               </button>
           </div>
@@ -76,30 +83,30 @@ export function DoneSubComponents({ subjects, onDelete }) {
         <tbody>
         {sortedSubjects && sortedSubjects.length > 0 &&
             sortedSubjects.slice(0, 5).map((subject) => (
-              <tr key={subject.sub_code}>
-                <td className={css(styles.yearCell, subject.isNew ? styles.AddCell : styles.yearCell)}>
+              <tr key={subject.lecture_code}>
+                <td className={css(styles.yearCell, subject.isNew ? styles.yearAddCell : styles.yearCell)}>
                   {subject.year}
                 </td>
-                <td className={css(styles.semesterCell, subject.isNew ? styles.AddCell : styles.semesterCell)}>
+                <td className={css(styles.semesterCell, subject.isNew ? styles.semesterAddCell : styles.semesterCell)}>
                   {subject.semester}
                 </td>
-                <td className={css(styles.codeCell, subject.isNew ? styles.AddCell : styles.codeCell)}>
-                  {subject.sub_code}
+                <td className={css(styles.codeCell, subject.isNew ? styles.codeAddCell : styles.codeCell)}>
+                  {subject.lecture_code}
                 </td>
-                <td className={css(styles.nameCell, subject.isNew ? styles.AddCell : styles.nameCell)} title={subject.sub_name && subject.sub_name.length > 16 ? subject.sub_name : undefined}>
-                  {subject.sub_name}
+                <td className={css(styles.nameCell, subject.isNew ? styles.nameAddCell : styles.nameCell)} title={subject.lecture_name}>
+                  {subject.lecture_name}
                 </td>
-                <td className={css(styles.areaCell, subject.isNew ? styles.AddCell : styles.areaCell)}>
-                  {subject.sub_area}
+                <td className={css(styles.typeCell, subject.isNew ? styles.typeAddCell : styles.typeCell)} title={subject.lecture_type}>
+                  {subject.lecture_type}
                 </td>
-                <td className={css(styles.subCell, subject.isNew ? styles.AddCell : styles.subCell)}>
-                  {subject.sub_sub}
+                <td className={css(styles.topicCell, subject.isNew ? styles.topicAddCell : styles.topicCell)}>
+                  {subject.lecture_topic}
                 </td>
-                <td className={css(styles.creditCell, subject.isNew ? styles.AddCell : styles.creditCell)}>
+                <td className={css(styles.creditCell, subject.isNew ? styles.creditAddCell : styles.creditCell)}>
                   {subject.credit}
                 </td>
                 <td className={css(styles.lastCell)}>
-                  {subject.isNew && <button className={css(styles.itemDeleteButton)} onClick={() => onDelete(subject.sub_code)}>삭제</button>}
+                  {subject.isNew && <button className={css(styles.itemDeleteButton)} onClick={() => onDelete(subject.lecture_code)}>삭제</button>}
                 </td>
               </tr>
             ))
@@ -115,13 +122,13 @@ export function DoneSubComponents({ subjects, onDelete }) {
 
           {isExpanded && sortedSubjects.slice(5).map((subject, index) => (
             <tr key={index + 5}>
-              <td className={css(styles.cell)}>{subject.year}</td>
-              <td className={css(styles.cell)}>{subject.semester}</td>
-              <td className={css(styles.cell)}>{subject.sub_code}</td>
-              <td className={css(styles.cell)}>{subject.sub_name}</td>
-              <td className={css(styles.cell)}>{subject.sub_area}</td>
-              <td className={css(styles.cell)}>{subject.sub_sub}</td>
-              <td className={css(styles.cell)}>{subject.credit}</td>
+              <td className={css(styles.yearCell)}>{subject.year}</td>
+              <td className={css(styles.semesterCell)}>{subject.semester}</td>
+              <td className={css(styles.codeCell)}>{subject.lecture_code}</td>
+              <td className={css(styles.nameCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
+              <td className={css(styles.typeCell)} title={subject.lecture_type}>{subject.lecture_type}</td>
+              <td className={css(styles.topicCell)}>{subject.lecture_topic}</td>
+              <td className={css(styles.creditCell)}>{subject.credit}</td>
               <td className={css(styles.lastCell)}></td>
             </tr>
           ))}
@@ -168,21 +175,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     wordWrap: 'break-word',
   },
-  cell: {
-    border: '2px solid #E0E0E0',
-    color: '#333333',
-    fontFamily: 'Lato',
-    fontSize: '10px',
-    fontWeight: '600',
-    textAlign: 'center',
-    height: '35px',
-    backgroundColor: '#FFFFFF',
-    wordWrap: 'break-word',
-    maxWidth: '120px', 
-    whiteSpace: 'nowrap', 
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
   yearCell: {
     width: '40px',
     height: '35px',
@@ -195,6 +187,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     whiteSpace: 'nowrap', 
     overflow: 'hidden',
+    tableLayout: 'fixed',
+  },
+  yearAddCell: {
+    width: '40px',
+    height: '35px',
+    border: '2px solid #E0E0E0',
+    color: '#006696',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    height: '35px',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    tableLayout: 'fixed',
   },
   semesterCell: {
     width: '20px',
@@ -208,9 +216,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     whiteSpace: 'nowrap', 
     overflow: 'hidden',
+    tableLayout: 'fixed',
+  },
+  semesterAddCell: {
+    width: '20px',
+    height: '35px',
+    border: '2px solid #E0E0E0',
+    color: '#006696',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    height: '35px',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    tableLayout: 'fixed',
   },
   codeCell: {
     width: '30px',
+    minWidth: '40px',
     height: '35px',
     fontFamily: 'Lato',
     fontSize: '10px',
@@ -221,6 +246,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     whiteSpace: 'nowrap', 
     overflow: 'hidden',
+    tableLayout: 'fixed',
+  },
+  codeAddCell: {
+    width: '30px',
+    height: '40px',
+    border: '2px solid #E0E0E0',
+    color: '#006696',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    height: '35px',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    tableLayout: 'fixed',
   },
   nameCell: {
     width: '180px',
@@ -237,9 +278,27 @@ const styles = StyleSheet.create({
     whiteSpace: 'nowrap', 
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    tableLayout: 'fixed',
   },
-  areaCell: {
-    width: '35px',
+  nameAddCell: {
+    width: '180px',
+    height: '35px',
+    border: '2px solid #E0E0E0',
+    color: '#006696',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    wordWrap: 'break-word',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    tableLayout: 'fixed',
+  },
+  typeCell: {
+    width: '40px',
+    maxWidth: '40px',
     height: '35px',
     fontFamily: 'Lato',
     fontSize: '10px',
@@ -250,8 +309,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     whiteSpace: 'nowrap', 
     overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    tableLayout: 'fixed',
   },
-  subCell: {
+  typeAddCell: {
+    width: '40px',
+    height: '35px',
+    border: '2px solid #E0E0E0',
+    color: '#006696',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    tableLayout: 'fixed',
+  },
+  topicCell: {
     width: '80px',
     height: '35px',
     fontFamily: 'Lato',
@@ -263,6 +339,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     whiteSpace: 'nowrap', 
     overflow: 'hidden',
+    tableLayout: 'fixed',
+  },
+  topicAddCell: {
+    width: '80px',
+    height: '35px',
+    border: '2px solid #E0E0E0',
+    color: '#006696',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    tableLayout: 'fixed',
   },
   creditCell: {
     width: '20px',
@@ -276,16 +367,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     whiteSpace: 'nowrap', 
     overflow: 'hidden',
+    tableLayout: 'fixed',
   },
-  AddCell: {
+  creditAddCell: {
+    width: '20px',
+    height: '35px',
     border: '2px solid #E0E0E0',
     color: '#006696',
     fontFamily: 'Lato',
     fontSize: '10px',
     fontWeight: '600',
     textAlign: 'center',
-    height: '35px',
     backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    tableLayout: 'fixed',
   },
   lastCell: {
     width: '40px',
@@ -297,8 +393,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     minHeight: '35px',
     backgroundColor: '#FFFFFF',
+    tableLayout: 'fixed',
   },
   itemDeleteButton: {
+    border: '1px solid black',
+    borderRadius: '4px',
+    backgroundColor: 'transparent',
+    color: 'black',
+    width: '40px',
+    height: '20px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+  itemSelectButton: {
     border: '1px solid black',
     borderRadius: '4px',
     backgroundColor: 'transparent',

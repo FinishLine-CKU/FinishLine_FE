@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
@@ -9,54 +9,107 @@ import axios from 'axios';
 
 function DoneLecturePage() {
 
-  const initialLectureInfo =
-    [{ year: 2025, semester: 1, sub_code: '402807-001', sub_name: '임상실습전교육(ICM)II(CPX+OSCE+CPX/OSCE시험)', sub_area: '전필', sub_sub: '', credit: 3 }];
-    
-  const initialMyLectureList = [
-    { year: 2018, semester: 1, sub_code: '010064-024', sub_name: '대학영어I', sub_area: '교필', sub_sub: '대학외국어1', credit: 2 },
-    { year: 2024, semester: 1, sub_code: '020217-001', sub_name: '생활속의교통', sub_area: '교선', sub_sub: '인간과문학', credit: 2 },
-    { year: 2024, semester: 1, sub_code: '408140-001', sub_name: '안경조제가공학및실습Ⅲ', sub_area: '전선', sub_sub: '', credit: 3 },
-    { year: 2018, semester: 1, sub_code: '010119-003', sub_name: '논리적사고와글쓰기', sub_area: '교필', sub_sub: '논리적사고와글쓰기', credit: 2 },
-    { year: 2024, semester: 1, sub_code: '024705-001', sub_name: '교양인을위한기초대학수학', sub_area: '교선', sub_sub: '균형3', credit: 2 },
-    { year: 2024, semester: 1, sub_code: '742534-002', sub_name: '오라클중심의데이터베이스와실습', sub_area: '전선', sub_sub: '', credit: 3 }];
-
   const [lectureCode, setLectureCode] = useState('');
-  const [lectureData, setLectureData] = useState(initialLectureInfo);
+  const [lectureData, setLectureData] = useState([]);
   const [error, setError] = useState(null);
-  const [myLectureList, setMyLectureList] = useState(initialMyLectureList);
+  const [myLectureList, setMyLectureList] = useState([]);
+  const [filteredSubjects, setFilteredSubjects] = useState([]);
 
-  const deleteButton = (sub_code, listType) => {
+  const deleteButton = (lecture_code, listType) => {
     if (listType === 'lectureData') {
-      const updatedSubjects = lectureData.filter(subject => subject.sub_code !== sub_code);
+      const updatedSubjects = lectureData.filter(subject => subject.lecture_code !== lecture_code);
       setLectureData(updatedSubjects);
     } else if (listType === 'myLectureList') {
-      const updatedMyLectures = myLectureList.filter(subject => subject.sub_code !== sub_code);
+      const updatedMyLectures = myLectureList.filter(subject => subject.lecture_code !== lecture_code);
       setMyLectureList(updatedMyLectures);
     }
   };
 
   const handleAddSubject = () => {
-    const isDuplicate = myLectureList.some((subject) => subject.sub_code === lectureData[0].sub_code);
+    const isDuplicate = myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code);
   
     if (isDuplicate) {
-      alert(`${lectureData[0].sub_code} 과목은 이미 추가되었습니다.`);
+      alert(`${lectureData[0].lecture_name} 과목은 이미 추가되었습니다.`);
       return;
     }
   
     setMyLectureList((prevSubjects) => [...prevSubjects, { ...lectureData[0], isNew: true }]);
+    setFilteredSubjects([0]);
   };
 
   const SubjectSearch = async () => {
     setError(null);
+    setLectureData([]);
+
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/lectures?code=${lectureCode}`);
+        const response = await axios.get(`http://127.0.0.1:8000/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
         setLectureData(response.data);
+    } catch (error) {
+        setError('과목 정보를 가져오는데 실패했습니다.');
+        console.error('Error fetching data: ', error);
+        alert('과목코드를 입력하고 다시 시도하세요.');
+    }
+};
+
+  const myLectureUpdate = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture`);
+      setMyLectureList(response.data);
     } catch (error) {
       setError('과목 정보를 가져오는데 실패했습니다.');
       console.error('Error fetching data: ', error);
-      alert('과목코드를 입력하고 다시 시도하세요.');
+    }
+  }
+
+  const handleSaveAllSubjects = async () => {
+    try {
+      const newSubjects = myLectureList.filter(subject => subject.isNew);
+  
+      if (newSubjects.length === 0) {
+        alert("새로운 과목이 없습니다.");
+        return;
+      }
+
+      const subjectsToSave = newSubjects.map(subject => ({
+        year: subject.year,
+        semester: subject.semester,
+        lecture_code: subject.lecture_code,
+        lecture_type: subject.lecture_type,
+        lecture_topic: subject.lecture_topic,
+        lecture_name: subject.lecture_name,
+        credit: subject.credit,
+        grade: subject.grade,
+      }));
+  
+      const response = await fetch("http://127.0.0.1:8000/graduation/api/mydonelecture/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(subjectsToSave),
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("서버 응답:", errorText);
+        throw new Error("과목 저장에 실패했습니다.");
+      }
+  
+      alert("새로운 과목이 성공적으로 저장되었습니다.");
+  
+      setMyLectureList(prev => 
+        prev.map(subject => ({ ...subject, isNew: false }))
+      );
+  
+    } catch (error) {
+      console.error("Error:", error);
+      alert("과목 저장 중 오류가 발생했습니다.");
     }
   };
+
+  useEffect(() => {
+    myLectureUpdate();
+  }, []);
 
     return (
       <div>
@@ -89,11 +142,11 @@ function DoneLecturePage() {
             </div>
             <div className={css(styles.secondTitleContainer)}>
               <h2 className={css(styles.secondTitle)}>내 기이수 과목</h2>
-              <button className={css(styles.itemSaveButton)}>저장하기</button>
+              <button className={css(styles.itemSaveButton)} onClick={handleSaveAllSubjects}>저장하기</button>
             </div>
             <hr className={css(styles.second_custom_hr)}/>
             <div className={css(styles.tableContainerSecond)}>
-                <DoneSubComponents subjects={myLectureList} onDelete={(sub_code) => deleteButton(sub_code, 'myLectureList')} />
+                <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code, 'myLectureList')} />
             </div>
             <button className={css(styles.itemGraduButton)}>졸업요건 검사</button>
           </div>   
