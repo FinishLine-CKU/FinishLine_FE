@@ -38,9 +38,11 @@ function UploadPdfComponents() {
     const formData = new FormData();
     selectedFiles.forEach((file) => {
         formData.append('files', file);
+        formData.append('user_id', localStorage.getItem('idToken'));
     });
 
     try {
+        console.log(formData)
         const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
