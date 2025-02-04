@@ -1,9 +1,13 @@
+import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { StyleSheet, css } from 'aphrodite';
+import { ModalContext } from '../utils/hooks/modalContext';
 import mainLogo from '../assets/images/mainLogo.png';
 
 function Header() {
+    const [optionState, setOptionState] = useState(false);
     const navigate = useNavigate();
+    const { openModal } = useContext(ModalContext);
     const logOut = () => {
         if (localStorage.getItem('name')) {
             localStorage.removeItem('name')
@@ -15,7 +19,7 @@ function Header() {
             navigate("/myPage");
         }
     };
-
+    
     return (
         <header className={css(styles.headerContainer)}>
             <a href="/userGuidePage">
@@ -24,13 +28,32 @@ function Header() {
             <nav className={css(styles.navigationContainer)}>
                 <ul className={css(styles.navigation)}>
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
-                    <li><a href="" className={css(styles.menu)}>졸업요건 검사</a></li>
-                    <li><a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a></li>
                     <li>
                         { localStorage.getItem('name') ? 
-                        <div className={css(styles.userInfo)}>
-                            <span className={css(styles.hello)} onClick={logOut}>반갑습니다</span>
-                            <span className={css(styles.userName)} onClick={myPage}>{localStorage.getItem('name')}님</span>
+                        <a href="" className={css(styles.menu)}>졸업요건 검사</a>
+                        : <span className={css(styles.menu)} onClick={openModal}>졸업요건 검사</span> }
+                    </li>
+                    <li>
+                        { localStorage.getItem('name') ? 
+                        <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
+                        : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span> }
+                    </li>
+                    <li>
+                        { localStorage.getItem('name') ? 
+                        optionState ?
+                        <>
+                            <div className={css(styles.userInfo)} onClick={() => setOptionState(!optionState)}>
+                                <span className={css(styles.hello)}>반갑습니다</span>
+                                <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
+                            </div>
+                            <div className={css(styles.optionContainer)}>
+                                <span className={css(styles.optionButton)} onClick={myPage}>마이페이지</span>
+                                <span className={css(styles.optionButton)} onClick={logOut}>로그아웃</span>
+                            </div>
+                        </> :
+                        <div className={css(styles.userInfo)} onClick={() => setOptionState(!optionState)}>
+                            <span className={css(styles.hello)}>반갑습니다</span>
+                            <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
                         </div> :
                         <a href="/loginPage" className={css(styles.menu)}>
                             <button className={css(styles.signIn)}>로그인</button>
@@ -92,6 +115,7 @@ const styles = StyleSheet.create({
         ':hover': {
             color: '#006277',
             fontWeight: 'bold',
+            cursor: 'pointer',
         },
     },
     signIn: {
@@ -109,6 +133,28 @@ const styles = StyleSheet.create({
         },
         ':active': {
             backgroundColor: '#595650',
+        }
+    },
+    optionContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '5px',
+        width: '70px',
+        height: '70px',
+        position: 'absolute',
+        backgroundColor: '#2B2A28',
+        borderRadius: '8px',
+    },
+    optionButton: {
+        padding: '5px 0',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '700',
+        color: '#FFFEFB',
+        ':hover': {
+            cursor: 'pointer'
         }
     }
 });
