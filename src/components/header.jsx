@@ -10,7 +10,8 @@ function Header() {
     const { openModal } = useContext(ModalContext);
     const logOut = () => {
         if (localStorage.getItem('idToken')) {
-            localStorage.clear();
+            localStorage.removeItem('name');
+            localStorage.removeItem('idToken');
             navigate("/loginPage");
         }
     };
