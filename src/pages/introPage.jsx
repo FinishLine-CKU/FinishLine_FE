@@ -29,7 +29,7 @@ function IntroPage() {
             </div>
 
             {/* Footer 컴포넌트 사용 */}
-            <Footer transparent={true} />
+            <Footer footerType="transparent" />
         </div>
     );
 }
