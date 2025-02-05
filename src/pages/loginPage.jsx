@@ -20,8 +20,9 @@ function LoginPage() {
                 studentId : studentId,
                 password : password
             });
-            if (response.data.name) {
-                const { name } = response.data;
+            if (response.data.idToken && response.data.name) {
+                const { idToken, name } = response.data;
+                localStorage.setItem('idToken', idToken);
                 localStorage.setItem('name', name);
                 navigate("/userGuidePage");
                 window.scrollTo(0, 0);
@@ -37,7 +38,7 @@ function LoginPage() {
         document.body.style.overflow = 'auto';
         navigate('/loginPage');
         closeModal();
-    }
+    };
     const checkInput = (e) => {
         e.preventDefault();
         if (studentId && password) {
@@ -46,7 +47,7 @@ function LoginPage() {
         };
     };
     useEffect(() => {
-        if (localStorage.getItem('name')) {
+        if (localStorage.getItem('idToken')) {
             navigate("/userGuidePage");
         }
         window.scrollTo(0, 0);

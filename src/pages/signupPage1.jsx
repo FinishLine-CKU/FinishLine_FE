@@ -48,7 +48,7 @@ function SignupPage1() {
         };
     };
     useEffect(() => {
-        if (localStorage.getItem('name')) {
+        if (localStorage.getItem('idToken')) {
             navigate("/userGuidePage");
         }
     }, []);

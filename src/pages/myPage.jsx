@@ -14,8 +14,8 @@ import Symbol from '../assets/images/symbol.png';
 function MyPage() {
     const [major, setMajor] = useState();
     const [student_id, setStudent_id] = useState();
-    const [sub_major_type, setSub_major_type] = useState('');
-    const [sub_major, setSub_major] = useState('');
+    const [sub_major_type, setSub_major_type] = useState(null);
+    const [sub_major, setSub_major] = useState(null);
     const [micro_degree, setMicro_degree] = useState('');
     const [password, setPassword] = useState('');
     const [checkPassword, setCheckPassword] = useState('');
@@ -30,7 +30,7 @@ function MyPage() {
     const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
     const myInfo = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/my_info/', {
-            name : localStorage.getItem('name')
+            idToken : localStorage.getItem('idToken')
         });
         if (response.data.major && response.data.student_id) {
             if (response.data.sub_major_type && response.data.sub_major) {
@@ -67,16 +67,16 @@ function MyPage() {
         };
     };
     const closeButtonAction = () => {
-        myInfo();
+        setEditInfoCheck(false);
         closeFeatModal();
     };
     const removeMembership = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/remove_membership/', {
-            name : localStorage.getItem('name')
+            idToken : localStorage.getItem('idToken')
         });
         if (response.data) {
             if (response.data.result === true) {
-                localStorage.removeItem('name');
+                localStorage.clear();
                 closeModal();
                 navigate("/loginPage");
             } else {
@@ -104,7 +104,7 @@ function MyPage() {
             studentId : student_id,
             password : password
         });
-        if (response.data.name === localStorage.getItem('name')) {
+        if (response.data.idToken === localStorage.getItem('idToken')) {
             setPasswordStateCheck(true);
             setPassword('');
             closeFeatModal();
@@ -174,9 +174,9 @@ function MyPage() {
         closeModal();
     };
     const translateInfo = () => {
-        setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || '');
-        setSub_major(MAJOR.find(item => item.value === sub_major)?.label || '');
-        setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree)?.label || '');
+        setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
+        setSub_major(MAJOR.find(item => item.value === sub_major).label);
+        setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
         newInfo();
     };
     const newInfo = async () => {
