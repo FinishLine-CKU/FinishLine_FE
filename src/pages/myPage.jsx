@@ -174,9 +174,9 @@ function MyPage() {
         closeModal();
     };
     const translateInfo = () => {
-        setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
-        setSub_major(MAJOR.find(item => item.value === sub_major).label);
-        setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
+        setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type);
+        setSub_major(MAJOR.find(item => item.value === sub_major)?.label || sub_major);
+        setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree);
         newInfo();
     };
     const newInfo = async () => {
