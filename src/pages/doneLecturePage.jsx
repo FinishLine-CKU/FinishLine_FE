@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
@@ -14,6 +15,7 @@ function DoneLecturePage() {
   const [error, setError] = useState(null);
   const [myLectureList, setMyLectureList] = useState([]);
   const [filteredSubjects, setFilteredSubjects] = useState([]);
+  const navigate = useNavigate();
 
   const deleteButton = (lecture_code, listType) => {
     if (listType === 'lectureData') {
@@ -49,7 +51,7 @@ function DoneLecturePage() {
         console.error('Error fetching data: ', error);
         alert('과목코드를 입력하고 다시 시도하세요.');
     }
-};
+  };
 
   const myLectureUpdate = async () => {
     try {
@@ -59,7 +61,7 @@ function DoneLecturePage() {
       setError('과목 정보를 가져오는데 실패했습니다.');
       console.error('Error fetching data: ', error);
     }
-  }
+  };
 
   const handleSaveAllSubjects = async () => {
     try {
@@ -107,6 +109,23 @@ function DoneLecturePage() {
     }
   };
 
+  const testing = async () => {
+    const response = await axios.post('http://127.0.0.1:8000/graduation/test_major/', {
+      student_id : localStorage.getItem('idToken')
+    });
+    if (response.data) {
+      if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
+        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit } = response.data;
+        navigate('/graduTestPage', { state: {major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit}});
+      } else {
+        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
+        navigate('/graduTestPage', { state: {major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit}});
+      };
+    } else {
+      alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+    };
+  };
+
   useEffect(() => {
     myLectureUpdate();
   }, []);
@@ -148,14 +167,14 @@ function DoneLecturePage() {
             <div className={css(styles.tableContainerSecond)}>
                 <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code, 'myLectureList')} />
             </div>
-            <button className={css(styles.itemGraduButton)}>졸업요건 검사</button>
+            <button className={css(styles.itemGraduButton)} onClick={testing}>졸업요건 검사</button>
           </div>   
         </div>
         <UploadPdfPageComponents />
         <Footer />
       </div>
     );
-}
+  };
 
 const styles = StyleSheet.create({
   container: {

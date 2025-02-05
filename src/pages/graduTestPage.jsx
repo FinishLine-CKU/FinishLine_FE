@@ -1,4 +1,5 @@
 import { StyleSheet, css } from 'aphrodite';
+import { useLocation } from 'react-router-dom';
 import Template from '../components/template';
 import Header from  '../components/header';
 import Footer from '../components/footer';
@@ -17,6 +18,8 @@ function GraduTestPage() {
   const [liber, setliber] = useState("");
   const [nomal, setNomal] = useState("");
   const [myNomal, setMyNomal] = useState("");
+  const location = useLocation();
+  const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = location.state || {};
 
   const myMajorCal = async () => {
     try {
