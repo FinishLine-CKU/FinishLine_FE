@@ -52,7 +52,7 @@ function GraduTestPage() {
         <div className={css(styles.hrContainer)}>
           <p className={css(styles.custom_h)}>전체</p>
           <hr className={css(styles.custom_hr)}/>
-          <p className={css(styles.custom_result_hr)}>소프트웨어학과 황선빈님의 결과입니다</p>
+          <p className={css(styles.custom_result_hr)}>소프트웨어학과 {localStorage.getItem('name')}님의 결과입니다</p>
         </div>
         <GraduChartComponets earned={103} total={130} />
         <div className={css(styles.textContainer)}>
@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column', 
     justifyContent: 'center',
+    background: 'blue',
   },
   subContentsContainer: {
     width: '466px',
