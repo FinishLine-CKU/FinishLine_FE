@@ -200,7 +200,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column', 
     justifyContent: 'center',
-    background: 'blue',
   },
   subContentsContainer: {
     width: '466px',
@@ -239,7 +238,8 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   custom_result_text_last: {
-    marginTop: '0px',
+    marginTop: '7px',
+    marginBottom: '7px',
     fontFamily: 'Lato',
     fontSize: '30px',
     fontWeight: '600',
