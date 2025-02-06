@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     marginBottom: '50px',
+    backgroundColor: '#FFFEFB'
   },
   ColumnContainer: {
     marginTop: '50px',

@@ -262,12 +262,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: '66px',
+    backgroundColor: '#FFFEFB'
   },
   rowContainer: {
     display: 'flex',
     marginBottom: '100px',
     justifyContent: 'center',
-    gap: '100px'
+    gap: '100px',
+    backgroundColor: '#FFFEFB'
   },
   bottomContainer: {
     display: 'flex',
@@ -275,6 +277,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center', 
     marginBottom: '200px',
+    backgroundColor: '#FFFEFB'
   },
   majorContainer: {
     display: 'flex',

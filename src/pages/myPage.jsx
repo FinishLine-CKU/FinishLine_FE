@@ -533,6 +533,7 @@ const styles = StyleSheet.create({
     guideContainer: {
         display: 'flex',
         justifyContent: 'center',
+        whiteSpace: 'nowrap',
     },
     guideMethod: {
         fontFamily: 'Lato',
