@@ -61,7 +61,8 @@ const GraduChartComponenets = ({ earned, total }) => {
           textAlign: "center",
         }}
       >
-        {earned} / {total} 학점
+          <span style={{ color: "#3D5286", fontSize: "19px" }}>{earned}</span>
+          <span style={{ fontSize: "19px" }}> / {total} 학점</span>
       </div>
     </div>
   );
