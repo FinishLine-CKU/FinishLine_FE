@@ -449,8 +449,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         gap: '30px',
-        marginTop: '60px',
-        marginBottom: '85px',
+        paddingTop: '60px',
+        paddingBottom: '85px',
         backgroundColor: '#FFFEFB',
         fontFamily: 'Lato',
     },
@@ -466,6 +466,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: '35px 45px 15px 45px',
+        whiteSpace: 'nowrap',
     },
     title: {
         fontSize: '25px',

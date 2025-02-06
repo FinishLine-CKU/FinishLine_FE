@@ -299,6 +299,7 @@ const styles = StyleSheet.create({
     width: '520px',
     alignItems: 'center',
     justifyContent: 'center',
+    whiteSpace: 'nowrap',
   },
   majortitleContainer: {
     display: 'flex',
