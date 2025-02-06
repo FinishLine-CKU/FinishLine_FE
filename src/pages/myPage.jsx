@@ -2,8 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
 import { ModalContext } from '../utils/hooks/modalContext';
-import axios from 'axios';
+import { DoneSubComponents } from '../components/doneLectureComponents';
 import { MAJOR, MICRO_DEGREE, SUBMAJORTYPE } from '../pages/signupPage2';
+import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
@@ -26,6 +27,7 @@ function MyPage() {
     const [editInfoCheck, setEditInfoCheck] = useState(false);
     const [removeInfoCheck, setRemoveInfoCheck] = useState(false);
     const [successChangePW, setSuccessChangePW] = useState(false);
+    const [myLectureList, setMyLectureList] = useState([]);
     const navigate = useNavigate();
     const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
     const myInfo = async () => {
@@ -66,6 +68,15 @@ function MyPage() {
             setStudent_id(error);
         };
     };
+    const myLectureUpdate = async () => {
+        try {
+          const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture`);
+          setMyLectureList(response.data);
+        } catch (error) {
+          setError('기이수과목 정보를 가져오는데 실패했습니다.');
+          console.error('Error fetching data: ', error);
+        }
+      };
     const closeButtonAction = () => {
         setEditInfoCheck(false);
         closeFeatModal();
@@ -194,9 +205,18 @@ function MyPage() {
             alert(error);
         };
     };
+    const navigateUploadPDF = () => {
+        navigate('/uploadpdf');
+        window.scrollTo(0, 0);
+    };
+    const navigateDoneLecture = () => {
+        navigate('/donelecture');
+        window.scrollTo(0, 0);
+    };
 
     useEffect(() => {
         myInfo();
+        myLectureUpdate();
         setFeatCloseButton(true);
     }, []);
 
@@ -367,10 +387,24 @@ function MyPage() {
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>내 기이수과목</span>
-                        <button className={css(styles.button)}>추가하기</button>
+                        {localStorage.getItem('uploadPDF') ? 
+                        <button className={css(styles.button)} onClick={navigateDoneLecture}>추가하기</button>
+                        : <button className={css(styles.button)} onClick={navigateUploadPDF}>등록하기</button>
+                        }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
-                    <div className={css(styles.contentArea)}>
+                    <div className={css(localStorage.getItem('uploadPDF') ? styles.contentTableArea : styles.contentArea)}>
+                        {localStorage.getItem('uploadPDF') ?
+                            <DoneSubComponents subjects={myLectureList} className={css(styles.resizingTable)} tableType="resize"/>
+                        : <>
+                            <div className={css(styles.noneContainer)}>
+                                <span className={css(styles.noneMessage)}>등록된 기이수과목이 없습니다.</span>
+                            </div>
+                            <div className={css(styles.guideContainer)}>
+                                <span className={css(styles.guideMethod)}>가톨릭관동대 포털 {'>'} 종합정보시스템 {'>'} 학적관리 {'>'} 학기별 성적조회 및 출력 {'>'} 인쇄 {'>'} PDF로 저장</span>
+                            </div>
+                        </>
+                        }
                     </div>
                 </div>
                 <div className={css(styles.boundaryContainer)}>
@@ -455,6 +489,38 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: '25px 50px 42px 50px',
         gap: '30px'
+    },
+    contentTableArea: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '25px 50px 20px 50px',
+        gap: '30px'
+    },
+    doneLecturesContainer: {
+        display: 'flex',
+    },
+    noneContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px'
+    },
+    noneMessage: {
+        fontFamily: 'Lato',
+        fontWeight: '500',
+        fontSize: '17px',
+        color: '#7A828A'
+    },
+    guideContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginBottom: '-20px'
+    },
+    guideMethod: {
+        fontFamily: 'Lato',
+        fontWeight: '500',
+        fontSize: '11px',
+        color: '#7A828A'
     },
     contentContainer: {
         display: 'flex',

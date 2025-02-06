@@ -27,6 +27,11 @@ function UserGuidePage() {
         closeModal();
     };
 
+    const navigateDoneLecture = () => {
+        navigate("/donelecture");
+        window.scrollTo(0, 0);
+    }
+
     return (
         <>
             {modalState ? 
@@ -103,7 +108,7 @@ function UserGuidePage() {
                             F와 NP 처리된 과목은 반영되지 않습니다.
                         </p>
                         <button className={css(styles.commonButton)} 
-                            onClick={localStorage.getItem('idToken') ? navigateUploadPDF : openModal}>등록하기
+                            onClick={localStorage.getItem('idToken') ? localStorage.getItem('uploadPDF') ? navigateDoneLecture : navigateUploadPDF : openModal}>등록하기
                         </button>
                     </div>
 

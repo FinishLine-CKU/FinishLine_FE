@@ -5,6 +5,7 @@ import Template from '../components/template';
 import Header from  '../components/header';
 import Footer from '../components/footer';
 import { SubSearchComponents, DoneSubComponents } from '../components/doneLectureComponents';
+import { MAJOR, MICRO_DEGREE, SUBMAJORTYPE } from '../pages/signupPage2';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
 import axios from 'axios';
 
@@ -115,8 +116,8 @@ function DoneLecturePage() {
     });
     if (response.data) {
       if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit } = response.data;
-        navigate('/graduTestPage', { state: {major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit}});
+        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
+        navigate('/graduTestPage', { state: {major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit}});
       } else {
         const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
         navigate('/graduTestPage', { state: {major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit}});
