@@ -3,7 +3,7 @@ import Template from '../components/template';
 import Header from  '../components/header';
 import Footer from '../components/footer';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
-
+    
 function UploadPdfPage() {
 
     return (

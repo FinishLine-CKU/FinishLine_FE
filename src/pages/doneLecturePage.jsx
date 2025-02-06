@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
@@ -14,6 +15,7 @@ function DoneLecturePage() {
   const [error, setError] = useState(null);
   const [myLectureList, setMyLectureList] = useState([]);
   const [filteredSubjects, setFilteredSubjects] = useState([]);
+  const navigate = useNavigate();
 
   const deleteButton = (lecture_code, listType) => {
     if (listType === 'lectureData') {
@@ -49,7 +51,7 @@ function DoneLecturePage() {
         console.error('Error fetching data: ', error);
         alert('과목코드를 입력하고 다시 시도하세요.');
     }
-};
+  };
 
   const myLectureUpdate = async () => {
     try {
@@ -59,7 +61,7 @@ function DoneLecturePage() {
       setError('과목 정보를 가져오는데 실패했습니다.');
       console.error('Error fetching data: ', error);
     }
-  }
+  };
 
   const handleSaveAllSubjects = async () => {
     try {
@@ -107,8 +109,18 @@ function DoneLecturePage() {
     }
   };
 
+  const navigateToGraduTest = () => {
+    navigate('/graduTestPage');
+    window.scrollTo(0, 0);
+  };
+
   useEffect(() => {
-    myLectureUpdate();
+    if (!localStorage.getItem('uploadPDF')) {
+      navigate('/uploadpdf');
+      window.scrollTo(0, 0);
+    } else {
+      myLectureUpdate();
+    };
   }, []);
 
     return (
@@ -148,20 +160,21 @@ function DoneLecturePage() {
             <div className={css(styles.tableContainerSecond)}>
                 <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code, 'myLectureList')} />
             </div>
-            <button className={css(styles.itemGraduButton)}>졸업요건 검사</button>
+            <button className={css(styles.itemGraduButton)} onClick={navigateToGraduTest}>졸업요건 검사</button>
           </div>   
         </div>
         <UploadPdfPageComponents />
         <Footer />
       </div>
     );
-}
+  };
 
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
     justifyContent: 'center',
     marginBottom: '50px',
+    backgroundColor: '#FFFEFB'
   },
   ColumnContainer: {
     marginTop: '50px',

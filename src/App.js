@@ -11,6 +11,7 @@ import IntroPage from './pages/introPage';
 import MyPage from './pages/myPage';
 import ManageGraduPage from './pages/manageGraduPage';
 import FeatureModal from './components/featureModal';
+import GraduTestPage from './pages/graduTestPage';
 
 function App() {
   const [modalState, setModalState] = useState(false);
@@ -50,6 +51,7 @@ function App() {
             <Route path="/introPage" element={<IntroPage />} />
             <Route path="/myPage" element={<MyPage />} />
             <Route path="/manageGraduPage" element={<ManageGraduPage />} />
+            <Route path="/graduTestPage" element={<GraduTestPage />} />
           </Routes>
         </BrowserRouter>
       </div>
