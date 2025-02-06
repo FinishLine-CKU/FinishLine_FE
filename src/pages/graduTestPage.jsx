@@ -57,7 +57,7 @@ function GraduTestPage() {
           <hr className={css(styles.custom_hr)}/>
           <p className={css(styles.custom_result_hr)}>소프트웨어학과 {localStorage.getItem('name')}님의 결과입니다</p>
         </div>
-        <GraduChartComponets earned={103} total={130} />
+        <GraduChartComponets earned={103} total={130} style={{ color: '#3D5286', fontSize: '20px' }}/>
         <div className={css(styles.textContainer)}>
           <p className={css(styles.custom_title_result_text)}>졸업까지 28학점 남았습니다!</p>
           <p className={css(styles.custom_smalltext)}>아래에서 부족한 영역을 확인하세요</p>
@@ -68,26 +68,26 @@ function GraduTestPage() {
             <div className={css(styles.majorContainer)}>
               <div className={css(styles.majortitleContainer)}>
                 <p className={css(styles.custom_h)}>전공</p>
-                <p className={css(styles.custom_h_react)}>{myMajor}</p>
+                <p style={{ color: '#3d5286' }}>{user_major}</p>
                 <p className={css(styles.custom_hr_react)}>/</p>
-                <p className={css(styles.custom_h_focus)}>{major}</p>
+                <p className={css(styles.custom_h_focus)}>{major_info}</p>
                 <p className={css(styles.custom_h_focus)}>학점</p>
               </div>
               <hr className={css(styles.custom_major_hr)}/>
               <div className={css(styles.majorContentsContainer)}>
-              <img src={myMajor >= major ? sogood : notgood} alt="status indicator"/>
+              <img src={user_major >= major_info ? sogood : notgood}/>
               <div className={css(styles.majortextContainer)}>
               <p className={css(styles.custom_verysmall_text)}>
-              {myMajor >= major ? '축하합니다🎉' : '추가로 수강해야하는 영역을 확인하세요'}
+              {user_major >= major_info ? '축하합니다🎉' : '추가로 수강해야하는 영역을 확인하세요'}
              </p>
              <p className={css(styles.custom_result_text)}>
-                 전공 {myMajor >= major ? (
+                 전공 {major_info >= user_major ? (
                  <>
                     학점을 <span style={{color: '#86c46d'}}>이수완료</span> 했습니다!
                   </>
                    ) : (
                   <>
-                학점 <span style={{color: '#ff4921'}}>{major - myMajor}학점</span> 부족합니다.
+                학점 <span style={{color: '#ff4921'}}>{major_info - user_major}학점</span> 부족합니다.
                 </>
                  )}
                 </p>
@@ -97,14 +97,14 @@ function GraduTestPage() {
             <div className={css(styles.majorContainer)}>
               <div className={css(styles.majortitleContainer)}>
                 <p className={css(styles.custom_h)}>일반선택</p>
-                <p className={css(styles.custom_h_react)}>{myNomal}</p>
+                <p style={{ color: '#3d5286' }}>{myNomal}</p>
                 <p className={css(styles.custom_hr_react)}>/</p>
-                <p className={css(styles.custom_h_focus)}>{nomal}</p>
+                <p className={css(styles.custom_h_focus)}>{rest_credit}</p>
                 <p className={css(styles.custom_h_focus)}>학점</p>
               </div>
               <hr className={css(styles.custom_major_hr)}/>
               <div className={css(styles.majorContentsContainer)}>
-              <img src={myMajor >= major ? sogood : notgood} alt="status indicator"/>
+              <img src={myMajor >= major ? sogood : notgood}/>
               <div className={css(styles.majortextContainer)}>
               <p className={css(styles.custom_verysmall_text)}>
               {myMajor >= major ? '축하합니다🎉' : '추가로 수강해야하는 영역을 확인하세요'}
@@ -128,14 +128,14 @@ function GraduTestPage() {
             <div className={css(styles.majorContainer)}>
                 <div className={css(styles.majortitleContainer)}>
                   <p className={css(styles.custom_h)}>교양</p>
-                  <p className={css(styles.custom_h_react)}>{myliber}</p>
+                  <p style={{ color: '#3d5286' }}>{myliber}</p>
                   <p className={css(styles.custom_hr_react)}>/</p>
-                  <p className={css(styles.custom_h_focus)}>{liber}</p>
+                  <p className={css(styles.custom_h_focus)}>{general_essential_credit + general_selection_credit}</p>
                   <p className={css(styles.custom_h_focus)}>학점</p>
                 </div>
                 <hr className={css(styles.custom_major_hr)}/>
                 <div className={css(styles.majorContentsContainer)}>
-                <img src={myMajor >= major ? sogood : notgood} alt="status indicator"/>
+                <img src={myMajor >= major ? sogood : notgood} />
               <div className={css(styles.majortextContainer)}>
               <p className={css(styles.custom_verysmall_text)}>
               {myMajor >= major ? '축하합니다🎉' : '추가로 수강해야하는 영역을 확인하세요'}
