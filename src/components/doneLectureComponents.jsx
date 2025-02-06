@@ -63,6 +63,9 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
 
   return (
     <div className={css(tableType === 'resize' ? styles.resizeContainer : styles.Container)}>
+      {tableType === 'resize' && !isExpanded ? 
+      <div className={css(styles.fadingEffect)}></div> 
+      : null }
       <table className={css(tableType === 'resize' ? isExpanded ? styles.resizeTableExpend : styles.resizeTableContainer : styles.tableContainer)}>
         <thead>
           <tr>
@@ -431,7 +434,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     ':hover': {
       cursor: 'pointer'
-    }
+    },
+    zIndex: '1000'
   },
   resizeExpandButton: {
     width: '100%',
@@ -454,5 +458,15 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    position: 'relative'
+  },
+  fadingEffect: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8))',
+    pointerEvents: 'none'
   },
 });

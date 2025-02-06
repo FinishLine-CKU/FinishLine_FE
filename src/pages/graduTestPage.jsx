@@ -1,16 +1,16 @@
+import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { MAJOR } from '../pages/signupPage2';
 import Template from '../components/template';
 import Header from  '../components/header';
 import Footer from '../components/footer';
 import GraduChartComponets from "../components/graduChartComponents";
 import notgood from "../assets/images/notgood.png";
 import sogood from "../assets/images/sogood.png";
-import { useState } from 'react';
 import axios from 'axios';
 
 function GraduTestPage() {
-
   const [error, setError] = useState(null);
   const [myMajor, setMyMajor] = useState("");
   const [major, setMajor] = useState("");
@@ -18,8 +18,46 @@ function GraduTestPage() {
   const [liber, setliber] = useState("");
   const [nomal, setNomal] = useState("");
   const [myNomal, setMyNomal] = useState("");
-  const location = useLocation();
-  const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = location.state || {};
+  const [major_info, setMajor_info] = useState();
+  const [need_major, setNeed_major] = useState();
+  const [user_major, setUser_major] = useState();
+  const [total_credit, setTotal_credit] = useState();
+  const [major_credit, setMajor_credit] = useState();
+  const [general_essential_credit, setGeneral_essential_credit] = useState();
+  const [general_selection_credit, setGeneral_selection_credit] = useState();
+  const [rest_credit, setRest_credit] = useState();
+  const navigate = useNavigate();
+
+  const testing = async () => {
+    const response = await axios.post('http://127.0.0.1:8000/graduation/test_major/', {
+      student_id : localStorage.getItem('idToken')
+    });
+    if (response.data) {
+      if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
+        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
+        setMajor_info(major_info);
+        setNeed_major(need_major)
+        setUser_major(user_major)
+        setTotal_credit(total_credit)
+        setMajor_credit(major_credit)
+        setGeneral_essential_credit(general_essential_credit)
+        setGeneral_selection_credit(general_selection_credit)
+        rest_credit(0)
+      } else {
+        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
+        setMajor_info(major_info);
+        setNeed_major(need_major)
+        setUser_major(user_major)
+        setTotal_credit(total_credit)
+        setMajor_credit(major_credit)
+        setGeneral_essential_credit(general_essential_credit)
+        setGeneral_selection_credit(general_selection_credit)
+        setRest_credit(rest_credit)
+      };
+    } else {
+      alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+    };
+  };
 
   const myMajorCal = async () => {
     try {
@@ -47,151 +85,175 @@ function GraduTestPage() {
     }
   };
 
-    return (
-        <div className={css(styles.root)}>
-        <Header />
-        <Template title="졸업요건 검사 결과" />
-        <div className={css(styles.columnContainer)}>
+  const goToDoneLecture = () => {
+    navigate("/donelecture");
+    window.scrollTo(0, 0);
+  };
+
+  useEffect(() => {
+    testing();
+    localStorage.setItem('testing', true);
+  }, []);
+
+  return (
+    <>
+      <Header />
+      <Template title="졸업요건 검사 결과" />
+      <div className={css(styles.columnContainer)}>
         <div className={css(styles.hrContainer)}>
           <p className={css(styles.custom_h)}>전체</p>
           <hr className={css(styles.custom_hr)}/>
-          <p className={css(styles.custom_result_hr)}>소프트웨어학과 {localStorage.getItem('name')}님의 결과입니다</p>
+          <p className={css(styles.custom_result_hr)}> {MAJOR.find(item => item.value === major_info)?.label || major_info} {localStorage.getItem('name')}님의 결과입니다</p>
         </div>
-        <GraduChartComponets earned={103} total={130} style={{ color: '#3D5286', fontSize: '20px' }}/>
+        <GraduChartComponets earned={103} total={total_credit} style={{ color: '#3D5286', fontSize: '20px' }}/>
         <div className={css(styles.textContainer)}>
-          <p className={css(styles.custom_title_result_text)}>졸업까지 28학점 남았습니다!</p>
-          <p className={css(styles.custom_smalltext)}>아래에서 부족한 영역을 확인하세요</p>
+          <span className={css(styles.custom_title_result_text)}>졸업까지 28학점 남았습니다!</span>
+          <span className={css(styles.custom_smalltext)}>아래에서 부족한 영역을 확인하세요</span>
         </div>
-        </div>
-        <div className={css(styles.rowContainer)}>
-          <div className={css(styles.leftContainer)}>
-            <div className={css(styles.majorContainer)}>
-              <div className={css(styles.majortitleContainer)}>
-                <p className={css(styles.custom_h)}>전공</p>
-                <p style={{ color: '#3d5286' }}>{user_major}</p>
-                <p className={css(styles.custom_hr_react)}>/</p>
-                <p className={css(styles.custom_h_focus)}>{major_info}</p>
-                <p className={css(styles.custom_h_focus)}>학점</p>
-              </div>
-              <hr className={css(styles.custom_major_hr)}/>
-              <div className={css(styles.majorContentsContainer)}>
-              <img src={user_major >= major_info ? sogood : notgood}/>
-              <div className={css(styles.majortextContainer)}>
-              <p className={css(styles.custom_verysmall_text)}>
-              {user_major >= major_info ? '축하합니다🎉' : '추가로 수강해야하는 영역을 확인하세요'}
-             </p>
-             <p className={css(styles.custom_result_text)}>
-                 전공 {major_info >= user_major ? (
-                 <>
-                    학점을 <span style={{color: '#86c46d'}}>이수완료</span> 했습니다!
-                  </>
-                   ) : (
-                  <>
-                학점 <span style={{color: '#ff4921'}}>{major_info - user_major}학점</span> 부족합니다.
-                </>
-                 )}
-                </p>
-               </div>
-              </div>
+      </div>
+      <div className={css(styles.rowContainer)}>
+        <div className={css(styles.leftContainer)}>
+          <div className={css(styles.majorContainer)}>
+            <div className={css(styles.majortitleContainer)}>
+              <span className={css(styles.custom_h)}>전공</span>
+              <span className={css(styles.userCredit)}>{user_major}</span>
+              <span className={css(styles.custom_hr_react)}> / </span>
+              <span className={css(styles.custom_h_focus)}>{major_credit} 학점</span>
             </div>
-            <div className={css(styles.majorContainer)}>
-              <div className={css(styles.majortitleContainer)}>
-                <p className={css(styles.custom_h)}>일반선택</p>
-                <p style={{ color: '#3d5286' }}>{myNomal}</p>
-                <p className={css(styles.custom_hr_react)}>/</p>
-                <p className={css(styles.custom_h_focus)}>{rest_credit}</p>
-                <p className={css(styles.custom_h_focus)}>학점</p>
+            <hr className={css(styles.custom_major_hr)}/>
+            {user_major >= major_credit ?
+            <div className={css(styles.majorContentsContainer)}>
+              <img src={sogood}/>
+              <div className={css(styles.successContainer)}>
+                <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                <div>
+                  <span className={css(styles.contentAlertText)}>전공 학점</span>
+                  <span className={css(styles.contextSuccess)}>이수완료</span>
+                  <span className={css(styles.contentAlertText)}>했습니다!</span>
+                </div>
               </div>
-              <hr className={css(styles.custom_major_hr)}/>
-              <div className={css(styles.majorContentsContainer)}>
-              <img src={myMajor >= major ? sogood : notgood}/>
-              <div className={css(styles.majortextContainer)}>
-              <p className={css(styles.custom_verysmall_text)}>
-              {myMajor >= major ? '축하합니다🎉' : '추가로 수강해야하는 영역을 확인하세요'}
-             </p>
-             <p className={css(styles.custom_result_text)}>
-                 일반 {myMajor >= major ? (
-                 <>
-                    선택을 <span style={{color: '#86c46d'}}>이수완료</span> 했습니다!
-                  </>
-                   ) : (
-                  <>
-                선택 <span style={{color: '#ff4921'}}>{major - myMajor}학점</span> 부족합니다.
-                </>
-                 )}
-                </p>
-               </div>
-              </div>
+            </div> :
+            <div className={css(styles.majorContentsContainer)}>
+              <img src={notgood}/>
+              <span className={css(styles.contentAlertText)}>전공 학점</span>
+              <span className={css(styles.lackCredit)}>{need_major}학점</span>
+              <span className={css(styles.contentAlertText)}>부족합니다.</span>
             </div>
+            }
           </div>
-          <div className={css(styles.rightContainer)}>
-            <div className={css(styles.majorContainer)}>
-                <div className={css(styles.majortitleContainer)}>
-                  <p className={css(styles.custom_h)}>교양</p>
-                  <p style={{ color: '#3d5286' }}>{myliber}</p>
-                  <p className={css(styles.custom_hr_react)}>/</p>
-                  <p className={css(styles.custom_h_focus)}>{general_essential_credit + general_selection_credit}</p>
-                  <p className={css(styles.custom_h_focus)}>학점</p>
+          <div className={css(styles.majorContainer)}>
+            <div className={css(styles.majortitleContainer)}>
+              <span className={css(styles.custom_h)}>일반선택</span>
+              <span className={css(styles.userCredit)}>credit</span>
+              <span className={css(styles.custom_hr_react)}> / </span>
+              <span className={css(styles.custom_h_focus)}>{rest_credit} 학점</span>
+            </div>
+            <hr className={css(styles.custom_major_hr)}/>
+            {/* 일반선택 로직 추가 */}
+            {30 >= rest_credit ?
+            <div className={css(styles.majorContentsContainer)}>
+              <img src={sogood}/>
+              <div className={css(styles.successContainer)}>
+                <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                <div>
+                  <span className={css(styles.contentAlertText)}>일반 선택</span>
+                  <span className={css(styles.contextSuccess)}>이수완료</span>
+                  <span className={css(styles.contentAlertText)}>했습니다!</span>
                 </div>
-                <hr className={css(styles.custom_major_hr)}/>
+              </div>
+            </div> :
+            <div className={css(styles.majorContentsContainer)}>
+              <img src={notgood}/>
+              <span className={css(styles.contentAlertText)}>일반 선택</span>
+              <span className={css(styles.lackCredit)}>credit</span>
+              <span className={css(styles.contentAlertText)}>부족합니다.</span>
+            </div>
+            }
+          </div>
+        </div>
+        <div className={css(styles.rightContainer)}>
+          <div className={css(styles.majorContainer)}>
+              <div className={css(styles.majortitleContainer)}>
+                <span className={css(styles.custom_h)}>교양</span>
+                <span className={css(styles.userCredit)}>credit</span>
+                <span className={css(styles.custom_hr_react)}> / </span>
+                <span className={css(styles.custom_h_focus)}>{general_essential_credit + general_selection_credit} 학점</span>
+              </div>
+              <hr className={css(styles.custom_major_hr)}/>
+              <div className={css(styles.generalContainer)}>
+                {/* 교양 필수 로직 추가 */}
+                {30 >= general_essential_credit ? 
                 <div className={css(styles.majorContentsContainer)}>
-                <img src={myMajor >= major ? sogood : notgood} />
-              <div className={css(styles.majortextContainer)}>
-              <p className={css(styles.custom_verysmall_text)}>
-              {myMajor >= major ? '축하합니다🎉' : '추가로 수강해야하는 영역을 확인하세요'}
-             </p>
-             <p className={css(styles.custom_result_text)}>
-                 교양 {myMajor >= major ? (
-                 <>
-                    필수 <span style={{color: '#86c46d'}}>이수완료</span> 했습니다!
-                  </>
-                   ) : (
-                  <>
-                필수 <span style={{color: '#ff4921'}}>{major - myMajor}학점</span> 부족합니다.
-                </>
-                 )}
-                </p>
-                </div>
-                </div>
-                  <div className={css(styles.subContentsContainer)}>
-                   <div className={css(styles.imgcontainer)}>
-                    <img src={myMajor >= major ? sogood : notgood} />
-                    </div>
-                     <div className={css(styles.majortextContainer)}>
-                      <div className={css(styles.majortextsecondContainer)}>
-                       <p className={css(styles.custom_verysmall_text)}>
-                          {myMajor >= major ? '축하합니다🎉' : '추가로 수강해야하는 영역을 확인하세요'}
-                        </p>
-                         <p className={css(styles.custom_result_text)}>
-                           교양 {myMajor >= major ? (
-                              <>
-                           선택 <span style={{color: '#86c46d'}}>이수완료</span> 했습니다!
-                              </>
-                            ) : (
-                              <>
-                           선택 <span style={{color: '#ff4921'}}>{major - myMajor}학점</span> 부족합니다.
-                              </>
-                               )}
-                            </p>
-                             {myliber < liber && (
-                               <div className={css(styles.majortextsecondContainer)}>
-                                <p className={css(styles.custom_verysmall_content)}>정보와기술, 자연과환경, 수리와과학 중 1과목 (2학점)</p>
-                                <p className={css(styles.custom_verysmall_content)}>인간과문학, 역사와사회, 철학과예술 중 4과목 (8학점)</p>
-                                <p className={css(styles.custom_verysmall_content)}>인간과문학, 언어와문화 중 1과목 (2학점)</p>
-                            </div>
-                          )}
+                  <img src={sogood}/>
+                  <div className={css(styles.successContainer)}>
+                    <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                    <div>
+                      <span className={css(styles.contentAlertText)}>교양 필수</span>
+                      <span className={css(styles.contextSuccess)}>이수완료</span>
+                      <span className={css(styles.contentAlertText)}>했습니다!</span>
                     </div>
                   </div>
-                </div>
+                </div> :
+                <>
+                  <div className={css(styles.majorContentsContainer)}>
+                    <img src={notgood}/>
+                    <div className={css(styles.successContainer)}>
+                      <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
+                      <div>
+                        <span className={css(styles.contentAlertText)}>교양 필수</span>
+                        <span className={css(styles.lackCredit)}>credit</span>
+                        <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={css(styles.generalLacks)}>
+                    <span className={css(styles.generalLecture)}>정보와기술, 자연과환경, 수리와과학 중 1과목 (2학점)</span>
+                    <span className={css(styles.generalLecture)}>인간과문학, 역사와사회, 철학과예술 중 4과목 (8학점)</span>
+                    <span className={css(styles.generalLecture)}>인간과문학, 언어와문화 중 1과목 (2학점)</span>
+                  </div>
+                </> }
+                {/* 교양 선택 로직 추가 */}
+                {10 >= general_selection_credit ?
+                <div className={css(styles.majorContentsContainer)}>
+                  <img src={sogood}/>
+                  <div className={css(styles.successContainer)}>
+                    <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                    <div>
+                      <span className={css(styles.contentAlertText)}>교양 선택</span>
+                      <span className={css(styles.contextSuccess)}>이수완료</span>
+                      <span className={css(styles.contentAlertText)}>했습니다!</span>
+                    </div>
+                  </div>
+                </div> :
+                <>
+                  <div className={css(styles.majorContentsContainer)}>
+                    <img src={notgood}/>
+                    <div className={css(styles.successContainer)}>
+                      <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
+                      <div>
+                        <span className={css(styles.contentAlertText)}>교양 선택</span>
+                        <span className={css(styles.lackCredit)}>credit</span>
+                        <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={css(styles.generalLacks)}>
+                    <span className={css(styles.generalLecture)}>정보와기술, 자연과환경, 수리와과학 중 1과목 (2학점)</span>
+                    <span className={css(styles.generalLecture)}>인간과문학, 역사와사회, 철학과예술 중 4과목 (8학점)</span>
+                    <span className={css(styles.generalLecture)}>인간과문학, 언어와문화 중 1과목 (2학점)</span>
+                  </div>
+                </> }
               </div>
+              
           </div>
         </div>
-        <div className={css(styles.bottomContainer)}>
-          <button className={css(styles.gradubutton)}>기이수 과목 추가하기</button>
-        </div>
-        <Footer />
       </div>
-    );
+      <div className={css(styles.bottomContainer)}>
+        <button className={css(styles.gradubutton)} onClick={goToDoneLecture}>기이수 과목 추가하기</button>
+      </div>
+      <Footer />
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -199,14 +261,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: '60px',
+    marginBottom: '66px',
   },
   rowContainer: {
     display: 'flex',
-    flexDirection: 'row', 
-    alignItems: 'flex-start',
-    marginBottom: '80px',
-    justifyContent: 'center', 
+    marginBottom: '100px',
+    justifyContent: 'center',
+    gap: '100px'
   },
   bottomContainer: {
     display: 'flex',
@@ -218,20 +279,18 @@ const styles = StyleSheet.create({
   majorContainer: {
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: '50px',
   },
   leftContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: '50px',
-    marginRight: '70px',
+    gap: '35px'
   },
   rightContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: '50px',
+    gap: '35px'
   },
   hrContainer: {
     width: '520px',
@@ -239,18 +298,56 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   majortitleContainer: {
-    width: '466px',
     display: 'flex',
-    flexDirection: 'row', 
-    alignItems: 'center',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   majorContentsContainer: {
-    width: '600px',
     display: 'flex',
-    flexDirection: 'row', 
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginBottom: '30px',
+    justifyContent: 'center',
+    whiteSpace: 'nowrap',
+  },
+  successContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  generalLacks: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    margin: '-20px 0 0 40px',
+    whiteSpace: 'nowrap',
+  },
+  generalLecture: {
+    fontFamily: 'Lato',
+    fontSize: '15px',
+    fontWeight: '600',
+    color: '#3D5286'
+  },
+  congratulation: {
+    fontFamily: 'Lato',
+    fontSize: '15px',
+    fontWeight: '500'
+  },
+  contentAlertText: {
+    fontFamily: 'Lato',
+    fontWeight: '700',
+    fontSize: '30px'
+  },
+  contextSuccess: {
+    fontFamily: 'Lato',
+    fontWeight: '700',
+    fontSize: '30px',
+    color: '#86C46D',
+    padding: '0 10px'
+  },
+  lackCredit: {
+    fontFamily: 'Lato',
+    fontWeight: '700',
+    fontSize: '30px',
+    color: '#FF4921',
+    padding: '0 10px'
   },
   majortextContainer: {
     display: 'flex',
@@ -258,22 +355,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: '30px',
   },
-  majortextsecondContainer: {
-    display: 'flex',
-    flexDirection: 'column', 
-    justifyContent: 'center',
-  },
-  subContentsContainer: {
-    width: '466px',
-    display: 'flex',
-    flexDirection: 'row', 
-    //alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
   textContainer: {
+    marginTop: '30px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px',
     width: '520px',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   custom_hr: {
     width: '520px',
@@ -281,14 +369,21 @@ const styles = StyleSheet.create({
     marginBottom: '40px',
   },
   custom_major_hr: {
-    marginTop: '0px',
-    width: '600px',
+    marginTop: '10px',
+    marginBottom: '20px',
+    width: '105%',
     border: '1px solid #E4E4E4',
+  },
+  generalContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '25px'
   },
   custom_result_hr: {
     fontFamily: 'Lato',
     fontSize: '30px',
-    fontWeight: '600',
+    fontWeight: '700',
     textAlign: 'center',
     color: '#3D5286',
   },
@@ -296,7 +391,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Lato',
     fontSize: '30px',
-    fontWeight: '600',
+    fontWeight: '700',
     color: 'black',
   },
   custom_result_text: {
@@ -325,8 +420,8 @@ const styles = StyleSheet.create({
   },
   custom_smalltext: {
     fontFamily: 'Lato',
-    fontSize: '15px',
-    fontWeight: '600',
+    fontSize: '18px',
+    fontWeight: '500',
     textAlign: 'center',
     color: 'black',
   },
@@ -354,10 +449,15 @@ const styles = StyleSheet.create({
   custom_h: {
     fontFamily: 'Lato',
     fontSize: '25px',
-    fontWeight: '600',
+    fontWeight: '700',
     color: 'black',
-    marginRight: '29px',
-    marginBottom: '15px',
+    marginRight: '30px',
+  },
+  userCredit: {
+    color: '#3D5286',
+    fontSize: '30px',
+    fontFamily: 'Lato',
+    fontWeight: '800'
   },
   custom_h_react: {
     fontFamily: 'Lato',
@@ -369,19 +469,17 @@ const styles = StyleSheet.create({
   },
   custom_hr_react: {
     fontFamily: 'Lato',
-    fontSize: '25px',
-    fontWeight: '600',
+    fontSize: '30px',
+    fontWeight: '700',
     color: 'black',
-    marginRight: '8px',
-    marginBottom: '15px',
+    margin: '0 5px'
   },
   custom_h_focus: {
     fontFamily: 'Lato',
-    fontSize: '18px',
-    fontWeight: '600',
+    fontSize: '20px',
+    fontWeight: '700',
     color: 'black',
-    marginTop: '30px',
-    marginRight: '5px',
+    paddingBottom: '2px'
   },
   gradubutton: {
     width: '165px',
@@ -401,9 +499,6 @@ const styles = StyleSheet.create({
   },
   imgcontainer: {
     marginTop: '18px',
-  },
-  root: {
-    background:'#fffefb',
   },
 });
 

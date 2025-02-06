@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
 import { ModalContext } from '../utils/hooks/modalContext';
@@ -15,6 +15,7 @@ import Symbol from '../assets/images/symbol.png';
 
 function UserGuidePage() {
     const navigate = useNavigate();
+    const [popOut, setPopOut] = useState(false);
     const { modalState, openModal, closeModal } = useContext(ModalContext);
     const navigateUploadPDF = () => {
         navigate("/uploadpdf");
@@ -30,7 +31,11 @@ function UserGuidePage() {
     const navigateDoneLecture = () => {
         navigate("/donelecture");
         window.scrollTo(0, 0);
-    }
+    };
+
+    const popMessage = () => {
+        setPopOut(true);
+    };
 
     return (
         <>
@@ -125,8 +130,13 @@ function UserGuidePage() {
                             비교하여 부족한 영역의<br />
                             학점을 계산하여 보여줍니다.
                         </p>
-                        <button className={css(styles.commonButton)} 
-                            onClick={localStorage.getItem('idToken') ? () => {navigate(""); window.scrollTo(0, 0);} : openModal}>결과보기
+                        {popOut ? 
+                        <p className={css(styles.notice)}>
+                            기이수 과목 등록을 먼저 진행해주세요.
+                        </p> :
+                        null }
+                        <button className={css(styles.commonButton)}
+                            onClick={localStorage.getItem('idToken') ? localStorage.getItem('uploadPDF') ? () => {navigate("/graduTestPage"); window.scrollTo(0, 0);} : popMessage : openModal}>결과보기
                         </button>
                     </div>
                 </div>
