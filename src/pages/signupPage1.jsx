@@ -52,7 +52,7 @@ function SignupPage1() {
             navigate("/userGuidePage");
         }
     }, []);
-
+    
     return (
         <>
             {featModalState ? 

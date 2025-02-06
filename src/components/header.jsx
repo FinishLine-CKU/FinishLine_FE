@@ -17,6 +17,7 @@ function Header() {
     };
     const myPage = () => {
         if (localStorage.getItem('idToken')) {
+            setOptionState(false);
             navigate("/myPage");
         }
     };
@@ -31,12 +32,14 @@ function Header() {
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li>
                         { localStorage.getItem('idToken') ? 
-                        <a href="" className={css(styles.menu)}>졸업요건 검사</a>
+                        <a href="/graduTestPage" className={css(styles.menu)}>졸업요건 검사</a>
                         : <span className={css(styles.menu)} onClick={openModal}>졸업요건 검사</span> }
                     </li>
                     <li>
                         { localStorage.getItem('idToken') ? 
-                        <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
+                        localStorage.getItem('uploadPDF') ? 
+                        <a href="/donelecture" className={css(styles.menu)}>기이수과목 관리</a>
+                        : <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
                         : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span> }
                     </li>
                     <li>
