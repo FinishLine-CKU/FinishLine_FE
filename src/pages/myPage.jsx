@@ -213,6 +213,13 @@ function MyPage() {
         navigate('/donelecture');
         window.scrollTo(0, 0);
     };
+    const navigateTest = () => {
+        navigate('/graduTestPage');
+        window.scrollTo(0, 0);
+    };
+    const goFirst = () => {
+        alert('기이수 과목 등록을 먼저 진행해주세요.');
+    };
 
     useEffect(() => {
         myInfo();
@@ -360,9 +367,12 @@ function MyPage() {
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>졸업요건검사</span>
+                        {localStorage.getItem('testing') ?
                         <button className={css(styles.button)}>자세히보기</button>
+                        : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button> }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
+                    {localStorage.getItem('testing') ?
                     <div className={css(styles.contentArea)}>
                         <span className={css(styles.graduState)}>졸업까지 28학점 이수해야 합니다!</span>
                         <div className={css(styles.contentContainer)}>
@@ -382,7 +392,11 @@ function MyPage() {
                             <span className={css(styles.graduContent)}>6학점 부족</span>
                         </div>
                     </div>
-                    
+                    : <div className={css(styles.contentNothingArea)}>
+                        <div className={css(styles.noneContainer)}>
+                            <span className={css(styles.noneMessage)}>검사 이력이 없습니다.</span>
+                        </div>
+                    </div> }
                 </div>
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
@@ -393,8 +407,8 @@ function MyPage() {
                         }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
-                    <div className={css(localStorage.getItem('uploadPDF') ? styles.contentTableArea : styles.contentArea)}>
-                        {localStorage.getItem('uploadPDF') ?
+                    <div className={css(styles.contentTableArea)}>
+                        {localStorage.getItem('uploadPDF') ? 
                             <DoneSubComponents subjects={myLectureList} className={css(styles.resizingTable)} tableType="resize"/>
                         : <>
                             <div className={css(styles.noneContainer)}>
@@ -496,6 +510,11 @@ const styles = StyleSheet.create({
         padding: '25px 50px 20px 50px',
         gap: '30px'
     },
+    contentNothingArea: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '20px 50px 30px 50px',
+    },
     doneLecturesContainer: {
         display: 'flex',
     },
@@ -514,7 +533,6 @@ const styles = StyleSheet.create({
     guideContainer: {
         display: 'flex',
         justifyContent: 'center',
-        marginBottom: '-20px'
     },
     guideMethod: {
         fontFamily: 'Lato',
