@@ -10,14 +10,23 @@ function Header() {
     const { openModal } = useContext(ModalContext);
     const logOut = () => {
         if (localStorage.getItem('idToken')) {
-            localStorage.clear();
+            localStorage.removeItem('name');
+            localStorage.removeItem('idToken');
             navigate("/loginPage");
         }
     };
     const myPage = () => {
         if (localStorage.getItem('idToken')) {
+            setOptionState(false);
             navigate("/myPage");
         }
+    };
+    const gotograduTestPage = () => {
+        navigate('/graduTestPage');
+        window.scrollTo(0, 0);
+    };
+    const gofirst = () => {
+        alert('기이수과목 등록을 먼저 진행해주세요.');
     };
     
     return (
@@ -30,12 +39,14 @@ function Header() {
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li>
                         { localStorage.getItem('idToken') ? 
-                        <a href="" className={css(styles.menu)}>졸업요건 검사</a>
+                        <span onClick={localStorage.getItem('uploadPDF') ? gotograduTestPage : gofirst } className={css(styles.menu)}>졸업요건 검사</span>
                         : <span className={css(styles.menu)} onClick={openModal}>졸업요건 검사</span> }
                     </li>
                     <li>
                         { localStorage.getItem('idToken') ? 
-                        <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
+                        localStorage.getItem('uploadPDF') ? 
+                        <a href="/donelecture" className={css(styles.menu)}>기이수과목 관리</a>
+                        : <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
                         : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span> }
                     </li>
                     <li>
@@ -77,12 +88,14 @@ const styles = StyleSheet.create({
     },
     navigationContainer: {
         display: 'flex',
+        flexWrap: 'nowrap',
     },
     navigation: {
         display: 'flex',
         alignItems: 'center',
         gap: '65px',
         listStyle: 'none',
+        whiteSpace: 'nowrap'
     },
     userInfo: {
         display: 'flex',

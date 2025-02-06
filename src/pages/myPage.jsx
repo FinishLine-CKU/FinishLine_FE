@@ -2,8 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
 import { ModalContext } from '../utils/hooks/modalContext';
-import axios from 'axios';
+import { DoneSubComponents } from '../components/doneLectureComponents';
 import { MAJOR, MICRO_DEGREE, SUBMAJORTYPE } from '../pages/signupPage2';
+import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
@@ -26,6 +27,7 @@ function MyPage() {
     const [editInfoCheck, setEditInfoCheck] = useState(false);
     const [removeInfoCheck, setRemoveInfoCheck] = useState(false);
     const [successChangePW, setSuccessChangePW] = useState(false);
+    const [myLectureList, setMyLectureList] = useState([]);
     const navigate = useNavigate();
     const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
     const myInfo = async () => {
@@ -66,6 +68,15 @@ function MyPage() {
             setStudent_id(error);
         };
     };
+    const myLectureUpdate = async () => {
+        try {
+          const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture`);
+          setMyLectureList(response.data);
+        } catch (error) {
+          setError('기이수과목 정보를 가져오는데 실패했습니다.');
+          console.error('Error fetching data: ', error);
+        }
+      };
     const closeButtonAction = () => {
         setEditInfoCheck(false);
         closeFeatModal();
@@ -174,9 +185,9 @@ function MyPage() {
         closeModal();
     };
     const translateInfo = () => {
-        setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
-        setSub_major(MAJOR.find(item => item.value === sub_major).label);
-        setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
+        setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type);
+        setSub_major(MAJOR.find(item => item.value === sub_major)?.label || sub_major);
+        setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree);
         newInfo();
     };
     const newInfo = async () => {
@@ -194,9 +205,25 @@ function MyPage() {
             alert(error);
         };
     };
+    const navigateUploadPDF = () => {
+        navigate('/uploadpdf');
+        window.scrollTo(0, 0);
+    };
+    const navigateDoneLecture = () => {
+        navigate('/donelecture');
+        window.scrollTo(0, 0);
+    };
+    const navigateTest = () => {
+        navigate('/graduTestPage');
+        window.scrollTo(0, 0);
+    };
+    const goFirst = () => {
+        alert('기이수 과목 등록을 먼저 진행해주세요.');
+    };
 
     useEffect(() => {
         myInfo();
+        myLectureUpdate();
         setFeatCloseButton(true);
     }, []);
 
@@ -340,9 +367,12 @@ function MyPage() {
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>졸업요건검사</span>
+                        {localStorage.getItem('testing') ?
                         <button className={css(styles.button)}>자세히보기</button>
+                        : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button> }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
+                    {localStorage.getItem('testing') ?
                     <div className={css(styles.contentArea)}>
                         <span className={css(styles.graduState)}>졸업까지 28학점 이수해야 합니다!</span>
                         <div className={css(styles.contentContainer)}>
@@ -362,15 +392,33 @@ function MyPage() {
                             <span className={css(styles.graduContent)}>6학점 부족</span>
                         </div>
                     </div>
-                    
+                    : <div className={css(styles.contentNothingArea)}>
+                        <div className={css(styles.noneContainer)}>
+                            <span className={css(styles.noneMessage)}>검사 이력이 없습니다.</span>
+                        </div>
+                    </div> }
                 </div>
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>내 기이수과목</span>
-                        <button className={css(styles.button)}>추가하기</button>
+                        {localStorage.getItem('uploadPDF') ? 
+                        <button className={css(styles.button)} onClick={navigateDoneLecture}>추가하기</button>
+                        : <button className={css(styles.button)} onClick={navigateUploadPDF}>등록하기</button>
+                        }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
-                    <div className={css(styles.contentArea)}>
+                    <div className={css(styles.contentTableArea)}>
+                        {localStorage.getItem('uploadPDF') ? 
+                            <DoneSubComponents subjects={myLectureList} className={css(styles.resizingTable)} tableType="resize"/>
+                        : <>
+                            <div className={css(styles.noneContainer)}>
+                                <span className={css(styles.noneMessage)}>등록된 기이수과목이 없습니다.</span>
+                            </div>
+                            <div className={css(styles.guideContainer)}>
+                                <span className={css(styles.guideMethod)}>가톨릭관동대 포털 {'>'} 종합정보시스템 {'>'} 학적관리 {'>'} 학기별 성적조회 및 출력 {'>'} 인쇄 {'>'} PDF로 저장</span>
+                            </div>
+                        </>
+                        }
                     </div>
                 </div>
                 <div className={css(styles.boundaryContainer)}>
@@ -401,8 +449,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         gap: '30px',
-        marginTop: '60px',
-        marginBottom: '85px',
+        paddingTop: '60px',
+        paddingBottom: '85px',
         backgroundColor: '#FFFEFB',
         fontFamily: 'Lato',
     },
@@ -418,6 +466,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: '35px 45px 15px 45px',
+        whiteSpace: 'nowrap',
     },
     title: {
         fontSize: '25px',
@@ -455,6 +504,43 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: '25px 50px 42px 50px',
         gap: '30px'
+    },
+    contentTableArea: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '25px 50px 20px 50px',
+        gap: '30px'
+    },
+    contentNothingArea: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '20px 50px 30px 50px',
+    },
+    doneLecturesContainer: {
+        display: 'flex',
+    },
+    noneContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px'
+    },
+    noneMessage: {
+        fontFamily: 'Lato',
+        fontWeight: '500',
+        fontSize: '17px',
+        color: '#7A828A'
+    },
+    guideContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        whiteSpace: 'nowrap',
+    },
+    guideMethod: {
+        fontFamily: 'Lato',
+        fontWeight: '500',
+        fontSize: '11px',
+        color: '#7A828A'
     },
     contentContainer: {
         display: 'flex',
