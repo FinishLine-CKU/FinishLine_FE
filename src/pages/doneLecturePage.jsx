@@ -118,46 +118,18 @@ function DoneLecturePage() {
     }
   };
 
-  // const testing = async () => {
-  //   const response = await axios.post('http://127.0.0.1:8000/graduation/test_major/', {
-  //     student_id : localStorage.getItem('idToken')
-  //   });
-  //   if (response.data) {
-  //     if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-  //       const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit } = response.data;
-  //       navigate('/graduTestPage', { state: {major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit}});
-  //     } else {
-  //       const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
-  //       navigate('/graduTestPage', { state: {major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit}});
-  //     };
-  //   } else {
-  //     alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
-  //   };
-  // const goGraduationCheck = async () => {
-  //   try {
-  //     const userId = localStorage.getItem('idToken');
-      
-  //     if (userId) {
-  //       const response = await axios.post('http://127.0.0.1:8000/graduation/general_check/', {
-  //         user_id: userId
-  //       });
-  //       navigate('/graduTestPage');
-  //     } else {
-  //       console.error('user_id가 로컬스토리지에 없습니다.');
-  //     }
-  //   } catch (error) {
-  //     setError('과목 정보를 가져오는데 실패했습니다.');
-  //     console.error('Error fetching data: ', error);
-  //   }
-  // };
-
   const navigateToGraduTest = () => {
     navigate('/graduTestPage');
     window.scrollTo(0, 0);
   };
 
   useEffect(() => {
-    myLectureUpdate();
+    if (!localStorage.getItem('uploadPDF')) {
+      navigate('/uploadpdf');
+      window.scrollTo(0, 0);
+    } else {
+      myLectureUpdate();
+    };
   }, []);
 
     return (
@@ -197,7 +169,6 @@ function DoneLecturePage() {
             <div className={css(styles.tableContainerSecond)}>
                 <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code, 'myLectureList')} />
             </div>
-            {/* <button className={css(styles.itemGraduButton)} onClick={testing}>졸업요건 검사</button> */}
             <button className={css(styles.itemGraduButton)} onClick={navigateToGraduTest}>졸업요건 검사</button>
           </div>   
         </div>
@@ -212,6 +183,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     marginBottom: '50px',
+    backgroundColor: '#FFFEFB'
   },
   ColumnContainer: {
     marginTop: '50px',

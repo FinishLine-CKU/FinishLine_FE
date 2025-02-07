@@ -56,9 +56,10 @@ function UploadPdfComponents() {
             alert(`중복된 파일이 포함되어 있습니다:\n${duplicateFiles.join('\n')}\n기이수과목 관리로 넘어갑니다.`);
             setSelectedFiles([]);
             setFileNames([]);
+            localStorage.setItem('uploadPDF', true);
             navigate('/donelecture');
         } else {
-          localStorage.setItem('uploadPdfPage', 'true');
+          localStorage.setItem('uploadPDF', 'true');
           alert('파일이 성공적으로 업로드되었습니다.');
           setSelectedFiles([]);
           setFileNames([]);
@@ -66,6 +67,7 @@ function UploadPdfComponents() {
           if (location.pathname === '/donelecture') {
             window.location.reload();
           } else {
+            localStorage.setItem('uploadPDF', true);
             navigate('/donelecture');
           }
         }
