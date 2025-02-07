@@ -87,9 +87,9 @@ function LoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <a href="/password-reset" className={css(styles.forgotPassword)}>
+                            {/* <a href="/password-reset" className={css(styles.forgotPassword)}>
                                 비밀번호를 잊으셨나요?
-                            </a>
+                            </a> */}
                         </label>
                         <button type="submit" className={css(styles.submitButton)} onClick={checkRegister}>
                             로그인
