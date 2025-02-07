@@ -368,7 +368,7 @@ function MyPage() {
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>졸업요건검사</span>
                         {localStorage.getItem('testing') ?
-                        <button className={css(styles.button)}>자세히보기</button>
+                        <button className={css(styles.button)} onClick={navigateDoneLecture}>자세히보기</button>
                         : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button> }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
@@ -503,7 +503,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         padding: '25px 50px 42px 50px',
-        gap: '30px'
+        gap: '30px',
+        whiteSpace: 'nowrap',
     },
     contentTableArea: {
         display: 'flex',
