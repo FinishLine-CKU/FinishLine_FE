@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
     ':hover': {
       cursor: 'pointer'
     },
-    zIndex: '1000'
+    zIndex: '998'
   },
   resizeExpandButton: {
     width: '100%',
