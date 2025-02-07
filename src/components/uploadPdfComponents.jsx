@@ -19,7 +19,7 @@ function UploadPdfComponents() {
         ...prevSelectedFiles,
         ...newFilesArray
       ]);
-  
+
       const newFileNamesArray = newFilesArray.map(file => file.name);
       setFileNames(prevFileNames => [...prevFileNames, ...newFileNamesArray]);
     }
@@ -90,35 +90,36 @@ function UploadPdfComponents() {
                 <p className={css(styles.custom_text)}>파일 선택</p>
                 </div>
                 <div className={css(styles.containerSecond)}>
-                  <div className={css(styles.itemboxcontainer)} >
-                      <input 
-                        type="file" 
-                        style={{ display: "none" }} 
-                        id="uploadpdf" 
-                        name="pdf" 
-                        accept=".pdf" 
-                        multiple
-                        onChange={fileInputHandler}/>
-                      <div className={css(styles.itemBoxContainerScrollable)}>
-                        {fileNames.length === 0 ? (
-                          <p className={css(styles.custom_text_box)}>파일을 선택해주세요. (최대 25장)</p>
-                        ) : (
-                          fileNames.map((fileName, index) => (
-                            <div key={index} className={css(styles.fileNameButtonContainer)}>
-                              <div className={css(styles.itemfileNameButton)}>
-                                {fileName}
-                                <button
-                                  onClick={() => handleDeleteFile(index)}
-                                  className={css(styles.itemdeleteButton)}
-                                  type="button">×</button>
-                              </div>
-                            </div>
-                          ))
-                        )}
-                      </div>
-                    </div>
-                    <div className={css(styles.itemboxcontainerScrollableSecond)} >
-                      <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>파일 업로드</label>
+     <div className={css(styles.itemboxcontainer)}>
+       <input 
+         type="file" 
+         style={{ display: "none" }} 
+         id="uploadpdf" 
+         accept=".pdf" 
+         multiple
+         onChange={fileInputHandler}
+       />
+       {fileNames.length === 0 ? (
+         <p className={css(styles.custom_text_box)}>
+           파일을 선택해주세요. (최대 25장)
+         </p>
+       ) : (
+         fileNames.map((fileName, index) => (
+           <div key={index} className={css(styles.fileNameButtonContainer)}>
+             <span>{fileName}</span>
+             <button
+               onClick={() => handleDeleteFile(index)}
+               className={css(styles.itemdeleteButton)}
+               type="button"
+             >×</button>
+           </div>
+         ))
+       )}
+     </div>
+     <div className={css(styles.itemboxcontainerScrollableSecond)}>
+       <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>
+         파일 업로드
+       </label>
                     </div>
                   </div>
                   <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     fontSize: '23px',
   },
   custom_hr: {
-    width: '520px',
+    width: '540px',
     border: '1px solid #E4E4E4',
   },
   itemRowcontainer: {
@@ -203,14 +204,12 @@ const styles = StyleSheet.create({
     fontSize: '18px',
     fontWeight: '600',
     whiteSpace: 'nowrap',
+    marginRight: '5px',
   },
   custom_text_box: {
-    flexDirection: 'row',
-    marginLeft: '10px',
     fontFamily: 'Lato',
     fontSize: '13px',
     color: '#CACACA',
-    marginTop: '40px',
   },
   custom_b_text: {
     marginTop: '10px',
@@ -226,50 +225,61 @@ const styles = StyleSheet.create({
   },
   itemboxcontainer: {
     display: 'flex',
-    flexDirection: 'row',
-    position: 'relative',
-    alignItems: 'center',
-    overflowY: 'auto',
-    width: '307px',
-    height: '100px',
-    borderTop: '1px solid #CCC',
-    borderBottom: '1px solid #CCC',
-    borderLeft: '1px solid #CCC',
-    backgroundColor: '#F6F6F6',
-    borderTopLeftRadius: '5px',
-    borderBottomLeftRadius: '5px',
-    marginLeft: '1%',
-  },
-  itemBoxContainerScrollable: {
-    display: 'flex',
     flexDirection: 'column',
+    position: 'relative',
     width: '300px',
-    height: '100px',
+    minHeight: 'auto', 
+    maxHeight: '100px', 
+    height: 'auto',    
+    border: '1px solid #CCC',
+    borderRight: 'none',
+    backgroundColor: '#F6F6F6',
+    borderRadius: '5px 0 0 5px',
+    padding: '4px',
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    scrollbarWidth: 'thin',
+    scrollbarColor: '#888 #F6F6F6',
+    '&::-webkit-scrollbar': {
+      width: '6px'
+    },
+    '&::-webkit-scrollbar-track': {
+      background: '#F6F6F6'
+    },
+    '&::-webkit-scrollbar-thumb': {
+      background: '#888',
+      borderRadius: '3px'
+    }
   },
   itemboxcontainerScrollableSecond: {
     display: 'flex',
-    flexDirection: 'row',
-    position: 'relative',
     alignItems: 'center',
-    marginLeft: '0px',
-    paddingLeft: '0px',
+    justifyContent: 'center',
     width: '70px',
-    height: '100px',
-    borderTop: '1px solid #CCC',
-    borderBottom: '1px solid #CCC',
-    borderRight: '1px solid #CCC',
+    height: 'auto',  
+    border: '1px solid #CCC',
     backgroundColor: '#F6F6F6',
-    borderTopRightRadius: '5px',
-    borderBottomRightRadius: '5px',
+    borderRadius: '0 5px 5px 0',
+    minHeight: 'auto',
+    maxHeight: '100px', 
+    borderLeft: 'none',
   },
   fileNameButtonContainer: {
-    marginBottom: '5px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '98%',
+    padding: '4px',
+    marginBottom: '2px',
+    backgroundColor: '#fff',
+    borderRadius: '3px',
+    fontSize: '14px',
   },
   itemfileNameButton: {
     flex: 1,
-    minHeight: '30px',
+    minHeight: '20px',
     height: 'auto',
-    padding: '0 13px',
+    padding: '0 8px',
     border: '1px solid #CACACA',
     borderRadius: '6px',
     fontFamily: 'Lato',
@@ -300,8 +310,10 @@ const styles = StyleSheet.create({
   },
   containerSecond: {
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'stretch',
+    height: 'auto',
+    minHeight: 'auto',
+    maxHeight: '100px'
   },
   itemTextcontainer: {
     width: '80px',
