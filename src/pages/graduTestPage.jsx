@@ -357,7 +357,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column', 
     justifyContent: 'center',
-    marginBottom: '30px',
   },
   textContainer: {
     marginTop: '30px',
@@ -404,12 +403,9 @@ const styles = StyleSheet.create({
     fontSize: '30px',
     fontWeight: '600',
     color: 'black',
-    marginTop: '7px',
-    marginBottom: '7px',
   },
   custom_result_text_last: {
-    marginTop: '7px',
-    marginBottom: '7px',
+    marginTop: '0px',
     fontFamily: 'Lato',
     fontSize: '30px',
     fontWeight: '600',

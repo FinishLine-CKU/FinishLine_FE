@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
@@ -45,7 +46,14 @@ function DoneLecturePage() {
 
     try {
         const response = await axios.get(`http://127.0.0.1:8000/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
-        setLectureData(response.data);
+        
+        // 응답이 비어있는 경우 처리
+        if (!response.data || response.data.length === 0) {
+            alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
+        } else {
+            setLectureData(response.data);  // 정상적으로 데이터가 있으면 lectureData 업데이트
+        }
+        
     } catch (error) {
         setError('과목 정보를 가져오는데 실패했습니다.');
         console.error('Error fetching data: ', error);
@@ -54,8 +62,9 @@ function DoneLecturePage() {
   };
 
   const myLectureUpdate = async () => {
+    const userId = localStorage.getItem('idToken');
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture`);
+      const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture?user_id=${userId}`);
       setMyLectureList(response.data);
     } catch (error) {
       setError('과목 정보를 가져오는데 실패했습니다.');
