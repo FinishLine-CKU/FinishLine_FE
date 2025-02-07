@@ -30,36 +30,36 @@ function GraduTestPage() {
   const [rest_credit, setRest_credit] = useState();
   const navigate = useNavigate();
 
-  // const testing = async () => {
-  //   const response = await axios.post('http://127.0.0.1:8000/graduation/test_major/', {
-  //     student_id : localStorage.getItem('idToken')
-  //   });
-  //   if (response.data) {
-  //     if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-  //       const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
-  //       setMajor_info(major_info);
-  //       setNeed_major(need_major)
-  //       setUser_major(user_major)
-  //       setTotal_credit(total_credit)
-  //       setMajor_credit(major_credit)
-  //       setGeneral_essential_credit(general_essential_credit)
-  //       setGeneral_selection_credit(general_selection_credit)
-  //       rest_credit(0)
-  //     } else {
-  //       const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
-  //       setMajor_info(major_info);
-  //       setNeed_major(need_major)
-  //       setUser_major(user_major)
-  //       setTotal_credit(total_credit)
-  //       setMajor_credit(major_credit)
-  //       setGeneral_essential_credit(general_essential_credit)
-  //       setGeneral_selection_credit(general_selection_credit)
-  //       setRest_credit(rest_credit)
-  //     };
-  //   } else {
-  //     alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
-  //   };
-  // };
+  const testing = async () => {
+    const response = await axios.post('http://127.0.0.1:8000/graduation/test_major/', {
+      student_id : localStorage.getItem('idToken')
+    });
+    if (response.data) {
+      if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
+        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
+        setMajor_info(major_info);
+        setNeed_major(need_major)
+        setUser_major(user_major)
+        setTotal_credit(total_credit)
+        setMajor_credit(major_credit)
+        setGeneral_essential_credit(general_essential_credit)
+        setGeneral_selection_credit(general_selection_credit)
+        rest_credit(0)
+      } else {
+        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
+        setMajor_info(major_info);
+        setNeed_major(need_major)
+        setUser_major(user_major)
+        setTotal_credit(total_credit)
+        setMajor_credit(major_credit)
+        setGeneral_essential_credit(general_essential_credit)
+        setGeneral_selection_credit(general_selection_credit)
+        setRest_credit(rest_credit)
+      };
+    } else {
+      alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+    };
+  };
 
   const goGraduationCheck = async () => {
     try {
@@ -95,8 +95,8 @@ function GraduTestPage() {
   };
 
   useEffect(() => {
-    // testing();
-    // localStorage.setItem('testing', true);
+    testing();
+    localStorage.setItem('testing', true);
     goGraduationCheck();
   }, []);
 
@@ -194,7 +194,7 @@ function GraduTestPage() {
                     <span className={css(styles.congratulation)}>축하합니다 🎉</span>
                     <div>
                       <span className={css(styles.contentAlertText)}>교양 필수</span>
-                      <span className={css(styles.contextSuccess)}>{completeEsseCredit}</span>
+                      <span className={css(styles.contextSuccess)}>이수완료</span>
                       <span className={css(styles.contentAlertText)}>했습니다!</span>
                     </div>
                   </div>
@@ -232,7 +232,7 @@ function GraduTestPage() {
                     <span className={css(styles.congratulation)}>축하합니다 🎉</span>
                     <div>
                       <span className={css(styles.contentAlertText)}>교양 선택</span>
-                      <span className={css(styles.contextSuccess)}>{completeChoiceCredit}</span>
+                      <span className={css(styles.contextSuccess)}>이수완료</span>
                       <span className={css(styles.contentAlertText)}>했습니다!</span>
                     </div>
                   </div>
