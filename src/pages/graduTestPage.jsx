@@ -110,7 +110,7 @@ function GraduTestPage() {
           <hr className={css(styles.custom_hr)}/>
           <p className={css(styles.custom_result_hr)}> {MAJOR.find(item => item.value === major_info)?.label || major_info} {localStorage.getItem('name')}님의 결과입니다</p>
         </div>
-        <GraduChartComponets earned={103} total={total_credit} style={{ color: '#3D5286', fontSize: '20px' }}/>
+        <GraduChartComponets earned={completeNormalCredit + completeEsseCredit + completeChoiceCredit + user_major} total={total_credit} style={{ color: '#3D5286', fontSize: '20px' }}/>
         <div className={css(styles.textContainer)}>
           <span className={css(styles.custom_title_result_text)}>졸업까지 28학점 남았습니다!</span>
           <span className={css(styles.custom_smalltext)}>아래에서 부족한 영역을 확인하세요</span>
@@ -155,7 +155,7 @@ function GraduTestPage() {
             </div>
             <hr className={css(styles.custom_major_hr)}/>
             {/* 일반선택 로직 추가 */}
-            {20 <= completeNormalCredit ?
+            {25 <= completeNormalCredit ?
             <div className={css(styles.majorContentsContainer)}>
               <img src={sogood}/>
               <div className={css(styles.successContainer)}>
