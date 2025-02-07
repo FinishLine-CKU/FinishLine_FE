@@ -11,13 +11,15 @@ import sogood from "../assets/images/sogood.png";
 import axios from 'axios';
 
 function GraduTestPage() {
-  const [error, setError] = useState(null);
-  const [myMajor, setMyMajor] = useState("");
-  const [major, setMajor] = useState("");
-  const [myliber, setMyliber] = useState("");
-  const [liber, setliber] = useState("");
-  const [nomal, setNomal] = useState("");
-  const [myNomal, setMyNomal] = useState("");
+  const [needEsseCredit, setNeedEsseCredit] = useState(0);
+  const [needChoiceCredit, setNeedChoiceCredit] = useState(0);
+  const [completeEsseCredit, setCompleteEsseCredit] = useState(0);
+  const [completeChoiceCredit, setCompleteChoiceCredit] = useState(0);
+  const [needNessArea, setNeedNessArea] = useState({});
+  const [needChoiceArea, setNeedChoiceArea] = useState({});
+  const [completeNormalCredit, setCompleteNormalCredit] = useState(0);
+  const [needNormalCredit, setNeedNormalCredit] = useState(0);
+
   const [major_info, setMajor_info] = useState();
   const [need_major, setNeed_major] = useState();
   const [user_major, setUser_major] = useState();
@@ -28,62 +30,64 @@ function GraduTestPage() {
   const [rest_credit, setRest_credit] = useState();
   const navigate = useNavigate();
 
-  const testing = async () => {
-    const response = await axios.post('http://127.0.0.1:8000/graduation/test_major/', {
-      student_id : localStorage.getItem('idToken')
-    });
-    if (response.data) {
-      if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
-        setMajor_info(major_info);
-        setNeed_major(need_major)
-        setUser_major(user_major)
-        setTotal_credit(total_credit)
-        setMajor_credit(major_credit)
-        setGeneral_essential_credit(general_essential_credit)
-        setGeneral_selection_credit(general_selection_credit)
-        rest_credit(0)
+  // const testing = async () => {
+  //   const response = await axios.post('http://127.0.0.1:8000/graduation/test_major/', {
+  //     student_id : localStorage.getItem('idToken')
+  //   });
+  //   if (response.data) {
+  //     if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
+  //       const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
+  //       setMajor_info(major_info);
+  //       setNeed_major(need_major)
+  //       setUser_major(user_major)
+  //       setTotal_credit(total_credit)
+  //       setMajor_credit(major_credit)
+  //       setGeneral_essential_credit(general_essential_credit)
+  //       setGeneral_selection_credit(general_selection_credit)
+  //       rest_credit(0)
+  //     } else {
+  //       const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
+  //       setMajor_info(major_info);
+  //       setNeed_major(need_major)
+  //       setUser_major(user_major)
+  //       setTotal_credit(total_credit)
+  //       setMajor_credit(major_credit)
+  //       setGeneral_essential_credit(general_essential_credit)
+  //       setGeneral_selection_credit(general_selection_credit)
+  //       setRest_credit(rest_credit)
+  //     };
+  //   } else {
+  //     alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+  //   };
+  // };
+
+  const goGraduationCheck = async () => {
+    try {
+      const userId = localStorage.getItem('idToken');
+  
+      if (userId) {
+        const response = await axios.post('http://127.0.0.1:8000/graduation/general_check/', {
+          user_id: userId
+        });
+  
+        const generalData = response.data.general_data;
+  
+        setNeedEsseCredit(generalData['교양필수_부족_학점']);
+        setNeedChoiceCredit(generalData['교양선택_부족_학점']);
+        setCompleteEsseCredit(generalData['교양필수_이수_학점']);
+        setCompleteChoiceCredit(generalData['교양선택_이수_학점']);
+        setNeedNessArea(generalData['교양필수_부족_영역']);
+        setNeedChoiceArea(generalData['교양선택_부족_영역']);
+        setCompleteNormalCredit(generalData['일반선택_이수_학점']);
+        setNeedNormalCredit(generalData['일반선택_부족_학점']);
       } else {
-        const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit } = response.data;
-        setMajor_info(major_info);
-        setNeed_major(need_major)
-        setUser_major(user_major)
-        setTotal_credit(total_credit)
-        setMajor_credit(major_credit)
-        setGeneral_essential_credit(general_essential_credit)
-        setGeneral_selection_credit(general_selection_credit)
-        setRest_credit(rest_credit)
-      };
-    } else {
-      alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
-    };
-  };
-
-  const myMajorCal = async () => {
-    try {
-      const response = await axios.get(`http://127.0.0.1:8000/graduation/api/졸업요건`);
-      const data = response.data
-      setMajor(data.전공);
-      setliber(data.교양);
-      setNomal(data.일반선택);
-    } catch {
+        console.error('user_id가 로컬스토리지에 없습니다.');
+      }
+    } catch (error) {
       console.error('Error fetching data: ', error);
-      alert(`정보를 가져오는데 실패하였습니다`);
-    }
+    } 
   };
-
-  const myInfoCal = async () => {
-    try {
-      const response = await axios.get(`http://127.0.0.1:8000/graduation/api/내정보`);
-      const data = response.data
-      setMyMajor(data.전공);
-      setMyliber(data.교양);
-      setMyNomal(data.일반선택);
-    } catch {
-      console.error('Error fetching data: ', error);
-      alert(`정보를 가져오는데 실패하였습니다`);
-    }
-  };
+  
 
   const goToDoneLecture = () => {
     navigate("/donelecture");
@@ -91,8 +95,9 @@ function GraduTestPage() {
   };
 
   useEffect(() => {
-    testing();
-    localStorage.setItem('testing', true);
+    // testing();
+    // localStorage.setItem('testing', true);
+    goGraduationCheck();
   }, []);
 
   return (
@@ -144,13 +149,13 @@ function GraduTestPage() {
           <div className={css(styles.majorContainer)}>
             <div className={css(styles.majortitleContainer)}>
               <span className={css(styles.custom_h)}>일반선택</span>
-              <span className={css(styles.userCredit)}>credit</span>
+              <span className={css(styles.userCredit)}>{completeNormalCredit}</span>
               <span className={css(styles.custom_hr_react)}> / </span>
               <span className={css(styles.custom_h_focus)}>{rest_credit} 학점</span>
             </div>
             <hr className={css(styles.custom_major_hr)}/>
             {/* 일반선택 로직 추가 */}
-            {30 >= rest_credit ?
+            {20 <= completeNormalCredit ?
             <div className={css(styles.majorContentsContainer)}>
               <img src={sogood}/>
               <div className={css(styles.successContainer)}>
@@ -165,7 +170,7 @@ function GraduTestPage() {
             <div className={css(styles.majorContentsContainer)}>
               <img src={notgood}/>
               <span className={css(styles.contentAlertText)}>일반 선택</span>
-              <span className={css(styles.lackCredit)}>credit</span>
+              <span className={css(styles.lackCredit)}>{needNormalCredit}</span>
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
             </div>
             }
@@ -175,21 +180,21 @@ function GraduTestPage() {
           <div className={css(styles.majorContainer)}>
               <div className={css(styles.majortitleContainer)}>
                 <span className={css(styles.custom_h)}>교양</span>
-                <span className={css(styles.userCredit)}>credit</span>
+                <span className={css(styles.userCredit)}>{completeEsseCredit + completeChoiceCredit}</span>
                 <span className={css(styles.custom_hr_react)}> / </span>
                 <span className={css(styles.custom_h_focus)}>{general_essential_credit + general_selection_credit} 학점</span>
               </div>
               <hr className={css(styles.custom_major_hr)}/>
               <div className={css(styles.generalContainer)}>
                 {/* 교양 필수 로직 추가 */}
-                {30 >= general_essential_credit ? 
+                {16 <= completeEsseCredit ? 
                 <div className={css(styles.majorContentsContainer)}>
                   <img src={sogood}/>
                   <div className={css(styles.successContainer)}>
                     <span className={css(styles.congratulation)}>축하합니다 🎉</span>
                     <div>
                       <span className={css(styles.contentAlertText)}>교양 필수</span>
-                      <span className={css(styles.contextSuccess)}>이수완료</span>
+                      <span className={css(styles.contextSuccess)}>{completeEsseCredit}</span>
                       <span className={css(styles.contentAlertText)}>했습니다!</span>
                     </div>
                   </div>
@@ -201,26 +206,33 @@ function GraduTestPage() {
                       <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
                       <div>
                         <span className={css(styles.contentAlertText)}>교양 필수</span>
-                        <span className={css(styles.lackCredit)}>credit</span>
+                        <span className={css(styles.lackCredit)}>{needEsseCredit}</span>
                         <span className={css(styles.contentAlertText)}>부족합니다.</span>
                       </div>
                     </div>
                   </div>
                   <div className={css(styles.generalLacks)}>
-                    <span className={css(styles.generalLecture)}>정보와기술, 자연과환경, 수리와과학 중 1과목 (2학점)</span>
-                    <span className={css(styles.generalLecture)}>인간과문학, 역사와사회, 철학과예술 중 4과목 (8학점)</span>
-                    <span className={css(styles.generalLecture)}>인간과문학, 언어와문화 중 1과목 (2학점)</span>
+                    <span className={css(styles.generalLecture)}>
+                      {needNessArea && Object.entries(needNessArea).map(([key, value]) => {
+                        const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
+                        return (
+                          <div key={key}>
+                            {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                          </div>
+                        );
+                      })}
+                    </span>
                   </div>
                 </> }
                 {/* 교양 선택 로직 추가 */}
-                {10 >= general_selection_credit ?
+                {20 <= completeChoiceCredit ?
                 <div className={css(styles.majorContentsContainer)}>
                   <img src={sogood}/>
                   <div className={css(styles.successContainer)}>
                     <span className={css(styles.congratulation)}>축하합니다 🎉</span>
                     <div>
                       <span className={css(styles.contentAlertText)}>교양 선택</span>
-                      <span className={css(styles.contextSuccess)}>이수완료</span>
+                      <span className={css(styles.contextSuccess)}>{completeChoiceCredit}</span>
                       <span className={css(styles.contentAlertText)}>했습니다!</span>
                     </div>
                   </div>
@@ -232,15 +244,22 @@ function GraduTestPage() {
                       <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
                       <div>
                         <span className={css(styles.contentAlertText)}>교양 선택</span>
-                        <span className={css(styles.lackCredit)}>credit</span>
+                        <span className={css(styles.lackCredit)}>{needChoiceCredit}</span>
                         <span className={css(styles.contentAlertText)}>부족합니다.</span>
                       </div>
                     </div>
                   </div>
                   <div className={css(styles.generalLacks)}>
-                    <span className={css(styles.generalLecture)}>정보와기술, 자연과환경, 수리와과학 중 1과목 (2학점)</span>
-                    <span className={css(styles.generalLecture)}>인간과문학, 역사와사회, 철학과예술 중 4과목 (8학점)</span>
-                    <span className={css(styles.generalLecture)}>인간과문학, 언어와문화 중 1과목 (2학점)</span>
+                    <span className={css(styles.generalLecture)}>
+                        {needChoiceArea && Object.entries(needChoiceArea).map(([key, value]) => {
+                          const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
+                          return (
+                            <div key={key}>
+                              {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                            </div>
+                          );
+                        })}
+                      </span>
                   </div>
                 </> }
               </div>
@@ -262,14 +281,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: '66px',
-    backgroundColor: '#FFFEFB'
   },
   rowContainer: {
     display: 'flex',
     marginBottom: '100px',
     justifyContent: 'center',
-    gap: '100px',
-    backgroundColor: '#FFFEFB'
+    gap: '100px'
   },
   bottomContainer: {
     display: 'flex',
@@ -277,7 +294,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center', 
     marginBottom: '200px',
-    backgroundColor: '#FFFEFB'
   },
   majorContainer: {
     display: 'flex',
@@ -286,7 +302,7 @@ const styles = StyleSheet.create({
   leftContainer: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
     gap: '35px'
   },
   rightContainer: {
@@ -299,7 +315,6 @@ const styles = StyleSheet.create({
     width: '520px',
     alignItems: 'center',
     justifyContent: 'center',
-    whiteSpace: 'nowrap',
   },
   majortitleContainer: {
     display: 'flex',
@@ -309,7 +324,7 @@ const styles = StyleSheet.create({
   majorContentsContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'left',
     whiteSpace: 'nowrap',
   },
   successContainer: {
@@ -319,6 +334,7 @@ const styles = StyleSheet.create({
   generalLacks: {
     display: 'flex',
     flexDirection: 'column',
+    paddingLeft: '30px',
     gap: '10px',
     margin: '-20px 0 0 40px',
     whiteSpace: 'nowrap',
@@ -327,6 +343,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontSize: '15px',
     fontWeight: '600',
+    color: '#3D5286'
+  },
+  generalLectureSub: {
+    fontFamily: 'Lato',
+    fontSize: '15px',
+    fontWeight: '400',
     color: '#3D5286'
   },
   congratulation: {
@@ -357,6 +379,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column', 
     justifyContent: 'center',
+    marginBottom: '30px',
   },
   textContainer: {
     marginTop: '30px',
@@ -380,7 +403,7 @@ const styles = StyleSheet.create({
   generalContainer: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
     gap: '25px'
   },
   custom_result_hr: {
@@ -403,9 +426,12 @@ const styles = StyleSheet.create({
     fontSize: '30px',
     fontWeight: '600',
     color: 'black',
+    marginTop: '7px',
+    marginBottom: '7px',
   },
   custom_result_text_last: {
-    marginTop: '0px',
+    marginTop: '7px',
+    marginBottom: '7px',
     fontFamily: 'Lato',
     fontSize: '30px',
     fontWeight: '600',
