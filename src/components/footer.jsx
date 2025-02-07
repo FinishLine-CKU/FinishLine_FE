@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { MdLanguage } from 'react-icons/md';
-import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
+import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';    
+import { ModalContext } from '../utils/hooks/modalContext';
 import formLink from '../assets/images/formLink.png';
 import blackFinishlineLogo from '../assets/images/blackFinishlineLogo.png';
 
@@ -11,6 +12,7 @@ function Footer({ footerType = 'default' }) {
     const [languageDropdown, setLanguageDropdown] = useState(false);
     const [sitemapDropdown, setSitemapDropdown] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState('한국어');
+    const { openModal } = useContext(ModalContext);
 
     useEffect(() => {
         const clickOthers = (event) => {
@@ -30,13 +32,13 @@ function Footer({ footerType = 'default' }) {
     return (
         <footer className={css(footerType === 'transparent' ? styles.transparentFooter : footerType === 'manage' ? styles.manageFooter : styles.footerContainer)}>
             <div className={css(footerType === 'transparent' ? styles.transparentLeftSection : footerType === 'manage' ? styles.manageLeftSection : styles.footerLeftSection)}>
-                <a href="" className={css(styles.surveyLink)} target="_blank" title="FinishLine 설문 링크">
+                <a href="https://naver.me/FHlQ2NqP" className={css(styles.surveyLink)} target="_blank" title="FinishLine 설문 링크">
                     <img src={footerType === 'manage' ? blackFinishlineLogo : formLink} className={css(styles.formImage)} alt="FinishLine Survey Form"/>
                     <span className={css(footerType === 'manage' ? styles.manageFormText : styles.formText)}>의 사용 후기를 알려주세요!</span>
                 </a>
                 <span className={css(footerType === 'manage' ? styles.manageServiceText : styles.serviceText)}>더 나은 서비스로 보답하겠습니다.</span>
                 <div className={css(footerType === 'manage' ? styles.manageContactIndex : styles.contactIndex)}>CONTACT</div>
-                <a href="" target="_blank" className={css(footerType === 'manage' ? styles.manageContactMail : styles.contactMail)} title="메일">finishline@cku.ac.kr</a>
+                <a target="_blank" className={css(footerType === 'manage' ? styles.manageContactMail : styles.contactMail)} title="메일">finishline@cku.ac.kr</a>
                 <a href="https://github.com/FinishLine-CKU" target="_blank" className={css(footerType === 'manage' ? styles.manageContactGithub : styles.contactGithub)} title="깃허브">https://github.com/FinishLine-CKU</a>
             </div>
             <div className={css(footerType === 'transparent' ? styles.transparentRightSection : footerType === 'manage' ? styles.manageRightSection : styles.footerRightSection)}>
@@ -60,9 +62,12 @@ function Footer({ footerType = 'default' }) {
                         { sitemapDropdown ?
                             <ul className={css(footerType === 'manage' ? styles.manageDropdownOptions : styles.dropdownOptions)}>
                                 <a href="/userGuidePage" className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>이용가이드</li></a>
-                                <a href="" className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>졸업요건검사</li></a>
-                                <a href="" className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>기이수과목관리</li></a>
-                                <a href="/myPage" className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>마이페이지</li></a>
+                                   <a href="/graduTestPage" onClick={(e) => {if (!localStorage.getItem('idToken')) {e.preventDefault();openModal();}}} 
+                                      className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>졸업요건 검사</li></a>
+                                    <a href="/donelecture" onClick={(e) => {if (!localStorage.getItem('idToken')) {e.preventDefault();openModal();}}} 
+                                       className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>기이수과목관리</li></a>
+                                        <a href="/myPage" onClick={(e) => {if (!localStorage.getItem('idToken')) {e.preventDefault();openModal();}}} 
+                                       className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>마이페이지</li></a>
                             </ul> : null
                         }
                     </div>
