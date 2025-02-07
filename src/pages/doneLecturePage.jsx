@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
@@ -46,7 +46,14 @@ function DoneLecturePage() {
 
     try {
         const response = await axios.get(`http://127.0.0.1:8000/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
-        setLectureData(response.data);
+        
+        // 응답이 비어있는 경우 처리
+        if (!response.data || response.data.length === 0) {
+            alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
+        } else {
+            setLectureData(response.data);  // 정상적으로 데이터가 있으면 lectureData 업데이트
+        }
+        
     } catch (error) {
         setError('과목 정보를 가져오는데 실패했습니다.');
         console.error('Error fetching data: ', error);
@@ -126,22 +133,27 @@ function DoneLecturePage() {
   //   } else {
   //     alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
   //   };
-  const goGraduationCheck = async () => {
-    try {
-      const userId = localStorage.getItem('idToken');
+  // const goGraduationCheck = async () => {
+  //   try {
+  //     const userId = localStorage.getItem('idToken');
       
-      if (userId) {
-        const response = await axios.post('http://127.0.0.1:8000/graduation/general_check/', {
-          user_id: userId
-        });
-        navigate('/graduTestPage');
-      } else {
-        console.error('user_id가 로컬스토리지에 없습니다.');
-      }
-    } catch (error) {
-      setError('과목 정보를 가져오는데 실패했습니다.');
-      console.error('Error fetching data: ', error);
-    }
+  //     if (userId) {
+  //       const response = await axios.post('http://127.0.0.1:8000/graduation/general_check/', {
+  //         user_id: userId
+  //       });
+  //       navigate('/graduTestPage');
+  //     } else {
+  //       console.error('user_id가 로컬스토리지에 없습니다.');
+  //     }
+  //   } catch (error) {
+  //     setError('과목 정보를 가져오는데 실패했습니다.');
+  //     console.error('Error fetching data: ', error);
+  //   }
+  // };
+
+  const navigateToGraduTest = () => {
+    navigate('/graduTestPage');
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -186,7 +198,7 @@ function DoneLecturePage() {
                 <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code, 'myLectureList')} />
             </div>
             {/* <button className={css(styles.itemGraduButton)} onClick={testing}>졸업요건 검사</button> */}
-            <button className={css(styles.itemGraduButton)} onClick={goGraduationCheck}>졸업요건 검사</button>
+            <button className={css(styles.itemGraduButton)} onClick={navigateToGraduTest}>졸업요건 검사</button>
           </div>   
         </div>
         <UploadPdfPageComponents />
