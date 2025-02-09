@@ -155,6 +155,7 @@ function GraduTestPage() {
           <div>
             <span className={css(styles.custom_title_result_text)}>졸업까지</span>
             <span className={css(styles.restCredit)}>{need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest))}학점</span>
+            {localStorage.setItem('needTotalCredit', need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest)))}
             <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
           </div>
           <span className={css(styles.custom_smalltext)}>아래에서 부족한 영역을 확인하세요</span>
@@ -245,6 +246,7 @@ function GraduTestPage() {
               <img src={notgood}/>
               <span className={css(styles.contentAlertText)}>일반 선택</span>
               <span className={css(styles.lackCredit)}>{rest_credit - (completeNormalCredit + done_major_rest)}학점</span>
+              {localStorage.setItem('completeNormalCredit', rest_credit - (completeNormalCredit + done_major_rest))}
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
             </div>
             }
@@ -257,6 +259,8 @@ function GraduTestPage() {
                 <span className={css(styles.userCredit)}>{completeEsseCredit + completeChoiceCredit}</span>
                 <span className={css(styles.custom_hr_react)}> / </span>
                 <span className={css(styles.custom_h_focus)}>{general_essential_credit + general_selection_credit} 학점</span>
+                {localStorage.setItem('completeEsseCredit', completeEsseCredit)}
+                {localStorage.setItem('completeChoiceCredit', completeChoiceCredit)}
               </div>
               <hr className={css(styles.custom_major_hr)}/>
               <div className={css(styles.generalContainer)}>
