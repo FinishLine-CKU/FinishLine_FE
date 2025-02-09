@@ -28,8 +28,8 @@ export function SubSearchComponents({subjects, onAdd}) {
                       <td className={css(styles.semesterCell)}>{subject.semester}</td>
                       <td className={css(styles.codeCell)}>{subject.lecture_code}</td>
                       <td className={css(styles.nameCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
-                      <td className={css(styles.typeCell)} title={subject.lecture_type}>{subject.lecture_type}</td>
-                      <td className={css(styles.topicCell)}>{subject.lecture_topic}</td>
+                      <td className={css(styles.typeCell)}>{subject.lecture_type}</td>
+                      <td className={css(styles.topicCell)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
                       <td className={css(styles.creditCell)}>{subject.credit}</td>
                       <td className={css(styles.lastCell)}>
                       </td>
@@ -96,10 +96,10 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
                 <td className={css(styles.nameCell, subject.isNew ? styles.nameAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.nameCell)} title={subject.lecture_name}>
                   {subject.lecture_name}
                 </td>
-                <td className={css(styles.typeCell, subject.isNew ? styles.typeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)} title={subject.lecture_type}>
+                <td className={css(styles.typeCell, subject.isNew ? styles.typeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)}>
                   {subject.lecture_type}
                 </td>
-                <td className={css(styles.topicCell, subject.isNew ? styles.topicAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)}>
+                <td className={css(styles.topicCell, subject.isNew ? styles.topicAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)} title={subject.lecture_topic}>
                   {subject.lecture_topic}
                 </td>
                 <td className={css(styles.creditCell, subject.isNew ? styles.creditAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.creditCell)}>
@@ -130,8 +130,8 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
               <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.semesterCell)}>{subject.semester}</td>
               <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.codeCell)}>{subject.lecture_code}</td>
               <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.nameCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
-              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)} title={subject.lecture_type}>{subject.lecture_type}</td>
-              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)}>{subject.lecture_topic}</td>
+              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)}>{subject.lecture_type}</td>
+              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
               <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.creditCell)}>{subject.credit}</td>
               {tableType === 'resize' ? null :
               <td className={css(styles.lastCell)}></td>
@@ -287,6 +287,25 @@ const styles = StyleSheet.create({
 
   nameCell: {
     width: '180px',
+    maxWidth: '180px',
+    height: '35px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFFFF',
+    wordWrap: 'break-word',
+    maxWidth: '180px', 
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    tableLayout: 'fixed',
+  },
+  nameAddCell: {
+    width: '180px',
+    maxWidth: '180px',
     height: '35px',
     fontFamily: 'Lato',
     fontSize: '10px',
@@ -320,6 +339,7 @@ const styles = StyleSheet.create({
   },
   topicCell: {
     width: '80px',
+    maxWidth: '80px',
     height: '35px',
     fontFamily: 'Lato',
     fontSize: '10px',
@@ -330,6 +350,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     whiteSpace: 'nowrap', 
     overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    tableLayout: 'fixed',
+  },
+  topicAddCell: {
+    maxWidth: '80px',
+    height: '35px',
+    fontFamily: 'Lato',
+    fontSize: '10px',
+    fontWeight: '600',
+    textAlign: 'center',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFFFF',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
     tableLayout: 'fixed',
   },
   creditCell: {

@@ -2,12 +2,15 @@ import { useNavigate, useLocation  } from 'react-router-dom';
 import { useState, useCallback } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
+import whiteCKULogo from '../assets/images/whiteCKULogo.png';
+import loadingGIF from '../assets/images/loading.gif';
 
 function UploadPdfComponents() {
   const [fileNames, setFileNames] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState();
 
   const fileInputHandler = useCallback((event) => {
     const files = event.target && event.target.files;
@@ -42,6 +45,7 @@ function UploadPdfComponents() {
     });
 
     try {
+        setLoading(true);
         console.log(formData)
         const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData, {
             headers: {
@@ -53,12 +57,14 @@ function UploadPdfComponents() {
         const duplicateFiles = response.data.duplicate_files;
 
         if (duplicateFiles.length > 0) {
+            setLoading(false);
             alert(`중복된 파일이 포함되어 있습니다:\n${duplicateFiles.join('\n')}\n기이수과목 관리로 넘어갑니다.`);
             setSelectedFiles([]);
             setFileNames([]);
             localStorage.setItem('uploadPDF', true);
             navigate('/donelecture');
         } else {
+          setLoading(false);
           localStorage.setItem('uploadPDF', 'true');
           alert('파일이 성공적으로 업로드되었습니다.');
           setSelectedFiles([]);
@@ -72,6 +78,7 @@ function UploadPdfComponents() {
           }
         }
     } catch (error) {
+        setLoading(false);
         console.error('업로드 에러:', error);
         alert(error.response?.data?.message || '파일 업로드 중 오류가 발생했습니다.');
     }
@@ -79,6 +86,20 @@ function UploadPdfComponents() {
 
     return (
       <div>
+        {loading ?  <div className={css(styles.modalbigcontainer)}>
+                        <div className={css(styles.modalContainer)}>
+                          <div className={css(styles.icons)}>
+                              <img src={whiteCKULogo} className={css(styles.ckuLogo)}/>
+                              <img src={loadingGIF} className={css(styles.loadingGIF)}/>
+                          </div>
+                            <div className={css(styles.closeButtonContainer)}>
+                                <span className={css(styles.title)}>데이터 저장중...</span>
+                            </div>
+                            <div className={css(styles.mainContents)}>
+                              5초 정도 소요됩니다. 잠시만 기다려주세요
+                            </div>
+                        </div>
+        </div> : null}
         <div className={css(styles.container)}>
           <div className={css(styles.donelistcontainer)}>
           <div className={css(styles.titleContainer)}>
@@ -120,15 +141,15 @@ function UploadPdfComponents() {
        <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>
          파일 업로드
        </label>
-                    </div>
-                  </div>
-                  <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
-              </div>
-              <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 
-                인쇄 &gt; PDF로 저장
-              </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
-            </div>
-          </div>
+      </div>
+      </div>
+      <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
+      </div>
+      <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 
+        인쇄 &gt; PDF로 저장
+        </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
+      </div>
+      </div>
       </div>
     );
 }
@@ -318,6 +339,102 @@ const styles = StyleSheet.create({
   itemTextcontainer: {
     width: '80px',
   },  
+  modalbigcontainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems:'center',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    zIndex: '999',
+  },
+  modalContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '420px',
+      padding: '50px 70px 50px 70px',
+      backgroundColor: '#FFFEFB',
+      boxShadow: '0 0 20px rgba(0, 0, 0, 0.25)',
+      border: '1px solid #7A828A',
+      borderRadius: '6px',
+      zIndex: '1000',
+      marginBottom: '30px',
+  },
+  closeButtonContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '30px',
+  },
+  title: {
+      fontFamily: 'Lato',
+      fontSize: '25px',
+      fontWeight: '800',
+      color: '#2B2A28',
+      marginBottom: '30px',
+  },
+  close: {
+      border: 'none',
+      backgroundColor: 'transparent',
+      padding: '0px',
+      marginRight: '-20px',
+  },
+  closeIcon: {
+      width: '30px',
+      height: '30px',
+      ':hover': {
+          cursor: 'pointer'
+      }
+  },
+  mainContents: {
+      display: 'flex',
+      justifyContent: 'center',
+      color: '#006277',
+  },
+  ActionButtonContainer: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      paddingRight: '10px'
+  },
+  actionButton: {
+      width: '83px',
+      height: '40px',
+      borderRadius: '10px',
+      backgroundColor: '#2B2A28',
+      border: '1px solid #2B2A28',
+      color: '#fff',
+      fontFamily: 'Lato',
+      fontSize: '16px',
+      fontWeight: '700',
+      marginRight: '-20px',
+      ':hover:not(:disabled)': {
+          cursor: 'pointer'
+      },
+      ':active:not(:disabled)': {
+          backgroundColor: '#595650',
+          borderColor: '#595650'
+      },
+      ':disabled':{
+          color: '#FFFEFB',
+          backgroundColor: '#CACACA',
+          borderColor: '#CACACA'
+      },
+  },
+  icons: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px',
+    width: '100%'
+  },
+  loadingGIF: {
+    position: 'absolute',
+    zIndex: '1001',
+    width: '177px',
+    marginTop: '40px',
+    marginLeft: '90px'
+  },
 });
 
 export default UploadPdfComponents;

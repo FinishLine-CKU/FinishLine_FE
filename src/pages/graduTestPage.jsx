@@ -170,7 +170,7 @@ function GraduTestPage() {
             <div className={css(styles.majorContentsContainer)}>
               <img src={notgood}/>
               <span className={css(styles.contentAlertText)}>일반 선택</span>
-              <span className={css(styles.lackCredit)}>{needNormalCredit}</span>
+              <span className={css(styles.lackCredit)}>{rest_credit - (completeNormalCredit)} 학점</span>
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
             </div>
             }

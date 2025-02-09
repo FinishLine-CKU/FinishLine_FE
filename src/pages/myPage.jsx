@@ -69,11 +69,12 @@ function MyPage() {
         };
     };
     const myLectureUpdate = async () => {
+        const userId = localStorage.getItem('idToken');
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture`);
+          const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture?user_id=${userId}`);
           setMyLectureList(response.data);
         } catch (error) {
-          setError('기이수과목 정보를 가져오는데 실패했습니다.');
+          setError('과목 정보를 가져오는데 실패했습니다.');
           console.error('Error fetching data: ', error);
         }
       };
