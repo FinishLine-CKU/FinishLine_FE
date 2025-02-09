@@ -206,12 +206,22 @@ function MyPage() {
             alert(error);
         };
     };
+    const lackCredit = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/user/lack_credit/', {
+            student_id : localStorage.getItem('idToken')
+          });
+        if (response.data) {
+            const { need_major } = response.data;
+        } else {
+            alert("서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요")
+        }
+    };
     const navigateUploadPDF = () => {
         navigate('/uploadpdf');
         window.scrollTo(0, 0);
     };
     const navigateDoneLecture = () => {
-        navigate('/donelecture');
+        navigate('/graduTestPage');
         window.scrollTo(0, 0);
     };
     const navigateTest = () => {
@@ -226,6 +236,7 @@ function MyPage() {
         myInfo();
         myLectureUpdate();
         setFeatCloseButton(true);
+        // lackCredit();
     }, []);
 
     useEffect(() => {
@@ -375,23 +386,36 @@ function MyPage() {
                     <hr className={css(styles.horizontal)}></hr>
                     {localStorage.getItem('testing') ?
                     <div className={css(styles.contentArea)}>
-                        <span className={css(styles.graduState)}>졸업까지 28학점 이수해야 합니다!</span>
+                                  <span className={css(styles.graduState)}>
+                                    졸업까지 <span className={css(styles.highlight_number)}>
+                                        {localStorage.getItem('needTotalCredit')}학점
+                                      </span> 이수해야 합니다!
+                                   </span>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>전공</span>
                             <span className={css(styles.graduContent)}>10학점 부족</span>
                         </div>
-                        <div className={css(styles.contentContainer)}>
+                        {localStorage.getItem('completeEsseCredit') == 0 ? 
+                        null
+                        : <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>교양필수</span>
-                            <span className={css(styles.graduContent)}>봉사와 실천 (2학점)</span>
+                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeEsseCredit')} 학점</strong> 부족</span>
                         </div>
-                        <div className={css(styles.contentContainer)}>
+                        }
+                        {localStorage.getItem('completeChoiceCredit') == 0 ? 
+                        null
+                        : <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>교양선택</span>
-                            <span className={css(styles.graduContent)}>인간과문학, 역사와사회, 철학과예술 중 4과목 (8학점)</span>
+                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeChoiceCredit')} 학점</strong> 부족</span>
                         </div>
-                        <div className={css(styles.contentContainer)}>
+                        }
+                        {localStorage.getItem('completeNormalCredit') == 0 ?
+                        null
+                        : <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>일반선택</span>
-                            <span className={css(styles.graduContent)}>6학점 부족</span>
+                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeNormalCredit')} 학점</strong> 부족</span>
                         </div>
+                        }  
                     </div>
                     : <div className={css(styles.contentNothingArea)}>
                         <div className={css(styles.noneContainer)}>
