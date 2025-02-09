@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, css } from 'aphrodite';
 import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
@@ -7,7 +6,10 @@ import graduatedstudent from "../assets/images/graduatedstudent.png";
 Chart.register(ArcElement, Tooltip, Legend);
 
 const GraduChartComponenets = ({ earned, total }) => {
-  const remaining = total - earned;
+  var remaining = total - earned;
+  if (remaining < 0) {
+    remaining = 0
+  };
 
   const data = {
     labels: ["취득 학점", "남은 학점"],
