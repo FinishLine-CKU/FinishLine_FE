@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     paddingBottom: '5px',
     fontFamily: 'Lato',
     fontSize: '23px',
-    fontWeight: '600',
+    fontWeight: '700',
     textAlign: 'left',
   },
   titleContainer: {
@@ -370,12 +370,6 @@ const styles = StyleSheet.create({
       display: 'flex',
       justifyContent: 'center',
       marginTop: '30px',
-  },
-  title: {
-      fontFamily: 'Lato',
-      fontSize: '25px',
-      fontWeight: '800',
-      color: '#2B2A28',
   },
   close: {
       border: 'none',

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
@@ -138,8 +137,8 @@ function DoneLecturePage() {
         <Template title="기이수 과목 관리" />
         <div className={css(styles.container)}>
           <div className={css(styles.ColumnContainer)}>
-          <div className={css(styles.titleContainer)}>
-            <h2 className={css(styles.title)}>과목 직접 추가</h2>
+            <div className={css(styles.titleContainer)}>
+              <h2 className={css(styles.title)}>과목 직접 추가</h2>
             </div>
             <hr className={css(styles.custom_hr)}/>
             <p className={css(styles.small_title)}>과목코드로 검색</p>
@@ -158,8 +157,7 @@ function DoneLecturePage() {
               {lectureData && lectureData.length > 0 ? (
               <SubSearchComponents subjects={lectureData}  onAdd={handleAddSubject} />
               ) : 
-              (<div className={css(styles.tableEmptyContainer)}>
-              </div>)}
+              null}
             </div>
             <div className={css(styles.secondTitleContainer)}>
               <h2 className={css(styles.secondTitle)}>내 기이수 과목</h2>
@@ -219,17 +217,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontSize: '23px',
     textAlign: 'left',
+    fontWeight: '700'
   },
   secondTitle: {
     fontFamily: 'Lato',
     fontSize: '23px',
+    fontWeight: '700'
   },
   titleContainer: {
     width: '520px',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tableEmptyContainer: {
     alignItems: 'center',
     justifyContent: 'center',
   },
