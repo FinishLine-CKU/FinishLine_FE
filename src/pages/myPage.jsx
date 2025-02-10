@@ -438,7 +438,7 @@ function MyPage() {
                     </> :
                     <div className={css(styles.contentNothingArea)}>
                         <div className={css(styles.noneContainer)}>
-                            <span className={css(styles.noneMessage)}>회원 정보 수정으로 졸업 기준이 변동되었습니다.<br /><br />새로 적용된 기준으로 검사를 진행해주세요.</span>
+                            <span className={css(styles.noneMessage)}>회원정보 수정으로 졸업 기준이 변동되었습니다.<br /><br />새로 적용된 기준으로 검사를 진행해주세요.</span>
                         </div>
                     </div> }
                 </div>
