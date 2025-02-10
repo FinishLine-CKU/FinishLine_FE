@@ -279,7 +279,7 @@ function GraduTestPage() {
             <div className={css(styles.majorContentsContainer)}>
               <img src={notgood}/>
               <span className={css(styles.contentAlertText)}>일반 선택</span>
-              <span className={css(styles.lackCredit)}>{rest_credit - (completeNormalCredit + done_major_rest)}학점</span>
+              <span className={css(styles.lackCredit)}>{rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree)}학점</span>
               {localStorage.setItem('completeNormalCredit',  rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree) ? rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree) : 0)}
               {}
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
