@@ -72,9 +72,9 @@ function GraduTestPage() {
           setSub_major_type(sub_major_type)
           setDone_major_rest(done_major_rest)
         };
-      } else {
+      } else { // 추가 전공 해당 없을 시
         if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-          const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest } = response.data;
+          const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest, need_sub_major } = response.data;
           setMajor_info(major_info);
           setNeed_major(need_major)
           setUser_major(user_major)
@@ -84,8 +84,10 @@ function GraduTestPage() {
           setGeneral_selection_credit(general_selection_credit)
           setRest_credit(0)
           setDone_major_rest(done_major_rest)
+          setNeed_sub_major(need_sub_major)
+          {localStorage.setItem('need_sub_major', need_sub_major)}
         } else {
-          const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest } = response.data;
+          const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest, need_sub_major } = response.data;
           setMajor_info(major_info);
           setNeed_major(need_major)
           setUser_major(user_major)
@@ -95,6 +97,8 @@ function GraduTestPage() {
           setGeneral_selection_credit(general_selection_credit)
           setRest_credit(rest_credit)
           setDone_major_rest(done_major_rest)
+          setNeed_sub_major(need_sub_major)
+          {localStorage.setItem('need_sub_major', need_sub_major)}
         };
       }
     } else {
@@ -138,6 +142,7 @@ function GraduTestPage() {
     testing();
     localStorage.setItem('testing', true);
     goGraduationCheck();
+    localStorage.removeItem('tryAgainTest');
   }, []);
 
   return (
@@ -154,9 +159,17 @@ function GraduTestPage() {
         <div className={css(styles.textContainer)}>
           <div>
             <span className={css(styles.custom_title_result_text)}>졸업까지</span>
-            <span className={css(styles.restCredit)}>{need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest))}학점</span>
-            {localStorage.setItem('needTotalCredit', need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest)))}
-            <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+            {sub_major_type ?
+            <>
+              <span className={css(styles.restCredit)}>{rest_credit > (completeNormalCredit + done_major_rest) ? need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest)) + need_sub_major : need_major + needEsseCredit + needChoiceCredit + need_sub_major}학점</span>
+              {localStorage.setItem('needTotalCredit', rest_credit > (completeNormalCredit + done_major_rest) ? need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest)) + need_sub_major : need_major + needEsseCredit + needChoiceCredit + need_sub_major)}
+              <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+            </>
+            : <>
+              <span className={css(styles.restCredit)}>{rest_credit > (completeNormalCredit + done_major_rest) ? need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest)) : need_major + needEsseCredit + needChoiceCredit}학점</span>
+              {localStorage.setItem('needTotalCredit', rest_credit > (completeNormalCredit + done_major_rest) ? need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest)) : need_major + needEsseCredit + needChoiceCredit)}
+              <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+            </>}
           </div>
           <span className={css(styles.custom_smalltext)}>아래에서 부족한 영역을 확인하세요</span>
         </div>
@@ -217,6 +230,7 @@ function GraduTestPage() {
               <span className={css(styles.contentAlertText)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type).label}</span>
               <span className={css(styles.lackCredit)}>{need_sub_major}학점</span>
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
+              {localStorage.setItem('need_sub_major', need_sub_major)}
             </div>
             }
           </div> :
@@ -359,19 +373,22 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: '66px',
+    backgroundColor: '#FFFEFB'
   },
   rowContainer: {
     display: 'flex',
-    marginBottom: '100px',
+    paddingBottom: '100px',
     justifyContent: 'center',
-    gap: '100px'
+    gap: '100px',
+    backgroundColor: '#FFFEFB'
   },
   bottomContainer: {
     display: 'flex',
     flexDirection: 'column', 
     alignItems: 'center',
     justifyContent: 'center', 
-    marginBottom: '200px',
+    paddingBottom: '200px',
+    backgroundColor: '#FFFEFB'
   },
   majorContainer: {
     display: 'flex',
@@ -600,7 +617,7 @@ const styles = StyleSheet.create({
     borderRadius: '5px',
     border: '1px solid transparent',
     backgroundColor: '#3D5286',
-    color: '#FFFFFF',
+    color: '#FFFEFB',
     cursor: 'pointer',
     ':active': {
       backgroundColor: '#2C4061',

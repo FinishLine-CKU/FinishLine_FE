@@ -72,7 +72,7 @@ function MyPage() {
         const response = await axios.post('http://127.0.0.1:8000/user/lack_credit/', {
             student_id : localStorage.getItem('idToken')
         });
-        if (response.data.need_major) {
+        if (!response.data.error) {
             const { need_major } = response.data;
             setLackMajor(need_major);
         } else {
@@ -197,6 +197,7 @@ function MyPage() {
         closeModal();
     };
     const translateInfo = () => {
+        localStorage.setItem('tryAgainTest', true);
         setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type);
         setSub_major(MAJOR.find(item => item.value === sub_major)?.label || sub_major);
         setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree);
@@ -381,46 +382,62 @@ function MyPage() {
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>졸업요건검사</span>
                         {localStorage.getItem('testing') ?
+                        !localStorage.getItem('tryAgainTest') ?
                         <button className={css(styles.button)} onClick={navigateDoneLecture}>자세히보기</button>
+                        : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button>
                         : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button> }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
-                    {localStorage.getItem('testing') ?
-                    <div className={css(styles.contentArea)}>
-                        <div className={css(styles.marginBottom)}>
-                            <span className={css(styles.graduState)}>졸업까지</span>
-                            <span className={css(styles.totalCredit)}>{localStorage.getItem('needTotalCredit')}학점</span>
-                            <span className={css(styles.graduState)}>이수해야 합니다!</span>
-                        </div>
-                        {}                                   
-                        <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>전공</span>
-                            <span className={css(styles.graduContent)}><strong>{lackMajor}학점</strong> 부족</span>
-                        </div>
-                        {localStorage.getItem('needEsseCredit') ? 
-                        <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>교양필수</span>
-                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needEsseCredit')}학점</strong> 부족</span>
-                        </div>
-                        : null}
-                        {localStorage.getItem('needChoiceCredit') ? 
-                    
-                        <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>교양선택</span>
-                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needChoiceCredit')}학점</strong> 부족</span>
-                        </div>
-                        : null
-                        }
-                        {localStorage.getItem('completeNormalCredit') == 0 ?
-                        null
-                        : <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>일반선택</span>
-                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeNormalCredit')}학점</strong> 부족</span>
-                        </div>}  
-                    </div>
-                    : <div className={css(styles.contentNothingArea)}>
+                    {!localStorage.getItem('tryAgainTest') ?
+                    <>
+                        {localStorage.getItem('testing') ?
+                        <div className={css(styles.contentArea)}>
+                            <div className={css(styles.marginBottom)}>
+                                <span className={css(styles.graduState)}>졸업까지</span>
+                                <span className={css(styles.totalCredit)}>{localStorage.getItem('needTotalCredit')}학점</span>
+                                <span className={css(styles.graduState)}>이수해야 합니다!</span>
+                            </div>
+                            {lackMajor ?                        
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>전공</span>
+                                <span className={css(styles.graduContent)}><strong>{lackMajor}학점</strong> 부족</span>
+                            </div>
+                            : null}
+                            {localStorage.getItem('need_sub_major') ?
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
+                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('need_sub_major')}학점</strong> 부족</span>
+                            </div>
+                            : null}
+                            {localStorage.getItem('needEsseCredit') ? 
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>교양필수</span>
+                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needEsseCredit')}학점</strong> 부족</span>
+                            </div>
+                            : null}
+                            {localStorage.getItem('needChoiceCredit') ? 
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>교양선택</span>
+                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needChoiceCredit')}학점</strong> 부족</span>
+                            </div>
+                            : null
+                            }
+                            {localStorage.getItem('completeNormalCredit') == 0 ?
+                            null
+                            : <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>일반선택</span>
+                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeNormalCredit')}학점</strong> 부족</span>
+                            </div>}  
+                        </div> :
+                        <div className={css(styles.contentNothingArea)}>
+                            <div className={css(styles.noneContainer)}>
+                                <span className={css(styles.noneMessage)}>검사 이력이 없습니다.</span>
+                            </div>
+                        </div> }
+                    </> :
+                    <div className={css(styles.contentNothingArea)}>
                         <div className={css(styles.noneContainer)}>
-                            <span className={css(styles.noneMessage)}>검사 이력이 없습니다.</span>
+                            <span className={css(styles.noneMessage)}>회원 정보 수정으로 졸업 기준이 변동되었습니다.<br /><br />새로 적용된 기준으로 검사를 진행해주세요.</span>
                         </div>
                     </div> }
                 </div>
@@ -560,7 +577,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontWeight: '500',
         fontSize: '17px',
-        color: '#7A828A'
+        color: '#7A828A',
+        textAlign: 'center'
     },
     guideContainer: {
         display: 'flex',
