@@ -247,6 +247,7 @@ function GraduTestPage() {
               <span className={css(styles.contentAlertText)}>일반 선택</span>
               <span className={css(styles.lackCredit)}>{rest_credit - (completeNormalCredit + done_major_rest)}학점</span>
               {localStorage.setItem('completeNormalCredit', rest_credit - (completeNormalCredit + done_major_rest))}
+              {}
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
             </div>
             }
@@ -259,8 +260,6 @@ function GraduTestPage() {
                 <span className={css(styles.userCredit)}>{completeEsseCredit + completeChoiceCredit}</span>
                 <span className={css(styles.custom_hr_react)}> / </span>
                 <span className={css(styles.custom_h_focus)}>{general_essential_credit + general_selection_credit} 학점</span>
-                {localStorage.setItem('completeEsseCredit', completeEsseCredit)}
-                {localStorage.setItem('completeChoiceCredit', completeChoiceCredit)}
               </div>
               <hr className={css(styles.custom_major_hr)}/>
               <div className={css(styles.generalContainer)}>
@@ -286,6 +285,7 @@ function GraduTestPage() {
                         <span className={css(styles.contentAlertText)}>교양 필수</span>
                         <span className={css(styles.lackCredit)}>{needEsseCredit}학점</span>
                         <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                        {localStorage.setItem('needEsseCredit', needEsseCredit)}
                       </div>
                     </div>
                   </div>
@@ -324,6 +324,7 @@ function GraduTestPage() {
                         <span className={css(styles.contentAlertText)}>교양 선택</span>
                         <span className={css(styles.lackCredit)}>{needChoiceCredit}학점</span>
                         <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                        {localStorage.setItem('needChoiceCredit', needChoiceCredit)}
                       </div>
                     </div>
                   </div>
