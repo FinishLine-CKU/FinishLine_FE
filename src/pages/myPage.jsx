@@ -40,25 +40,25 @@ function MyPage() {
                     const { major, student_id, sub_major_type, sub_major, micro_degree } = response.data;
                     setMajor(MAJOR.find(item => item.value === major)?.label);
                     setStudent_id(student_id);
-                    setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
-                    setSub_major(MAJOR.find(item => item.value === sub_major).label);
-                    setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
+                    setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type);
+                    setSub_major(MAJOR.find(item => item.value === sub_major)?.label || sub_major);
+                    setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree);
                 } else {
                     const { major, student_id, sub_major_type, sub_major } = response.data;
-                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setMajor(MAJOR.find(item => item.value === major)?.label || major);
                     setStudent_id(student_id);
-                    setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
-                    setSub_major(MAJOR.find(item => item.value === sub_major).label);
+                    setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type);
+                    setSub_major(MAJOR.find(item => item.value === sub_major)?.label || sub_major);
                 };
             } else {
                 if (response.data.micro_degree) {
                     const { major, student_id, micro_degree } = response.data;
-                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setMajor(MAJOR.find(item => item.value === major)?.label || major);
                     setStudent_id(student_id);
-                    setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
+                    setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree);
                 } else {
                     const { major, student_id } = response.data;
-                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setMajor(MAJOR.find(item => item.value === major)?.label || major);
                     setStudent_id(student_id);
                 };
             };
@@ -404,11 +404,12 @@ function MyPage() {
                             </div>
                             : null}
                             {localStorage.getItem('need_sub_major') ?
+                            localStorage.getItem('need_sub_major') != 0 ?
                             <div className={css(styles.contentContainer)}>
                                 <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
                                 <span className={css(styles.graduContent)}><strong>{localStorage.getItem('need_sub_major')}학점</strong> 부족</span>
                             </div>
-                            : null}
+                            : null : null}
                             {localStorage.getItem('needEsseCredit') ? 
                             <div className={css(styles.contentContainer)}>
                                 <span className={css(styles.contentTitle)}>교양필수</span>
