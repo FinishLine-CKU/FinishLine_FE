@@ -16,7 +16,7 @@ function LoginPage() {
     const { modalState, closeModal } = useContext(ModalContext)
     const checkRegister = async () => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/user/check_register/', {
+            const response = await axios.post('http://3.36.58.79:8000/user/check_register/', {
                 studentId : studentId,
                 password : password
             });

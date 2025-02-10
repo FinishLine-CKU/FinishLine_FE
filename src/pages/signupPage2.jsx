@@ -191,7 +191,7 @@ function SignupPage2() {
     };
     const registerInfo = async () => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/user/register_info/', {
+            const response = await axios.post('http://3.36.58.79:8000/user/register_info/', {
                 name : name,
                 major : MAJOR.find(item => item.label === major).value,
                 student_id : student_id,

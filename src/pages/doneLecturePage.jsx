@@ -44,7 +44,7 @@ function DoneLecturePage() {
     setLectureData([]);
 
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
+        const response = await axios.get(`http://3.36.58.79:8000/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
         
         // 응답이 비어있는 경우 처리
         if (!response.data || response.data.length === 0) {
@@ -63,7 +63,7 @@ function DoneLecturePage() {
   const myLectureUpdate = async () => {
     const userId = localStorage.getItem('idToken');
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture?user_id=${userId}`);
+      const response = await axios.get(`http://3.36.58.79:8000/graduation/api/mydonelecture?user_id=${userId}`);
       setMyLectureList(response.data);
     } catch (error) {
       setError('과목 정보를 가져오는데 실패했습니다.');
@@ -91,7 +91,7 @@ function DoneLecturePage() {
         grade: subject.grade,
       }));
   
-      const response = await fetch("http://127.0.0.1:8000/graduation/api/mydonelecture/", {
+      const response = await fetch("http://3.36.58.79:8000/graduation/api/mydonelecture/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
