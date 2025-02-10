@@ -230,7 +230,7 @@ function GraduTestPage() {
             </div>
             <hr className={css(styles.custom_major_hr)}/>
             {/* 일반선택 로직 추가 */}
-            {25 <= completeNormalCredit ?
+            {(completeNormalCredit + done_major_rest) >= rest_credit ?
             <div className={css(styles.majorContentsContainer)}>
               <img src={sogood}/>
               <div className={css(styles.successContainer)}>
@@ -246,7 +246,7 @@ function GraduTestPage() {
               <img src={notgood}/>
               <span className={css(styles.contentAlertText)}>일반 선택</span>
               <span className={css(styles.lackCredit)}>{rest_credit - (completeNormalCredit + done_major_rest)}학점</span>
-              {localStorage.setItem('completeNormalCredit', rest_credit - (completeNormalCredit + done_major_rest))}
+              {localStorage.setItem('completeNormalCredit',  rest_credit > (completeNormalCredit + done_major_rest) ? rest_credit - (completeNormalCredit + done_major_rest) : 0)}
               {}
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
             </div>
