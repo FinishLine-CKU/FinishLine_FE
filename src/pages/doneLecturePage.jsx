@@ -32,7 +32,7 @@ function DoneLecturePage() {
     const isDuplicate = myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code);
   
     if (isDuplicate) {
-      alert(`${lectureData[0].lecture_name} 과목은 이미 추가되었습니다.`);
+      alert(`해당 과목은 이미 추가되었습니다.`);
       return;
     }
   
@@ -163,7 +163,9 @@ function DoneLecturePage() {
             </div>
             <div className={css(styles.secondTitleContainer)}>
               <h2 className={css(styles.secondTitle)}>내 기이수 과목</h2>
+              {lectureData && lectureData.length > 0 ?
               <button className={css(styles.itemSaveButton)} onClick={handleSaveAllSubjects}>저장하기</button>
+              : null}
             </div>
             <hr className={css(styles.second_custom_hr)}/>
             <div className={css(styles.tableContainerSecond)}>
@@ -284,7 +286,7 @@ const styles = StyleSheet.create({
     borderRadius: '5px',
     border: '1px solid transparent',
     backgroundColor: 'black',
-    color: '#FFFFFF',
+    color: '#FFFEFB',
     cursor: 'pointer',
     ':active': {
         backgroundColor: '#595650',
@@ -305,16 +307,21 @@ const styles = StyleSheet.create({
     width: '70px',
     height: '25px',
     borderRadius: '5px',
-    border: '1px solid transparent',
-    backgroundColor: 'black',
-    color: '#FFFFFF',
+    border: '1px solid #2B2A28',
+    backgroundColor: '#FFFEFB',
+    color: '#2B2A28',
     cursor: 'pointer',
+    ':hover': {
+      backgroundColor: '#2B2A28',
+      color: '#FFFEFB'
+    },
     ':active': {
       backgroundColor: '#595650',
+      borderColor: '#595650'
     },
     fontFamily: 'Lato',
     fontSize: '12px',
-    fontWeight: '600',
+    fontWeight: '700',
   },
   itemGraduButton: {
     width: '165px',
@@ -329,7 +336,7 @@ const styles = StyleSheet.create({
     },
     fontFamily: 'Lato',
     fontSize: '15px',
-    fontWeight: '600',
+    fontWeight: '700',
     marginTop: '32px',
   },
 });

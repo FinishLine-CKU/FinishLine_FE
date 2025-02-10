@@ -172,6 +172,10 @@ function GraduTestPage() {
         <GraduChartComponets earned={user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree} total={total_credit} />
         <div className={css(styles.textContainer)}>
           <div>
+            {need_major + needEsseCredit + needChoiceCredit + need_sub_major <= 0 ? 
+            <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
+            :
+            <>
             <span className={css(styles.custom_title_result_text)}>졸업까지</span>
             {sub_major_type ?
             <>
@@ -184,6 +188,8 @@ function GraduTestPage() {
               {localStorage.setItem('needTotalCredit', rest_credit > (completeNormalCredit + done_major_rest+ done_micro_degree) ? need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree)) : need_major + needEsseCredit + needChoiceCredit)}
               <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
             </>}
+            </>
+            }
           </div>
           <span className={css(styles.custom_smalltext)}>아래에서 부족한 영역을 확인하세요</span>
         </div>
@@ -530,6 +536,13 @@ const styles = StyleSheet.create({
     fontSize: '30px',
     fontWeight: '700',
     color: 'black',
+  },
+  cheer: {
+    textAlign: 'center',
+    fontFamily: 'Lato',
+    fontSize: '30px',
+    fontWeight: '700',
+    color: '#FF8EA8',
   },
   restCredit: {
     fontFamily: 'Lato',
