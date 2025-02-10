@@ -49,7 +49,7 @@ const GraduChartComponenets = ({ earned, total }) => {
       {earned >= total ?
       <>
         <img src={bouquet} alt="학생" className={css(styles.bouquet)}/>
-        <img src={success} alt="졸업학생"className={css(styles.success)} />
+        <img src={success} alt="졸업학생"className={css(styles.success)}/>
       </>
       : <img src={graduatedstudent} alt="학생" className={css(styles.studentImg)}/>}
       <div className={css(styles.statContainer)}>
