@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     marginBottom: '137px',
+
   },
   donelistcontainer: {
     marginTop: '50px',
@@ -199,6 +200,8 @@ const styles = StyleSheet.create({
     fontSize: '12px',
     marginLeft: '1%',
     cursor: 'pointer',
+    fontFamily: 'Lato',
+    fontWeight: '600'
   },
   itemUploadButton: {
     marginRight: '5px',
@@ -289,11 +292,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '98%',
+    width: '90%',
     padding: '4px',
+    paddingLeft: '15px',
     marginBottom: '2px',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFEFB',
     borderRadius: '3px',
+    border: '1px solid #CACACA',
     fontSize: '14px',
   },
   itemfileNameButton: {
@@ -306,7 +311,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontSize: '13px',
     color: 'black',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFEFB',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -321,7 +326,7 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
     fontFamily: 'Lato',
     fontSize: '16px',
-    padding: '0 5px',
+    padding: '0 10px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -334,7 +339,8 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     height: 'auto',
     minHeight: 'auto',
-    maxHeight: '100px'
+    maxHeight: '100px',
+    backgroundColor: '#FFFEFB'
   },
   itemTextcontainer: {
     width: '80px',
