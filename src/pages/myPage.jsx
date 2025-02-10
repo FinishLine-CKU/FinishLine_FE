@@ -402,8 +402,7 @@ function MyPage() {
                             <span className={css(styles.contentTitle)}>교양필수</span>
                             <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needEsseCredit')}학점</strong> 부족</span>
                         </div>
-                        : null
-                        }
+                        : null}
                         {localStorage.getItem('needChoiceCredit') ? 
                     
                         <div className={css(styles.contentContainer)}>
@@ -412,13 +411,12 @@ function MyPage() {
                         </div>
                         : null
                         }
-                        {localStorage.getItem('completeNormalCredit') ?
-                        <div className={css(styles.contentContainer)}>
+                        {localStorage.getItem('completeNormalCredit') == 0 ?
+                        null
+                        : <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>일반선택</span>
                             <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeNormalCredit')}학점</strong> 부족</span>
-                        </div>
-                        : null
-                        }  
+                        </div>}  
                     </div>
                     : <div className={css(styles.contentNothingArea)}>
                         <div className={css(styles.noneContainer)}>
