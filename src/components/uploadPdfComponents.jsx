@@ -102,54 +102,51 @@ function UploadPdfComponents() {
         </div> : null}
         <div className={css(styles.container)}>
           <div className={css(styles.donelistcontainer)}>
-          <div className={css(styles.titleContainer)}>
-            <h2 className={css(styles.title)}>기이수과목 등록</h2>
+            <div className={css(styles.titleContainer)}>
+              <span className={css(styles.title)}>기이수과목 등록</span>
             </div>
             <hr className={css(styles.custom_hr)}/>
-              <div className={css(styles.itemRowcontainer)}>
+            <div className={css(styles.itemRowcontainer)}>
               <div className={css(styles.itemTextcontainer)}>
                 <p className={css(styles.custom_text)}>파일 선택</p>
+              </div>
+              <div className={css(styles.containerSecond)}>
+                <div className={css(styles.itemboxcontainer)}>
+                  <input 
+                    type="file" 
+                    style={{ display: "none" }} 
+                    id="uploadpdf" 
+                    accept=".pdf" 
+                    multiple
+                    onChange={fileInputHandler}
+                  />
+                  {fileNames.length === 0 ? (
+                    <p className={css(styles.custom_text_box)}>
+                      파일을 선택해주세요. (최대 25장)
+                    </p>
+                  ) : (
+                    fileNames.map((fileName, index) => (
+                      <div key={index} className={css(styles.fileNameButtonContainer)}>
+                        <span>{fileName}</span>
+                        <button
+                          onClick={() => handleDeleteFile(index)}
+                          className={css(styles.itemdeleteButton)}
+                          type="button"
+                        >×</button>
+                      </div>
+                    ))
+                  )}
                 </div>
-                <div className={css(styles.containerSecond)}>
-     <div className={css(styles.itemboxcontainer)}>
-       <input 
-         type="file" 
-         style={{ display: "none" }} 
-         id="uploadpdf" 
-         accept=".pdf" 
-         multiple
-         onChange={fileInputHandler}
-       />
-       {fileNames.length === 0 ? (
-         <p className={css(styles.custom_text_box)}>
-           파일을 선택해주세요. (최대 25장)
-         </p>
-       ) : (
-         fileNames.map((fileName, index) => (
-           <div key={index} className={css(styles.fileNameButtonContainer)}>
-             <span>{fileName}</span>
-             <button
-               onClick={() => handleDeleteFile(index)}
-               className={css(styles.itemdeleteButton)}
-               type="button"
-             >×</button>
-           </div>
-         ))
-       )}
-     </div>
-     <div className={css(styles.itemboxcontainerScrollableSecond)}>
-       <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>
-         파일 업로드
-       </label>
-      </div>
-      </div>
-      <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
-      </div>
-      <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 
-        인쇄 &gt; PDF로 저장
-        </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
-      </div>
-      </div>
+                <div className={css(styles.itemboxcontainerScrollableSecond)}>
+                  <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>파일 업로드</label>
+                </div>
+              </div>
+              <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
+            </div>
+            <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 인쇄 &gt; PDF로 저장
+            </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
+          </div>
+        </div>
       </div>
     );
 }
@@ -158,17 +155,17 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     justifyContent: 'center',
-    marginBottom: '137px',
-
+    paddingBottom: '137px',
+    backgroundColor: '#FFFEFB'
   },
   donelistcontainer: {
-    marginTop: '50px',
+    paddingTop: '50px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   title: {
-    marginBottom: '5px',
+    paddingBottom: '5px',
     fontFamily: 'Lato',
     fontSize: '23px',
     fontWeight: '600',
@@ -176,16 +173,16 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     width: '520px',
-    marginBottom: '5px',
+    paddingBottom: '5px',
     fontFamily: 'Lato',
     fontSize: '23px',
   },
   custom_hr: {
-    width: '540px',
+    width: '100%',
     border: '1px solid #E4E4E4',
   },
   itemRowcontainer: {
-    marginTop: '30px',
+    paddingTop: '30px',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -280,7 +277,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '70px',
-    height: 'auto',  
+    height: 'auto',
     border: '1px solid #CCC',
     backgroundColor: '#F6F6F6',
     borderRadius: '0 5px 5px 0',
@@ -379,7 +376,6 @@ const styles = StyleSheet.create({
       fontSize: '25px',
       fontWeight: '800',
       color: '#2B2A28',
-      marginBottom: '30px',
   },
   close: {
       border: 'none',
