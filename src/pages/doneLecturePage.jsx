@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     justifyContent: 'center',
-    marginBottom: '50px',
+    paddingBottom: '50px',
     backgroundColor: '#FFFEFB'
   },
   ColumnContainer: {
