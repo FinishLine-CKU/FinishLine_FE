@@ -48,7 +48,7 @@ function App() {
             <Route path="/signupPage2" element={<SignupPage2 />} />
             <Route path="/loginPage" element={<LoginPage />} /> 
             <Route path="/userGuidePage" element={<UserGuidePage />} />
-            <Route path="/introPage" element={<IntroPage />} />
+            <Route path="/" element={<IntroPage />} />
             <Route path="/myPage" element={<MyPage />} />
             <Route path="/manageGraduPage" element={<ManageGraduPage />} />
             <Route path="/graduTestPage" element={<GraduTestPage />} />
