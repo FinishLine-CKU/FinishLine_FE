@@ -102,54 +102,51 @@ function UploadPdfComponents() {
         </div> : null}
         <div className={css(styles.container)}>
           <div className={css(styles.donelistcontainer)}>
-          <div className={css(styles.titleContainer)}>
-            <h2 className={css(styles.title)}>기이수과목 등록</h2>
+            <div className={css(styles.titleContainer)}>
+              <span className={css(styles.title)}>기이수과목 등록</span>
             </div>
             <hr className={css(styles.custom_hr)}/>
-              <div className={css(styles.itemRowcontainer)}>
+            <div className={css(styles.itemRowcontainer)}>
               <div className={css(styles.itemTextcontainer)}>
                 <p className={css(styles.custom_text)}>파일 선택</p>
+              </div>
+              <div className={css(styles.containerSecond)}>
+                <div className={css(styles.itemboxcontainer)}>
+                  <input 
+                    type="file" 
+                    style={{ display: "none" }} 
+                    id="uploadpdf" 
+                    accept=".pdf" 
+                    multiple
+                    onChange={fileInputHandler}
+                  />
+                  {fileNames.length === 0 ? (
+                    <p className={css(styles.custom_text_box)}>
+                      파일을 선택해주세요. (최대 25장)
+                    </p>
+                  ) : (
+                    fileNames.map((fileName, index) => (
+                      <div key={index} className={css(styles.fileNameButtonContainer)}>
+                        <span>{fileName}</span>
+                        <button
+                          onClick={() => handleDeleteFile(index)}
+                          className={css(styles.itemdeleteButton)}
+                          type="button"
+                        >×</button>
+                      </div>
+                    ))
+                  )}
                 </div>
-                <div className={css(styles.containerSecond)}>
-     <div className={css(styles.itemboxcontainer)}>
-       <input 
-         type="file" 
-         style={{ display: "none" }} 
-         id="uploadpdf" 
-         accept=".pdf" 
-         multiple
-         onChange={fileInputHandler}
-       />
-       {fileNames.length === 0 ? (
-         <p className={css(styles.custom_text_box)}>
-           파일을 선택해주세요. (최대 25장)
-         </p>
-       ) : (
-         fileNames.map((fileName, index) => (
-           <div key={index} className={css(styles.fileNameButtonContainer)}>
-             <span>{fileName}</span>
-             <button
-               onClick={() => handleDeleteFile(index)}
-               className={css(styles.itemdeleteButton)}
-               type="button"
-             >×</button>
-           </div>
-         ))
-       )}
-     </div>
-     <div className={css(styles.itemboxcontainerScrollableSecond)}>
-       <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>
-         파일 업로드
-       </label>
-      </div>
-      </div>
-      <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
-      </div>
-      <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 
-        인쇄 &gt; PDF로 저장
-        </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
-      </div>
-      </div>
+                <div className={css(styles.itemboxcontainerScrollableSecond)}>
+                  <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>파일 업로드</label>
+                </div>
+              </div>
+              <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
+            </div>
+            <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 인쇄 &gt; PDF로 저장
+            </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
+          </div>
+        </div>
       </div>
     );
 }
@@ -158,33 +155,34 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     justifyContent: 'center',
-    marginBottom: '137px',
+    paddingBottom: '137px',
+    backgroundColor: '#FFFEFB'
   },
   donelistcontainer: {
-    marginTop: '50px',
+    paddingTop: '50px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   title: {
-    marginBottom: '5px',
+    paddingBottom: '5px',
     fontFamily: 'Lato',
     fontSize: '23px',
-    fontWeight: '600',
+    fontWeight: '700',
     textAlign: 'left',
   },
   titleContainer: {
     width: '520px',
-    marginBottom: '5px',
+    paddingBottom: '5px',
     fontFamily: 'Lato',
     fontSize: '23px',
   },
   custom_hr: {
-    width: '540px',
+    width: '100%',
     border: '1px solid #E4E4E4',
   },
   itemRowcontainer: {
-    marginTop: '30px',
+    paddingTop: '30px',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -199,6 +197,8 @@ const styles = StyleSheet.create({
     fontSize: '12px',
     marginLeft: '1%',
     cursor: 'pointer',
+    fontFamily: 'Lato',
+    fontWeight: '600'
   },
   itemUploadButton: {
     marginRight: '5px',
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '70px',
-    height: 'auto',  
+    height: 'auto',
     border: '1px solid #CCC',
     backgroundColor: '#F6F6F6',
     borderRadius: '0 5px 5px 0',
@@ -289,11 +289,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '98%',
+    width: '90%',
     padding: '4px',
+    paddingLeft: '15px',
     marginBottom: '2px',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFEFB',
     borderRadius: '3px',
+    border: '1px solid #CACACA',
     fontSize: '14px',
   },
   itemfileNameButton: {
@@ -306,7 +308,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontSize: '13px',
     color: 'black',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFEFB',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -321,7 +323,7 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
     fontFamily: 'Lato',
     fontSize: '16px',
-    padding: '0 5px',
+    padding: '0 10px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -334,7 +336,8 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     height: 'auto',
     minHeight: 'auto',
-    maxHeight: '100px'
+    maxHeight: '100px',
+    backgroundColor: '#FFFEFB'
   },
   itemTextcontainer: {
     width: '80px',
@@ -367,13 +370,6 @@ const styles = StyleSheet.create({
       display: 'flex',
       justifyContent: 'center',
       marginTop: '30px',
-  },
-  title: {
-      fontFamily: 'Lato',
-      fontSize: '25px',
-      fontWeight: '800',
-      color: '#2B2A28',
-      marginBottom: '30px',
   },
   close: {
       border: 'none',

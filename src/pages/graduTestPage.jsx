@@ -33,6 +33,7 @@ function GraduTestPage() {
   const [sub_major_credit, setSub_major_credit] = useState();
   const [sub_major_type, setSub_major_type] = useState();
   const [done_major_rest, setDone_major_rest] = useState();
+  const [done_micro_degree, setDone_micro_degree] = useState();
   const navigate = useNavigate();
 
   const testing = async () => {
@@ -72,9 +73,9 @@ function GraduTestPage() {
           setSub_major_type(sub_major_type)
           setDone_major_rest(done_major_rest)
         };
-      } else {
+      } else { // 추가 전공 해당 없을 시
         if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-          const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest } = response.data;
+          const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest, need_sub_major } = response.data;
           setMajor_info(major_info);
           setNeed_major(need_major)
           setUser_major(user_major)
@@ -84,8 +85,10 @@ function GraduTestPage() {
           setGeneral_selection_credit(general_selection_credit)
           setRest_credit(0)
           setDone_major_rest(done_major_rest)
+          setNeed_sub_major(need_sub_major)
+          {localStorage.setItem('need_sub_major', need_sub_major)}
         } else {
-          const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest } = response.data;
+          const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest, need_sub_major } = response.data;
           setMajor_info(major_info);
           setNeed_major(need_major)
           setUser_major(user_major)
@@ -95,6 +98,8 @@ function GraduTestPage() {
           setGeneral_selection_credit(general_selection_credit)
           setRest_credit(rest_credit)
           setDone_major_rest(done_major_rest)
+          setNeed_sub_major(need_sub_major)
+          {localStorage.setItem('need_sub_major', need_sub_major)}
         };
       }
     } else {
@@ -128,6 +133,18 @@ function GraduTestPage() {
     }
   };
   
+  const microDegreeCheck = async () => {
+    const response = await axios.post('http://127.0.0.1:8000/graduation/test_micro_degree/', {
+      student_id : localStorage.getItem('idToken')
+    });
+    const { done_micro_degree } = response.data
+    if (done_micro_degree) {
+      setDone_micro_degree(done_micro_degree);
+    }
+    else {
+      setDone_micro_degree(0);
+    };
+  };
 
   const goToDoneLecture = () => {
     navigate("/donelecture");
@@ -138,6 +155,8 @@ function GraduTestPage() {
     testing();
     localStorage.setItem('testing', true);
     goGraduationCheck();
+    localStorage.removeItem('tryAgainTest');
+    microDegreeCheck();
   }, []);
 
   return (
@@ -150,13 +169,27 @@ function GraduTestPage() {
           <hr className={css(styles.custom_hr)}/>
           <p className={css(styles.custom_result_hr)}> {MAJOR.find(item => item.value === major_info)?.label || major_info} {localStorage.getItem('name')}님의 결과입니다</p>
         </div>
-        <GraduChartComponets earned={user_major + completeEsseCredit + completeChoiceCredit} total={total_credit} />
+        <GraduChartComponets earned={user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree} total={total_credit} />
         <div className={css(styles.textContainer)}>
           <div>
+            {need_major + needEsseCredit + needChoiceCredit + need_sub_major <= 0 ? 
+            <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
+            :
+            <>
             <span className={css(styles.custom_title_result_text)}>졸업까지</span>
-            <span className={css(styles.restCredit)}>{need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest))}학점</span>
-            {localStorage.setItem('needTotalCredit', need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest)))}
-            <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+            {sub_major_type ?
+            <>
+              <span className={css(styles.restCredit)}>{rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree) ? need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree)) + need_sub_major : need_major + needEsseCredit + needChoiceCredit + need_sub_major}학점</span>
+              {localStorage.setItem('needTotalCredit', rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree) ? need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree)) + need_sub_major : need_major + needEsseCredit + needChoiceCredit + need_sub_major)}
+              <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+            </>
+            : <>
+              <span className={css(styles.restCredit)}>{rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree) ? need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree)) : need_major + needEsseCredit + needChoiceCredit}학점</span>
+              {localStorage.setItem('needTotalCredit', rest_credit > (completeNormalCredit + done_major_rest+ done_micro_degree) ? need_major + needEsseCredit + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree)) : need_major + needEsseCredit + needChoiceCredit)}
+              <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+            </>}
+            </>
+            }
           </div>
           <span className={css(styles.custom_smalltext)}>아래에서 부족한 영역을 확인하세요</span>
         </div>
@@ -217,6 +250,7 @@ function GraduTestPage() {
               <span className={css(styles.contentAlertText)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type).label}</span>
               <span className={css(styles.lackCredit)}>{need_sub_major}학점</span>
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
+              {localStorage.setItem('need_sub_major', need_sub_major)}
             </div>
             }
           </div> :
@@ -224,13 +258,13 @@ function GraduTestPage() {
           <div className={css(styles.majorContainer)}>
             <div className={css(styles.majortitleContainer)}>
               <span className={css(styles.custom_h)}>일반선택</span>
-              <span className={css(styles.userCredit)}>{completeNormalCredit + done_major_rest}</span>
+              <span className={css(styles.userCredit)}>{completeNormalCredit + done_major_rest + done_micro_degree}</span>
               <span className={css(styles.custom_hr_react)}> / </span>
               <span className={css(styles.custom_h_focus)}>{rest_credit} 학점</span>
             </div>
             <hr className={css(styles.custom_major_hr)}/>
             {/* 일반선택 로직 추가 */}
-            {25 <= completeNormalCredit ?
+            {(completeNormalCredit + done_major_rest + done_micro_degree) >= rest_credit ?
             <div className={css(styles.majorContentsContainer)}>
               <img src={sogood}/>
               <div className={css(styles.successContainer)}>
@@ -245,8 +279,9 @@ function GraduTestPage() {
             <div className={css(styles.majorContentsContainer)}>
               <img src={notgood}/>
               <span className={css(styles.contentAlertText)}>일반 선택</span>
-              <span className={css(styles.lackCredit)}>{rest_credit - (completeNormalCredit + done_major_rest)}학점</span>
-              {localStorage.setItem('completeNormalCredit', rest_credit - (completeNormalCredit + done_major_rest))}
+              <span className={css(styles.lackCredit)}>{rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree)}학점</span>
+              {localStorage.setItem('completeNormalCredit',  rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree) ? rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree) : 0)}
+              {}
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
             </div>
             }
@@ -259,8 +294,6 @@ function GraduTestPage() {
                 <span className={css(styles.userCredit)}>{completeEsseCredit + completeChoiceCredit}</span>
                 <span className={css(styles.custom_hr_react)}> / </span>
                 <span className={css(styles.custom_h_focus)}>{general_essential_credit + general_selection_credit} 학점</span>
-                {localStorage.setItem('completeEsseCredit', completeEsseCredit)}
-                {localStorage.setItem('completeChoiceCredit', completeChoiceCredit)}
               </div>
               <hr className={css(styles.custom_major_hr)}/>
               <div className={css(styles.generalContainer)}>
@@ -286,6 +319,7 @@ function GraduTestPage() {
                         <span className={css(styles.contentAlertText)}>교양 필수</span>
                         <span className={css(styles.lackCredit)}>{needEsseCredit}학점</span>
                         <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                        {localStorage.setItem('needEsseCredit', needEsseCredit)}
                       </div>
                     </div>
                   </div>
@@ -324,6 +358,7 @@ function GraduTestPage() {
                         <span className={css(styles.contentAlertText)}>교양 선택</span>
                         <span className={css(styles.lackCredit)}>{needChoiceCredit}학점</span>
                         <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                        {localStorage.setItem('needChoiceCredit', needChoiceCredit)}
                       </div>
                     </div>
                   </div>
@@ -358,19 +393,22 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: '66px',
+    backgroundColor: '#FFFEFB'
   },
   rowContainer: {
     display: 'flex',
-    marginBottom: '100px',
+    paddingBottom: '100px',
     justifyContent: 'center',
-    gap: '100px'
+    gap: '100px',
+    backgroundColor: '#FFFEFB'
   },
   bottomContainer: {
     display: 'flex',
     flexDirection: 'column', 
     alignItems: 'center',
     justifyContent: 'center', 
-    marginBottom: '200px',
+    paddingBottom: '200px',
+    backgroundColor: '#FFFEFB'
   },
   majorContainer: {
     display: 'flex',
@@ -499,6 +537,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'black',
   },
+  cheer: {
+    textAlign: 'center',
+    fontFamily: 'Lato',
+    fontSize: '30px',
+    fontWeight: '700',
+    color: '#FF8EA8',
+  },
   restCredit: {
     fontFamily: 'Lato',
     fontSize: '30px',
@@ -599,7 +644,7 @@ const styles = StyleSheet.create({
     borderRadius: '5px',
     border: '1px solid transparent',
     backgroundColor: '#3D5286',
-    color: '#FFFFFF',
+    color: '#FFFEFB',
     cursor: 'pointer',
     ':active': {
       backgroundColor: '#2C4061',

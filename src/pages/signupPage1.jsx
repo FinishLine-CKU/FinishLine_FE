@@ -82,12 +82,12 @@ function SignupPage1() {
                             1. 본 서비스는 가톨릭관동대학교 소프트웨어학과 학생들이 운영하는 웹 사이트로 공식적인 효력을 갖지 않습니다.<br/>
                             정확한 졸업사정 확인을 위해 <b className={css(styles.emphasizeText)}>소속 단과대 교학팀에서 2차 검증을 권장합니다.</b><br/><br/>
                             2. 현재 검사 가능한 학과-학번은 다음과 같습니다. 검사대상에 속하지 않다면 검사가 불가능합니다. <b className={css(styles.emphasizeText)}>꼭 검사대상인지 확인하세요!</b><br/>
-                            <b>- 학과 : <b className={css(styles.emphasizeText)}>의과대학, 헬스케어융합대학, 휴먼서비스대학, 트리니티자유대학, 23년도이전학과,</b> <b className={css(styles.redText)}>사범대학(불가)</b></b><br/>
-                            <b>- 학번 : <b className={css(styles.emphasizeText)}>18 ~ 24학번</b></b><br/><br/>
+                            <b>- 학과 : <b className={css(styles.emphasizeText)}>의과대학, 헬스케어융합대학, 휴먼서비스대학, 23년도이전학과, </b> <b className={css(styles.redText)}>트리니티자유대학, 사범대학(불가)</b></b><br/>
+                            <b>- 학번 : <b className={css(styles.emphasizeText)}>18 ~ 22학번</b></b><br/><br/>
                             3. <b className={css(styles.emphasizeText)}>교직이수자, 편입학 대상자</b>의 졸업검사 기준은 포함되지 않아 검사가 불가능합니다.<br/><br/>
                             4. 원활한 검사를 위해 <b className={css(styles.emphasizeText)}>PC환경</b>에서 진행할 것을 권장합니다.<br/><br/>
                             5. 검사 기준은 <b className={css(styles.emphasizeText)}>2024학년도 2학기</b> 교육과정을 기준으로 합니다.<br/><br/>
-                            6. 졸업요건 기준이 잘못 설정되거나, 오류 발생 시 <a href="" className={css(styles.feedback)}>하단 폼 링크</a>를 통해 피드백 부탁드립니다.<br/><br/>
+                            6. 졸업요건 기준이 잘못 설정되거나, 오류 발생 시 <a href="https://naver.me/FHlQ2NqP" className={css(styles.feedback)}>하단 폼 링크</a>를 통해 피드백 부탁드립니다.<br/><br/>
                         </p>
                         <span className={css(styles.contentTitle)}>개인정보처리방침</span>
                         <p className={css(styles.policyContent)}>
@@ -159,7 +159,6 @@ function SignupPage1() {
                         <button className={css(styles.certificationButton)} onClick={studentAuth} disabled={!agree}>재학생 인증</button>
                         <span className={css(styles.exception)}>가톨릭관동대 통합 로그인을 통해 학생인증이 진행됩니다. 약관 동의 후 인증을 진행해주세요.</span>
                     </div>
-                    
                 </div>
             </div>
             <Footer />
