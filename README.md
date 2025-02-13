@@ -1,2 +1,2 @@
-# FinishLine_FE
+# 🏁 Finish Line
 FinishLine Front-End Repository
