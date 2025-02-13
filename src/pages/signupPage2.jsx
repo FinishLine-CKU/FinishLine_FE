@@ -275,7 +275,6 @@ function SignupPage2() {
             <Footer />
         </>
     )
-
 };
 
 const styles = StyleSheet.create({

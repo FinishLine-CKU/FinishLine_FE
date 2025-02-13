@@ -75,9 +75,7 @@ function UserGuidePage() {
                             onClick={() => {navigate("/signupPage1"); window.scrollTo(0, 0);}}>회원가입
                         </button>
                     </div>
-
-                    <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
-
+                   <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
                     <div className={css(styles.step)}>
                         <div className={css(styles.stepImage)}>
                             <img src={login} alt="로그인" className={css(styles.placeholder)} />
@@ -92,9 +90,7 @@ function UserGuidePage() {
                             onClick={() => {navigate("/loginPage"); window.scrollTo(0, 0);}}>로그인
                         </button>
                     </div>
-
-                    <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
-
+                   <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
                     <div className={css(styles.step)}>
                         <div className={css(styles.stepImage)}>
                             <img src={subject} alt="기이수 과목 등록" className={css(styles.placeholder)} />
@@ -116,9 +112,7 @@ function UserGuidePage() {
                             onClick={localStorage.getItem('idToken') ? localStorage.getItem('uploadPDF') ? navigateDoneLecture : navigateUploadPDF : openModal}>등록하기
                         </button>
                     </div>
-
-                    <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
-
+                   <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
                     <div className={css(styles.step)}>
                         <div className={css(styles.stepImage)}>
                             <img src={requirements} alt="졸업요건 검사" className={css(styles.placeholder)} />
