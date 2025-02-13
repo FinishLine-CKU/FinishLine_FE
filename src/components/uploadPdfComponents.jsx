@@ -47,7 +47,7 @@ function UploadPdfComponents() {
     try {
         setLoading(true);
         console.log(formData)
-        const response = await axios.post('http://3.36.58.79:8000/graduation/upload_pdf/', formData, {
+        const response = await axios.post('http://3.35.170.181:8000/graduation/upload_pdf/', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
