@@ -22,7 +22,7 @@ function MyPage() {
     const [checkPassword, setCheckPassword] = useState('');
     const [error, setError] = useState('');
     const [checkError, setCheckError] = useState('');
-    const [closeButtonState, setCloseButtonState] = useState(false);
+    const [lackMajor, setLackMajor] = useState(0);
     const [passwordStateCheck, setPasswordStateCheck] = useState(false);
     const [editInfoCheck, setEditInfoCheck] = useState(false);
     const [removeInfoCheck, setRemoveInfoCheck] = useState(false);
@@ -67,6 +67,17 @@ function MyPage() {
             setMajor(error);
             setStudent_id(error);
         };
+    };
+    const lackCredit = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/user/lack_credit/', {
+            student_id : localStorage.getItem('idToken')
+        });
+        if (!response.data.error) {
+            const { need_major } = response.data;
+            setLackMajor(need_major);
+        } else {
+            alert("서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요")
+        }
     };
     const myLectureUpdate = async () => {
         const userId = localStorage.getItem('idToken');
@@ -186,6 +197,7 @@ function MyPage() {
         closeModal();
     };
     const translateInfo = () => {
+        localStorage.setItem('tryAgainTest', true);
         setSub_major_type(sub_major_type);
         setSub_major(sub_major);
         setMicro_degree(micro_degree);
@@ -205,16 +217,6 @@ function MyPage() {
             const { error } = response.data;
             alert(error);
         };
-    };
-    const lackCredit = async () => {
-        const response = await axios.post('http://127.0.0.1:8000/user/lack_credit/', {
-            student_id : localStorage.getItem('idToken')
-          });
-        if (response.data) {
-            const { need_major } = response.data;
-        } else {
-            alert("서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요")
-        }
     };
     const navigateUploadPDF = () => {
         navigate('/uploadpdf');
@@ -236,7 +238,7 @@ function MyPage() {
         myInfo();
         myLectureUpdate();
         setFeatCloseButton(true);
-        // lackCredit();
+        lackCredit();
     }, []);
 
     useEffect(() => {
@@ -380,46 +382,63 @@ function MyPage() {
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>졸업요건검사</span>
                         {localStorage.getItem('testing') ?
+                        !localStorage.getItem('tryAgainTest') ?
                         <button className={css(styles.button)} onClick={navigateDoneLecture}>자세히보기</button>
+                        : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button>
                         : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button> }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
-                    {localStorage.getItem('testing') ?
-                    <div className={css(styles.contentArea)}>
-                                  <span className={css(styles.graduState)}>
-                                    졸업까지 <span className={css(styles.highlight_number)}>
-                                        {localStorage.getItem('needTotalCredit')}학점
-                                      </span> 이수해야 합니다!
-                                   </span>
-                        <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>전공</span>
-                            <span className={css(styles.graduContent)}>10학점 부족</span>
-                        </div>
-                        {localStorage.getItem('completeEsseCredit') == 0 ? 
-                        null
-                        : <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>교양필수</span>
-                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeEsseCredit')} 학점</strong> 부족</span>
-                        </div>
-                        }
-                        {localStorage.getItem('completeChoiceCredit') == 0 ? 
-                        null
-                        : <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>교양선택</span>
-                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeChoiceCredit')} 학점</strong> 부족</span>
-                        </div>
-                        }
-                        {localStorage.getItem('completeNormalCredit') == 0 ?
-                        null
-                        : <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>일반선택</span>
-                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeNormalCredit')} 학점</strong> 부족</span>
-                        </div>
-                        }  
-                    </div>
-                    : <div className={css(styles.contentNothingArea)}>
+                    {!localStorage.getItem('tryAgainTest') ?
+                    <>
+                        {localStorage.getItem('testing') ?
+                        <div className={css(styles.contentArea)}>
+                            <div className={css(styles.marginBottom)}>
+                                <span className={css(styles.graduState)}>졸업까지</span>
+                                <span className={css(styles.totalCredit)}>{localStorage.getItem('needTotalCredit')}학점</span>
+                                <span className={css(styles.graduState)}>이수해야 합니다!</span>
+                            </div>
+                            {lackMajor ?                        
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>전공</span>
+                                <span className={css(styles.graduContent)}><strong>{lackMajor}학점</strong> 부족</span>
+                            </div>
+                            : null}
+                            {localStorage.getItem('need_sub_major') ?
+                            localStorage.getItem('need_sub_major') != 0 ?
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
+                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('need_sub_major')}학점</strong> 부족</span>
+                            </div>
+                            : null : null}
+                            {localStorage.getItem('needEsseCredit') ? 
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>교양필수</span>
+                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needEsseCredit')}학점</strong> 부족</span>
+                            </div>
+                            : null}
+                            {localStorage.getItem('needChoiceCredit') ? 
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>교양선택</span>
+                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needChoiceCredit')}학점</strong> 부족</span>
+                            </div>
+                            : null
+                            }
+                            {localStorage.getItem('completeNormalCredit') == 0 ?
+                            null
+                            : <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>일반선택</span>
+                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeNormalCredit')}학점</strong> 부족</span>
+                            </div>}  
+                        </div> :
+                        <div className={css(styles.contentNothingArea)}>
+                            <div className={css(styles.noneContainer)}>
+                                <span className={css(styles.noneMessage)}>검사 이력이 없습니다.</span>
+                            </div>
+                        </div> }
+                    </> :
+                    <div className={css(styles.contentNothingArea)}>
                         <div className={css(styles.noneContainer)}>
-                            <span className={css(styles.noneMessage)}>검사 이력이 없습니다.</span>
+                            <span className={css(styles.noneMessage)}>회원정보 수정으로 졸업 기준이 변동되었습니다.<br /><br />새로 적용된 기준으로 검사를 진행해주세요.</span>
                         </div>
                     </div> }
                 </div>
@@ -531,6 +550,10 @@ const styles = StyleSheet.create({
         gap: '30px',
         whiteSpace: 'nowrap',
     },
+    marginBottom: {
+        marginBottom: '5px',
+        whiteSpace: 'nowrap',
+    },
     contentTableArea: {
         display: 'flex',
         flexDirection: 'column',
@@ -555,7 +578,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontWeight: '500',
         fontSize: '17px',
-        color: '#7A828A'
+        color: '#7A828A',
+        textAlign: 'center'
     },
     guideContainer: {
         display: 'flex',
@@ -588,10 +612,17 @@ const styles = StyleSheet.create({
         fontSize: '20px',
         fontFamily: 'Lato',
         fontWeight: '500',
-        color: 'red'
+        color: '#2B2A28'
+    },
+    totalCredit: {
+        padding: '5px',
+        fontFamily: 'Lato',
+        fontSize: '20px',
+        fontWeight: '800',
+        color: '#FF4921'
     },
     graduContent: {
-        fontSize: '18px',
+        fontSize: '20px',
         fontFamily: 'Lato',
         fontWeight: '500',
         color: '#FF4921'

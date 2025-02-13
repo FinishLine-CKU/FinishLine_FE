@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
 import Header from  '../components/header';
@@ -32,7 +31,7 @@ function DoneLecturePage() {
     const isDuplicate = myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code);
   
     if (isDuplicate) {
-      alert(`${lectureData[0].lecture_name} 과목은 이미 추가되었습니다.`);
+      alert(`해당 과목은 이미 추가되었습니다.`);
       return;
     }
   
@@ -138,8 +137,8 @@ function DoneLecturePage() {
         <Template title="기이수 과목 관리" />
         <div className={css(styles.container)}>
           <div className={css(styles.ColumnContainer)}>
-          <div className={css(styles.titleContainer)}>
-            <h2 className={css(styles.title)}>과목 직접 추가</h2>
+            <div className={css(styles.titleContainer)}>
+              <h2 className={css(styles.title)}>과목 직접 추가</h2>
             </div>
             <hr className={css(styles.custom_hr)}/>
             <p className={css(styles.small_title)}>과목코드로 검색</p>
@@ -158,12 +157,13 @@ function DoneLecturePage() {
               {lectureData && lectureData.length > 0 ? (
               <SubSearchComponents subjects={lectureData}  onAdd={handleAddSubject} />
               ) : 
-              (<div className={css(styles.tableEmptyContainer)}>
-              </div>)}
+              null}
             </div>
             <div className={css(styles.secondTitleContainer)}>
               <h2 className={css(styles.secondTitle)}>내 기이수 과목</h2>
+              {lectureData && lectureData.length > 0 ?
               <button className={css(styles.itemSaveButton)} onClick={handleSaveAllSubjects}>저장하기</button>
+              : null}
             </div>
             <hr className={css(styles.second_custom_hr)}/>
             <div className={css(styles.tableContainerSecond)}>
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     justifyContent: 'center',
-    marginBottom: '50px',
+    paddingBottom: '50px',
     backgroundColor: '#FFFEFB'
   },
   ColumnContainer: {
@@ -217,17 +217,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontSize: '23px',
     textAlign: 'left',
+    fontWeight: '700'
   },
   secondTitle: {
     fontFamily: 'Lato',
     fontSize: '23px',
+    fontWeight: '700'
   },
   titleContainer: {
     width: '520px',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tableEmptyContainer: {
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -284,7 +282,7 @@ const styles = StyleSheet.create({
     borderRadius: '5px',
     border: '1px solid transparent',
     backgroundColor: 'black',
-    color: '#FFFFFF',
+    color: '#FFFEFB',
     cursor: 'pointer',
     ':active': {
         backgroundColor: '#595650',
@@ -305,16 +303,21 @@ const styles = StyleSheet.create({
     width: '70px',
     height: '25px',
     borderRadius: '5px',
-    border: '1px solid transparent',
-    backgroundColor: 'black',
-    color: '#FFFFFF',
+    border: '1px solid #2B2A28',
+    backgroundColor: '#FFFEFB',
+    color: '#2B2A28',
     cursor: 'pointer',
+    ':hover': {
+      backgroundColor: '#2B2A28',
+      color: '#FFFEFB'
+    },
     ':active': {
       backgroundColor: '#595650',
+      borderColor: '#595650'
     },
     fontFamily: 'Lato',
     fontSize: '12px',
-    fontWeight: '600',
+    fontWeight: '700',
   },
   itemGraduButton: {
     width: '165px',
@@ -329,7 +332,7 @@ const styles = StyleSheet.create({
     },
     fontFamily: 'Lato',
     fontSize: '15px',
-    fontWeight: '600',
+    fontWeight: '700',
     marginTop: '32px',
   },
 });
