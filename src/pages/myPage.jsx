@@ -38,27 +38,27 @@ function MyPage() {
             if (response.data.sub_major_type && response.data.sub_major) {
                 if (response.data.micro_degree) {
                     const { major, student_id, sub_major_type, sub_major, micro_degree } = response.data;
-                    setMajor(MAJOR.find(item => item.value === major)?.label);
+                    setMajor(major);
                     setStudent_id(student_id);
-                    setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
-                    setSub_major(MAJOR.find(item => item.value === sub_major).label);
-                    setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
+                    setSub_major_type(sub_major_type);
+                    setSub_major(sub_major);
+                    setMicro_degree(micro_degree);
                 } else {
                     const { major, student_id, sub_major_type, sub_major } = response.data;
-                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setMajor(major);
                     setStudent_id(student_id);
-                    setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type).label);
-                    setSub_major(MAJOR.find(item => item.value === sub_major).label);
+                    setSub_major_type(sub_major_type);
+                    setSub_major(sub_major);
                 };
             } else {
                 if (response.data.micro_degree) {
                     const { major, student_id, micro_degree } = response.data;
-                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setMajor(major);
                     setStudent_id(student_id);
-                    setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree).label);
+                    setMicro_degree(micro_degree);
                 } else {
                     const { major, student_id } = response.data;
-                    setMajor(MAJOR.find(item => item.value === major).label);
+                    setMajor(major);
                     setStudent_id(student_id);
                 };
             };
@@ -173,7 +173,7 @@ function MyPage() {
     };
     const checkMajor = (e) => {
         const input = e.target.value
-        if (input === MAJOR.find(item => item.label === major).value) {
+        if (input === major) {
             alert('주전공과 동일한 전공은 선택할 수 없습니다.');
             e.target.value = '';
             setSub_major(e.target.value);
@@ -186,9 +186,9 @@ function MyPage() {
         closeModal();
     };
     const translateInfo = () => {
-        setSub_major_type(SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type);
-        setSub_major(MAJOR.find(item => item.value === sub_major)?.label || sub_major);
-        setMicro_degree(MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree);
+        setSub_major_type(sub_major_type);
+        setSub_major(sub_major);
+        setMicro_degree(micro_degree);
         newInfo();
     };
     const newInfo = async () => {
@@ -269,7 +269,7 @@ function MyPage() {
                         <>
                             <option value="" >해당 없음</option>
                             { SUBMAJORTYPE.map((item) => (
-                            <option value={item.value} selected={item.label === sub_major_type ? true : undefined}>{item.label}</option> )) }
+                            <option value={item.value} selected={item.value === sub_major_type ? true : undefined}>{item.label}</option> )) }
                         </>
                         : <>
                             <option value="" >해당 없음</option>
@@ -283,7 +283,7 @@ function MyPage() {
                             <>
                                 <option value="">선택</option>
                                 { MAJOR.map((item) => (
-                                    <option value={item.value} selected={item.label === sub_major ? true : undefined}>{item.label}</option>
+                                    <option value={item.value} selected={item.value === sub_major ? true : undefined}>{item.label}</option>
                                 )) }
                             </> ) 
                         : (
@@ -301,7 +301,7 @@ function MyPage() {
                         <>
                             <option value="">해당 없음</option>
                             { MICRO_DEGREE.map((item) => (
-                                <option value={item.value} selected={item.label === micro_degree ? true : undefined}>{item.label}</option>
+                                <option value={item.value} selected={item.value === micro_degree ? true : undefined}>{item.label}</option>
                             )) }
                         </>
                         : <>
@@ -356,7 +356,7 @@ function MyPage() {
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>학과</span>
-                            <span className={css(styles.content)}>{major}</span>
+                            <span className={css(styles.content)}>{MAJOR.find(item => item.value === major)?.label || major}</span>
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>학번</span>
@@ -364,14 +364,14 @@ function MyPage() {
                         </div>
                         {sub_major && sub_major_type ?
                         <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>{sub_major_type}</span>
-                            <span className={css(styles.content)}>{sub_major}</span>
+                            <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
+                            <span className={css(styles.content)}>{MAJOR.find(item => item.value === sub_major)?.label || sub_major}</span>
                         </div>
                         : null}
                         {micro_degree ? 
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>소단위전공</span>
-                            <span className={css(styles.content)}>{micro_degree}</span>
+                            <span className={css(styles.content)}>{MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree}</span>
                         </div>
                         : null}
                     </div>
