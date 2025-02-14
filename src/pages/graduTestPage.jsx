@@ -169,7 +169,7 @@ function GraduTestPage() {
           <hr className={css(styles.custom_hr)}/>
           <p className={css(styles.custom_result_hr)}> {MAJOR.find(item => item.value === major_info)?.label || major_info} {localStorage.getItem('name')}님의 결과입니다</p>
         </div>
-        <GraduChartComponets earned={user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree} total={total_credit} />
+        <GraduChartComponets earned={user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree + user_sub_major} total={total_credit} />
         <div className={css(styles.textContainer)}>
           <div>
             {need_major + needEsseCredit + needChoiceCredit + need_sub_major <= 0 ? 
