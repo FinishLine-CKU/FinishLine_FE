@@ -21,9 +21,12 @@ function LoginPage() {
                 password : password
             });
             if (response.data.idToken && response.data.name) {
-                const { idToken, name } = response.data;
+                const { idToken, name, uploadPDF } = response.data;
                 localStorage.setItem('idToken', idToken);
                 localStorage.setItem('name', name);
+                if (uploadPDF === true) {
+                    localStorage.setItem('uploadPDF', true);
+                }
                 navigate("/userGuidePage");
                 window.scrollTo(0, 0);
             } else {

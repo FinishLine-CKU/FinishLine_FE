@@ -65,7 +65,7 @@ function UploadPdfComponents() {
             navigate('/donelecture');
         } else {
           setLoading(false);
-          localStorage.setItem('uploadPDF', 'true');
+          localStorage.setItem('uploadPDF', true);
           alert('파일이 성공적으로 업로드되었습니다.');
           setSelectedFiles([]);
           setFileNames([]);
