@@ -423,11 +423,11 @@ function MyPage() {
                             </div>
                             : null
                             }
-                            {localStorage.getItem('completeNormalCredit') == 0 ?
+                            {localStorage.getItem('needNormalTotalCredit') == 0 ?
                             null
                             : <div className={css(styles.contentContainer)}>
                                 <span className={css(styles.contentTitle)}>일반선택</span>
-                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('completeNormalCredit')}학점</strong> 부족</span>
+                                <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needNormalTotalCredit')}학점</strong> 부족</span>
                             </div>}  
                         </div> :
                         <div className={css(styles.contentNothingArea)}>
