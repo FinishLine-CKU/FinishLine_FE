@@ -87,6 +87,7 @@ function GraduTestPage() {
           setDone_major_rest(done_major_rest)
           setNeed_sub_major(need_sub_major)
           {localStorage.setItem('need_sub_major', need_sub_major)}
+          setUser_sub_major(0)
         } else {
           const { major_info, need_major, user_major, total_credit, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest, need_sub_major } = response.data;
           setMajor_info(major_info);
@@ -100,6 +101,7 @@ function GraduTestPage() {
           setDone_major_rest(done_major_rest)
           setNeed_sub_major(need_sub_major)
           {localStorage.setItem('need_sub_major', need_sub_major)}
+          setUser_sub_major(0)
         };
       }
     } else {
@@ -169,7 +171,8 @@ function GraduTestPage() {
           <hr className={css(styles.custom_hr)}/>
           <p className={css(styles.custom_result_hr)}> {MAJOR.find(item => item.value === major_info)?.label || major_info} {localStorage.getItem('name')}님의 결과입니다</p>
         </div>
-        <GraduChartComponets earned={user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree} total={total_credit} />
+        <GraduChartComponets earned={
+          sub_major_type ? user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree + user_sub_major : user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree + user_sub_major + done_major_rest} total={total_credit} />
         <div className={css(styles.textContainer)}>
           <div>
             {need_major + needEsseCredit + needChoiceCredit + need_sub_major <= 0 ? 
@@ -280,7 +283,7 @@ function GraduTestPage() {
               <img src={notgood}/>
               <span className={css(styles.contentAlertText)}>일반 선택</span>
               <span className={css(styles.lackCredit)}>{rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree)}학점</span>
-              {localStorage.setItem('completeNormalCredit',  rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree) ? rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree) : 0)}
+              {localStorage.setItem('needNormalTotalCredit',  rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree) ? rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree) : 0)}
               {}
               <span className={css(styles.contentAlertText)}>부족합니다.</span>
             </div>
