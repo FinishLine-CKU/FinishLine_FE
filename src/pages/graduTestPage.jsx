@@ -176,7 +176,10 @@ function GraduTestPage() {
         <div className={css(styles.textContainer)}>
           <div>
             {need_major + needEsseCredit + needChoiceCredit + need_sub_major <= 0 ? 
-            <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
+            <>
+              <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
+              {localStorage.removeItem('needTotalCredit')}
+            </>
             :
             <>
             <span className={css(styles.custom_title_result_text)}>졸업까지</span>
@@ -310,6 +313,7 @@ function GraduTestPage() {
                       <span className={css(styles.contentAlertText)}>교양 필수</span>
                       <span className={css(styles.contextSuccess)}>이수완료</span>
                       <span className={css(styles.contentAlertText)}>했습니다!</span>
+                      {localStorage.removeItem('needEsseCredit')}
                     </div>
                   </div>
                 </div> :
@@ -349,6 +353,7 @@ function GraduTestPage() {
                       <span className={css(styles.contentAlertText)}>교양 선택</span>
                       <span className={css(styles.contextSuccess)}>이수완료</span>
                       <span className={css(styles.contentAlertText)}>했습니다!</span>
+                      {localStorage.removeItem('needChoiceCredit')}
                     </div>
                   </div>
                 </div> :
