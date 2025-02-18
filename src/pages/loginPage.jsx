@@ -21,9 +21,31 @@ function LoginPage() {
                 password : password
             });
             if (response.data.idToken && response.data.name) {
-                const { idToken, name } = response.data;
+                const { idToken, name, testing, uploadPDF, needEsseCredit, needChoiceCredit, need_sub_major, needNormalTotalCredit, needTotalCredit } = response.data;
                 localStorage.setItem('idToken', idToken);
                 localStorage.setItem('name', name);
+
+                if (testing) {
+                    localStorage.setItem('testing', true);
+                };
+                if (uploadPDF === true) {
+                    localStorage.setItem('uploadPDF', true);
+                };
+                if (needEsseCredit) {
+                    localStorage.setItem('needEsseCredit', needEsseCredit);
+                };
+                if (needChoiceCredit) {
+                    localStorage.setItem('needChoiceCredit', needChoiceCredit);
+                };
+                if (need_sub_major) {
+                    localStorage.setItem('need_sub_major', need_sub_major);
+                };
+                if (needNormalTotalCredit) {
+                    localStorage.setItem('needNormalTotalCredit', needNormalTotalCredit);
+                };
+                if (needTotalCredit) {
+                    localStorage.setItem('needTotalCredit', needTotalCredit);
+                };
                 navigate("/userGuidePage");
                 window.scrollTo(0, 0);
             } else {
