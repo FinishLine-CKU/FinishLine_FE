@@ -22,10 +22,10 @@ function SignupPage1() {
     const studentAuth = async () => {
         setFeatButtonState(false);
         setFeatCloseButton(false);
-        openFeatModal();
         if (studentId === '' || studentPW === '') {
             alert("가톨릭관동대 포털 아이디와 비밀번호를 모두 입력해주세요.");
         } else {
+            openFeatModal();
             try {
                 const response = await axios.post('http://3.35.170.181:8000/user/student_auth/', {
                     studentId : studentId,

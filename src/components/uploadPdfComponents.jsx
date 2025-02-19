@@ -2,8 +2,7 @@ import { useNavigate, useLocation  } from 'react-router-dom';
 import { useState, useCallback } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
-import whiteCKULogo from '../assets/images/whiteCKULogo.png';
-import loadingGIF from '../assets/images/loading.gif';
+import LoadingComponents from "./loadingComponents"
 
 function UploadPdfComponents() {
   const [fileNames, setFileNames] = useState([]);
@@ -65,7 +64,7 @@ function UploadPdfComponents() {
             navigate('/donelecture');
         } else {
           setLoading(false);
-          localStorage.setItem('uploadPDF', 'true');
+          localStorage.setItem('uploadPDF', true);
           alert('파일이 성공적으로 업로드되었습니다.');
           setSelectedFiles([]);
           setFileNames([]);
@@ -86,20 +85,7 @@ function UploadPdfComponents() {
 
     return (
       <div>
-        {loading ?  <div className={css(styles.modalbigcontainer)}>
-                        <div className={css(styles.modalContainer)}>
-                          <div className={css(styles.icons)}>
-                              <img src={whiteCKULogo} className={css(styles.ckuLogo)}/>
-                              <img src={loadingGIF} className={css(styles.loadingGIF)}/>
-                          </div>
-                            <div className={css(styles.closeButtonContainer)}>
-                                <span className={css(styles.title)}>데이터 저장중...</span>
-                            </div>
-                            <div className={css(styles.mainContents)}>
-                              5초 정도 소요됩니다. 잠시만 기다려주세요
-                            </div>
-                        </div>
-        </div> : null}
+        {loading && <LoadingComponents />}
         <div className={css(styles.container)}>
           <div className={css(styles.donelistcontainer)}>
             <div className={css(styles.titleContainer)}>
