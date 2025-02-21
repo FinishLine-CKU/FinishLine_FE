@@ -38,7 +38,7 @@ function Footer({ footerType = 'default' }) {
                 </a>
                 <span className={css(footerType === 'manage' ? styles.manageServiceText : styles.serviceText)}>더 나은 서비스로 보답하겠습니다.</span>
                 <div className={css(footerType === 'manage' ? styles.manageContactIndex : styles.contactIndex)}>CONTACT</div>
-                <a target="_blank" className={css(footerType === 'manage' ? styles.manageContactMail : styles.contactMail)} title="메일">finishline@cku.ac.kr</a>
+                <a href= "mailto: finishlinecku@gmail.com" target="_blank" className={css(footerType === 'manage' ? styles.manageContactMail : styles.contactMail)} title="메일">finishlinecku@gmail.com</a>
                 <a href="https://github.com/FinishLine-CKU" target="_blank" className={css(footerType === 'manage' ? styles.manageContactGithub : styles.contactGithub)} title="깃허브">https://github.com/FinishLine-CKU</a>
             </div>
             <div className={css(footerType === 'transparent' ? styles.transparentRightSection : footerType === 'manage' ? styles.manageRightSection : styles.footerRightSection)}>
@@ -76,7 +76,7 @@ function Footer({ footerType = 'default' }) {
                     <a href="" target="_blank" className={css(footerType === 'manage' ? styles.managePrivercyInfo : styles.privercyInfo)} title="개인정보처리방침">개인정보처리방침</a>
                     <a href="" target="_blank" className={css(footerType === 'manage' ? styles.manageRuleInfo : styles.ruleInfo)} title="이용약관">이용약관</a>
                 </div>
-                <span className={css(footerType === 'manage' ? styles.manageRightInfo : styles.rightInfo)}>© 2024 CKU Software Engineering student All rights reserved.</span>
+                <span className={css(footerType === 'manage' ? styles.manageRightInfo : styles.rightInfo)}>© 2024 CKU Software Dev Team All rights reserved.</span>
             </div>
         </footer>
     );
