@@ -394,7 +394,7 @@ function GraduTestPage() {
   </button>
   <div className={css(styles.feedbackContainer)}>
     <img src={ChillGuy} className={css(styles.chillGuy)} />
-    <a href="https://naver.me/FHlQ2NqP" className={css(styles.feedbackLink)} target="_blank" title="FinishLine 설문 링크">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCBT68w0bWt445iS7RlFyRDXA93BbgZcjLYeJ-ErdtMuXpGw/viewform?usp=dialog" className={css(styles.feedbackLink)} target="_blank" title="FinishLine 설문 링크">
       ✌️✋ chill초면 충분해요! 빠른 피드백 남기기 🙏
     </a>
   </div>
