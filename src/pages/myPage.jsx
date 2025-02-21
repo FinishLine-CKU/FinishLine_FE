@@ -31,7 +31,7 @@ function MyPage() {
     const navigate = useNavigate();
     const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
     const myInfo = async () => {
-        const response = await axios.post('http://3.35.170.181:8000/user/my_info/', {
+        const response = await axios.post('https://finishline-cku.com/user/my_info/', {
             idToken : localStorage.getItem('idToken')
         });
         if (response.data.major && response.data.student_id) {
@@ -69,7 +69,7 @@ function MyPage() {
         };
     };
     const lackCredit = async () => {
-        const response = await axios.post('http://3.35.170.181:8000/user/lack_credit/', {
+        const response = await axios.post('https://finishline-cku.com/user/lack_credit/', {
             student_id : localStorage.getItem('idToken')
         });
         if (!response.data.error) {
@@ -82,7 +82,7 @@ function MyPage() {
     const myLectureUpdate = async () => {
         const userId = localStorage.getItem('idToken');
         try {
-          const response = await axios.get(`http://3.35.170.181:8000/graduation/api/mydonelecture?user_id=${userId}`);
+          const response = await axios.get(`https://finishline-cku.com/graduation/api/mydonelecture?user_id=${userId}`);
           setMyLectureList(response.data);
         } catch (error) {
           setError('과목 정보를 가져오는데 실패했습니다.');
@@ -94,7 +94,7 @@ function MyPage() {
         closeFeatModal();
     };
     const removeMembership = async () => {
-        const response = await axios.post('http://3.35.170.181:8000/user/remove_membership/', {
+        const response = await axios.post('https://finishline-cku.com/user/remove_membership/', {
             idToken : localStorage.getItem('idToken')
         });
         if (response.data) {
@@ -123,7 +123,7 @@ function MyPage() {
         openFeatModal();
     };
     const passwordCheck = async () => {
-        const response = await axios.post('http://3.35.170.181:8000/user/check_register/', {
+        const response = await axios.post('https://finishline-cku.com/user/check_register/', {
             studentId : student_id,
             password : password
         });
@@ -169,7 +169,7 @@ function MyPage() {
         } else return;
     };
     const newPassword = async () => {
-        const response = await axios.post('http://3.35.170.181:8000/user/change_pw/', {
+        const response = await axios.post('https://finishline-cku.com/user/change_pw/', {
             studentId : student_id,
             password : password
         });
@@ -204,7 +204,7 @@ function MyPage() {
         newInfo();
     };
     const newInfo = async () => {
-        const response = await axios.post('http://3.35.170.181:8000/user/change_info/', {
+        const response = await axios.post('https://finishline-cku.com/user/change_info/', {
             studentId : student_id,
             sub_major_type: sub_major_type,
             sub_major : sub_major,
@@ -695,7 +695,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: '#7A828A',
         appearance: 'none',
-        backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%237A828A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+        backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='https://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%237A828A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right 10px center',
         ':focus':{
@@ -714,7 +714,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: '#7A828A',
         appearance: 'none',
-        backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%237A828A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+        backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='https://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%237A828A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right 10px center',
         ':focus':{
