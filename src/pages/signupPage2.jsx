@@ -212,7 +212,16 @@ function SignupPage2() {
     const navigateLoginPage = () => {
         navigate('/loginPage');
         closeModal();
-    }
+    };
+    const enterSubmit = (e) => {
+        if(!modalState && e.key === 'Enter') {
+            if (password !== '' && passwordCheck !== '' && error === '' && checkError === '') {
+                if (additionalMajorType === '' || (additionalMajorType !== '' && additionalMajor !== '')) {
+                    registerInfo();
+                };
+            };
+        };
+    };
     return (
         <>
             {modalState ?
@@ -234,7 +243,7 @@ function SignupPage2() {
                 </div>
                 <div className={css(styles.additionalInfoArea)}>
                     <span className={css(styles.containerTitle)}>추가 정보 설정</span>
-                    <div className={css(styles.infoContainer)}>
+                    <div className={css(styles.infoContainer)} onKeyDown={enterSubmit}>
                         <label className={css(styles.infoLable)}>복수/부/연계 전공</label>
                         <select className={css(styles.majorStatus)} onChange={(e) => setAdditionalMajorType(e.target.value)}>
                             <option value="">해당 없음</option>
