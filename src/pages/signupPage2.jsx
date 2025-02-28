@@ -225,7 +225,7 @@ function SignupPage2() {
     return (
         <>
             {modalState ?
-            <Modal infoMessage="회원가입 완료" infoSymbol={Symbol} mainMessage="FINISH LINE 회원가입을 축하합니다!" mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={navigateLoginPage}/>
+            <Modal infoMessage="회원가입 완료" infoSymbol={Symbol} mainMessage="FINISH LINE 회원가입을 축하합니다!" mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={navigateLoginPage} />
             : null}
             <Header />
             <Template title="회원가입" subtitle="졸업요건 검사 서비스 이용을 위해 약관 동의와 학생 인증 절차가 필요합니다."/>
