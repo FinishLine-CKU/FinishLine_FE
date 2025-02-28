@@ -117,12 +117,14 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         width: '250px',
         backgroundColor: '#2B2A28',
+        whiteSpace: 'nowrap',
     },
     transparentLeftSection: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         width: '250px',
+        whiteSpace: 'nowrap',
     },
     manageLeftSection: {
         display: 'flex',
@@ -130,6 +132,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         width: '250px',
         backgroundColor: '#FFFEFB',
+        whiteSpace: 'nowrap',
     },
     surveyLink: {
         textDecorationLine: 'none',
@@ -141,11 +144,13 @@ const styles = StyleSheet.create({
         marginLeft: '3px',
         fontSize: '11px',
         color: '#FFFEFB',
+        whiteSpace: 'nowrap',
     },
     manageFormText: {
         marginLeft: '3px',
         fontSize: '11px',
         color: '#2B2A28',
+        whiteSpace: 'nowrap',
     },
     serviceText: {
         marginTop: '7px',
@@ -387,10 +392,12 @@ const styles = StyleSheet.create({
     },
     rightInfo: {
         fontSize: '10px',
+        whiteSpace: 'nowrap',
     },
     manageRightInfo: {
         fontSize: '10px',
         color: '#2B2A28',
+        whiteSpace: 'nowrap',
     }
 });
 
