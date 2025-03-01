@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 import { IoClose } from 'react-icons/io5';
 import { ModalContext } from '../utils/hooks/modalContext';
 
-function FeatureModal({closeAction, title, mainContents, buttonText, buttonAction, disButton}) {
+function FeatureModal({ closeAction, title, mainContents, buttonText, buttonAction, disButton }) {
     const { featButtonState, featCloseButton } = useContext(ModalContext);
 
     return (
@@ -13,17 +13,17 @@ function FeatureModal({closeAction, title, mainContents, buttonText, buttonActio
                     <div className={css(styles.closeButtonContainer)}>
                         <span className={css(styles.title)}>{title}</span>
                         {featCloseButton ?
-                        <button className={css(styles.close)} onClick={closeAction}><IoClose className={css(styles.closeIcon)}/></button>
-                        : <span></span>}
+                            <button className={css(styles.close)} onClick={closeAction}><IoClose className={css(styles.closeIcon)} /></button>
+                            : <span></span>}
                     </div>
                     <div className={css(styles.mainContents)}>
-                    {mainContents}
+                        {mainContents}
                     </div>
-                    {featButtonState ? 
-                    <div className={css(styles.ActionButtonContainer)}>
-                        <button className={css(styles.actionButton)} disabled={disButton ? true : undefined} onClick={buttonAction}>{buttonText}</button>
-                    </div>
-                    : null}
+                    {featButtonState ?
+                        <div className={css(styles.ActionButtonContainer)}>
+                            <button className={css(styles.actionButton)} disabled={disButton ? true : undefined} onClick={buttonAction}>{buttonText}</button>
+                        </div>
+                        : null}
                 </div>
             </div>
         </>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems:'center',
+        alignItems: 'center',
         position: 'fixed',
         top: 0,
         left: 0,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
             backgroundColor: '#595650',
             borderColor: '#595650'
         },
-        ':disabled':{
+        ':disabled': {
             color: '#FFFEFB',
             backgroundColor: '#CACACA',
             borderColor: '#CACACA'

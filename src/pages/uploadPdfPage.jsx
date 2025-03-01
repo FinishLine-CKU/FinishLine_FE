@@ -1,9 +1,9 @@
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
-import Header from  '../components/header';
+import Header from '../components/header';
 import Footer from '../components/footer';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
-    
+
 function UploadPdfPage() {
 
     return (
@@ -19,13 +19,13 @@ function UploadPdfPage() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  columnContainer: {
-    marginBottom: '350px',
-  },
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    columnContainer: {
+        marginBottom: '350px',
+    },
 });
 
 export default UploadPdfPage;

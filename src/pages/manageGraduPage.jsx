@@ -61,73 +61,73 @@ function ManageGraduPage() {
                                         <option value="2024">2024</option>
                                         <option value="2025">2025</option>
                                     </select>
-                                    <select className={css(styles.settingMajor)} value={major} onChange={(e) => {if (visibleTable && !e.target.value) {alert('작업 중인 졸업요건이 존재합니다. 등록을 마무리해주세요.');return;} setMajor(e.target.value);}}>
+                                    <select className={css(styles.settingMajor)} value={major} onChange={(e) => { if (visibleTable && !e.target.value) { alert('작업 중인 졸업요건이 존재합니다. 등록을 마무리해주세요.'); return; } setMajor(e.target.value); }}>
                                         <option value="">전공 선택</option>
-                                        { MAJOR.map((item) => (
+                                        {MAJOR.map((item) => (
                                             <option value={item.value}>{item.label}</option>
-                                        )) }
+                                        ))}
                                     </select>
                                     <select className={css(styles.settingAdditionalMajor)} value={additionalMajor} onChange={(e) => setAdditionalMajor(e.target.value)}>
                                         <option value="">추가 선택</option>
-                                        { SUBMAJORTYPE.map((item) => (
+                                        {SUBMAJORTYPE.map((item) => (
                                             <option value={item.value}>{item.label}</option>
-                                        )) }
+                                        ))}
                                     </select>
                                     <select className={css(styles.settingMicroDegerr)} value={microDegree} onChange={(e) => setMicroDegree(e.target.value)}>
                                         <option value="">소단위 전공 선택</option>
-                                            { MICRO_DEGREE.map((item) => (
-                                                <option value={item.value}>{item.label}</option>
-                                            )) }
+                                        {MICRO_DEGREE.map((item) => (
+                                            <option value={item.value}>{item.label}</option>
+                                        ))}
                                     </select>
                                 </div>
                                 <button className={css(styles.settingButton)} onClick={creatTable}>생성</button>
                             </div>
-                            {visibleTable ?  
-                            <div className={css(styles.contentContainer)}>
-                                <span className={css(styles.tabelTitle)}>
-                                    {year}학년도 {major ? MAJOR.find(item => item.value === major).label : null} 
-                                    {additionalMajor ? microDegree ? ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label} + ${MICRO_DEGREE.find(item => item.value === microDegree).label})`  : ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label})` : microDegree ? ` (${MICRO_DEGREE.find(item => item.value === microDegree).label})` : null}
-                                </span>
-                                <table className={css(styles.tableLayout)}>
-                                    <thead>
-                                        <tr>
-                                            <th className={css(styles.tableHeader)}>전공</th>
-                                            <th className={css(styles.tableHeader)}>교양필수</th>
-                                            <th className={css(styles.tableHeader)}>교양선택</th>
-                                            <th className={css(styles.tableHeader)}>일반선택</th>
-                                            {additionalMajor ? 
-                                            <th className={css(styles.tableHeader)}>{SUBMAJORTYPE.find(item => item.value === additionalMajor).label}</th>
-                                            : null}
-                                            {microDegree ? 
-                                            <th className={css(styles.tableHeader)}>소단위</th>
-                                            : null}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setMajorCredit(e.target.value)}></input></td>
-                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setGeneralCredit(e.target.value)}></input></td>
-                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setGeneralChooseCredit(e.target.value)}></input></td>
-                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setNormalCredit(e.target.value)}></input></td>
-                                            {additionalMajor ? 
-                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setAddMajorCredit(e.target.value)}></input></td>
-                                            : null}
-                                            {microDegree ? 
-                                            <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setMicroDegreeCredit(e.target.value)}></input></td>
-                                            : null}
-                                        </tr>
-                                        <tr>
-                                            <td className={css(styles.tableTotalData)} colSpan={additionalMajor ? microDegree ? "6" : "5" : microDegree ? "5" : "4"}>{totalCredit}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            : null}
                             {visibleTable ?
-                            <div className={css(styles.buttonContainer)}>
-                                <button className={css(styles.registerButton)}>등록하기</button>
-                            </div>
-                            : null}
+                                <div className={css(styles.contentContainer)}>
+                                    <span className={css(styles.tabelTitle)}>
+                                        {year}학년도 {major ? MAJOR.find(item => item.value === major).label : null}
+                                        {additionalMajor ? microDegree ? ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label} + ${MICRO_DEGREE.find(item => item.value === microDegree).label})` : ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label})` : microDegree ? ` (${MICRO_DEGREE.find(item => item.value === microDegree).label})` : null}
+                                    </span>
+                                    <table className={css(styles.tableLayout)}>
+                                        <thead>
+                                            <tr>
+                                                <th className={css(styles.tableHeader)}>전공</th>
+                                                <th className={css(styles.tableHeader)}>교양필수</th>
+                                                <th className={css(styles.tableHeader)}>교양선택</th>
+                                                <th className={css(styles.tableHeader)}>일반선택</th>
+                                                {additionalMajor ?
+                                                    <th className={css(styles.tableHeader)}>{SUBMAJORTYPE.find(item => item.value === additionalMajor).label}</th>
+                                                    : null}
+                                                {microDegree ?
+                                                    <th className={css(styles.tableHeader)}>소단위</th>
+                                                    : null}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setMajorCredit(e.target.value)}></input></td>
+                                                <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setGeneralCredit(e.target.value)}></input></td>
+                                                <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setGeneralChooseCredit(e.target.value)}></input></td>
+                                                <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setNormalCredit(e.target.value)}></input></td>
+                                                {additionalMajor ?
+                                                    <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setAddMajorCredit(e.target.value)}></input></td>
+                                                    : null}
+                                                {microDegree ?
+                                                    <td className={css(styles.tableData)}><input className={css(styles.input)} placeholder="입력" onChange={(e) => setMicroDegreeCredit(e.target.value)}></input></td>
+                                                    : null}
+                                            </tr>
+                                            <tr>
+                                                <td className={css(styles.tableTotalData)} colSpan={additionalMajor ? microDegree ? "6" : "5" : microDegree ? "5" : "4"}>{totalCredit}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                : null}
+                            {visibleTable ?
+                                <div className={css(styles.buttonContainer)}>
+                                    <button className={css(styles.registerButton)}>등록하기</button>
+                                </div>
+                                : null}
                         </div>
                     </div>
                     <div className={css(styles.boundaryContainer)}>
@@ -149,9 +149,9 @@ function ManageGraduPage() {
                                 </select>
                                 <select className={css(styles.settingMajor)} value={majorDB} onChange={(e) => setMajorDB(e.target.value)}>
                                     <option value="">전공 설정</option>
-                                    { MAJOR.map((item) => (
+                                    {MAJOR.map((item) => (
                                         <option value={item.value}>{item.label}</option>
-                                    )) }
+                                    ))}
                                 </select>
                                 <button className={css(styles.settingButton)}>조회</button>
                             </div>

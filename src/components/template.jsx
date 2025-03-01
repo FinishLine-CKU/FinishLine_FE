@@ -1,7 +1,7 @@
 import { StyleSheet, css } from 'aphrodite';
 import Symbol from '../assets/images/symbol.png';
 
-function Template({title, subtitle}) {
+function Template({ title, subtitle }) {
     return (
         <div className={css(styles.templateContainer)}>
             <img src={Symbol} className={css(styles.symbolIcon)} alt="FinishLine Symbol Icon"></img>

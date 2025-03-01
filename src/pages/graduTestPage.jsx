@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
 import { MAJOR, SUBMAJORTYPE } from '../pages/signupPage2';
 import Template from '../components/template';
-import Header from  '../components/header';
+import Header from '../components/header';
 import Footer from '../components/footer';
 import GraduChartComponets from "../components/graduChartComponents";
 import notgood from "../assets/images/notgood.png";
@@ -405,296 +405,296 @@ function GraduTestPage() {
 }
 
 const styles = StyleSheet.create({
-  columnContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: '66px',
-    backgroundColor: '#FFFEFB'
-  },
-  rowContainer: {
-    display: 'flex',
-    paddingBottom: '100px',
-    justifyContent: 'center',
-    gap: '100px',
-    backgroundColor: '#FFFEFB'
-  },
-  bottomContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: '200px',
-    backgroundColor: '#FFFEFB',
-    gap: '60px',
-  },
-  feedbackContainer: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  chillGuy: {
-    width: '54px',
-    height: '54px',
-    position: 'absolute',
-    top: '-52px',
-    left: '24px'
-  },
-  feedbackLink: {
-    fontFamily: 'Lato',
-    fontSize: '15px',
-    color: '#5EAEE0',
-    cursor: 'pointer',
-    textDecoration: 'none',
-  },
-  majorContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  leftContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'left',
-    gap: '35px'
-  },
-  rightContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '35px'
-  },
-  hrContainer: {
-    width: '520px',
-    alignItems: 'center',
-    justifyContent: 'center',
-    whiteSpace: 'nowrap',
-  },
-  majortitleContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  majorContentsContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    whiteSpace: 'nowrap',
-  },
-  successContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  generalLacks: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingLeft: '30px',
-    gap: '10px',
-    margin: '-20px 0 0 40px',
-    whiteSpace: 'nowrap',
-  },
-  generalLecture: {
-    display: 'flex',
-    flexDirection: 'column',
-    fontFamily: 'Lato',
-    fontSize: '15px',
-    fontWeight: '600',
-    color: '#3D5286'
-  },
-  generalLectureSub: {
-    fontFamily: 'Lato',
-    fontSize: '15px',
-    fontWeight: '400',
-    color: '#3D5286'
-  },
-  congratulation: {
-    fontFamily: 'Lato',
-    fontSize: '15px',
-    fontWeight: '500'
-  },
-  contentAlertText: {
-    fontFamily: 'Lato',
-    fontWeight: '700',
-    fontSize: '30px'
-  },
-  contextSuccess: {
-    fontFamily: 'Lato',
-    fontWeight: '700',
-    fontSize: '30px',
-    color: '#86C46D',
-    padding: '0 10px'
-  },
-  lackCredit: {
-    fontFamily: 'Lato',
-    fontWeight: '700',
-    fontSize: '30px',
-    color: '#FF4921',
-    padding: '0 10px'
-  },
-  majortextContainer: {
-    display: 'flex',
-    flexDirection: 'column', 
-    justifyContent: 'center',
-    marginBottom: '30px',
-  },
-  textContainer: {
-    marginTop: '30px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
-    width: '520px',
-    alignItems: 'center',
-  },
-  custom_hr: {
-    width: '520px',
-    border: '1px solid #E4E4E4',
-    marginBottom: '40px',
-  },
-  custom_major_hr: {
-    marginTop: '10px',
-    marginBottom: '20px',
-    width: '105%',
-    border: '1px solid #E4E4E4',
-  },
-  generalContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'left',
-    gap: '25px'
-  },
-  custom_result_hr: {
-    fontFamily: 'Lato',
-    fontSize: '30px',
-    fontWeight: '700',
-    textAlign: 'center',
-    color: '#3D5286',
-  },
-  custom_title_result_text: {
-    textAlign: 'center',
-    fontFamily: 'Lato',
-    fontSize: '30px',
-    fontWeight: '700',
-    color: 'black',
-  },
-  cheer: {
-    textAlign: 'center',
-    fontFamily: 'Lato',
-    fontSize: '30px',
-    fontWeight: '700',
-    color: '#FF8EA8',
-  },
-  restCredit: {
-    fontFamily: 'Lato',
-    fontSize: '30px',
-    color: '#FF4921',
-    fontWeight: '800',
-    padding: '0 10px'
-  },
-  custom_result_text: {
-    textAlign: 'center',
-    fontFamily: 'Lato',
-    fontSize: '30px',
-    fontWeight: '600',
-    color: 'black',
-    marginTop: '7px',
-    marginBottom: '7px',
-  },
-  custom_result_text_last: {
-    marginTop: '7px',
-    marginBottom: '7px',
-    fontFamily: 'Lato',
-    fontSize: '30px',
-    fontWeight: '600',
-    color: 'black',
-  },
-  custom_result_text_ness: {
-    marginTop: '0px',
-    fontFamily: 'Lato',
-    fontSize: '30px',
-    fontWeight: '600',
-    color: 'black',
-  },
-  custom_smalltext: {
-    fontFamily: 'Lato',
-    fontSize: '18px',
-    fontWeight: '500',
-    textAlign: 'center',
-    color: 'black',
-  },
-  custom_verysmall_text: {
-    fontFamily: 'Lato',
-    fontSize: '15px',
-    fontWeight: '600',
-    textAlign: 'center',
-    color: 'black',
-    marginBottom: '-5px',
-    textAlign: 'left',
-    paddingLeft: '5px',
-  },
-  custom_verysmall_content: {
-    fontFamily: 'Lato',
-    fontSize: '15px',
-    fontWeight: '600',
-    textAlign: 'center',
-    color: '#3D5286',
-    textAlign: 'left',
-    paddingLeft: '5px',
-    marginTop: '0px',
-    marginBottom: '10px',
-  },
-  custom_h: {
-    fontFamily: 'Lato',
-    fontSize: '25px',
-    fontWeight: '700',
-    color: 'black',
-    marginRight: '30px',
-  },
-  userCredit: {
-    color: '#3D5286',
-    fontSize: '30px',
-    fontFamily: 'Lato',
-    fontWeight: '800'
-  },
-  custom_h_react: {
-    fontFamily: 'Lato',
-    fontSize: '25px',
-    fontWeight: '600',
-    color: '#3D5286',
-    marginRight: '8px',
-    marginBottom: '15px',
-  },
-  custom_hr_react: {
-    fontFamily: 'Lato',
-    fontSize: '30px',
-    fontWeight: '700',
-    color: 'black',
-    margin: '0 5px'
-  },
-  custom_h_focus: {
-    fontFamily: 'Lato',
-    fontSize: '20px',
-    fontWeight: '700',
-    color: 'black',
-    paddingBottom: '2px'
-  },
-  gradubutton: {
-    width: '165px',
-    height: '49px',
-    borderRadius: '5px',
-    border: '1px solid transparent',
-    backgroundColor: '#3D5286',
-    color: '#FFFEFB',
-    cursor: 'pointer',
-    ':active': {
-      backgroundColor: '#2C4061',
+    columnContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginBottom: '66px',
+        backgroundColor: '#FFFEFB'
     },
-    fontFamily: 'Lato',
-    fontSize: '15px',
-    fontWeight: '600',
-    marginTop: '0px',
-  },
-  imgcontainer: {
-    marginTop: '18px',
-  },
+    rowContainer: {
+        display: 'flex',
+        paddingBottom: '100px',
+        justifyContent: 'center',
+        gap: '100px',
+        backgroundColor: '#FFFEFB'
+    },
+    bottomContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: '200px',
+        backgroundColor: '#FFFEFB',
+        gap: '60px',
+    },
+    feedbackContainer: {
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    chillGuy: {
+        width: '54px',
+        height: '54px',
+        position: 'absolute',
+        top: '-52px',
+        left: '24px'
+    },
+    feedbackLink: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#5EAEE0',
+        cursor: 'pointer',
+        textDecoration: 'none',
+    },
+    majorContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    leftContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'left',
+        gap: '35px'
+    },
+    rightContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '35px'
+    },
+    hrContainer: {
+        width: '520px',
+        alignItems: 'center',
+        justifyContent: 'center',
+        whiteSpace: 'nowrap',
+    },
+    majortitleContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+    },
+    majorContentsContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        whiteSpace: 'nowrap',
+    },
+    successContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    generalLacks: {
+        display: 'flex',
+        flexDirection: 'column',
+        paddingLeft: '30px',
+        gap: '10px',
+        margin: '-20px 0 0 40px',
+        whiteSpace: 'nowrap',
+    },
+    generalLecture: {
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '600',
+        color: '#3D5286'
+    },
+    generalLectureSub: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '400',
+        color: '#3D5286'
+    },
+    congratulation: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '500'
+    },
+    contentAlertText: {
+        fontFamily: 'Lato',
+        fontWeight: '700',
+        fontSize: '30px'
+    },
+    contextSuccess: {
+        fontFamily: 'Lato',
+        fontWeight: '700',
+        fontSize: '30px',
+        color: '#86C46D',
+        padding: '0 10px'
+    },
+    lackCredit: {
+        fontFamily: 'Lato',
+        fontWeight: '700',
+        fontSize: '30px',
+        color: '#FF4921',
+        padding: '0 10px'
+    },
+    majortextContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        marginBottom: '30px',
+    },
+    textContainer: {
+        marginTop: '30px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '15px',
+        width: '520px',
+        alignItems: 'center',
+    },
+    custom_hr: {
+        width: '520px',
+        border: '1px solid #E4E4E4',
+        marginBottom: '40px',
+    },
+    custom_major_hr: {
+        marginTop: '10px',
+        marginBottom: '20px',
+        width: '105%',
+        border: '1px solid #E4E4E4',
+    },
+    generalContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'left',
+        gap: '25px'
+    },
+    custom_result_hr: {
+        fontFamily: 'Lato',
+        fontSize: '30px',
+        fontWeight: '700',
+        textAlign: 'center',
+        color: '#3D5286',
+    },
+    custom_title_result_text: {
+        textAlign: 'center',
+        fontFamily: 'Lato',
+        fontSize: '30px',
+        fontWeight: '700',
+        color: 'black',
+    },
+    cheer: {
+        textAlign: 'center',
+        fontFamily: 'Lato',
+        fontSize: '30px',
+        fontWeight: '700',
+        color: '#FF8EA8',
+    },
+    restCredit: {
+        fontFamily: 'Lato',
+        fontSize: '30px',
+        color: '#FF4921',
+        fontWeight: '800',
+        padding: '0 10px'
+    },
+    custom_result_text: {
+        textAlign: 'center',
+        fontFamily: 'Lato',
+        fontSize: '30px',
+        fontWeight: '600',
+        color: 'black',
+        marginTop: '7px',
+        marginBottom: '7px',
+    },
+    custom_result_text_last: {
+        marginTop: '7px',
+        marginBottom: '7px',
+        fontFamily: 'Lato',
+        fontSize: '30px',
+        fontWeight: '600',
+        color: 'black',
+    },
+    custom_result_text_ness: {
+        marginTop: '0px',
+        fontFamily: 'Lato',
+        fontSize: '30px',
+        fontWeight: '600',
+        color: 'black',
+    },
+    custom_smalltext: {
+        fontFamily: 'Lato',
+        fontSize: '18px',
+        fontWeight: '500',
+        textAlign: 'center',
+        color: 'black',
+    },
+    custom_verysmall_text: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '600',
+        textAlign: 'center',
+        color: 'black',
+        marginBottom: '-5px',
+        textAlign: 'left',
+        paddingLeft: '5px',
+    },
+    custom_verysmall_content: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '600',
+        textAlign: 'center',
+        color: '#3D5286',
+        textAlign: 'left',
+        paddingLeft: '5px',
+        marginTop: '0px',
+        marginBottom: '10px',
+    },
+    custom_h: {
+        fontFamily: 'Lato',
+        fontSize: '25px',
+        fontWeight: '700',
+        color: 'black',
+        marginRight: '30px',
+    },
+    userCredit: {
+        color: '#3D5286',
+        fontSize: '30px',
+        fontFamily: 'Lato',
+        fontWeight: '800'
+    },
+    custom_h_react: {
+        fontFamily: 'Lato',
+        fontSize: '25px',
+        fontWeight: '600',
+        color: '#3D5286',
+        marginRight: '8px',
+        marginBottom: '15px',
+    },
+    custom_hr_react: {
+        fontFamily: 'Lato',
+        fontSize: '30px',
+        fontWeight: '700',
+        color: 'black',
+        margin: '0 5px'
+    },
+    custom_h_focus: {
+        fontFamily: 'Lato',
+        fontSize: '20px',
+        fontWeight: '700',
+        color: 'black',
+        paddingBottom: '2px'
+    },
+    gradubutton: {
+        width: '165px',
+        height: '49px',
+        borderRadius: '5px',
+        border: '1px solid transparent',
+        backgroundColor: '#3D5286',
+        color: '#FFFEFB',
+        cursor: 'pointer',
+        ':active': {
+            backgroundColor: '#2C4061',
+        },
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '600',
+        marginTop: '0px',
+    },
+    imgcontainer: {
+        marginTop: '18px',
+    },
 });
 
 export default GraduTestPage;
