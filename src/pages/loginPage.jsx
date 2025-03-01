@@ -26,6 +26,12 @@ function LoginPage() {
                 studentId: studentId,
                 password: password
             });
+
+            if (response.data.error) {
+                alert(response.data.error);
+                return;
+            }
+
             if (response.data.idToken && response.data.name) {
                 const { idToken, name, testing, uploadPDF, needEsseCredit, needChoiceCredit, need_sub_major, needNormalTotalCredit, needTotalCredit } = response.data;
                 localStorage.setItem('idToken', idToken);
