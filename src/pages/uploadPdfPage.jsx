@@ -10,9 +10,9 @@ function UploadPdfPage() {
         <div className={css(styles.container)}>
             <Header />
             <Template title="기이수 과목 관리" />
-                <div className={css(styles.columnContainer)}>
-                    <UploadPdfPageComponents/>
-                </div>
+            <div className={css(styles.columnContainer)}>
+                <UploadPdfPageComponents />
+            </div>
             <Footer />
         </div>
     );

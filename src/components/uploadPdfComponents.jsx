@@ -16,11 +16,11 @@ function UploadPdfComponents() {
         const files = event.target && event.target.files;
         if (files) {
             const newFilesArray = Array.from(files)
-              .slice(0, 25 - fileNames.length);
-        
+                .slice(0, 25 - fileNames.length);
+
             setSelectedFiles(prevSelectedFiles => [
-              ...prevSelectedFiles,
-              ...newFilesArray
+                ...prevSelectedFiles,
+                ...newFilesArray
             ]);
 
             const newFileNamesArray = newFilesArray.map(file => file.name);
@@ -68,20 +68,20 @@ function UploadPdfComponents() {
                 alert('파일이 성공적으로 업로드되었습니다.');
                 setSelectedFiles([]);
                 setFileNames([]);
-          
+
                 if (location.pathname === '/donelecture') {
-                  window.location.reload();
+                    window.location.reload();
                 } else {
-                  localStorage.setItem('uploadPDF', true);
-                  navigate('/donelecture');
+                    localStorage.setItem('uploadPDF', true);
+                    navigate('/donelecture');
                 }
             }
         } catch (error) {
-              setLoading(false);
-              console.error('업로드 에러:', error);
-              alert(error.response?.data?.message || '파일 업로드 중 오류가 발생했습니다.');
-              setSelectedFiles([]);
-              setFileNames([]); 
+            setLoading(false);
+            console.error('업로드 에러:', error);
+            alert(error.response?.data?.message || '파일 업로드 중 오류가 발생했습니다.');
+            setSelectedFiles([]);
+            setFileNames([]);
         }
     };
 
@@ -93,35 +93,35 @@ function UploadPdfComponents() {
                     <div className={css(styles.titleContainer)}>
                         <span className={css(styles.title)}>기이수과목 등록</span>
                     </div>
-                    <hr className={css(styles.custom_hr)}/>
+                    <hr className={css(styles.custom_hr)} />
                     <div className={css(styles.itemRowcontainer)}>
                         <div className={css(styles.itemTextcontainer)}>
                             <p className={css(styles.custom_text)}>파일 선택</p>
                         </div>
                         <div className={css(styles.containerSecond)}>
                             <div className={css(styles.itemboxcontainer)}>
-                                <input 
-                                    type="file" 
-                                    style={{ display: "none" }} 
-                                    id="uploadpdf" 
-                                    accept=".pdf" 
+                                <input
+                                    type="file"
+                                    style={{ display: "none" }}
+                                    id="uploadpdf"
+                                    accept=".pdf"
                                     multiple
                                     onChange={fileInputHandler}
                                 />
                                 {fileNames.length === 0 ? (
                                     <p className={css(styles.custom_text_box)}>
-                                      파일을 선택해주세요. (최대 25장)
+                                        파일을 선택해주세요. (최대 25장)
                                     </p>
-                                    ) : (
-                                        fileNames.map((fileName, index) => (
-                                            <div key={index} className={css(styles.fileNameButtonContainer)}>
-                                                <span>{fileName}</span>
-                                                <button
-                                                    onClick={() => handleDeleteFile(index)}
-                                                    className={css(styles.itemdeleteButton)}
-                                                    type="button"
-                                                >×</button>
-                                            </div>
+                                ) : (
+                                    fileNames.map((fileName, index) => (
+                                        <div key={index} className={css(styles.fileNameButtonContainer)}>
+                                            <span>{fileName}</span>
+                                            <button
+                                                onClick={() => handleDeleteFile(index)}
+                                                className={css(styles.itemdeleteButton)}
+                                                type="button"
+                                            >×</button>
+                                        </div>
                                     ))
                                 )}
                             </div>
