@@ -32,7 +32,7 @@ function MyPage() {
     const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
     const myInfo = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/my_info/', {
-            idToken : localStorage.getItem('idToken')
+            idToken: localStorage.getItem('idToken')
         });
         if (response.data.major && response.data.student_id) {
             if (response.data.sub_major_type && response.data.sub_major) {
@@ -63,14 +63,14 @@ function MyPage() {
                 };
             };
         } else {
-            const {error} = response.data;
+            const { error } = response.data;
             setMajor(error);
             setStudent_id(error);
         };
     };
     const lackCredit = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/lack_credit/', {
-            student_id : localStorage.getItem('idToken')
+            student_id: localStorage.getItem('idToken')
         });
         if (!response.data.error) {
             const { need_major } = response.data;
@@ -82,20 +82,20 @@ function MyPage() {
     const myLectureUpdate = async () => {
         const userId = localStorage.getItem('idToken');
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture?user_id=${userId}`);
-          setMyLectureList(response.data);
+            const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture?user_id=${userId}`);
+            setMyLectureList(response.data);
         } catch (error) {
-          setError('과목 정보를 가져오는데 실패했습니다.');
-          console.error('Error fetching data: ', error);
+            setError('과목 정보를 가져오는데 실패했습니다.');
+            console.error('Error fetching data: ', error);
         }
-      };
+    };
     const closeButtonAction = () => {
         setEditInfoCheck(false);
         closeFeatModal();
     };
     const removeMembership = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/remove_membership/', {
-            idToken : localStorage.getItem('idToken')
+            idToken: localStorage.getItem('idToken')
         });
         if (response.data) {
             if (response.data.result === true) {
@@ -124,8 +124,8 @@ function MyPage() {
     };
     const passwordCheck = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/check_register/', {
-            studentId : student_id,
-            password : password
+            studentId: student_id,
+            password: password
         });
         if (response.data.idToken === localStorage.getItem('idToken')) {
             setPasswordStateCheck(true);
@@ -140,10 +140,10 @@ function MyPage() {
         const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!#^%*?&])[a-zA-Z\d@$!#^%*?&]{8,20}$/;
         const input = e.target.value;
         setPassword(input)
-        if (input ===  ''){
+        if (input === '') {
             setError('비밀번호를 입력하세요.');
         } else {
-            if (regex.test(input)){
+            if (regex.test(input)) {
                 setError('');
             } else {
                 setError('비밀번호 형식이 올바르지 않습니다.');
@@ -170,8 +170,8 @@ function MyPage() {
     };
     const newPassword = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/change_pw/', {
-            studentId : student_id,
-            password : password
+            studentId: student_id,
+            password: password
         });
         if (response.data.success) {
             setSuccessChangePW(true);
@@ -205,9 +205,9 @@ function MyPage() {
     };
     const newInfo = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/change_info/', {
-            studentId : student_id,
+            studentId: student_id,
             sub_major_type: sub_major_type,
-            sub_major : sub_major,
+            sub_major: sub_major,
             micro_degree: micro_degree
         });
         if (response.data.success) {
@@ -255,93 +255,93 @@ function MyPage() {
 
     return (
         <>
-            {modalState ? 
-            removeInfoCheck ? 
-            <Modal infoMessage="회원탈퇴" infoSymbol={Symbol} mainMessage="회원 탈퇴 되었습니다." contentMessage={<>FINISH LINE 을 이용해주셔서 감사합니다.</>} mainButton="확인" mainButtonAction={removeMembership} closeButton={removeMembership} />
-            : <Modal infoMessage="회원탈퇴" infoSymbol={Symbol} mainMessage="정말 탈퇴하시겠습니까?" contentMessage={<>탈퇴 시 모든 회원정보는 <ins className={css(styles.point)}>삭제</ins>되며 복구가 <b>불가능</b>합니다.</>} mainButton="탈퇴하기" mainButtonAction={removeCheckModal} closeButton={closeModal} />
-            : null}
+            {modalState ?
+                removeInfoCheck ?
+                    <Modal infoMessage="회원탈퇴" infoSymbol={Symbol} mainMessage="회원 탈퇴 되었습니다." contentMessage={<>FINISH LINE 을 이용해주셔서 감사합니다.</>} mainButton="확인" mainButtonAction={removeMembership} closeButton={removeMembership} />
+                    : <Modal infoMessage="회원탈퇴" infoSymbol={Symbol} mainMessage="정말 탈퇴하시겠습니까?" contentMessage={<>탈퇴 시 모든 회원정보는 <ins className={css(styles.point)}>삭제</ins>되며 복구가 <b>불가능</b>합니다.</>} mainButton="탈퇴하기" mainButtonAction={removeCheckModal} closeButton={closeModal} />
+                : null}
             {featModalState ?
-            editInfoCheck ?
-            <FeatureModal title="추가 정보" closeAction={closeButtonAction} mainContents={
-            <div className={css(styles.columnLayout)}>
-                <div className={css(styles.startLayout)}>
-                    <label className={css(styles.infoLable)}>복수/부/연계 전공</label>
-                    <select className={css(styles.majorStatus)} onChange={(e) => setSub_major_type(e.target.value)}>
-                        { sub_major_type ? 
-                        <>
-                            <option value="" >해당 없음</option>
-                            { SUBMAJORTYPE.map((item) => (
-                            <option value={item.value} selected={item.value === sub_major_type ? true : undefined}>{item.label}</option> )) }
-                        </>
-                        : <>
-                            <option value="" >해당 없음</option>
-                            { SUBMAJORTYPE.map((item) => (
-                            <option value={item.value}>{item.label}</option> )) }
-                        </>}
-                    </select>
-                    <select className={css(styles.majorSelect)} onChange={checkMajor}>
-                        { sub_major_type ? 
-                        sub_major ? (
-                            <>
-                                <option value="">선택</option>
-                                { MAJOR.map((item) => (
-                                    <option value={item.value} selected={item.value === sub_major ? true : undefined}>{item.label}</option>
-                                )) }
-                            </> ) 
-                        : (
-                            <>
-                                <option value="">선택</option>
-                                { MAJOR.map((item) => (
-                                    <option value={item.value}>{item.label}</option>
-                                )) }
-                            </> )
-                        : ( <option value=""></option> ) }
-                    </select>
-                    <label className={css(styles.infoLable)}>소단위전공</label>
-                    <select className={css(styles.majorSelect)} onChange={(e) => setMicro_degree(e.target.value)}>
-                        { micro_degree ?
-                        <>
-                            <option value="">해당 없음</option>
-                            { MICRO_DEGREE.map((item) => (
-                                <option value={item.value} selected={item.value === micro_degree ? true : undefined}>{item.label}</option>
-                            )) }
-                        </>
-                        : <>
-                            <option value="">해당 없음</option>
-                            { MICRO_DEGREE.map((item) => (
-                            <option value={item.value}>{item.label}</option>
-                            )) }
-                        </>
-                        }
-                    </select>
-                </div>
-            </div>} buttonText="저장" buttonAction={translateInfo} disButton={sub_major_type && !sub_major ? true : undefined} />
-            : passwordStateCheck ?
-            <FeatureModal title="비밀번호 변경" closeAction={closeFeatModal} mainContents={
-                <div className={css(styles.columnLayout)}>
-                    <div className={css(styles.startLayout)}>
-                        <div className={css(styles.pwLabelSpace)}>
-                            <label className={css(styles.infoLable)}>변경할 비밀번호 입력</label>
-                            { error ? <span className={css(styles.errorMessage)}>{error}</span> : null }
-                        </div>
-                        <input className={css(styles.certificationInput)} type="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={passwordFormat} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
-                        <div className={css(styles.pwLabelSpace)}>
-                            <label className={css(styles.infoLable)}>비밀번호 확인</label>
-                            { checkError ? <span className={css(styles.errorMessage)}>{checkError}</span> : null }
-                        </div>
-                        <input className={css(styles.certificationInput)} type="password" value={checkPassword} onChange={passwordCorrect} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
-                    </div>
-                </div>} buttonText="저장" buttonAction={saveNewPassword} />
-            : <FeatureModal title="본인 확인" closeAction={closeFeatModal} mainContents={
-                <div className={css(styles.columnLayout)}>
-                    <div className={css(styles.startLayout)}>
-                        <label className={css(styles.infoLable)}>비밀번호 입력</label>
-                        <input className={css(styles.certificationInput)} type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="본인 확인을 위해 비밀번호를 입력하세요."></input>
-                    </div>
-                </div>} buttonText="완료" buttonAction={passwordCheck} />
-            : successChangePW ?
-            <Modal infoMessage="비밀번호 변경" infoSymbol={Symbol} mainMessage="비밀번호가 재설정 되었습니다." mainButton="확인" mainButtonAction={noticeChangePW} closeButton={noticeChangePW} />
-            : null}
+                editInfoCheck ?
+                    <FeatureModal title="추가 정보" closeAction={closeButtonAction} mainContents={
+                        <div className={css(styles.columnLayout)}>
+                            <div className={css(styles.startLayout)}>
+                                <label className={css(styles.infoLable)}>복수/부/연계 전공</label>
+                                <select className={css(styles.majorStatus)} onChange={(e) => setSub_major_type(e.target.value)}>
+                                    {sub_major_type ?
+                                        <>
+                                            <option value="" >해당 없음</option>
+                                            {SUBMAJORTYPE.map((item) => (
+                                                <option value={item.value} selected={item.value === sub_major_type ? true : undefined}>{item.label}</option>))}
+                                        </>
+                                        : <>
+                                            <option value="" >해당 없음</option>
+                                            {SUBMAJORTYPE.map((item) => (
+                                                <option value={item.value}>{item.label}</option>))}
+                                        </>}
+                                </select>
+                                <select className={css(styles.majorSelect)} onChange={checkMajor}>
+                                    {sub_major_type ?
+                                        sub_major ? (
+                                            <>
+                                                <option value="">선택</option>
+                                                {MAJOR.map((item) => (
+                                                    <option value={item.value} selected={item.value === sub_major ? true : undefined}>{item.label}</option>
+                                                ))}
+                                            </>)
+                                            : (
+                                                <>
+                                                    <option value="">선택</option>
+                                                    {MAJOR.map((item) => (
+                                                        <option value={item.value}>{item.label}</option>
+                                                    ))}
+                                                </>)
+                                        : (<option value=""></option>)}
+                                </select>
+                                <label className={css(styles.infoLable)}>소단위전공</label>
+                                <select className={css(styles.majorSelect)} onChange={(e) => setMicro_degree(e.target.value)}>
+                                    {micro_degree ?
+                                        <>
+                                            <option value="">해당 없음</option>
+                                            {MICRO_DEGREE.map((item) => (
+                                                <option value={item.value} selected={item.value === micro_degree ? true : undefined}>{item.label}</option>
+                                            ))}
+                                        </>
+                                        : <>
+                                            <option value="">해당 없음</option>
+                                            {MICRO_DEGREE.map((item) => (
+                                                <option value={item.value}>{item.label}</option>
+                                            ))}
+                                        </>
+                                    }
+                                </select>
+                            </div>
+                        </div>} buttonText="저장" buttonAction={translateInfo} disButton={sub_major_type && !sub_major ? true : undefined} />
+                    : passwordStateCheck ?
+                        <FeatureModal title="비밀번호 변경" closeAction={closeFeatModal} mainContents={
+                            <div className={css(styles.columnLayout)}>
+                                <div className={css(styles.startLayout)}>
+                                    <div className={css(styles.pwLabelSpace)}>
+                                        <label className={css(styles.infoLable)}>변경할 비밀번호 입력</label>
+                                        {error ? <span className={css(styles.errorMessage)}>{error}</span> : null}
+                                    </div>
+                                    <input className={css(styles.certificationInput)} type="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={passwordFormat} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
+                                    <div className={css(styles.pwLabelSpace)}>
+                                        <label className={css(styles.infoLable)}>비밀번호 확인</label>
+                                        {checkError ? <span className={css(styles.errorMessage)}>{checkError}</span> : null}
+                                    </div>
+                                    <input className={css(styles.certificationInput)} type="password" value={checkPassword} onChange={passwordCorrect} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
+                                </div>
+                            </div>} buttonText="저장" buttonAction={saveNewPassword} />
+                        : <FeatureModal title="본인 확인" closeAction={closeFeatModal} mainContents={
+                            <div className={css(styles.columnLayout)}>
+                                <div className={css(styles.startLayout)}>
+                                    <label className={css(styles.infoLable)}>비밀번호 입력</label>
+                                    <input className={css(styles.certificationInput)} type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="본인 확인을 위해 비밀번호를 입력하세요."></input>
+                                </div>
+                            </div>} buttonText="완료" buttonAction={passwordCheck} />
+                : successChangePW ?
+                    <Modal infoMessage="비밀번호 변경" infoSymbol={Symbol} mainMessage="비밀번호가 재설정 되었습니다." mainButton="확인" mainButtonAction={noticeChangePW} closeButton={noticeChangePW} />
+                    : null}
             <Header />
             <Template title="마이페이지" />
             <div className={css(styles.container)}>
@@ -365,112 +365,112 @@ function MyPage() {
                             <span className={css(styles.content)}>{student_id}</span>
                         </div>
                         {sub_major && sub_major_type ?
-                        <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
-                            <span className={css(styles.content)}>{MAJOR.find(item => item.value === sub_major)?.label || sub_major}</span>
-                        </div>
-                        : null}
-                        {micro_degree ? 
-                        <div className={css(styles.contentContainer)}>
-                            <span className={css(styles.contentTitle)}>소단위전공</span>
-                            <span className={css(styles.content)}>{MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree}</span>
-                        </div>
-                        : null}
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
+                                <span className={css(styles.content)}>{MAJOR.find(item => item.value === sub_major)?.label || sub_major}</span>
+                            </div>
+                            : null}
+                        {micro_degree ?
+                            <div className={css(styles.contentContainer)}>
+                                <span className={css(styles.contentTitle)}>소단위전공</span>
+                                <span className={css(styles.content)}>{MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree}</span>
+                            </div>
+                            : null}
                     </div>
                 </div>
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>졸업요건검사</span>
                         {localStorage.getItem('testing') ?
-                        !localStorage.getItem('tryAgainTest') ?
-                        <button className={css(styles.button)} onClick={navigateDoneLecture}>자세히보기</button>
-                        : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button>
-                        : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button> }
+                            !localStorage.getItem('tryAgainTest') ?
+                                <button className={css(styles.button)} onClick={navigateDoneLecture}>자세히보기</button>
+                                : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button>
+                            : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button>}
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
                     {!localStorage.getItem('tryAgainTest') ?
-                    <>
-                        {localStorage.getItem('testing') ?
                         <>
-                        {localStorage.getItem('needTotalCredit') ?
-                            <div className={css(styles.contentArea)}>
-                                <div className={css(styles.marginBottom)}>
-                                    <span className={css(styles.graduState)}>졸업까지</span>
-                                    <span className={css(styles.totalCredit)}>{localStorage.getItem('needTotalCredit')}학점</span>
-                                    <span className={css(styles.graduState)}>이수해야 합니다!</span>
-                                </div>
-                                {lackMajor ?                        
-                                <div className={css(styles.contentContainer)}>
-                                    <span className={css(styles.contentTitle)}>전공</span>
-                                    <span className={css(styles.graduContent)}><strong>{lackMajor}학점</strong> 부족</span>
-                                </div>
-                                : null}
-                                {localStorage.getItem('need_sub_major') ?
-                                localStorage.getItem('need_sub_major') != 0 ?
-                                <div className={css(styles.contentContainer)}>
-                                    <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
-                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('need_sub_major')}학점</strong> 부족</span>
-                                </div>
-                                : null : null}
-                                {localStorage.getItem('needEsseCredit') ? 
-                                <div className={css(styles.contentContainer)}>
-                                    <span className={css(styles.contentTitle)}>교양필수</span>
-                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needEsseCredit')}학점</strong> 부족</span>
-                                </div>
-                                : null}
-                                {localStorage.getItem('needChoiceCredit') ? 
-                                <div className={css(styles.contentContainer)}>
-                                    <span className={css(styles.contentTitle)}>교양선택</span>
-                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needChoiceCredit')}학점</strong> 부족</span>
-                                </div>
-                                : null
-                                }
-                                {localStorage.getItem('needNormalTotalCredit') == 0 ?
-                                null
-                                : <div className={css(styles.contentContainer)}>
-                                    <span className={css(styles.contentTitle)}>일반선택</span>
-                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needNormalTotalCredit')}학점</strong> 부족</span>
-                                </div>}  
-                            </div> :
-                            <div className={css(styles.contentArea)}>
-                                <div className={css(styles.marginBottom)}>
-                                    <span className={css(styles.cheer)}>졸업요건을 </span>
-                                    <span className={css(styles.cheer)}>모두 충족했습니다.</span>
-                                </div>
-                            </div> }
+                            {localStorage.getItem('testing') ?
+                                <>
+                                    {localStorage.getItem('needTotalCredit') ?
+                                        <div className={css(styles.contentArea)}>
+                                            <div className={css(styles.marginBottom)}>
+                                                <span className={css(styles.graduState)}>졸업까지</span>
+                                                <span className={css(styles.totalCredit)}>{localStorage.getItem('needTotalCredit')}학점</span>
+                                                <span className={css(styles.graduState)}>이수해야 합니다!</span>
+                                            </div>
+                                            {lackMajor ?
+                                                <div className={css(styles.contentContainer)}>
+                                                    <span className={css(styles.contentTitle)}>전공</span>
+                                                    <span className={css(styles.graduContent)}><strong>{lackMajor}학점</strong> 부족</span>
+                                                </div>
+                                                : null}
+                                            {localStorage.getItem('need_sub_major') ?
+                                                localStorage.getItem('need_sub_major') != 0 ?
+                                                    <div className={css(styles.contentContainer)}>
+                                                        <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
+                                                        <span className={css(styles.graduContent)}><strong>{localStorage.getItem('need_sub_major')}학점</strong> 부족</span>
+                                                    </div>
+                                                    : null : null}
+                                            {localStorage.getItem('needEsseCredit') ?
+                                                <div className={css(styles.contentContainer)}>
+                                                    <span className={css(styles.contentTitle)}>교양필수</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needEsseCredit')}학점</strong> 부족</span>
+                                                </div>
+                                                : null}
+                                            {localStorage.getItem('needChoiceCredit') ?
+                                                <div className={css(styles.contentContainer)}>
+                                                    <span className={css(styles.contentTitle)}>교양선택</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needChoiceCredit')}학점</strong> 부족</span>
+                                                </div>
+                                                : null
+                                            }
+                                            {localStorage.getItem('needNormalTotalCredit') == 0 ?
+                                                null
+                                                : <div className={css(styles.contentContainer)}>
+                                                    <span className={css(styles.contentTitle)}>일반선택</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needNormalTotalCredit')}학점</strong> 부족</span>
+                                                </div>}
+                                        </div> :
+                                        <div className={css(styles.contentArea)}>
+                                            <div className={css(styles.marginBottom)}>
+                                                <span className={css(styles.cheer)}>졸업요건을 </span>
+                                                <span className={css(styles.cheer)}>모두 충족했습니다.</span>
+                                            </div>
+                                        </div>}
+                                </> :
+                                <div className={css(styles.contentNothingArea)}>
+                                    <div className={css(styles.noneContainer)}>
+                                        <span className={css(styles.noneMessage)}>검사 이력이 없습니다.</span>
+                                    </div>
+                                </div>}
                         </> :
                         <div className={css(styles.contentNothingArea)}>
                             <div className={css(styles.noneContainer)}>
-                                <span className={css(styles.noneMessage)}>검사 이력이 없습니다.</span>
+                                <span className={css(styles.noneMessage)}>회원정보 수정으로 졸업 기준이 변동되었습니다.<br /><br />새로 적용된 기준으로 검사를 진행해주세요.</span>
                             </div>
-                        </div> }
-                    </> :
-                    <div className={css(styles.contentNothingArea)}>
-                        <div className={css(styles.noneContainer)}>
-                            <span className={css(styles.noneMessage)}>회원정보 수정으로 졸업 기준이 변동되었습니다.<br /><br />새로 적용된 기준으로 검사를 진행해주세요.</span>
-                        </div>
-                    </div> }
+                        </div>}
                 </div>
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>내 기이수과목</span>
-                        {localStorage.getItem('uploadPDF') ? 
-                        <button className={css(styles.button)} onClick={navigateDoneLecture}>추가하기</button>
-                        : <button className={css(styles.button)} onClick={navigateUploadPDF}>등록하기</button>
+                        {localStorage.getItem('uploadPDF') ?
+                            <button className={css(styles.button)} onClick={navigateDoneLecture}>추가하기</button>
+                            : <button className={css(styles.button)} onClick={navigateUploadPDF}>등록하기</button>
                         }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
                     <div className={css(styles.contentTableArea)}>
-                        {localStorage.getItem('uploadPDF') ? 
-                            <DoneSubComponents subjects={myLectureList} className={css(styles.resizingTable)} tableType="resize"/>
-                        : <>
-                            <div className={css(styles.noneContainer)}>
-                                <span className={css(styles.noneMessage)}>등록된 기이수과목이 없습니다.</span>
-                            </div>
-                            <div className={css(styles.guideContainer)}>
-                                <span className={css(styles.guideMethod)}>가톨릭관동대 포털 {'>'} 종합정보시스템 {'>'} 학적관리 {'>'} 학기별 성적조회 및 출력 {'>'} 인쇄 {'>'} PDF로 저장</span>
-                            </div>
-                        </>
+                        {localStorage.getItem('uploadPDF') ?
+                            <DoneSubComponents subjects={myLectureList} className={css(styles.resizingTable)} tableType="resize" />
+                            : <>
+                                <div className={css(styles.noneContainer)}>
+                                    <span className={css(styles.noneMessage)}>등록된 기이수과목이 없습니다.</span>
+                                </div>
+                                <div className={css(styles.guideContainer)}>
+                                    <span className={css(styles.guideMethod)}>가톨릭관동대 포털 {'>'} 종합정보시스템 {'>'} 학적관리 {'>'} 학기별 성적조회 및 출력 {'>'} 인쇄 {'>'} PDF로 저장</span>
+                                </div>
+                            </>
                         }
                     </div>
                 </div>
@@ -549,7 +549,7 @@ const styles = StyleSheet.create({
     },
     horizontal: {
         width: '478px',
-        border: '1px solid #E4E4E4', 
+        border: '1px solid #E4E4E4',
         marginTop: '0px',
     },
     contentArea: {
@@ -698,7 +698,7 @@ const styles = StyleSheet.create({
         backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%237A828A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right 10px center',
-        ':focus':{
+        ':focus': {
             color: '#2B2A28',
             outline: '1px solid #2B2A28',
         },
@@ -717,7 +717,7 @@ const styles = StyleSheet.create({
         backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%237A828A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right 10px center',
-        ':focus':{
+        ':focus': {
             color: '#2B2A28',
             outline: '1px solid #2B2A28',
         },

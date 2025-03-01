@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Template from '../components/template';
-import Header from  '../components/header';
+import Header from '../components/header';
 import Footer from '../components/footer';
 import { SubSearchComponents, DoneSubComponents } from '../components/doneLectureComponents';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
@@ -182,7 +182,7 @@ function DoneLecturePage() {
           <Footer />
       </div>
     );
-  };
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -297,50 +297,156 @@ const styles = StyleSheet.create({
     fontSize: '12px',
     fontWeight: '600',
   },
-  secondTitleContainer: {
-    width: '520px',
-    height: '54px',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  itemSaveButton: {
-    width: '70px',
-    height: '25px',
-    borderRadius: '5px',
-    border: '1px solid #2B2A28',
-    backgroundColor: '#FFFEFB',
-    color: '#2B2A28',
-    cursor: 'pointer',
-    ':hover': {
-      backgroundColor: '#2B2A28',
-      color: '#FFFEFB'
+    ColumnContainer: {
+        marginTop: '50px',
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        alignItems: 'center',
     },
-    ':active': {
-      backgroundColor: '#595650',
-      borderColor: '#595650'
+    tableContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    fontFamily: 'Lato',
-    fontSize: '12px',
-    fontWeight: '700',
-  },
-  itemGraduButton: {
-    width: '165px',
-    height: '49px',
-    borderRadius: '5px',
-    border: '1px solid transparent',
-    backgroundColor: '#006277',
-    color: '#FFFFFF',
-    cursor: 'pointer',
-    ':active': {
-      backgroundColor: '#004c56',
+    inputContainer: {
+        width: '424px',
+        height: '27px',
+        padding: '10px',
+        paddingLeft: '16px',
+        fontFamily: 'Lato',
+        fontSize: '16px',
+        border: '1px solid #CACACA',
+        borderRadius: '4px',
+        outline: 'none',
+        backgroundColor: 'transparent',
     },
-    fontFamily: 'Lato',
-    fontSize: '15px',
-    fontWeight: '700',
-    marginTop: '32px',
-  },
+    tableContainerSecond: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    title: {
+        marginBottom: '5px',
+        fontFamily: 'Lato',
+        fontSize: '23px',
+        textAlign: 'left',
+        fontWeight: '700'
+    },
+    secondTitle: {
+        fontFamily: 'Lato',
+        fontSize: '23px',
+        fontWeight: '700'
+    },
+    titleContainer: {
+        width: '520px',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    custom_hr: {
+        width: '520px',
+        border: '1px solid #E4E4E4',
+    },
+    second_custom_hr: {
+        marginTop: '1px',
+        marginBottom: '32px',
+        width: '520px',
+        border: '1px solid #E4E4E4',
+    },
+    small_title: {
+        fontFamily: 'Lato',
+        fontSize: '20px',
+        fontWeight: '600',
+        textAlign: 'center',
+        color: '#006277',
+    },
+    textboxContainer: {
+        marginTop: '10px',
+        marginBottom: '40px',
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'center',
+    },
+    itemTextboxContainer: {
+        width: '450px',
+        height: '100px',
+        border: '1px solid black',
+        backgroundColor: 'transparent',
+        borderRadius: '5px',
+    },
+    itemSearchButton: {
+        border: '1px solid black',
+        borderRadius: '4px',
+        backgroundColor: 'transparent',
+        color: 'black',
+        width: '81px',
+        height: '46px',
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '600',
+        marginLeft: '15px',
+        cursor: 'pointer',
+    },
+    itemAddButton: {
+        marginTop: '30px',
+        marginBottom: '70px',
+        width: '70px',
+        height: '25px',
+        borderRadius: '5px',
+        border: '1px solid transparent',
+        backgroundColor: 'black',
+        color: '#FFFEFB',
+        cursor: 'pointer',
+        ':active': {
+            backgroundColor: '#595650',
+        },
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '600',
+    },
+    secondTitleContainer: {
+        width: '520px',
+        height: '54px',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    itemSaveButton: {
+        width: '70px',
+        height: '25px',
+        borderRadius: '5px',
+        border: '1px solid #2B2A28',
+        backgroundColor: '#FFFEFB',
+        color: '#2B2A28',
+        cursor: 'pointer',
+        ':hover': {
+            backgroundColor: '#2B2A28',
+            color: '#FFFEFB'
+        },
+        ':active': {
+            backgroundColor: '#595650',
+            borderColor: '#595650'
+        },
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '700',
+    },
+    itemGraduButton: {
+        width: '165px',
+        height: '49px',
+        borderRadius: '5px',
+        border: '1px solid transparent',
+        backgroundColor: '#006277',
+        color: '#FFFFFF',
+        cursor: 'pointer',
+        ':active': {
+            backgroundColor: '#004c56',
+        },
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '700',
+        marginTop: '32px',
+    },
 });
 
 export default DoneLecturePage;
