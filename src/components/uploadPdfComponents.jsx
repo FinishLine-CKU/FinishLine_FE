@@ -11,6 +11,7 @@ function UploadPdfComponents() {
     const location = useLocation();
     const [loading, setLoading] = useState();
 
+    //파일 업로드를 하면 SelectedFiles에 상태 저장
     const fileInputHandler = useCallback((event) => {
         const files = event.target && event.target.files;
         if (files) {
@@ -27,16 +28,19 @@ function UploadPdfComponents() {
         }
     }, [fileNames]);
 
+    //파일 삭제 함수
     const handleDeleteFile = (index) => {
         setFileNames((prevFileNames) => prevFileNames.filter((_, i) => i !== index));
     };
 
+    //파일 업로드 함수
     const handleUpload = async () => {
         if (selectedFiles.length === 0) {
             alert('파일을 선택해주세요.');
             return;
         }
 
+        //파일 업로드 및 학번 전달을 위해 FormData 사용
         const formData = new FormData();
         selectedFiles.forEach((file) => {
             formData.append('files', file);
@@ -46,11 +50,7 @@ function UploadPdfComponents() {
         try {
             setLoading(true);
             console.log(formData)
-            const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData);
 
             const data = response.data.data;
             const duplicateFiles = response.data.duplicate_files;
@@ -80,6 +80,8 @@ function UploadPdfComponents() {
             setLoading(false);
             console.error('업로드 에러:', error);
             alert(error.response?.data?.message || '파일 업로드 중 오류가 발생했습니다.');
+            setSelectedFiles([]);
+            setFileNames([]);
         }
     };
 
@@ -130,7 +132,7 @@ function UploadPdfComponents() {
                         <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
                     </div>
                     <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 인쇄 &gt; PDF로 저장
-            </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
+                    </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
                 </div>
             </div>
         </div>
