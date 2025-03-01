@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { MdLanguage } from 'react-icons/md';
-import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';    
+import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
 import { ModalContext } from '../utils/hooks/modalContext';
 import formLink from '../assets/images/formLink.png';
 import blackFinishlineLogo from '../assets/images/blackFinishlineLogo.png';
@@ -38,36 +38,36 @@ function Footer({ footerType = 'default' }) {
                 </a>
                 <span className={css(footerType === 'manage' ? styles.manageServiceText : styles.serviceText)}>더 나은 서비스로 보답하겠습니다.</span>
                 <div className={css(footerType === 'manage' ? styles.manageContactIndex : styles.contactIndex)}>CONTACT</div>
-                <a href= "mailto: finishlinecku@gmail.com" target="_blank" className={css(footerType === 'manage' ? styles.manageContactMail : styles.contactMail)} title="메일">finishlinecku@gmail.com</a>
+                <a href="mailto: finishlinecku@gmail.com" target="_blank" className={css(footerType === 'manage' ? styles.manageContactMail : styles.contactMail)} title="메일">finishlinecku@gmail.com</a>
                 <a href="https://github.com/FinishLine-CKU" target="_blank" className={css(footerType === 'manage' ? styles.manageContactGithub : styles.contactGithub)} title="깃허브">https://github.com/FinishLine-CKU</a>
             </div>
             <div className={css(footerType === 'transparent' ? styles.transparentRightSection : footerType === 'manage' ? styles.manageRightSection : styles.footerRightSection)}>
                 <div className={css(styles.menuButtons)}>
                     <div className={css(styles.languageButtonContainer)} ref={languageButtonRef}>
-                        <button className={css(footerType === 'manage' ? styles.manageLanguageButton : styles.languageButton)} onClick={() => {setLanguageDropdown(!languageDropdown); setSitemapDropdown(false);}}>
-                            <MdLanguage />{selectedLanguage} { languageDropdown ? <RiArrowDropUpLine className={css(styles.dropdownIcon)}/> : <RiArrowDropDownLine className={css(styles.dropdownIcon)}/> }
+                        <button className={css(footerType === 'manage' ? styles.manageLanguageButton : styles.languageButton)} onClick={() => { setLanguageDropdown(!languageDropdown); setSitemapDropdown(false); }}>
+                            <MdLanguage />{selectedLanguage} {languageDropdown ? <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> : <RiArrowDropDownLine className={css(styles.dropdownIcon)} />}
                         </button>
-                        { languageDropdown ? 
+                        {languageDropdown ?
                             <ul className={css(footerType === 'manage' ? styles.manageDropdownOptions : styles.dropdownOptions)}>
-                                <li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)} onClick={() => {setSelectedLanguage('한국어'); setLanguageDropdown(false);}}><a>한국어</a></li>
-                                <li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)} onClick={() => {setSelectedLanguage('English'); setLanguageDropdown(false);}}><a>English</a></li>
-                                <li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)} onClick={() => {setSelectedLanguage('Tiếng Việt'); setLanguageDropdown(false);}}><a>Tiếng Việt</a></li>
+                                <li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)} onClick={() => { setSelectedLanguage('한국어'); setLanguageDropdown(false); }}><a>한국어</a></li>
+                                <li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)} onClick={() => { setSelectedLanguage('English'); setLanguageDropdown(false); }}><a>English</a></li>
+                                <li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)} onClick={() => { setSelectedLanguage('Tiếng Việt'); setLanguageDropdown(false); }}><a>Tiếng Việt</a></li>
                             </ul> : null
                         }
                     </div>
                     <div className={css(styles.languageButtonContainer)} ref={sitemapButtonRef}>
-                        <button className={css(footerType === 'manage' ? styles.manageFooterNavigation : styles.footerNavigation)} onClick={()=>{setSitemapDropdown(!sitemapDropdown); setLanguageDropdown(false);}}>
-                            사이트맵 { sitemapDropdown ? <RiArrowDropUpLine className={css(styles.dropdownIcon)}/> : <RiArrowDropDownLine className={css(styles.dropdownIcon)}/> }
+                        <button className={css(footerType === 'manage' ? styles.manageFooterNavigation : styles.footerNavigation)} onClick={() => { setSitemapDropdown(!sitemapDropdown); setLanguageDropdown(false); }}>
+                            사이트맵 {sitemapDropdown ? <RiArrowDropUpLine className={css(styles.dropdownIcon)} /> : <RiArrowDropDownLine className={css(styles.dropdownIcon)} />}
                         </button>
-                        { sitemapDropdown ?
+                        {sitemapDropdown ?
                             <ul className={css(footerType === 'manage' ? styles.manageDropdownOptions : styles.dropdownOptions)}>
                                 <a href="/userGuidePage" className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>이용가이드</li></a>
-                                   <a href="/graduTestPage" onClick={(e) => {if (!localStorage.getItem('idToken')) {e.preventDefault();openModal();}}} 
-                                      className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>졸업요건 검사</li></a>
-                                    <a href="/donelecture" onClick={(e) => {if (!localStorage.getItem('idToken')) {e.preventDefault();openModal();}}} 
-                                       className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>기이수과목관리</li></a>
-                                        <a href="/myPage" onClick={(e) => {if (!localStorage.getItem('idToken')) {e.preventDefault();openModal();}}} 
-                                       className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>마이페이지</li></a>
+                                <a href="/graduTestPage" onClick={(e) => { if (!localStorage.getItem('idToken')) { e.preventDefault(); openModal(); } }}
+                                    className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>졸업요건 검사</li></a>
+                                <a href="/donelecture" onClick={(e) => { if (!localStorage.getItem('idToken')) { e.preventDefault(); openModal(); } }}
+                                    className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>기이수과목관리</li></a>
+                                <a href="/myPage" onClick={(e) => { if (!localStorage.getItem('idToken')) { e.preventDefault(); openModal(); } }}
+                                    className={css(styles.links)}><li className={css(footerType === 'manage' ? styles.manageOptions : styles.options)}>마이페이지</li></a>
                             </ul> : null
                         }
                     </div>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         height: '110px',
         marginTop: 'auto',
-        padding : '30px',
+        padding: '30px',
         backgroundColor: '#2B2A28',
         color: '#FFFEFB',
         fontFamily: 'Lato',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         height: '110px',
         marginTop: 'auto',
-        padding : '30px',
+        padding: '30px',
         backgroundColor: '#FFFEFB',
         color: '#2B2A28',
         fontFamily: 'Lato',
@@ -117,12 +117,14 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         width: '250px',
         backgroundColor: '#2B2A28',
+        whiteSpace: 'nowrap',
     },
     transparentLeftSection: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         width: '250px',
+        whiteSpace: 'nowrap',
     },
     manageLeftSection: {
         display: 'flex',
@@ -130,6 +132,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         width: '250px',
         backgroundColor: '#FFFEFB',
+        whiteSpace: 'nowrap',
     },
     surveyLink: {
         textDecorationLine: 'none',
@@ -141,11 +144,13 @@ const styles = StyleSheet.create({
         marginLeft: '3px',
         fontSize: '11px',
         color: '#FFFEFB',
+        whiteSpace: 'nowrap',
     },
     manageFormText: {
         marginLeft: '3px',
         fontSize: '11px',
         color: '#2B2A28',
+        whiteSpace: 'nowrap',
     },
     serviceText: {
         marginTop: '7px',
@@ -327,7 +332,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: '3.5px 10px',
-        gap : '3px',
+        gap: '3px',
         border: '1px solid #FFFEFB',
         borderRadius: '15px',
         fontSize: '10px',
@@ -346,7 +351,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: '3.5px 10px',
-        gap : '3px',
+        gap: '3px',
         border: '1px solid #2B2A28',
         borderRadius: '15px',
         fontSize: '10px',
@@ -387,10 +392,12 @@ const styles = StyleSheet.create({
     },
     rightInfo: {
         fontSize: '10px',
+        whiteSpace: 'nowrap',
     },
     manageRightInfo: {
         fontSize: '10px',
         color: '#2B2A28',
+        whiteSpace: 'nowrap',
     }
 });
 

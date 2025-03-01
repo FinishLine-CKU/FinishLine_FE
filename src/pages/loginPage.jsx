@@ -16,9 +16,9 @@ function LoginPage() {
     const { modalState, closeModal } = useContext(ModalContext)
     const checkRegister = async () => {
         try {
-            const response = await axios.post('https://finishline-cku.com/user/check_register/', {
-                studentId : studentId,
-                password : password
+            const response = await axios.post('https://finishline-cku/user/check_register/', {
+                studentId: studentId,
+                password: password
             });
             if (response.data.idToken && response.data.name) {
                 const { idToken, name, testing, uploadPDF, needEsseCredit, needChoiceCredit, need_sub_major, needNormalTotalCredit, needTotalCredit } = response.data;
@@ -77,56 +77,56 @@ function LoginPage() {
 
     return (
         <>
-            {modalState ? 
-            <Modal infoMessage="로그인 안내" infoSymbol={Symbol} mainMessage="로그인이 필요한 서비스입니다." contentMessage={<><b>학생 인증을 완료한 회원</b>만 이용 가능합니다.<br />서비스 이용을 위해 로그인 해주세요.</>} mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={closeModal} />
-            : null}
+            {modalState ?
+                <Modal infoMessage="로그인 안내" infoSymbol={Symbol} mainMessage="로그인이 필요한 서비스입니다." contentMessage={<><b>학생 인증을 완료한 회원</b>만 이용 가능합니다.<br />서비스 이용을 위해 로그인 해주세요.</>} mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={closeModal} />
+                : null}
             <div className={css(styles.pageContainer)}>
-            <Header />
-            <Template title="Welcome to Finish Line!" subtitle="" />
-            <main className={css(styles.loginContainer)}>
-                <div className={css(styles.loginContent)}>
-                    <h1 className={css(styles.loginTitle)}>로그인</h1>
-                    <p className={css(styles.loginDescription)}>
-                        Finish Line에 등록한 학번과 비밀번호를 입력해주세요.
+                <Header />
+                <Template title="Welcome to Finish Line!" subtitle="" />
+                <main className={css(styles.loginContainer)}>
+                    <div className={css(styles.loginContent)}>
+                        <h1 className={css(styles.loginTitle)}>로그인</h1>
+                        <p className={css(styles.loginDescription)}>
+                            Finish Line에 등록한 학번과 비밀번호를 입력해주세요.
                     </p>
-                    <form className={css(styles.loginForm)} onSubmit={checkInput}>
-                        <label className={css(styles.formLabel)}>
-                            학번
+                        <form className={css(styles.loginForm)} onSubmit={checkInput}>
+                            <label className={css(styles.formLabel)}>
+                                학번
                             <input
-                                type="text"
-                                placeholder="학번을 입력하세요."
-                                className={css(styles.formInput)}
-                                value={studentId}
-                                onChange={(e) => setStudentId(e.target.value)}
-                            />
-                        </label>
-                        <label className={css(styles.formLabel, styles.passwordLabel)}>
-                            비밀번호
+                                    type="text"
+                                    placeholder="학번을 입력하세요."
+                                    className={css(styles.formInput)}
+                                    value={studentId}
+                                    onChange={(e) => setStudentId(e.target.value)}
+                                />
+                            </label>
+                            <label className={css(styles.formLabel, styles.passwordLabel)}>
+                                비밀번호
                             <input
-                                type="password"
-                                placeholder="비밀번호를 입력하세요."
-                                className={css(styles.formInput)}
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            {/* <a href="/password-reset" className={css(styles.forgotPassword)}>
+                                    type="password"
+                                    placeholder="비밀번호를 입력하세요."
+                                    className={css(styles.formInput)}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                {/* <a href="/password-reset" className={css(styles.forgotPassword)}>
                                 비밀번호를 잊으셨나요?
                             </a> */}
-                        </label>
-                        <button type="submit" className={css(styles.submitButton)} onClick={checkRegister}>
-                            로그인
+                            </label>
+                            <button type="submit" className={css(styles.submitButton)} onClick={checkRegister}>
+                                로그인
                         </button>
-                    </form>
-                    <div className={css(styles.registerSection)}>
-                        <div className={css(styles.line)}></div>
-                        <span className={css(styles.registerText)}>아직 회원이 아니신가요?</span>
-                        <a href="/signupPage1" className={css(styles.registerLink)}>회원가입</a>
-                        <div className={css(styles.line)}></div>
+                        </form>
+                        <div className={css(styles.registerSection)}>
+                            <div className={css(styles.line)}></div>
+                            <span className={css(styles.registerText)}>아직 회원이 아니신가요?</span>
+                            <a href="/signupPage1" className={css(styles.registerLink)}>회원가입</a>
+                            <div className={css(styles.line)}></div>
+                        </div>
                     </div>
-                </div>
-            </main>
-            <Footer />
-        </div>
+                </main>
+                <Footer />
+            </div>
         </>
     );
 }
