@@ -5,11 +5,11 @@ import loadingLottie from "../assets/images/AnimationCKU.json";
 function LoadingComponents() {
 
     return (
-      <div className={css(styles.overlay)}>
-        <div className={css(styles.loader)}>
-          <Lottie animationData={loadingLottie} />
+        <div className={css(styles.overlay)}>
+            <div className={css(styles.loader)}>
+                <Lottie animationData={loadingLottie} />
+            </div>
         </div>
-      </div>
     );
 }
 
