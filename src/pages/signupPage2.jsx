@@ -27,7 +27,7 @@ export const MAJOR = [
     { value: '03300110', label: '스포츠레저학과' },
     { value: '03300112', label: '스포츠지도학과' },
     { value: '031191*', label: '스포테인먼트전공(F)' },
-    { value: '03300109', label: '조리외식경영학과' }, 
+    { value: '03300109', label: '조리외식경영학과' },
     { value: '03300118', label: '건축학부-건축공학' },
     { value: '03300117', label: '건축학부-건축학' },
     { value: '031214*', label: '토목공학과' },
@@ -52,18 +52,18 @@ export const MAJOR = [
     { value: '032408*', label: '바이오융합공학과' },
     { value: '032415*', label: '안경광학과' },
     { value: '032490*', label: '정밀의료융합전공' },
-    { value: '03300103', label: '디지털헬스케어융합전공' }, 
+    { value: '03300103', label: '디지털헬스케어융합전공' },
     { value: '032492*', label: '스마트수소에너지융합전공' },
     { value: '032501*', label: '항공운항서비스학과' },
     { value: '032506*', label: '항공교통물류학과' },
-    { value: '03300114', label: '항공운항학과' }, 
+    { value: '03300114', label: '항공운항학과' },
     { value: '032515*', label: '무인항공학과' },
-    { value: '03300115', label: '항공정비학과' }, 
+    { value: '03300115', label: '항공정비학과' },
     { value: '032591*', label: '항공설계전공(F-C)' },
-    { value: '03260103', label: '공연예술학부-실용음악' }, 
-    { value: '03260104', label: '공연예술학부-연기예술' }, 
+    { value: '03260103', label: '공연예술학부-실용음악' },
+    { value: '03260104', label: '공연예술학부-연기예술' },
     { value: '032603*', label: '뷰티디자인학과-뷰티디자인' },
-    { value: '032608*', label: '콘텐츠제작학과' }, 
+    { value: '032608*', label: '콘텐츠제작학과' },
     { value: '032609*', label: 'CG디자인학과' },
     { value: '032702*', label: '치매전문재활학과' },
     { value: '032703*', label: '산림치유학과' },
@@ -155,10 +155,10 @@ function SignupPage2() {
         const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!#^%*?&])[a-zA-Z\d@$!#^%*?&]{8,20}$/;
         const input = e.target.value;
         setPassword(input)
-        if (input ===  ''){
+        if (input === '') {
             setError('비밀번호 필수 입력');
         } else {
-            if (regex.test(input)){
+            if (regex.test(input)) {
                 setError('');
             } else {
                 setError('영문 대/소문자, 숫자, 특수문자를 포함하여 8~20자 입력해주세요.');
@@ -192,13 +192,13 @@ function SignupPage2() {
     const registerInfo = async () => {
         try {
             const response = await axios.post('http://127.0.0.1:8000/user/register_info/', {
-                name : name,
-                major : MAJOR.find(item => item.label === major).value,
-                student_id : student_id,
-                additionalMajorType : additionalMajorType,
-                additionalMajor : additionalMajor,
-                microDegree : microDegree,
-                password : password
+                name: name,
+                major: MAJOR.find(item => item.label === major).value,
+                student_id: student_id,
+                additionalMajorType: additionalMajorType,
+                additionalMajor: additionalMajor,
+                microDegree: microDegree,
+                password: password
             });
             if (response.data === true) {
                 openModal();
@@ -214,7 +214,7 @@ function SignupPage2() {
         closeModal();
     };
     const enterSubmit = (e) => {
-        if(!modalState && e.key === 'Enter') {
+        if (!modalState && e.key === 'Enter') {
             if (password !== '' && passwordCheck !== '' && error === '' && checkError === '') {
                 if (additionalMajorType === '' || (additionalMajorType !== '' && additionalMajor !== '')) {
                     registerInfo();
@@ -225,10 +225,10 @@ function SignupPage2() {
     return (
         <>
             {modalState ?
-            <Modal infoMessage="회원가입 완료" infoSymbol={Symbol} mainMessage="FINISH LINE 회원가입을 축하합니다!" mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={navigateLoginPage} />
-            : null}
+                <Modal infoMessage="회원가입 완료" infoSymbol={Symbol} mainMessage="FINISH LINE 회원가입을 축하합니다!" mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={navigateLoginPage} />
+                : null}
             <Header />
-            <Template title="회원가입" subtitle="졸업요건 검사 서비스 이용을 위해 약관 동의와 학생 인증 절차가 필요합니다."/>
+            <Template title="회원가입" subtitle="졸업요건 검사 서비스 이용을 위해 약관 동의와 학생 인증 절차가 필요합니다." />
             <div className={css(styles.container)}>
                 <div className={css(styles.defaultInfoArea)}>
                     <span className={css(styles.containerTitle)}>기본 정보 확인</span>
@@ -252,29 +252,29 @@ function SignupPage2() {
                             <option value="linked">연계전공</option>
                         </select>
                         <select className={css(styles.majorSelect)} onChange={checkMajor}>
-                            { additionalMajorType ? (
+                            {additionalMajorType ? (
                                 <>
                                     <option value="">선택</option>
-                                    { MAJOR.map((item) => (
+                                    {MAJOR.map((item) => (
                                         <option value={item.value}>{item.label}</option>
-                                    )) }
-                                </> ) : ( <option value=""></option> ) }
+                                    ))}
+                                </>) : (<option value=""></option>)}
                         </select>
                         <label className={css(styles.infoLable)}>소단위전공</label>
                         <select className={css(styles.majorSelect)} onChange={(e) => setMicroDegree(e.target.value)}>
                             <option value="">해당 없음</option>
-                            { MICRO_DEGREE.map((item) => (
+                            {MICRO_DEGREE.map((item) => (
                                 <option value={item.value}>{item.label}</option>
-                            )) }
+                            ))}
                         </select>
                         <div className={css(styles.pwLabelSpace)}>
                             <label className={css(styles.infoLable)}>비밀번호 설정<span className={css(styles.essential)}> *</span></label>
-                            { error ? <span className={css(styles.errorMessage)}>{error}</span> : null }
+                            {error ? <span className={css(styles.errorMessage)}>{error}</span> : null}
                         </div>
                         <input className={css(error ? styles.ErrorAdditionalInfo : styles.additionalInfo)} type="password" onBlur={passwordFormat} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
                         <div className={css(styles.pwLabelSpace)}>
                             <label className={css(styles.infoLable)}>비밀번호 확인<span className={css(styles.essential)}> *</span></label>
-                            { checkError ? <span className={css(styles.errorMessage)}>{checkError}</span> : null }
+                            {checkError ? <span className={css(styles.errorMessage)}>{checkError}</span> : null}
                         </div>
                         <input className={css(checkError ? styles.ErrorAdditionalInfo : styles.additionalInfo)} type="password" onChange={passwordCorrect} placeholder="영문 대/소문자, 숫자, 특수문자 포함 (8~20자)"></input>
                     </div>
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
         backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%237A828A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right 10px center',
-        ':focus':{
+        ':focus': {
             color: '#2B2A28',
             outline: '1px solid #2B2A28',
         },
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
         backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%237A828A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right 10px center',
-        ':focus':{
+        ':focus': {
             color: '#2B2A28',
             outline: '1px solid #2B2A28',
         },
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
             backgroundColor: '#595650',
             color: '#FFFEFB',
         },
-        ':disabled':{
+        ':disabled': {
             color: '#FFFEFB',
             backgroundColor: '#CACACA',
         },

@@ -3,15 +3,15 @@ import { StyleSheet, css } from 'aphrodite';
 import { IoClose } from 'react-icons/io5';
 import { ModalContext } from '../utils/hooks/modalContext';
 
-function Modal({infoMessage, infoSymbol, mainMessage, contentMessage, mainButton, mainButtonAction, subButton, closeButton}) {
+function Modal({ infoMessage, infoSymbol, mainMessage, contentMessage, mainButton, mainButtonAction, subButton, closeButton }) {
     const { subButtonState } = useContext(ModalContext);
-    
+
     return (
         <>
             <div className={css(styles.container)}>
                 <div className={css(styles.modalContainer)}>
                     <div className={css(styles.closeButtonContainer)}>
-                        <button className={css(styles.close)} onClick={closeButton}><IoClose className={css(styles.closeIcon)}/></button>
+                        <button className={css(styles.close)} onClick={closeButton}><IoClose className={css(styles.closeIcon)} /></button>
                     </div>
                     <div className={css(styles.arrayContainer)}>
                         <span className={css(styles.infoMessage)}>{infoMessage}</span>
@@ -26,9 +26,9 @@ function Modal({infoMessage, infoSymbol, mainMessage, contentMessage, mainButton
                         <span className={css(styles.contentMessage)}>{contentMessage}</span>
                     </div>
                     <div className={css(styles.arrayContainer)}>
-                        {subButtonState ? 
-                        <button className={css(styles.subButton)}>{subButton}</button>
-                        : null}
+                        {subButtonState ?
+                            <button className={css(styles.subButton)}>{subButton}</button>
+                            : null}
                         <button className={css(styles.mainButton)} onClick={mainButtonAction}>{mainButton}</button>
                     </div>
                 </div>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems:'center',
+        alignItems: 'center',
         position: 'fixed',
         top: 0,
         left: 0,

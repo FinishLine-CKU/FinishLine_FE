@@ -12,7 +12,6 @@ function IntroPage() {
         <div className={css(styles.introContainer)} style={{ backgroundImage: `url(${background})` }}>
             {/* 대학교 로고 */}
             <img src={introLogo} alt="University Logo" className={css(styles.universityLogo)} />
-
             {/* 중앙 콘텐츠 */}
             <div className={css(styles.centerContent)}>
                 <p className={css(styles.subtitle)}>가톨릭관동대학교 졸업 요건 확인 사이트</p>
@@ -25,9 +24,7 @@ function IntroPage() {
                         검사하기
                     </button>
                 </div>
-                
             </div>
-
             {/* Footer 컴포넌트 사용 */}
             <Footer footerType="transparent" />
         </div>
