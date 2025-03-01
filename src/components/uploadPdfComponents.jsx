@@ -5,135 +5,137 @@ import axios from 'axios';
 import LoadingComponents from "./loadingComponents"
 
 function UploadPdfComponents() {
-  const [fileNames, setFileNames] = useState([]);
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [loading, setLoading] = useState();
+    const [fileNames, setFileNames] = useState([]);
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [loading, setLoading] = useState();
 
-  const fileInputHandler = useCallback((event) => {
-    const files = event.target && event.target.files;
-    if (files) {
-      const newFilesArray = Array.from(files)
-        .slice(0, 25 - fileNames.length);
-  
-      setSelectedFiles(prevSelectedFiles => [
-        ...prevSelectedFiles,
-        ...newFilesArray
-      ]);
+    //파일 업로드를 하면 SelectedFiles에 상태 저장
+    const fileInputHandler = useCallback((event) => {
+        const files = event.target && event.target.files;
+        if (files) {
+            const newFilesArray = Array.from(files)
+              .slice(0, 25 - fileNames.length);
+        
+            setSelectedFiles(prevSelectedFiles => [
+              ...prevSelectedFiles,
+              ...newFilesArray
+            ]);
 
-      const newFileNamesArray = newFilesArray.map(file => file.name);
-      setFileNames(prevFileNames => [...prevFileNames, ...newFileNamesArray]);
-    }
-  }, [fileNames]);
+            const newFileNamesArray = newFilesArray.map(file => file.name);
+            setFileNames(prevFileNames => [...prevFileNames, ...newFileNamesArray]);
+        }
+    }, [fileNames]);
 
-  const handleDeleteFile = (index) => {
-    setFileNames((prevFileNames) => prevFileNames.filter((_, i) => i !== index));
-  };
+    //파일 삭제 함수
+    const handleDeleteFile = (index) => {
+        setFileNames((prevFileNames) => prevFileNames.filter((_, i) => i !== index));
+    };
 
-  const handleUpload = async () => {
-    if (selectedFiles.length === 0) {
-        alert('파일을 선택해주세요.');
-        return;
-    }
+    //파일 업로드 함수
+    const handleUpload = async () => {
+        if (selectedFiles.length === 0) {
+            alert('파일을 선택해주세요.');
+            return;
+        }
 
-    const formData = new FormData();
-    selectedFiles.forEach((file) => {
-        formData.append('files', file);
-        formData.append('user_id', localStorage.getItem('idToken'));
-    });
-
-    try {
-        setLoading(true);
-        console.log(formData)
-        const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+        //파일 업로드 및 학번 전달을 위해 FormData 사용
+        const formData = new FormData();
+        selectedFiles.forEach((file) => {
+            formData.append('files', file);
+            formData.append('user_id', localStorage.getItem('idToken'));
         });
 
-        const data = response.data.data;
-        const duplicateFiles = response.data.duplicate_files;
+        try {
+            setLoading(true);
+            console.log(formData)
+            const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData);
 
-        if (duplicateFiles.length > 0) {
-            setLoading(false);
-            alert(`중복된 파일이 포함되어 있습니다:\n${duplicateFiles.join('\n')}\n기이수과목 관리로 넘어갑니다.`);
-            setSelectedFiles([]);
-            setFileNames([]);
-            localStorage.setItem('uploadPDF', true);
-            navigate('/donelecture');
-        } else {
-          setLoading(false);
-          localStorage.setItem('uploadPDF', true);
-          alert('파일이 성공적으로 업로드되었습니다.');
-          setSelectedFiles([]);
-          setFileNames([]);
-    
-          if (location.pathname === '/donelecture') {
-            window.location.reload();
-          } else {
-            localStorage.setItem('uploadPDF', true);
-            navigate('/donelecture');
-          }
+            const data = response.data.data;
+            const duplicateFiles = response.data.duplicate_files;
+
+            if (duplicateFiles.length > 0) {
+                setLoading(false);
+                alert(`중복된 파일이 포함되어 있습니다:\n${duplicateFiles.join('\n')}\n기이수과목 관리로 넘어갑니다.`);
+                setSelectedFiles([]);
+                setFileNames([]);
+                localStorage.setItem('uploadPDF', true);
+                navigate('/donelecture');
+            } else {
+                setLoading(false);
+                localStorage.setItem('uploadPDF', true);
+                alert('파일이 성공적으로 업로드되었습니다.');
+                setSelectedFiles([]);
+                setFileNames([]);
+          
+                if (location.pathname === '/donelecture') {
+                  window.location.reload();
+                } else {
+                  localStorage.setItem('uploadPDF', true);
+                  navigate('/donelecture');
+                }
+            }
+        } catch (error) {
+              setLoading(false);
+              console.error('업로드 에러:', error);
+              alert(error.response?.data?.message || '파일 업로드 중 오류가 발생했습니다.');
+              setSelectedFiles([]);
+              setFileNames([]); 
         }
-    } catch (error) {
-        setLoading(false);
-        console.error('업로드 에러:', error);
-        alert(error.response?.data?.message || '파일 업로드 중 오류가 발생했습니다.');
-    }
-  };
+    };
 
     return (
-      <div>
-        {loading && <LoadingComponents />}
-        <div className={css(styles.container)}>
-          <div className={css(styles.donelistcontainer)}>
-            <div className={css(styles.titleContainer)}>
-              <span className={css(styles.title)}>기이수과목 등록</span>
-            </div>
-            <hr className={css(styles.custom_hr)}/>
-            <div className={css(styles.itemRowcontainer)}>
-              <div className={css(styles.itemTextcontainer)}>
-                <p className={css(styles.custom_text)}>파일 선택</p>
-              </div>
-              <div className={css(styles.containerSecond)}>
-                <div className={css(styles.itemboxcontainer)}>
-                  <input 
-                    type="file" 
-                    style={{ display: "none" }} 
-                    id="uploadpdf" 
-                    accept=".pdf" 
-                    multiple
-                    onChange={fileInputHandler}
-                  />
-                  {fileNames.length === 0 ? (
-                    <p className={css(styles.custom_text_box)}>
-                      파일을 선택해주세요. (최대 25장)
-                    </p>
-                  ) : (
-                    fileNames.map((fileName, index) => (
-                      <div key={index} className={css(styles.fileNameButtonContainer)}>
-                        <span>{fileName}</span>
-                        <button
-                          onClick={() => handleDeleteFile(index)}
-                          className={css(styles.itemdeleteButton)}
-                          type="button"
-                        >×</button>
-                      </div>
-                    ))
-                  )}
+        <div>
+            {loading && <LoadingComponents />}
+            <div className={css(styles.container)}>
+                <div className={css(styles.donelistcontainer)}>
+                    <div className={css(styles.titleContainer)}>
+                        <span className={css(styles.title)}>기이수과목 등록</span>
+                    </div>
+                    <hr className={css(styles.custom_hr)}/>
+                    <div className={css(styles.itemRowcontainer)}>
+                        <div className={css(styles.itemTextcontainer)}>
+                            <p className={css(styles.custom_text)}>파일 선택</p>
+                        </div>
+                        <div className={css(styles.containerSecond)}>
+                            <div className={css(styles.itemboxcontainer)}>
+                                <input 
+                                    type="file" 
+                                    style={{ display: "none" }} 
+                                    id="uploadpdf" 
+                                    accept=".pdf" 
+                                    multiple
+                                    onChange={fileInputHandler}
+                                />
+                                {fileNames.length === 0 ? (
+                                    <p className={css(styles.custom_text_box)}>
+                                      파일을 선택해주세요. (최대 25장)
+                                    </p>
+                                    ) : (
+                                        fileNames.map((fileName, index) => (
+                                            <div key={index} className={css(styles.fileNameButtonContainer)}>
+                                                <span>{fileName}</span>
+                                                <button
+                                                    onClick={() => handleDeleteFile(index)}
+                                                    className={css(styles.itemdeleteButton)}
+                                                    type="button"
+                                                >×</button>
+                                            </div>
+                                    ))
+                                )}
+                            </div>
+                            <div className={css(styles.itemboxcontainerScrollableSecond)}>
+                                <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>파일 업로드</label>
+                            </div>
+                        </div>
+                        <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
+                    </div>
+                    <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 인쇄 &gt; PDF로 저장
+                    </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
                 </div>
-                <div className={css(styles.itemboxcontainerScrollableSecond)}>
-                  <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>파일 업로드</label>
-                </div>
-              </div>
-              <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
             </div>
-            <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 인쇄 &gt; PDF로 저장
-            </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
-          </div>
         </div>
-      </div>
     );
 }
 
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     paddingBottom: '137px',
-    backgroundColor: '#FFFEFB'
+    backgroundColor: '#FFFEFB',
   },
   donelistcontainer: {
     paddingTop: '50px',
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
     ':hover': {
       backgroundColor: 'rgba(90, 87, 87, 0.50)',
-    }
+    },
   },
   custom_text: {
     fontFamily: 'Lato',
@@ -323,7 +325,7 @@ const styles = StyleSheet.create({
     height: 'auto',
     minHeight: 'auto',
     maxHeight: '100px',
-    backgroundColor: '#FFFEFB'
+    backgroundColor: '#FFFEFB',
   },
   itemTextcontainer: {
     width: '80px',

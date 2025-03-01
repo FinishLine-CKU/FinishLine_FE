@@ -7,14 +7,14 @@ import UploadPdfPageComponents from '../components/uploadPdfComponents';
 function UploadPdfPage() {
 
     return (
-      <div className={css(styles.container)}>
-        <Header />
-        <Template title="기이수 과목 관리" />
-          <div className={css(styles.columnContainer)}>
-            <UploadPdfPageComponents/>
-          </div>
-        <Footer />
-      </div>
+        <div className={css(styles.container)}>
+            <Header />
+            <Template title="기이수 과목 관리" />
+                <div className={css(styles.columnContainer)}>
+                    <UploadPdfPageComponents/>
+                </div>
+            <Footer />
+        </div>
     );
 }
 

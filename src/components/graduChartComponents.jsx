@@ -8,57 +8,59 @@ import success from '../assets/images/success.png';
 Chart.register(ArcElement, Tooltip, Legend);
 
 const GraduChartComponenets = ({ earned, total }) => {
-  var remaining = total - earned;
-  if (remaining < 0) {
-    remaining = 0
-  };
+    var remaining = total - earned;
 
-  const data = {
-    labels: ["취득 학점", "남은 학점"],
-    datasets: [
-      {
-        data: [earned, remaining],
-        backgroundColor: remaining > 0 ? ["#3D5286", "#E0E0E0"] : ["#FF8EA8", '#E0E0E0'],
-        hoverBackgroundColor: remaining > 0 ? ["#3D5286", "#BDBDBD"] : ['#EA7175', '#BDBDBD'],
+    if (remaining < 0) {
+      remaining = 0
+    };
 
-        rotation: 225, 
-        circumference: 270, 
-        borderRadius: [50, 50, 0, 0],
-      },
-    ],
-  };
+    const data = {
+        labels: ["취득 학점", "남은 학점"],
+            datasets: [
+                {
+                    data: [earned, remaining],
+                    backgroundColor: remaining > 0 ? ["#3D5286", "#E0E0E0"] : ["#FF8EA8", '#E0E0E0'],
+                    hoverBackgroundColor: remaining > 0 ? ["#3D5286", "#BDBDBD"] : ['#EA7175', '#BDBDBD'],
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: "78%", 
-    plugins: {
-      legend: {
-        display: false,
-      },
-    tooltip: {
-        enabled: false,
-      },
-    },
-  };
+                    rotation: 225, 
+                    circumference: 270, 
+                    borderRadius: [50, 50, 0, 0],
+                },
+            ],
+    };
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "78%", 
+        plugins: {
+            legend: {
+                display: false,
+            },
+          tooltip: {
+                enabled: false,
+            },
+        },
+    };
 
   return (
-    <div className={css(styles.container)}>
-      <Doughnut data={data} options={options} />
+      <div className={css(styles.container)}>
+          <Doughnut data={data} options={options} />
 
-      {earned >= total ?
-      <>
-        <img src={bouquet} alt="학생" className={css(styles.bouquet)}/>
-        <img src={success} alt="졸업학생"className={css(styles.success)}/>
-      </>
-      : <img src={graduatedstudent} alt="학생" className={css(styles.studentImg)}/>}
-      <div className={css(styles.statContainer)}>
           {earned >= total ?
-          <span className={css(styles.successEarn)}>{earned}</span>
-          : <span className={css(styles.earn)}>{earned}</span>}
-          <span className={css(styles.standard)}> / {total} 학점</span>
+              <>
+                <img src={bouquet} alt="학생" className={css(styles.bouquet)}/>
+                <img src={success} alt="졸업학생"className={css(styles.success)}/>
+              </>
+          : <img src={graduatedstudent} alt="학생" className={css(styles.studentImg)}/>}
+
+          <div className={css(styles.statContainer)}>
+              {earned >= total ?
+                  <span className={css(styles.successEarn)}>{earned}</span>
+                  : <span className={css(styles.earn)}>{earned}</span>}
+                  <span className={css(styles.standard)}> / {total} 학점</span>
+          </div>
       </div>
-    </div>
   );
 };
 
