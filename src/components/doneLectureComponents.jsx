@@ -87,22 +87,22 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
                 <td className={css(styles.yearCell, subject.isNew ? styles.yearAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>
                   {subject.year}
                 </td>
-                <td className={css(styles.semesterCell, subject.isNew ? styles.semesterAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>
+                <td className={css(styles.semesterCell, subject.isNew ? styles.semesterAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.semesterCell)}>
                   {subject.semester}
                 </td>
-                <td className={css(styles.codeCell, subject.isNew ? styles.codeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>
+                <td className={css(styles.codeCell, subject.isNew ? styles.codeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.codeCell)}>
                   {subject.lecture_code}
                 </td>
-                <td className={css(styles.nameCell, subject.isNew ? styles.nameAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)} title={subject.lecture_name}>
+                <td className={css(styles.nameCell, subject.isNew ? styles.nameAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.nameCell)} title={subject.lecture_name}>
                   {subject.lecture_name}
                 </td>
-                <td className={css(styles.typeCell, subject.isNew ? styles.typeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>
+                <td className={css(styles.typeCell, subject.isNew ? styles.typeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)}>
                   {subject.lecture_type}
                 </td>
-                <td className={css(styles.topicCell, subject.isNew ? styles.topicAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)} title={subject.lecture_topic}>
+                <td className={css(styles.topicCell, subject.isNew ? styles.topicAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)} title={subject.lecture_topic}>
                   {subject.lecture_topic}
                 </td>
-                <td className={css(styles.creditCell, subject.isNew ? styles.creditAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>
+                <td className={css(styles.creditCell, subject.isNew ? styles.creditAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.creditCell)}>
                   {subject.credit}
                 </td>
                 {tableType === 'resize' ? null :
@@ -127,12 +127,12 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
           {isExpanded && sortedSubjects.slice(5).map((subject, index) => (
             <tr key={index + 5}>
               <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.year}</td>
-              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.semester}</td>
-              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.lecture_code}</td>
-              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
-              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.lecture_type}</td>
-              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
-              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.credit}</td>
+              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.semesterCell)}>{subject.semester}</td>
+              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.codeCell)}>{subject.lecture_code}</td>
+              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.nameCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
+              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)}>{subject.lecture_type}</td>
+              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
+              <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.creditCell)}>{subject.credit}</td>
               {tableType === 'resize' ? null :
               <td className={css(styles.lastCell)}></td>
               }
@@ -175,22 +175,14 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
 
 const styles = StyleSheet.create({
   Container: {
-    // width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    position: 'relative'
+    width: '100%',
   },
   tableContainer: {
-    // width: '540px',
-    // borderCollapse: 'collapse',
-    // borderRadius: '4px',
-    // overflow: 'hidden',
-    // tableLayout: 'auto',
-    border: '1px solid #B9B9B9',
+    width: '540px',
+    borderCollapse: 'collapse',
     borderRadius: '4px',
-    borderSpacing: '0px',
-    borderBottom: 'none',
+    overflow: 'hidden',
+    tableLayout: 'auto',
   },
   resizeTableContainer: {
     border: '1px solid #B9B9B9',
@@ -210,26 +202,15 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
   },
   headerCell: {
-    // border: '2px solid #E0E0E0',
-    // color: '#333333',
-    // fontFamily: 'Lato',
-    // fontSize: '10px',
-    // height: '36px',
-    // backgroundColor: 'rgba(0, 0, 0, 0.06)',
-    // fontWeight: '600',
-    // textAlign: 'center',
-    // wordWrap: 'break-word',
-    width: 'auto',
-    height: '33px',
-    padding: '0',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
     fontFamily: 'Lato',
     fontSize: '10px',
-    fontWeight: '700',
+    height: '36px',
     backgroundColor: 'rgba(0, 0, 0, 0.06)',
-        borderRight: '1px solid #B9B9B9',
-        ':last-child': {
-            borderRight: '0px'
-        }
+    fontWeight: '600',
+    textAlign: 'center',
+    wordWrap: 'break-word',
   },
   resizeHeaderCell: {
     width: 'auto',
@@ -245,32 +226,18 @@ const styles = StyleSheet.create({
         }
   },
   yearCell: {
-    // width: '40px',
-    // height: '35px',
-    // fontFamily: 'Lato',
-    // fontSize: '10px',
-    // fontWeight: '600',
-    // textAlign: 'center',
-    // border: '2px solid #E0E0E0',
-    // color: '#333333',
-    // backgroundColor: '#FFFEFB',
-    // whiteSpace: 'nowrap', 
-    // overflow: 'hidden',
-    // tableLayout: 'fixed',
-    height: '34px',
-    padding: '0 5px',
+    width: '40px',
+    height: '35px',
     fontFamily: 'Lato',
-    fontSize: '11px',
-    fontWeight: '500',
+    fontSize: '10px',
+    fontWeight: '600',
     textAlign: 'center',
-    color: '#7F7E7D',
-    borderTop: '1px solid #B9B9B9',
-    borderRight: '1px solid #B9B9B9',
-    borderBottom: 'none',
-    borderLeft: 'none',
-    ':last-child': {
-        borderRight: '0px'
-    },
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFEFB',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    tableLayout: 'fixed',
   },
   resizeYearCell: {
     height: '34px',
@@ -289,94 +256,52 @@ const styles = StyleSheet.create({
     },
   },
   semesterCell: {
-    // width: '20px',
-    // height: '35px',
-    // fontFamily: 'Lato',
-    // fontSize: '10px',
-    // fontWeight: '600',
-    // textAlign: 'center',
-    // border: '2px solid #E0E0E0',
-    // color: '#333333',
-    // backgroundColor: '#FFFEFB',
-    // whiteSpace: 'nowrap', 
-    // overflow: 'hidden',
-    // tableLayout: 'fixed',
-    height: '34px',
-    padding: '0 5px',
+    width: '20px',
+    height: '35px',
     fontFamily: 'Lato',
-    fontSize: '11px',
-    fontWeight: '500',
+    fontSize: '10px',
+    fontWeight: '600',
     textAlign: 'center',
-    color: '#7F7E7D',
-    borderTop: '1px solid #B9B9B9',
-    borderRight: '1px solid #B9B9B9',
-    borderBottom: 'none',
-    borderLeft: 'none',
-    ':last-child': {
-        borderRight: '0px'
-    },
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFEFB',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    tableLayout: 'fixed',
   },
   codeCell: {
-    // width: '30px',
-    // minWidth: '40px',
-    // height: '35px',
-    // fontFamily: 'Lato',
-    // fontSize: '10px',
-    // fontWeight: '600',
-    // textAlign: 'center',
-    // border: '2px solid #E0E0E0',
-    // color: '#333333',
-    // backgroundColor: '#FFFEFB',
-    // whiteSpace: 'nowrap', 
-    // overflow: 'hidden',
-    // tableLayout: 'fixed',
-    height: '34px',
-    padding: '0 5px',
+    width: '30px',
+    minWidth: '40px',
+    height: '35px',
     fontFamily: 'Lato',
-    fontSize: '11px',
-    fontWeight: '500',
+    fontSize: '10px',
+    fontWeight: '600',
     textAlign: 'center',
-    color: '#7F7E7D',
-    borderTop: '1px solid #B9B9B9',
-    borderRight: '1px solid #B9B9B9',
-    borderBottom: 'none',
-    borderLeft: 'none',
-    ':last-child': {
-        borderRight: '0px'
-    },
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFEFB',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    tableLayout: 'fixed',
   },
 
   nameCell: {
-    // width: '180px',
-    // maxWidth: '180px',
-    // height: '35px',
-    // fontFamily: 'Lato',
-    // fontSize: '10px',
-    // fontWeight: '600',
-    // textAlign: 'center',
-    // border: '2px solid #E0E0E0',
-    // color: '#333333',
-    // backgroundColor: '#FFFEFB',
-    // wordWrap: 'break-word',
-    // maxWidth: '180px', 
-    // whiteSpace: 'nowrap', 
-    // overflow: 'hidden',
-    // textOverflow: 'ellipsis',
-    // tableLayout: 'fixed',
-    height: '34px',
-    padding: '0 5px',
+    width: '180px',
+    maxWidth: '180px',
+    height: '35px',
     fontFamily: 'Lato',
-    fontSize: '11px',
-    fontWeight: '500',
+    fontSize: '10px',
+    fontWeight: '600',
     textAlign: 'center',
-    color: '#7F7E7D',
-    borderTop: '1px solid #B9B9B9',
-    borderRight: '1px solid #B9B9B9',
-    borderBottom: 'none',
-    borderLeft: 'none',
-    ':last-child': {
-        borderRight: '0px'
-    },
+    border: '2px solid #E0E0E0',
+    color: '#333333',
+    backgroundColor: '#FFFEFB',
+    wordWrap: 'break-word',
+    maxWidth: '180px', 
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    tableLayout: 'fixed',
   },
   nameAddCell: {
     width: '180px',
@@ -459,29 +384,15 @@ const styles = StyleSheet.create({
   },
   lastCell: {
     width: '40px',
-    // border: '2px solid #E0E0E0',
-    // color: '#333333',
-    // fontFamily: 'Lato',
-    // fontSize: '10px',
-    // fontWeight: '600',
-    // textAlign: 'center',
-    // minHeight: '35px',
-    // backgroundColor: '#FFFEFB',
-    // tableLayout: 'fixed',
-    height: '34px',
-    padding: '0 5px',
+    border: '2px solid #E0E0E0',
+    color: '#333333',
     fontFamily: 'Lato',
-    fontSize: '11px',
-    fontWeight: '500',
+    fontSize: '10px',
+    fontWeight: '600',
     textAlign: 'center',
-    color: '#7F7E7D',
-    borderTop: '1px solid #B9B9B9',
-    borderRight: '1px solid #B9B9B9',
-    borderBottom: 'none',
-    borderLeft: 'none',
-    ':last-child': {
-        borderRight: '0px'
-    },
+    minHeight: '35px',
+    backgroundColor: '#FFFEFB',
+    tableLayout: 'fixed',
   },
   itemDeleteButton: {
     border: '1px solid black',
