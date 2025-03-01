@@ -2,6 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc";
 import { useState } from 'react';
 
+//과목찾기 테이블 디자인 및 추가하기 버튼 컴포넌트
 export function SubSearchComponents({ subjects, onAdd }) {
     const [filteredSubjects, setFilteredSubjects] = useState(subjects);
 
@@ -41,32 +42,35 @@ export function SubSearchComponents({ subjects, onAdd }) {
             <div className={css(styles.addContainer)}>
                 <button className={css(styles.itemAddButton)} onClick={() => onAdd(filteredSubjects)}>
                     추가하기
-              </button>
+                </button>
             </div>
         </div>
     );
 }
 
+//내 기이수 과목 테이블 디자인 컴포넌트
 export function DoneSubComponents({ subjects, onDelete, tableType = 'default' }) {
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [Expanded, setExpanded] = useState(false);
 
+    //더보기 버튼을 위한 상태 저장
     const toggleExpansion = () => {
-        setIsExpanded(!isExpanded);
+        setExpanded(!Expanded);
     };
 
+    //새로운 과목 목록의 경우 상태 저장으로 색상 변경
     const sortedSubjects = subjects
         ? [
-            ...subjects.filter(subject => subject.isNew),
-            ...subjects.filter(subject => !subject.isNew)
+            ...subjects.filter(subject => subject.subjectNew),
+            ...subjects.filter(subject => !subject.subjectNew)
         ]
         : [];
 
     return (
         <div className={css(tableType === 'resize' ? styles.resizeContainer : styles.Container)}>
-            {tableType === 'resize' && !isExpanded ?
+            {tableType === 'resize' && !Expanded ?
                 <div className={css(styles.fadingEffect)}></div>
                 : null}
-            <table className={css(tableType === 'resize' ? isExpanded ? styles.resizeTableExpend : styles.resizeTableContainer : styles.tableContainer)}>
+            <table className={css(tableType === 'resize' ? Expanded ? styles.resizeTableExpend : styles.resizeTableContainer : styles.tableContainer)}>
                 <thead>
                     <tr>
                         <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.headerCell)}>이수년도</th>
@@ -81,39 +85,40 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
                     </tr>
                 </thead>
                 <tbody>
+                    {/* 과목 목록이 1개 이상이라면, 5개만 보여준다 */}
                     {sortedSubjects && sortedSubjects.length > 0 &&
                         sortedSubjects.slice(0, 5).map((subject) => (
                             <tr key={subject.lecture_code}>
-                                <td className={css(styles.yearCell, subject.isNew ? styles.yearAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>
+                                <td className={css(styles.yearCell, subject.subjectNew ? styles.yearAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>
                                     {subject.year}
                                 </td>
-                                <td className={css(styles.semesterCell, subject.isNew ? styles.semesterAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.semesterCell)}>
+                                <td className={css(styles.semesterCell, subject.subjectNew ? styles.semesterAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.semesterCell)}>
                                     {subject.semester}
                                 </td>
-                                <td className={css(styles.codeCell, subject.isNew ? styles.codeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.codeCell)}>
+                                <td className={css(styles.codeCell, subject.subjectNew ? styles.codeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.codeCell)}>
                                     {subject.lecture_code}
                                 </td>
-                                <td className={css(styles.nameCell, subject.isNew ? styles.nameAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.nameCell)} title={subject.lecture_name}>
+                                <td className={css(styles.nameCell, subject.subjectNew ? styles.nameAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.nameCell)} title={subject.lecture_name}>
                                     {subject.lecture_name}
                                 </td>
-                                <td className={css(styles.typeCell, subject.isNew ? styles.typeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)}>
+                                <td className={css(styles.typeCell, subject.subjectNew ? styles.typeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)}>
                                     {subject.lecture_type}
                                 </td>
-                                <td className={css(styles.topicCell, subject.isNew ? styles.topicAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)} title={subject.lecture_topic}>
+                                <td className={css(styles.topicCell, subject.subjectNew ? styles.topicAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)} title={subject.lecture_topic}>
                                     {subject.lecture_topic}
                                 </td>
-                                <td className={css(styles.creditCell, subject.isNew ? styles.creditAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.creditCell)}>
+                                <td className={css(styles.creditCell, subject.subjectNew ? styles.creditAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.creditCell)}>
                                     {subject.credit}
                                 </td>
                                 {tableType === 'resize' ? null :
                                     <td className={css(styles.lastCell)}>
-                                        {subject.isNew && <button className={css(styles.itemDeleteButton)} onClick={() => onDelete(subject.lecture_code)}>삭제</button>}
+                                        {subject.subjectNew && <button className={css(styles.itemDeleteButton)} onClick={() => onDelete(subject.lecture_code)}>삭제</button>}
                                     </td>
                                 }
                             </tr>
                         ))
                     }
-                    {sortedSubjects.length > 5 && !isExpanded && (
+                    {sortedSubjects.length > 5 && !Expanded && (
                         <tr>
                             {tableType === 'resize' ?
                                 null :
@@ -124,7 +129,7 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
                         </tr>
                     )}
 
-                    {isExpanded && sortedSubjects.slice(5).map((subject, index) => (
+                    {Expanded && sortedSubjects.slice(5).map((subject, index) => (
                         <tr key={index + 5}>
                             <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.year}</td>
                             <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.semesterCell)}>{subject.semester}</td>
@@ -139,7 +144,7 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
                         </tr>
                     ))}
 
-                    {isExpanded && (
+                    {Expanded && (
                         <tr>
                             {tableType === 'resize' ?
                                 null :
@@ -153,22 +158,21 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
             </table>
             {tableType === 'resize' ?
                 <>
-                    {sortedSubjects.length > 5 && !isExpanded && (
+                    {sortedSubjects.length > 5 && !Expanded && (
                         <div className={css(styles.resizeExpandTrButton)} onClick={toggleExpansion}>
                             <span className={css(styles.resizeExpandButton)}>더보기</span>
                             <VscTriangleDown className={css(styles.toggleIcon)} />
                         </div>
                     )}
 
-                    {isExpanded && (
+                    {Expanded && (
                         <div className={css(styles.resizeExpandTrButton)} onClick={toggleExpansion}>
                             <VscTriangleUp className={css(styles.toggleIcon)} />
                             <span className={css(styles.resizeExpandButton)}>접기</span>
                         </div>
                     )}
                 </>
-                : null
-            }
+                : null}
         </div>
     );
 }
