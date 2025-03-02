@@ -47,7 +47,7 @@ function DoneLecturePage() {
         setLectureData([]);
 
         try {
-            const response = await axios.get(`https://finishline-cku/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
+            const response = await axios.get(`https://finishline-cku.com/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
 
             // 과목 찾기는 현재 과목만 찾을 수 있기에 응답이 없다면 현재 과목 코드를 입력한 것이 아닌 것
             if (!response.data || response.data.length === 0) {
@@ -67,7 +67,7 @@ function DoneLecturePage() {
     const myLectureUpdate = async () => {
         const userId = localStorage.getItem('idToken');
         try {
-            const response = await axios.get(`https://finishline-cku/graduation/api/mydonelecture?user_id=${userId}`);
+            const response = await axios.get(`https://finishline-cku.com/graduation/api/mydonelecture?user_id=${userId}`);
             setMyLectureList(response.data);
         } catch (error) {
             setError('과목 정보를 가져오는데 실패했습니다.');
@@ -97,7 +97,7 @@ function DoneLecturePage() {
                 grade: subject.grade,
             }));
 
-            const response = await fetch("https://finishline-cku/graduation/api/mydonelecture/", {
+            const response = await fetch("https://finishline-cku.com/graduation/api/mydonelecture/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

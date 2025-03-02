@@ -50,7 +50,7 @@ function UploadPdfComponents() {
         try {
             setLoading(true);
             console.log(formData)
-            const response = await axios.post('https://finishline-cku/graduation/upload_pdf/', formData);
+            const response = await axios.post('https://finishline-cku.com/graduation/upload_pdf/', formData);
 
             const data = response.data.data;
             const duplicateFiles = response.data.duplicate_files;

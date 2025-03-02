@@ -38,7 +38,7 @@ function GraduTestPage() {
     const navigate = useNavigate();
 
     const testing = async () => {
-        const response = await axios.post('https://finishline-cku/graduation/test_major/', {
+        const response = await axios.post('https://finishline-cku.com/graduation/test_major/', {
           student_id : localStorage.getItem('idToken')
         });
         if (response.data) {
@@ -115,7 +115,7 @@ function GraduTestPage() {
             const userId = localStorage.getItem('idToken');
         
             if (userId) {
-              const response = await axios.post('https://finishline-cku/graduation/general_check/', {
+              const response = await axios.post('https://finishline-cku.com/graduation/general_check/', {
                 user_id: userId
               });
         
@@ -137,7 +137,7 @@ function GraduTestPage() {
     };
   
     const microDegreeCheck = async () => {
-      const response = await axios.post('https://finishline-cku/graduation/test_micro_degree/', {
+      const response = await axios.post('https://finishline-cku.com/graduation/test_micro_degree/', {
         student_id : localStorage.getItem('idToken')
       });
       const { done_micro_degree } = response.data

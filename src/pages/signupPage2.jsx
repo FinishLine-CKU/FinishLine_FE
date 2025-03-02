@@ -192,7 +192,7 @@ function SignupPage2() {
     };
     const registerInfo = async () => {
         try {
-            const response = await axios.post('https://finishline-cku/user/register_info/', {
+            const response = await axios.post('https://finishline-cku.com/user/register_info/', {
                 name: name,
                 major: MAJOR.find(item => item.label === major).value,
                 student_id: student_id,

@@ -31,7 +31,7 @@ function MyPage() {
     const navigate = useNavigate();
     const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
     const myInfo = async () => {
-        const response = await axios.post('https://finishline-cku/user/my_info/', {
+        const response = await axios.post('https://finishline-cku.com/user/my_info/', {
             idToken: localStorage.getItem('idToken')
         });
         if (response.data.major && response.data.student_id) {
@@ -69,7 +69,7 @@ function MyPage() {
         };
     };
     const lackCredit = async () => {
-        const response = await axios.post('https://finishline-cku/user/lack_credit/', {
+        const response = await axios.post('https://finishline-cku.com/user/lack_credit/', {
             student_id: localStorage.getItem('idToken')
         });
         if (!response.data.error) {
@@ -82,7 +82,7 @@ function MyPage() {
     const myLectureUpdate = async () => {
         const userId = localStorage.getItem('idToken');
         try {
-            const response = await axios.get(`https://finishline-cku/graduation/api/mydonelecture?user_id=${userId}`);
+            const response = await axios.get(`https://finishline-cku.com/graduation/api/mydonelecture?user_id=${userId}`);
             setMyLectureList(response.data);
         } catch (error) {
             setError('과목 정보를 가져오는데 실패했습니다.');
@@ -94,7 +94,7 @@ function MyPage() {
         closeFeatModal();
     };
     const removeMembership = async () => {
-        const response = await axios.post('https://finishline-cku/user/remove_membership/', {
+        const response = await axios.post('https://finishline-cku.com/user/remove_membership/', {
             idToken: localStorage.getItem('idToken')
         });
         if (response.data) {
@@ -123,7 +123,7 @@ function MyPage() {
         openFeatModal();
     };
     const passwordCheck = async () => {
-        const response = await axios.post('https://finishline-cku/user/check_register/', {
+        const response = await axios.post('https://finishline-cku.com/user/check_register/', {
             studentId: student_id,
             password: password
         });
@@ -169,7 +169,7 @@ function MyPage() {
         } else return;
     };
     const newPassword = async () => {
-        const response = await axios.post('https://finishline-cku/user/change_pw/', {
+        const response = await axios.post('https://finishline-cku.com/user/change_pw/', {
             studentId: student_id,
             password: password
         });
@@ -204,7 +204,7 @@ function MyPage() {
         newInfo();
     };
     const newInfo = async () => {
-        const response = await axios.post('https://finishline-cku/user/change_info/', {
+        const response = await axios.post('https://finishline-cku.com/user/change_info/', {
             studentId: student_id,
             sub_major_type: sub_major_type,
             sub_major: sub_major,

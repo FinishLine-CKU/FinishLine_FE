@@ -27,7 +27,7 @@ function SignupPage1() {
         } else {
             openFeatModal();
             try {
-                const response = await axios.post('https://finishline-cku/user/student_auth/', {
+                const response = await axios.post('https://finishline-cku.com/user/student_auth/', {
                     studentId: studentId,
                     studentPW: studentPW,
                 });
