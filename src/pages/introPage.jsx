@@ -4,9 +4,30 @@ import background from '../assets/images/backGround.png';
 import introLogo from '../assets/images/introLogo.png';
 import finishlineLogo from '../assets/images/finishlineLogo.png';
 import Footer from '../components/footer';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function IntroPage() {
     const navigate = useNavigate();
+
+    const visitor = async () => {
+        const lastVisit = document.cookie.split(';').find(cookie => cookie.trim().startsWith('last_visit='));
+
+        if (!lastVisit) {
+            try {
+                const response = await axios.post(`http://127.0.0.1:8000/user/track_visitor/`, {}, {
+                    withCredentials: true,
+                });
+                console.log('Response:', response);
+            } catch (error) {
+                console.error('Error fetching data: ', error);
+            }
+        }
+    };
+    
+    useEffect(() => {
+        visitor();
+    }, []);
 
     return (
         <div className={css(styles.introContainer)} style={{ backgroundImage: `url(${background})` }}>
