@@ -44,19 +44,39 @@ function PasswordResetModal() {
         openFeatModal();  
     
         try {
-            const response = await axios.post('http://127.0.0.1:8000/user/student_auth/', {
+
+            const authResponse = await axios.post('http://127.0.0.1:8000/user/student_auth/', {
                 studentId: studentId,
                 studentPW: studentPW,
                 isPasswordReset: true  
             });
     
-            if (response.data.student_id && response.data.name) {
-                closeFeatModal();  
-                setStep(3); 
+            if (authResponse.data.student_id && authResponse.data.name) {
+                try {
+
+                    const userCheckResponse = await axios.post('http://127.0.0.1:8000/user/change_pw/', {
+                        studentId: studentId,
+                        password: 'temporary_check_password'
+                    });
+                    
+                    if (userCheckResponse.data.success) {
+                        closeFeatModal();
+                        setStep(3); 
+                    } else {
+                        closeFeatModal();
+                        setStep(1);
+                        alert("회원가입된 유저가 아닙니다. 회원가입을 해주세요.");
+                    }
+                } catch (error) {
+                    closeFeatModal();
+                    setStep(1);
+                    alert("회원가입된 유저가 아닙니다. 회원가입을 해주세요.");
+                    console.error("User check error:", error);
+                }
             } else {
                 closeFeatModal();
                 setStep(1); 
-                alert(response.data.error || "학생 인증에 실패했습니다.");
+                alert(authResponse.data.error || "학생 인증에 실패했습니다.");
             }
         } catch (error) {
             closeFeatModal();
@@ -114,7 +134,7 @@ function PasswordResetModal() {
                 alert(response.data.error || "비밀번호 변경에 실패했습니다.");
             }
         } catch (error) {
-            alert("회원가입된 유저가 아닙니다. 회원가입을 해주세요.");
+            alert("비밀번호 변경 과정에서 오류가 발생했습니다.");
             console.error("Password reset error:", error);
         }
     };
@@ -132,7 +152,7 @@ function PasswordResetModal() {
                         </div>
                         
                         <div className={css(styles.logoContainer)}>
-                            <img src={whiteCKULogo} className={css(styles.univLogo)} />
+                            <img src={whiteCKULogo} className={css(styles.univLogo)} alt="CKU Logo" />
                         </div>
                         
                         <div className={css(styles.instructionContainer)}>
@@ -295,7 +315,7 @@ const styles = StyleSheet.create({
     modalContainer: {
         display: 'flex',
         flexDirection: 'column',
-        width: '560px',
+        width: '530px',
         backgroundColor: '#FFFEFB',
         boxShadow: '0 0 20px rgba(0, 0, 0, 0.25)',
         border: '1px solid #7A828A',
@@ -326,9 +346,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '25px 20px 52px 20px',
+        padding: '30px 56px 55px 56px',
         maxWidth: '500px', 
-        margin: '0 auto', 
     },
     modalHeader: {
         display: 'flex',
@@ -336,10 +355,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         marginTop: '10px',
+        marginBottom: '-20px',
     },
     modalTitle: {
         fontFamily: 'Lato',
-        fontSize: '24px',
+        fontSize: '25px',
         fontWeight: '700',
         color: '#2B2A28',
     },
@@ -347,24 +367,34 @@ const styles = StyleSheet.create({
         marginBottom: '20px',
     },
     univLogo: {
-        width: '150px',
+        width: '134px',
+        height: '134px',
+        marginBottom: '-30px',
     },
     instructionContainer: {
-        width: '100%',
+        width: '95%',
         textAlign: 'center',
-        marginBottom: '14px',
+        marginBottom: '28px',
+        marginTop: '15px',
+        maxWidth: '380px',
     },
     instruction: {
         fontFamily: 'Lato',
         fontSize: '15px',
         fontWeight: '500',
         color: '#3f8998',
+        width: '100%',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        padding: '0 10px',
     },
     inputContainer: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         width: '100%',
+        marginTop: '-18px',
     },
     inputLabel: {
         margin: '0 0 8px 0',
@@ -458,7 +488,7 @@ const styles = StyleSheet.create({
     changePasswordModalContainer: {
         display: 'flex',
         flexDirection: 'column',
-        width: '510px',
+        width: '550px',
         height: '365px',
         backgroundColor: '#FFFEFB',
         borderRadius: '8px',
@@ -483,7 +513,7 @@ const styles = StyleSheet.create({
         padding: '20px 60px',
     },
     changePasswordInputGroup: {
-        marginBottom: '25px',
+        marginBottom: '20px',
     },
     changePasswordLabel: {
         display: 'block',
@@ -492,8 +522,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#333333',
         marginBottom: '8px',
-        marginTop: '25px',
-        paddingTop: '5px',
+        marginTop: '30px',
+ 
     },
     changePasswordInput: {
         width: '100%',
