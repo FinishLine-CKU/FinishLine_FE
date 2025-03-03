@@ -1,29 +1,47 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import background from '../assets/images/backGround.png';
 import introLogo from '../assets/images/introLogo.png';
 import finishlineLogo from '../assets/images/finishlineLogo.png';
 import Footer from '../components/footer';
-import { useEffect } from 'react';
 import axios from 'axios';
 
 function IntroPage() {
     const navigate = useNavigate();
 
     const visitor = async () => {
-        const lastVisit = document.cookie.split(';').find(cookie => cookie.trim().startsWith('last_visit='));
+        try {
+            const sessionid = document.cookie.split(';').find(cookie => cookie.trim().startsWith('sessionid='));
 
-        if (!lastVisit) {
-            try {
+            if (!sessionid) {
+
                 const response = await axios.post(`http://127.0.0.1:8000/user/track_visitor/`, {}, {
-                    withCredentials: true,
+                    withCredentials: true,  //  Django(다른 도메인) 쿠키 전송 허용
                 });
                 console.log('Response:', response);
-            } catch (error) {
-                console.error('Error fetching data: ', error);
+            } else {
+                console.log('세션 이미 존재');
             }
+        } catch (error) {
+            console.error('Error fetching data: ', error);
         }
-    };
+    }
+
+    // const visitor = async () => {
+    //     const lastVisit = document.cookie.split(';').find(cookie => cookie.trim().startsWith('last_visit='));
+
+    //     if (!lastVisit) {
+    //         try {
+    //             const response = await axios.post(`http://127.0.0.1:8000/user/track_visitor/`, {
+    //                 withCredentials: true,  //  Django(다른 도메인) 쿠키 전송 허용
+    //             });
+    //             console.log('Response:', response);
+    //         } catch (error) {
+    //             console.error('Error fetching data: ', error);
+    //         }
+    //     }
+    // };
     
     useEffect(() => {
         visitor();
