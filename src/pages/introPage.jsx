@@ -4,6 +4,7 @@ import background from '../assets/images/backGround.png';
 import introLogo from '../assets/images/introLogo.png';
 import finishlineLogo from '../assets/images/finishlineLogo.png';
 import Footer from '../components/footer';
+import VisitCounter from '../components/visitCounter'; 
 
 function IntroPage() {
     const navigate = useNavigate();
@@ -12,6 +13,9 @@ function IntroPage() {
         <div className={css(styles.introContainer)} style={{ backgroundImage: `url(${background})` }}>
             {/* 대학교 로고 */}
             <img src={introLogo} alt="University Logo" className={css(styles.universityLogo)} />
+            
+            {/* 방문자 카운터 */}
+            <VisitCounter />
 
             {/* 중앙 콘텐츠 */}
             <div className={css(styles.centerContent)}>
