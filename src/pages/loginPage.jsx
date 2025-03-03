@@ -164,7 +164,7 @@ function LoginPage() {
 
 const styles = StyleSheet.create({
     pageContainer: {
-        minHeight: '122vh',
+        minHeight: '122px',
         display: 'flex',
         flexDirection: 'column',
     },
@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'center',
         position: 'relative',
+        marginBottom: '100px',
     },
     loginContent: {
         width: '100%',
