@@ -7,6 +7,7 @@ import finishlineLogo from '../assets/images/finishlineLogo.png';
 import VisitCounter from '../components/visitCounter';
 import Footer from '../components/footer';
 import axios from 'axios';
+import VisitCounter from '../components/visitCounter'; 
 
 function IntroPage() {
     const [TodayData, setTodayData] = useState(0);
@@ -48,6 +49,9 @@ function IntroPage() {
         <div className={css(styles.introContainer)} style={{ backgroundImage: `url(${background})` }}>
             {/* 대학교 로고 */}
             <img src={introLogo} alt="University Logo" className={css(styles.universityLogo)} />
+            
+            {/* 방문자 카운터 */}
+            <VisitCounter />
 
             {/* 방문자 카운터 */}
             <VisitCounter subjects={TodayData}/>
