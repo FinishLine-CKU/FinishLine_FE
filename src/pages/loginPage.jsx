@@ -17,7 +17,8 @@ function LoginPage() {
     const navigate = useNavigate();
     const { 
         modalState, 
-        closeModal, 
+        closeModal,
+        closeFeatModal,
     } = useContext(ModalContext);
 
     const checkRegister = async () => {
