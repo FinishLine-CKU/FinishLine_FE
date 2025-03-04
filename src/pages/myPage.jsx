@@ -163,10 +163,27 @@ function MyPage() {
             setError('비밀번호 필수 입력');
         };
     };
+
+    const enterSubmit = (e) => {
+        if (e.key === 'Enter') {
+            passwordCheck();
+        }
+    };
+
+    const enterSubmitDone = (e) => {
+        if (e.key === 'Enter') {
+            saveNewPassword();
+        }
+    };
+
     const saveNewPassword = () => {
-        if (error === '' && checkError === '') {
-            newPassword();
-        } else return;
+        if (checkPassword !== '') {
+            if (error === '' && checkError === '') {
+                newPassword();
+            } else return;
+        } else {
+            setCheckError('비밀번호 확인이 필요합니다.');
+        };
     };
     const newPassword = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/change_pw/', {
