@@ -163,10 +163,27 @@ function MyPage() {
             setError('비밀번호 필수 입력');
         };
     };
+
+    const enterSubmit = (e) => {
+        if (e.key === 'Enter') {
+            passwordCheck();
+        }
+    };
+
+    const enterSubmitDone = (e) => {
+        if (e.key === 'Enter') {
+            saveNewPassword();
+        }
+    };
+
     const saveNewPassword = () => {
-        if (error === '' && checkError === '') {
-            newPassword();
-        } else return;
+        if (checkPassword !== '') {
+            if (error === '' && checkError === '') {
+                newPassword();
+            } else return;
+        } else {
+            setCheckError('비밀번호 확인이 필요합니다.');
+        };
     };
     const newPassword = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/change_pw/', {
@@ -319,7 +336,7 @@ function MyPage() {
             : passwordStateCheck ?
             <FeatureModal title="비밀번호 변경" closeAction={closeFeatModal} mainContents={
                 <div className={css(styles.columnLayout)}>
-                    <div className={css(styles.startLayout)}>
+                    <div className={css(styles.startLayout)} onKeyDown={enterSubmitDone}>
                         <div className={css(styles.pwLabelSpace)}>
                             <label className={css(styles.infoLable)}>변경할 비밀번호 입력</label>
                             { error ? <span className={css(styles.errorMessage)}>{error}</span> : null }
@@ -333,14 +350,16 @@ function MyPage() {
                     </div>
                 </div>} buttonText="저장" buttonAction={saveNewPassword} />
             : <FeatureModal title="본인 확인" closeAction={closeFeatModal} mainContents={
-                <div className={css(styles.columnLayout)}>
+                <div className={css(styles.columnLayout)} onKeyDown={enterSubmit}>
                     <div className={css(styles.startLayout)}>
                         <label className={css(styles.infoLable)}>비밀번호 입력</label>
                         <input className={css(styles.certificationInput)} type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="본인 확인을 위해 비밀번호를 입력하세요."></input>
                     </div>
                 </div>} buttonText="완료" buttonAction={passwordCheck} />
             : successChangePW ?
-            <Modal infoMessage="비밀번호 변경" infoSymbol={Symbol} mainMessage="비밀번호가 재설정 되었습니다." mainButton="확인" mainButtonAction={noticeChangePW} closeButton={noticeChangePW} />
+            <>
+                <Modal infoMessage="비밀번호 변경" infoSymbol={Symbol} mainMessage="비밀번호가 재설정 되었습니다." mainButton="확인" mainButtonAction={noticeChangePW} closeButton={noticeChangePW} />
+            </>
             : null}
             <Header />
             <Template title="마이페이지" />
