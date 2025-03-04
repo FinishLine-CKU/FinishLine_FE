@@ -25,8 +25,8 @@ function LoginPage() {
         const expire = new Date().getTime() + (3 * 60 * 60 * 1000)   // 로그인 유지 시간 : 3시간
         try {
             const response = await axios.post('http://127.0.0.1:8000/user/check_register/', {
-                studentId : studentId,
-                password : password
+                studentId: studentId,
+                password: password
             });
 
             if (response.data.error) {
@@ -111,20 +111,9 @@ function LoginPage() {
 
     return (
         <>
-            {modalState ? 
-            <Modal 
-                infoMessage="로그인 안내" 
-                infoSymbol={Symbol} 
-                mainMessage="로그인이 필요한 서비스입니다." 
-                contentMessage={<><b>학생 인증을 완료한 회원</b>만 이용 가능합니다.<br />서비스 이용을 위해 로그인 해주세요.</>} 
-                mainButton="로그인" 
-                mainButtonAction={navigateLoginPage} 
-                closeButton={closeModal} 
-            />
-            : null}
-
-            {showPasswordReset && <PasswordResetModal onClose={closePasswordResetModal} />}
-            
+            {modalState ?
+                <Modal infoMessage="로그인 안내" infoSymbol={Symbol} mainMessage="로그인이 필요한 서비스입니다." contentMessage={<><b>학생 인증을 완료한 회원</b>만 이용 가능합니다.<br />서비스 이용을 위해 로그인 해주세요.</>} mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={closeModal} />
+                : null}
             <div className={css(styles.pageContainer)}>
                 <Header />
                 <Template title="Welcome to Finish Line!" subtitle="" />
@@ -133,11 +122,11 @@ function LoginPage() {
                         <h1 className={css(styles.loginTitle)}>로그인</h1>
                         <p className={css(styles.loginDescription)}>
                             Finish Line에 등록한 학번과 비밀번호를 입력해주세요.
-                        </p>
+                    </p>
                         <form className={css(styles.loginForm)} onSubmit={checkInput}>
                             <label className={css(styles.formLabel)}>
                                 학번
-                                <input
+                            <input
                                     type="text"
                                     placeholder="학번을 입력하세요."
                                     className={css(styles.formInput)}
@@ -147,24 +136,20 @@ function LoginPage() {
                             </label>
                             <label className={css(styles.formLabel, styles.passwordLabel)}>
                                 비밀번호
-                                <input
+                            <input
                                     type="password"
                                     placeholder="비밀번호를 입력하세요."
                                     className={css(styles.formInput)}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
-                                <button 
-                                    onClick={openPasswordResetModal} 
-                                    className={css(styles.forgotPassword)}
-                                    type="button" // form 제출 방지
-                                >
-                                    비밀번호를 잊으셨나요?
-                                </button>
+                                {/* <a href="/password-reset" className={css(styles.forgotPassword)}>
+                                비밀번호를 잊으셨나요?
+                            </a> */}
                             </label>
-                            <button type="submit" className={css(styles.submitButton)}>
+                            <button type="submit" className={css(styles.submitButton)} onClick={checkRegister}>
                                 로그인
-                            </button>
+                        </button>
                         </form>
                         <div className={css(styles.registerSection)}>
                             <div className={css(styles.line)}></div>
