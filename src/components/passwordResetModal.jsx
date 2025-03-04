@@ -161,7 +161,7 @@ function PasswordResetModal() {
                         
                         <div className={css(styles.instructionContainer)}>
                             <span className={css(styles.instruction)}>
-                                가톨릭관동대학교 포털 아이디와 비밀번호를 입력해주세요.
+                                비밀번호 재설정을 위해 학생 인증을 진행해주세요.
                             </span>
                         </div>
                         
