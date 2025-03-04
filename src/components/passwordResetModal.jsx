@@ -12,7 +12,7 @@ import Symbol from '../assets/images/symbol.png'
 function PasswordResetModal() {
     // 모달 단계 1 = 학생인증, 2 = 처리중, 3 = 비밀번호변경입력, 4 = 변경완료
     const [step, setStep] = useState(1);
-    
+    const [error, setError] = useState('');
     const [studentId, setStudentId] = useState('');
     const [studentPW, setStudentPW] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -22,12 +22,18 @@ function PasswordResetModal() {
         setFeatButtonState, 
         openFeatModal, 
         closeFeatModal,
-        setFeatCloseButton 
+        setFeatCloseButton,
     } = useContext(ModalContext);
 
     const closeAuthModal = () => {
         if (typeof window.closePasswordResetModal === 'function') {
             window.closePasswordResetModal();
+        }
+    };
+
+    const enterSubmit = (e) => {
+        if (e.key === 'Enter') {
+            resetPassword();
         }
     };
 
@@ -53,10 +59,8 @@ function PasswordResetModal() {
     
             if (authResponse.data.student_id && authResponse.data.name) {
                 try {
-
-                    const userCheckResponse = await axios.post('http://127.0.0.1:8000/user/change_pw/', {
-                        studentId: studentId,
-                        password: 'temporary_check_password'
+                    const userCheckResponse = await axios.post('http://127.0.0.1:8000/user/reset_check_register/', {
+                        studentId: studentId
                     });
                     
                     if (userCheckResponse.data.success) {
@@ -65,12 +69,12 @@ function PasswordResetModal() {
                     } else {
                         closeFeatModal();
                         setStep(1);
-                        alert("회원가입된 유저가 아닙니다. 회원가입을 해주세요.");
+                        alert("회원 정보를 찾을 수 없습니다. 회원가입을 먼저 진행해주세요.");
                     }
                 } catch (error) {
                     closeFeatModal();
                     setStep(1);
-                    alert("회원가입된 유저가 아닙니다. 회원가입을 해주세요.");
+                    alert("서버가 불안정합니다. 잠시 후 다시 시도해주세요.");
                     console.error("User check error:", error);
                 }
             } else {
@@ -108,12 +112,12 @@ function PasswordResetModal() {
 
     const resetPassword = async () => {
         if (newPassword === '' || confirmPassword === '') {
-            alert("새 비밀번호와 확인을 모두 입력해주세요.");
+            alert("변경할 비밀번호를 모두 입력해주세요.");
             return;
         }
     
         if (newPassword !== confirmPassword) {
-            alert("새 비밀번호와 확인이 일치하지 않습니다.");
+            alert("비밀번호가 일치하지 않습니다.");
             return;
         }
     
@@ -221,54 +225,37 @@ function PasswordResetModal() {
     }
     
     if (step === 3) {
+        setFeatCloseButton(true);
+        setFeatButtonState(true); 
         return (
             <div className={css(styles.container)}>
-                <div className={css(styles.changePasswordModalContainer)}>
-                    <div className={css(styles.changePasswordContent)}>
-                        <div className={css(styles.modalHeader)}>
-                            <span className={css(styles.modalTitle)}>비밀번호 변경</span>
-                            <button className={css(styles.close)} onClick={closeAuthModal}>
-                                <IoClose className={css(styles.closeIcon)}/>
-                            </button>
+                <FeatureModal title='비밀번호 변경' closeAction={closeAuthModal} mainContents={
+                    <div className={css(styles.changePasswordModalContainer)} onKeyDown={enterSubmit}>
+                        <div className={css(styles.changePasswordContent)}>
+                            <form className={css(styles.pwLabelSpace)}>
+                                <label className={css(styles.infoLable)}>변경할 비밀번호 입력</label>
+                                { error ? <span className={css(styles.errorMessage)}>{error}</span> : null }
+                            </form>
+                            <input 
+                                className={css(styles.changePasswordInput)} 
+                                value={newPassword} 
+                                onChange={(e) => setNewPassword(e.target.value)} 
+                                type="password" 
+                                placeholder="영문 대/소문자, 숫자, 특수문자 포함(8~20자)"
+                            />
+                            <div className={css(styles.pwLabelSpace)}>
+                                <label className={css(styles.infoLable)}>비밀번호 확인</label>
+                            </div>
+                            <input 
+                                className={css(styles.changePasswordInput)} 
+                                value={confirmPassword} 
+                                onChange={(e) => setConfirmPassword(e.target.value)} 
+                                type="password" 
+                                placeholder="영문 대/소문자, 숫자, 특수문자 포함(8~20자)"
+                            />
                         </div>
-                        
-                        <form onSubmit={(e) => {
-                            e.preventDefault(); 
-                            resetPassword();
-                        }}>
-                            <div className={css(styles.changePasswordInputGroup)}>
-                                <label className={css(styles.changePasswordLabel)}>변경할 비밀번호 입력</label>
-                                <input 
-                                    className={css(styles.changePasswordInput)} 
-                                    value={newPassword} 
-                                    onChange={(e) => setNewPassword(e.target.value)} 
-                                    type="password" 
-                                    placeholder="영문 대/소문자, 숫자, 특수문자 포함(8~20자)"
-                                />
-                            </div>
-                            
-                            <div className={css(styles.changePasswordInputGroup)}>
-                                <label className={css(styles.changePasswordLabel)}>비밀번호 확인</label>
-                                <input 
-                                    className={css(styles.changePasswordInput)} 
-                                    value={confirmPassword} 
-                                    onChange={(e) => setConfirmPassword(e.target.value)} 
-                                    type="password" 
-                                    placeholder="영문 대/소문자, 숫자, 특수문자 포함(8~20자)"
-                                />
-                            </div>
-                            
-                            <div className={css(styles.changePasswordButtonContainer)}>
-                                <button 
-                                    type="submit"
-                                    className={css(styles.changePasswordSubmitButton)}
-                                >
-                                    저장
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                    </div>} 
+                buttonText="저장" buttonAction={resetPassword}/>
             </div>
         );
     }
@@ -362,6 +349,20 @@ const styles = StyleSheet.create({
         fontSize: '25px',
         fontWeight: '700',
         color: '#2B2A28',
+    },
+    infoLable: {
+        fontFamily: 'Lato',
+        fontWeight: '600',
+        fontSize: '14px',
+        marginBottom: '8px',
+        color: '#2B2A28',
+    },
+    errorMessage: {
+        color: '#FF4921',
+        fontSize: '12px',
+        fontFamily: 'Lato',
+        fontWeight: '600',
+        margin: '0 0 6px auto',
     },
     logoContainer: {
         marginBottom: '20px',
@@ -486,22 +487,17 @@ const styles = StyleSheet.create({
         color: '#006277'
     },
     changePasswordModalContainer: {
+        width: '100%',
+        marginTop: '20px',
         display: 'flex',
         flexDirection: 'column',
-        width: '550px',
-        height: '365px',
-        backgroundColor: '#FFFEFB',
-        borderRadius: '8px',
-        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-        zIndex: '1000',
-        overflow: 'hidden',
+        gap: '20px'
     },
     changePasswordModalHeader: {
         display: 'flex',
         justifyContent: 'space-between',
+        width: '100%',
         alignItems: 'center',
-        padding: '15px 20px',
-        borderBottom: '1px solid #EEEEEE',
     },
     changePasswordModalTitle: {
         fontFamily: 'Lato',
@@ -510,37 +506,31 @@ const styles = StyleSheet.create({
         color: '#000000',
     },
     changePasswordContent: {
-        padding: '20px 60px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+    },
+    pwLabelSpace: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+        alignItems: 'center',
     },
     changePasswordInputGroup: {
         marginBottom: '20px',
     },
-    changePasswordLabel: {
-        display: 'block',
-        fontFamily: 'Lato',
-        fontSize: '14px',
-        fontWeight: 'bold',
-        color: '#333333',
-        marginBottom: '8px',
-        marginTop: '30px',
- 
-    },
     changePasswordInput: {
-        width: '100%',
-        height: '40px',
-        padding: '0 12px',
-        border: '1px solid #DDDDDD',
-        borderRadius: '4px',
+        margin: '0 0 24px 0',
+        padding: '0 0 0 15px',
+        width: '415px',
+        height: '46px',
+        border: '1px solid #CACACA',
+        borderRadius: '6px',
         fontFamily: 'Lato',
-        fontSize: '14px',
-        boxSizing: 'border-box',
+        fontSize: '15px',
+        fontWeight: '500',
         ':focus': {
-            outline: 'none',
-            border: '1px solid #999999',
-        },
-        '::placeholder': {
-            color: '#AAAAAA',
-            fontSize: '12px',
+            outline: '1px solid #2B2A28',
         }
     },
     changePasswordButtonContainer: {
@@ -548,25 +538,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         marginTop: '10px',
     },
-    changePasswordSubmitButton: {
-        width: '75px',
-        height: '36px',
-        backgroundColor: '#333333',
-        color: '#FFFFFF',
-        border: 'none',
-        borderRadius: '8px',
-        fontFamily: 'Lato',
-        fontSize: '14px',
-        fontWeight: '500',
-        marginTop: '10px',
-        cursor: 'pointer',
-        ':hover': {
-            backgroundColor: '#555555',
-        },
-        ':active': {
-            backgroundColor: '#222222',
-        }
-    }
 });
 
 export default PasswordResetModal;
