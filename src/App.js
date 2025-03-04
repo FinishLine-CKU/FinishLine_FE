@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ModalContext } from './utils/hooks/modalContext';
 import DoneLecturePage from './pages/doneLecturePage';
@@ -35,6 +35,14 @@ function App() {
     document.body.style.overflow = 'auto';
     setFeatModalState(false);
   };
+
+  useEffect(() => {
+    if (new Date().getTime() > localStorage.getItem('expire')) {
+      localStorage.removeItem('name')
+      localStorage.removeItem('idToken')
+      localStorage.removeItem('expire')
+    };
+  })
   
   return (
     <ModalContext.Provider value={{modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton}}>
