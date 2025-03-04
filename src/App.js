@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ModalContext } from './utils/hooks/modalContext';
 import DoneLecturePage from './pages/doneLecturePage';
