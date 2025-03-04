@@ -22,6 +22,7 @@ function LoginPage() {
     } = useContext(ModalContext);
 
     const checkRegister = async () => {
+        const expire = new Date().getTime() + (3 * 60 * 60 * 1000)   // 로그인 유지 시간 : 3시간
         try {
             const response = await axios.post('http://127.0.0.1:8000/user/check_register/', {
                 studentId : studentId,
@@ -37,6 +38,7 @@ function LoginPage() {
                 const { idToken, name, testing, uploadPDF, needEsseCredit, needChoiceCredit, need_sub_major, needNormalTotalCredit, needTotalCredit } = response.data;
                 localStorage.setItem('idToken', idToken);
                 localStorage.setItem('name', name);
+                localStorage.setItem('expire', expire);
 
                 if (testing) {
                     localStorage.setItem('testing', true);
