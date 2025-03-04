@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import background from '../assets/images/backGround.png';
@@ -19,13 +20,13 @@ function IntroPage() {
         if (!lastVisit) {
             try {
                 const response = await axios.post(`http://127.0.0.1:8000/user/track_visitor/`, {}, {
-                    withCredentials: true,
+                    withCredentials: true,  //  Django(다른 도메인) 쿠키 전송 허용
                 });
                 console.log('Response:', response);
             } catch (error) {
                 console.error('Error fetching data: ', error);
             }
-        }
+        };
     };
 
     const visitorcount = async () => {
