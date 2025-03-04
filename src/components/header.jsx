@@ -28,48 +28,48 @@ function Header() {
     const gofirst = () => {
         alert('기이수과목 등록을 먼저 진행해주세요.');
     };
-    
+
     return (
         <header className={css(styles.headerContainer)}>
             <a href="/userGuidePage">
-                <img src={mainLogo} className={css(styles.mainLogo)} alt="mainLogo"/>
+                <img src={mainLogo} className={css(styles.mainLogo)} alt="mainLogo" />
             </a>
             <nav className={css(styles.navigationContainer)}>
                 <ul className={css(styles.navigation)}>
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li>
-                        { localStorage.getItem('idToken') ? 
-                        <span onClick={localStorage.getItem('uploadPDF') ? gotograduTestPage : gofirst } className={css(styles.menu)}>졸업요건 검사</span>
-                        : <span className={css(styles.menu)} onClick={openModal}>졸업요건 검사</span> }
+                        {localStorage.getItem('idToken') ?
+                            <span onClick={localStorage.getItem('uploadPDF') ? gotograduTestPage : gofirst} className={css(styles.menu)}>졸업요건 검사</span>
+                            : <span className={css(styles.menu)} onClick={openModal}>졸업요건 검사</span>}
                     </li>
                     <li>
-                        { localStorage.getItem('idToken') ? 
-                        localStorage.getItem('uploadPDF') ? 
-                        <a href="/donelecture" className={css(styles.menu)}>기이수과목 관리</a>
-                        : <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
-                        : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span> }
+                        {localStorage.getItem('idToken') ?
+                            localStorage.getItem('uploadPDF') ?
+                                <a href="/donelecture" className={css(styles.menu)}>기이수과목 관리</a>
+                                : <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
+                            : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span>}
                     </li>
                     <li>
-                        { localStorage.getItem('idToken') ? 
-                        optionState ?
-                        <>
-                            <div className={css(styles.userInfo)} onClick={() => setOptionState(!optionState)}>
-                                <span className={css(styles.hello)}>반갑습니다</span>
-                                <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
-                            </div>
-                            <div className={css(styles.optionContainer)}>
-                                <span className={css(styles.optionButton)} onClick={myPage}>마이페이지</span>
-                                <span className={css(styles.optionButton)} onClick={logOut}>로그아웃</span>
-                            </div>
-                        </> :
-                        <div className={css(styles.userInfo)} onClick={() => setOptionState(!optionState)}>
-                            <span className={css(styles.hello)}>반갑습니다</span>
-                            <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
-                        </div> :
-                        <a href="/loginPage" className={css(styles.menu)}>
-                            <button className={css(styles.signIn)}>로그인</button>
-                        </a> }
-                    </li> 
+                        {localStorage.getItem('idToken') ?
+                            optionState ?
+                                <>
+                                    <div className={css(styles.userInfo)} onClick={() => setOptionState(!optionState)}>
+                                        <span className={css(styles.hello)}>반갑습니다</span>
+                                        <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
+                                    </div>
+                                    <div className={css(styles.optionContainer)}>
+                                        <span className={css(styles.optionButton)} onClick={myPage}>마이페이지</span>
+                                        <span className={css(styles.optionButton)} onClick={logOut}>로그아웃</span>
+                                    </div>
+                                </> :
+                                <div className={css(styles.userInfo)} onClick={() => setOptionState(!optionState)}>
+                                    <span className={css(styles.hello)}>반갑습니다</span>
+                                    <span className={css(styles.userName)}>{localStorage.getItem('name')}님</span>
+                                </div> :
+                            <a href="/loginPage" className={css(styles.menu)}>
+                                <button className={css(styles.signIn)}>로그인</button>
+                            </a>}
+                    </li>
                 </ul>
             </nav>
         </header>
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         fontSize: '20px',
         fontWeight: '800',
         color: '#006277',
-        textDecoration : 'underline',
+        textDecoration: 'underline',
     },
     menu: {
         padding: '13px 0 13px 0',

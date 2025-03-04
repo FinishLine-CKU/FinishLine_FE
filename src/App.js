@@ -14,57 +14,49 @@ import FeatureModal from './components/featureModal';
 import GraduTestPage from './pages/graduTestPage';
 
 function App() {
-  const [modalState, setModalState] = useState(false);
-  const [subButtonState, setSubButtonState] = useState(false);
-  const [featModalState, setFeatModalState] = useState(false);
-  const [featButtonState, setFeatButtonState] = useState(true);
-  const [featCloseButton, setFeatCloseButton] = useState(true);
-  const openModal = () => {
-    document.body.style.overflow = 'hidden';
-    setModalState(true);
-  };
-  const closeModal = () => {
-    document.body.style.overflow = 'auto';
-    setModalState(false);
-  };
-  const openFeatModal = () => {
-    document.body.style.overflow = 'hidden';
-    setFeatModalState(true);
-  };
-  const closeFeatModal = () => {
-    document.body.style.overflow = 'auto';
-    setFeatModalState(false);
-  };
-
-  useEffect(() => {
-    if (new Date().getTime() > localStorage.getItem('expire')) {
-      localStorage.removeItem('name')
-      localStorage.removeItem('idToken')
-      localStorage.removeItem('expire')
+    const [modalState, setModalState] = useState(false);
+    const [subButtonState, setSubButtonState] = useState(false);
+    const [featModalState, setFeatModalState] = useState(false);
+    const [featButtonState, setFeatButtonState] = useState(true);
+    const [featCloseButton, setFeatCloseButton] = useState(true);
+    const openModal = () => {
+        document.body.style.overflow = 'hidden';
+        setModalState(true);
     };
-  })
-  
-  return (
-    <ModalContext.Provider value={{modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton}}>
-      <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/featureModal" element={<FeatureModal />} />
-            <Route path="/signupPage1" element={<SignupPage1 />} />
-            <Route path="/uploadpdf" element={<UploadPdfPage />} />
-            <Route path="/donelecture" element={<DoneLecturePage />} />
-            <Route path="/signupPage2" element={<SignupPage2 />} />
-            <Route path="/loginPage" element={<LoginPage />} /> 
-            <Route path="/userGuidePage" element={<UserGuidePage />} />
-            <Route path="/introPage" element={<IntroPage />} />
-            <Route path="/myPage" element={<MyPage />} />
-            <Route path="/manageGraduPage" element={<ManageGraduPage />} />
-            <Route path="/graduTestPage" element={<GraduTestPage />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </ModalContext.Provider>
-  );
+    const closeModal = () => {
+        document.body.style.overflow = 'auto';
+        setModalState(false);
+    };
+    const openFeatModal = () => {
+        document.body.style.overflow = 'hidden';
+        setFeatModalState(true);
+    };
+    const closeFeatModal = () => {
+        document.body.style.overflow = 'auto';
+        setFeatModalState(false);
+    };
+
+    return (
+        <ModalContext.Provider value={{ modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton }}>
+            <div className="App">
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/featureModal" element={<FeatureModal />} />
+                        <Route path="/signupPage1" element={<SignupPage1 />} />
+                        <Route path="/uploadpdf" element={<UploadPdfPage />} />
+                        <Route path="/donelecture" element={<DoneLecturePage />} />
+                        <Route path="/signupPage2" element={<SignupPage2 />} />
+                        <Route path="/loginPage" element={<LoginPage />} />
+                        <Route path="/userGuidePage" element={<UserGuidePage />} />
+                        <Route path="/introPage" element={<IntroPage />} />
+                        <Route path="/myPage" element={<MyPage />} />
+                        <Route path="/manageGraduPage" element={<ManageGraduPage />} />
+                        <Route path="/graduTestPage" element={<GraduTestPage />} />
+                    </Routes>
+                </BrowserRouter>
+            </div>
+        </ModalContext.Provider>
+    );
 }
 
 export default App;
