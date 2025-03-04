@@ -11,6 +11,7 @@
     "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "lottie-react": "^2.4.1",
+    "lucide-react": "^0.477.0",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
