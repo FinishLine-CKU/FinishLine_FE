@@ -37,6 +37,14 @@ function App() {
         setFeatModalState(false);
     };
 
+    useEffect(() => {
+        if (new Date().getTime() > localStorage.getItem('expire')) {
+            localStorage.removeItem('name')
+            localStorage.removeItem('idToken')
+            localStorage.removeItem('expire')
+        };
+    })
+
     return (
         <ModalContext.Provider value={{ modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton, addSubject, setAddSubject }}>
             <div className="App">
