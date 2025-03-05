@@ -10,7 +10,7 @@ export function SubSearchComponents({ subjects, onAdd }) {
 
     return (
         <div className={css(styles.resizeContainer)}>
-            <table className={css(styles.resizeTableContainer)}>
+            <table className={css(styles.addResizeTableContainer)}>
                 <thead>
                     <tr>
                         <th className={css(styles.resizeHeaderCell)}>이수년도</th>
@@ -194,8 +194,14 @@ const styles = StyleSheet.create({
     Container: {
         width: '100%',
     },
-    resizeTableContainer: {
+    addResizeTableContainer: {
         width: '100%',
+        border: '1px solid #B9B9B9',
+        borderRadius: '4px',
+        borderSpacing: '0px',
+        borderBottom: '1px solid #B9B9B9',
+    },
+    resizeTableContainer: {
         border: '1px solid #B9B9B9',
         borderRadius: '4px',
         borderSpacing: '0px',
