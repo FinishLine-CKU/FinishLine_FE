@@ -1,13 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import background from '../assets/images/backGround.png';
 import introLogo from '../assets/images/introLogo.png';
 import finishlineLogo from '../assets/images/finishlineLogo.png';
-import Footer from '../components/footer';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import VisitCounter from '../components/visitCounter';
+import Footer from '../components/footer';
+import axios from 'axios';
 
 function IntroPage() {
     const [TodayData, setTodayData] = useState(0);
