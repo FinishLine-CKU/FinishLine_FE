@@ -51,7 +51,7 @@ function PasswordResetModal() {
     
         try {
 
-            const authResponse = await axios.post('http://127.0.0.1:8000/user/student_auth/', {
+            const authResponse = await axios.post('https://finishline-cku.com/user/student_auth/', {
                 studentId: studentId,
                 studentPW: studentPW,
                 isPasswordReset: true  
@@ -59,7 +59,7 @@ function PasswordResetModal() {
     
             if (authResponse.data.student_id && authResponse.data.name) {
                 try {
-                    const userCheckResponse = await axios.post('http://127.0.0.1:8000/user/reset_check_register/', {
+                    const userCheckResponse = await axios.post('https://finishline-cku.com/user/reset_check_register/', {
                         studentId: studentId
                     });
                     
@@ -127,7 +127,7 @@ function PasswordResetModal() {
         }
     
         try {
-            const response = await axios.post('http://127.0.0.1:8000/user/change_pw/', {
+            const response = await axios.post('https://finishline-cku.com/user/change_pw/', {
                 studentId: studentId,
                 password: newPassword
             });
