@@ -49,9 +49,6 @@ function IntroPage() {
         <div className={css(styles.introContainer)} style={{ backgroundImage: `url(${background})` }}>
             {/* 대학교 로고 */}
             <img src={introLogo} alt="University Logo" className={css(styles.universityLogo)} />
-            
-            {/* 방문자 카운터 */}
-            <VisitCounter />
 
             {/* 방문자 카운터 */}
             <VisitCounter subjects={TodayData}/>
