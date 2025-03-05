@@ -7,7 +7,6 @@ import finishlineLogo from '../assets/images/finishlineLogo.png';
 import VisitCounter from '../components/visitCounter';
 import Footer from '../components/footer';
 import axios from 'axios';
-import VisitCounter from '../components/visitCounter'; 
 
 function IntroPage() {
     const [TodayData, setTodayData] = useState(0);
