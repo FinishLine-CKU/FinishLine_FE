@@ -1,17 +1,57 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import background from '../assets/images/backGround.png';
 import introLogo from '../assets/images/introLogo.png';
 import finishlineLogo from '../assets/images/finishlineLogo.png';
+import VisitCounter from '../components/visitCounter';
 import Footer from '../components/footer';
+import axios from 'axios';
 
 function IntroPage() {
+    const [TodayData, setTodayData] = useState(0);
     const navigate = useNavigate();
+
+    const visitor = async () => {
+        const lastVisit = document.cookie.split(';').find(cookie => cookie.trim().startsWith('last_visit='));
+    
+        // 쿠키가 없을 때만 API 호출
+        if (!lastVisit) {
+            try {
+                const response = await axios.post(`http://127.0.0.1:8000/user/track_visitor/`, {}, {
+                    withCredentials: true,  //  Django(다른 도메인) 쿠키 전송 허용
+                });
+                console.log('Response:', response);
+            } catch (error) {
+                console.error('Error fetching data: ', error);
+            }
+        };
+    };
+
+    const visitorcount = async () => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/user/track_visitor_count/`);
+            const today = response.data.today_visitor;
+            setTodayData(today);
+            console.log('Response:', response); // 전체 응답 확인
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+        }
+    };
+    
+    useEffect(() => {
+        visitor();
+        visitorcount();
+    }, []);
 
     return (
         <div className={css(styles.introContainer)} style={{ backgroundImage: `url(${background})` }}>
             {/* 대학교 로고 */}
             <img src={introLogo} alt="University Logo" className={css(styles.universityLogo)} />
+
+            {/* 방문자 카운터 */}
+            <VisitCounter subjects={TodayData}/>
+
             {/* 중앙 콘텐츠 */}
             <div className={css(styles.centerContent)}>
                 <p className={css(styles.subtitle)}>가톨릭관동대학교 졸업 요건 확인 사이트</p>

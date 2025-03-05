@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ModalContext } from './utils/hooks/modalContext';
 import DoneLecturePage from './pages/doneLecturePage';
@@ -19,6 +19,7 @@ function App() {
     const [featModalState, setFeatModalState] = useState(false);
     const [featButtonState, setFeatButtonState] = useState(true);
     const [featCloseButton, setFeatCloseButton] = useState(true);
+    const [addSubject, setAddSubject] = useState(0);    // 추가 Context 필요
     const openModal = () => {
         document.body.style.overflow = 'hidden';
         setModalState(true);
@@ -36,8 +37,16 @@ function App() {
         setFeatModalState(false);
     };
 
+    useEffect(() => {
+        if (new Date().getTime() > localStorage.getItem('expire')) {
+            localStorage.removeItem('name')
+            localStorage.removeItem('idToken')
+            localStorage.removeItem('expire')
+        };
+    })
+
     return (
-        <ModalContext.Provider value={{ modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton }}>
+        <ModalContext.Provider value={{ modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton, addSubject, setAddSubject }}>
             <div className="App">
                 <BrowserRouter>
                     <Routes>

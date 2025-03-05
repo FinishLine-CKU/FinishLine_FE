@@ -163,10 +163,27 @@ function MyPage() {
             setError('비밀번호 필수 입력');
         };
     };
+
+    const enterSubmit = (e) => {
+        if (e.key === 'Enter') {
+            passwordCheck();
+        }
+    };
+
+    const enterSubmitDone = (e) => {
+        if (e.key === 'Enter') {
+            saveNewPassword();
+        }
+    };
+
     const saveNewPassword = () => {
-        if (error === '' && checkError === '') {
-            newPassword();
-        } else return;
+        if (checkPassword !== '') {
+            if (error === '' && checkError === '') {
+                newPassword();
+            } else return;
+        } else {
+            setCheckError('비밀번호 확인이 필요합니다.');
+        };
     };
     const newPassword = async () => {
         const response = await axios.post('https://finishline-cku.com/user/change_pw/', {
@@ -574,7 +591,7 @@ const styles = StyleSheet.create({
     contentTableArea: {
         display: 'flex',
         flexDirection: 'column',
-        padding: '25px 50px 20px 50px',
+        padding: '25px 0px 20px 0px',
         gap: '30px'
     },
     contentNothingArea: {

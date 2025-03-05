@@ -1,24 +1,26 @@
+import { useState, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc";
-import { useState } from 'react';
+import { ModalContext } from '../utils/hooks/modalContext';
 
 //과목찾기 테이블 디자인 및 추가하기 버튼 컴포넌트
 export function SubSearchComponents({ subjects, onAdd }) {
     const [filteredSubjects, setFilteredSubjects] = useState(subjects);
+    const { addSubject, setAddSubject } = useContext(ModalContext);
 
     return (
-        <div className={css(styles.Container)}>
-            <table className={css(styles.tableContainer)}>
+        <div className={css(styles.resizeContainer)}>
+            <table className={css(styles.addResizeTableContainer)}>
                 <thead>
                     <tr>
-                        <th className={css(styles.headerCell)}>이수년도</th>
-                        <th className={css(styles.headerCell)}>학기</th>
-                        <th className={css(styles.headerCell)}>과목코드</th>
-                        <th className={css(styles.headerCell)}>교과목명</th>
-                        <th className={css(styles.headerCell)}>이수구분</th>
-                        <th className={css(styles.headerCell)}>주제</th>
-                        <th className={css(styles.headerCell)}>학점</th>
-                        <th className={css(styles.headerCell)}></th>
+                        <th className={css(styles.resizeHeaderCell)}>이수년도</th>
+                        <th className={css(styles.resizeHeaderCell)}>학기</th>
+                        <th className={css(styles.resizeHeaderCell)}>과목코드</th>
+                        <th className={css(styles.resizeHeaderCell)}>교과목명</th>
+                        <th className={css(styles.resizeHeaderCell)}>이수구분</th>
+                        <th className={css(styles.resizeHeaderCell)}>주제</th>
+                        <th className={css(styles.resizeHeaderCell)}>학점</th>
+                        <th className={css(styles.resizeHeaderCell)}></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,12 +28,12 @@ export function SubSearchComponents({ subjects, onAdd }) {
                         subjects.map((subject, index) => (
                             <tr key={subject.lecture_code}>
                                 <td className={css(styles.yearCell)}>{subject.year}</td>
-                                <td className={css(styles.semesterCell)}>{subject.semester}</td>
-                                <td className={css(styles.codeCell)}>{subject.lecture_code}</td>
-                                <td className={css(styles.nameCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
-                                <td className={css(styles.typeCell)}>{subject.lecture_type}</td>
-                                <td className={css(styles.topicCell)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
-                                <td className={css(styles.creditCell)}>{subject.credit}</td>
+                                <td className={css(styles.yearCell)}>{subject.semester}</td>
+                                <td className={css(styles.yearCell)}>{subject.lecture_code}</td>
+                                <td className={css(styles.subjectCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
+                                <td className={css(styles.yearCell)}>{subject.lecture_type}</td>
+                                <td className={css(styles.yearCell)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
+                                <td className={css(styles.yearCell)}>{subject.credit}</td>
                                 <td className={css(styles.lastCell)}>
                                 </td>
                             </tr>
@@ -40,7 +42,7 @@ export function SubSearchComponents({ subjects, onAdd }) {
                 </tbody>
             </table>
             <div className={css(styles.addContainer)}>
-                <button className={css(styles.itemAddButton)} onClick={() => onAdd(filteredSubjects)}>
+                <button className={css(styles.itemAddButton)} onClick={() => {onAdd(filteredSubjects); setAddSubject(addSubject + 1)}}>
                     추가하기
                 </button>
             </div>
@@ -51,63 +53,75 @@ export function SubSearchComponents({ subjects, onAdd }) {
 //내 기이수 과목 테이블 디자인 컴포넌트
 export function DoneSubComponents({ subjects, onDelete, tableType = 'default' }) {
     const [Expanded, setExpanded] = useState(false);
+    const { addSubject, setAddSubject } = useContext(ModalContext);
 
     //더보기 버튼을 위한 상태 저장
     const toggleExpansion = () => {
         setExpanded(!Expanded);
     };
 
-    //새로운 과목 목록의 경우 상태 저장으로 색상 변경
-    const sortedSubjects = subjects
-        ? [
-            ...subjects.filter(subject => subject.subjectNew),
-            ...subjects.filter(subject => !subject.subjectNew)
-        ]
-        : [];
+    // 정렬된 과목들을 학기별로 그룹화
+    const sortedSubjects = subjects ? [
+        ...subjects.filter(subject => subject.subjectNew),
+        ...subjects.filter(subject => !subject.subjectNew)
+    ] : [];
+
+    // 첫 번째 과목의 학기를 기준으로 같은 학기의 과목 수를 계산
+    const firstSemesterCount = sortedSubjects.length > 0 ? 
+        sortedSubjects.filter(subject => 
+            subject.year === sortedSubjects[0].year && 
+            subject.semester === sortedSubjects[0].semester
+        ).length : 0;
+    
+    const lastSemesterCount = sortedSubjects.length > 0 ? 
+        sortedSubjects.filter(subject => 
+            subject.year === sortedSubjects[addSubject].year && 
+            subject.semester === sortedSubjects[addSubject].semester
+        ).length : 0;
 
     return (
-        <div className={css(tableType === 'resize' ? styles.resizeContainer : styles.Container)}>
+        <div className={css(tableType === 'resize' ? styles.resizeContainer : styles.resizeContainer)}>
             {tableType === 'resize' && !Expanded ?
                 <div className={css(styles.fadingEffect)}></div>
                 : null}
-            <table className={css(tableType === 'resize' ? Expanded ? styles.resizeTableExpend : styles.resizeTableContainer : styles.tableContainer)}>
+            <table className={css(tableType === 'resize' ? Expanded ? styles.resizeTableExpend : styles.resizeTableContainer : styles.resizeTableContainer)}>
                 <thead>
                     <tr>
-                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.headerCell)}>이수년도</th>
-                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.headerCell)}>학기</th>
-                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.headerCell)}>과목코드</th>
-                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.headerCell)}>교과목명</th>
-                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.headerCell)}>이수구분</th>
-                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.headerCell)}>주제</th>
-                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.headerCell)}>학점</th>
+                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.resizeHeaderCell)}>이수년도</th>
+                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.resizeHeaderCell)}>학기</th>
+                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.resizeHeaderCell)}>과목코드</th>
+                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.resizeHeaderCell)}>교과목명</th>
+                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.resizeHeaderCell)}>이수구분</th>
+                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.resizeHeaderCell)}>주제</th>
+                        <th className={css(tableType === 'resize' ? styles.resizeHeaderCell : styles.resizeHeaderCell)}>학점</th>
                         {tableType === 'resize' ? null
-                            : <th className={css(styles.headerCell)}></th>}
+                            : <th className={css(styles.resizeHeaderCell)}></th>}
                     </tr>
                 </thead>
                 <tbody>
                     {/* 과목 목록이 1개 이상이라면, 5개만 보여준다 */}
                     {sortedSubjects && sortedSubjects.length > 0 &&
-                        sortedSubjects.slice(0, 5).map((subject) => (
-                            <tr key={subject.lecture_code}>
-                                <td className={css(styles.yearCell, subject.subjectNew ? styles.yearAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>
+                        sortedSubjects.slice(0, addSubject === 0 ? firstSemesterCount : lastSemesterCount).map((subject) => (
+                            <tr key={subject.lecture_code} className={css(subject.semester === '1' ? styles.rowColor1 : styles.rowColor2)}>
+                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.year}
                                 </td>
-                                <td className={css(styles.semesterCell, subject.subjectNew ? styles.semesterAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.semesterCell)}>
+                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.semester}
                                 </td>
-                                <td className={css(styles.codeCell, subject.subjectNew ? styles.codeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.codeCell)}>
+                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.lecture_code}
                                 </td>
-                                <td className={css(styles.nameCell, subject.subjectNew ? styles.nameAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.nameCell)} title={subject.lecture_name}>
+                                <td className={css(styles.subjectCell, subject.subjectNew ? styles.resizeSubjectAddCell : tableType === 'resize' ? styles.resizeSubjectCell : styles.subjectCell)} title={subject.lecture_name}>
                                     {subject.lecture_name}
                                 </td>
-                                <td className={css(styles.typeCell, subject.subjectNew ? styles.typeAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)}>
+                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.lecture_type}
                                 </td>
-                                <td className={css(styles.topicCell, subject.subjectNew ? styles.topicAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)} title={subject.lecture_topic}>
+                                <td className={css(styles.topicAddCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.topicAddCell : styles.topicAddCell)} title={subject.lecture_topic}>
                                     {subject.lecture_topic}
                                 </td>
-                                <td className={css(styles.creditCell, subject.subjectNew ? styles.creditAddCell : tableType === 'resize' ? styles.resizeYearCell : styles.creditCell)}>
+                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.credit}
                                 </td>
                                 {tableType === 'resize' ? null :
@@ -118,44 +132,24 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
                             </tr>
                         ))
                     }
-                    {sortedSubjects.length > 5 && !Expanded && (
-                        <tr>
-                            {tableType === 'resize' ?
-                                null :
-                                <td colSpan="8" className={css(styles.expandTrButton)}>
-                                    <button className={css(styles.expandButton)} onClick={toggleExpansion}>더보기</button>
-                                </td>
-                            }
-                        </tr>
-                    )}
-
-                    {Expanded && sortedSubjects.slice(5).map((subject, index) => (
-                        <tr key={index + 5}>
+                    {Expanded && sortedSubjects.slice(firstSemesterCount).map((subject, index) => ( 
+                        <tr key={index + firstSemesterCount} 
+                            className={css(subject.semester === '1' ? styles.rowColor1 : styles.rowColor2)}>
                             <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.year}</td>
-                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.semesterCell)}>{subject.semester}</td>
-                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.codeCell)}>{subject.lecture_code}</td>
-                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.nameCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
-                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.typeCell)}>{subject.lecture_type}</td>
-                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.topicCell)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
-                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.creditCell)}>{subject.credit}</td>
+                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.semester}</td>
+                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.lecture_code}</td>
+                            <td className={css(tableType === 'resize' ? styles.resizeSubjectCell : styles.subjectCell)} title={subject.lecture_name}>{subject.lecture_name}</td>
+                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.lecture_type}</td>
+                            <td className={css(tableType === 'resize' ? styles.topicAddCellToo : styles.topicAddCellToo)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
+                            <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.credit}</td>
                             {tableType === 'resize' ? null :
                                 <td className={css(styles.lastCell)}></td>
                             }
                         </tr>
                     ))}
-
-                    {Expanded && (
-                        <tr>
-                            {tableType === 'resize' ?
-                                null :
-                                <td colSpan="8" className={css(styles.expandTrButton)}>
-                                    <button className={css(styles.expandButton)} onClick={toggleExpansion}> 닫기</button>
-                                </td>
-                            }
-                        </tr>
-                    )}
                 </tbody>
             </table>
+
             {tableType === 'resize' ?
                 <>
                     {sortedSubjects.length > 5 && !Expanded && (
@@ -172,7 +166,26 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
                         </div>
                     )}
                 </>
-                : null}
+                :
+                <>
+                    {sortedSubjects.length > firstSemesterCount && !Expanded && (
+                        <div className={css(styles.resizeExpandTrButton)} onClick={toggleExpansion}>
+                            <span className={css(styles.resizeExpandButton)}>더보기</span>
+                            <VscTriangleDown className={css(styles.toggleIcon)} />
+                        </div>
+                    )}
+                    {Expanded && (
+                        <tr>
+                            {tableType === 'resize' ?
+                                null :
+                                <div className={css(styles.resizeExpandTrButton)} onClick={toggleExpansion}>
+                                    <VscTriangleUp className={css(styles.toggleIcon)} />
+                                    <span className={css(styles.resizeExpandButton)}>접기</span>
+                                </div>
+                            }
+                        </tr>
+                    )}
+                </>}
         </div>
     );
 }
@@ -181,18 +194,18 @@ const styles = StyleSheet.create({
     Container: {
         width: '100%',
     },
-    tableContainer: {
-        width: '540px',
-        borderCollapse: 'collapse',
+    addResizeTableContainer: {
+        width: '100%',
+        border: '1px solid #B9B9B9',
         borderRadius: '4px',
-        overflow: 'hidden',
-        tableLayout: 'auto',
+        borderSpacing: '0px',
+        borderBottom: '1px solid #B9B9B9',
     },
     resizeTableContainer: {
         border: '1px solid #B9B9B9',
         borderRadius: '4px',
         borderSpacing: '0px',
-        borderBottom: 'none',
+        borderBottom: '1px solid #B9B9B9',
     },
     resizeTableExpend: {
         border: '1px solid #B9B9B9',
@@ -205,21 +218,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    headerCell: {
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        height: '36px',
-        backgroundColor: 'rgba(0, 0, 0, 0.06)',
-        fontWeight: '600',
-        textAlign: 'center',
-        wordWrap: 'break-word',
-    },
     resizeHeaderCell: {
         width: 'auto',
         height: '33px',
-        padding: '0',
+        padding: '0 1.5px',
         fontFamily: 'Lato',
         fontSize: '10px',
         fontWeight: '700',
@@ -227,21 +229,38 @@ const styles = StyleSheet.create({
         borderRight: '1px solid #B9B9B9',
         ':last-child': {
             borderRight: '0px'
-        }
-    },
-    yearCell: {
-        width: '40px',
-        height: '35px',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
-        textAlign: 'center',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        backgroundColor: '#FFFEFB',
+        },
+        wordWrap: 'break-word',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
-        tableLayout: 'fixed',
+        textOverflow: 'ellipsis',
+    },
+    rowColor1: {
+        backgroundColor: '#F9F9F9',  // 1학기 배경색 F7F2EF
+    },
+    rowColor2: {
+        backgroundColor: '#FFFFFF',  // 2학기 배경색
+    },
+    yearCell: {
+        height: '34px',
+        padding: '0 5px',
+        fontFamily: 'Lato',
+        fontSize: '11px',
+        fontWeight: '500',
+        textAlign: 'center',
+        color: '#7F7E7D',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+        borderBottom: 'none',
+        borderLeft: 'none',
+        ':last-child': {
+            borderRight: '0px'
+        },
+        wordWrap: 'break-word',
+        maxWidth: '180px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
     },
     resizeYearCell: {
         height: '34px',
@@ -258,145 +277,161 @@ const styles = StyleSheet.create({
         ':last-child': {
             borderRight: '0px'
         },
-    },
-    semesterCell: {
-        width: '20px',
-        height: '35px',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
-        textAlign: 'center',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        backgroundColor: '#FFFEFB',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        tableLayout: 'fixed',
-    },
-    codeCell: {
-        width: '30px',
-        minWidth: '40px',
-        height: '35px',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
-        textAlign: 'center',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        backgroundColor: '#FFFEFB',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        tableLayout: 'fixed',
-    },
-
-    nameCell: {
-        width: '180px',
-        maxWidth: '180px',
-        height: '35px',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
-        textAlign: 'center',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        backgroundColor: '#FFFEFB',
         wordWrap: 'break-word',
         maxWidth: '180px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        tableLayout: 'fixed',
     },
-    nameAddCell: {
-        width: '180px',
-        maxWidth: '180px',
-        height: '35px',
+    resizeAddYearCell: {
+        height: '34px',
+        padding: '0 5px',
         fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
+        fontSize: '11px',
+        fontWeight: '500',
         textAlign: 'center',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        backgroundColor: '#FFFEFB',
+        color: '#3D5286',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+        borderBottom: 'none',
+        borderLeft: 'none',
+        ':last-child': {
+            borderRight: '0px'
+        },
         wordWrap: 'break-word',
         maxWidth: '180px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        tableLayout: 'fixed',
     },
-    typeCell: {
-        width: '40px',
-        maxWidth: '40px',
-        height: '35px',
+    subjectCell: {
+        height: '34px',
+        padding: '0 5px',
         fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
+        fontSize: '11px',
+        fontWeight: '500',
         textAlign: 'center',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        backgroundColor: '#FFFEFB',
+        color: '#7F7E7D',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+        borderBottom: 'none',
+        borderLeft: 'none',
+        ':last-child': {
+            borderRight: '0px'
+        },
+        wordWrap: 'break-word',
+        maxWidth: '180px',
+        minWidth: '180px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        tableLayout: 'fixed',
     },
-    topicCell: {
-        width: '80px',
-        maxWidth: '80px',
-        height: '35px',
+    resizeSubjectCell: {
+        height: '34px',
+        padding: '0 5px',
         fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
+        fontSize: '11px',
+        fontWeight: '500',
         textAlign: 'center',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        backgroundColor: '#FFFEFB',
+        color: '#7F7E7D',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+        borderBottom: 'none',
+        borderLeft: 'none',
+        ':last-child': {
+            borderRight: '0px'
+        },
+        wordWrap: 'break-word',
+        maxWidth: '180px',
+        minWidth: '180px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        tableLayout: 'fixed',
+    },
+    resizeSubjectAddCell: {
+        height: '34px',
+        padding: '0 5px',
+        fontFamily: 'Lato',
+        fontSize: '11px',
+        fontWeight: '500',
+        textAlign: 'center',
+        color: '#3D5286',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+        borderBottom: 'none',
+        borderLeft: 'none',
+        ':last-child': {
+            borderRight: '0px'
+        },
+        wordWrap: 'break-word',
+        maxWidth: '180px',
+        minWidth: '180px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+    },
+    topicAddCellToo: {
+        minWidth: '65px',
+        height: '34px',
+        padding: '0 5px',
+        fontFamily: 'Lato',
+        fontSize: '11px',
+        fontWeight: '500',
+        textAlign: 'center',
+        color: '#7F7E7D',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+        borderBottom: 'none',
+        borderLeft: 'none',
+        ':last-child': {
+            borderRight: '0px'
+        },
+        wordWrap: 'break-word',
+        maxWidth: '65px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
     },
     topicAddCell: {
-        maxWidth: '80px',
-        height: '35px',
+        maxWidth: '65px',
+        minWidth: '65px',
+        height: '34px',
+        padding: '0 5px',
         fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
+        fontSize: '11px',
+        fontWeight: '500',
         textAlign: 'center',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        backgroundColor: '#FFFEFB',
+        color: '#7F7E7D',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+        borderBottom: 'none',
+        borderLeft: 'none',
+        ':last-child': {
+            borderRight: '0px'
+        },
+        wordWrap: 'break-word',
+        maxWidth: '180px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        tableLayout: 'fixed',
-    },
-    creditCell: {
-        width: '20px',
-        height: '35px',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
-        textAlign: 'center',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        backgroundColor: '#FFFEFB',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        tableLayout: 'fixed',
     },
     lastCell: {
         width: '40px',
-        border: '2px solid #E0E0E0',
-        color: '#333333',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
-        textAlign: 'center',
         minHeight: '35px',
-        backgroundColor: '#FFFEFB',
-        tableLayout: 'fixed',
+        height: '34px',
+        padding: '0 5px',
+        fontFamily: 'Lato',
+        fontSize: '11px',
+        fontWeight: '500',
+        textAlign: 'center',
+        color: '#7F7E7D',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+        borderBottom: 'none',
+        borderLeft: 'none',
+        ':last-child': {
+            borderRight: '0px'
+        },
     },
     itemDeleteButton: {
         border: '1px solid black',
@@ -408,19 +443,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontSize: '10px',
         fontWeight: '600',
-        cursor: 'pointer',
-    },
-    itemSelectButton: {
-        border: '1px solid black',
-        borderRadius: '4px',
-        backgroundColor: 'transparent',
-        color: 'black',
-        width: '40px',
-        height: '20px',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
-        cursor: 'pointer',
+        cursor: 'pointer'
     },
     itemAddButton: {
         marginTop: '30px',
@@ -429,7 +452,7 @@ const styles = StyleSheet.create({
         height: '25px',
         borderRadius: '5px',
         border: '1px solid transparent',
-        backgroundColor: 'black',
+        backgroundColor: '#2B2A28',
         color: '#FFFEFB',
         cursor: 'pointer',
         ':active': {
@@ -438,30 +461,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontSize: '12px',
         fontWeight: '600',
-    },
-    expandButton: {
-        width: '540px',
-        height: '35px',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
-        cursor: 'pointer',
-        border: '1px transparent',
-        borderBottomRadius: '4px',
-        backgroundColor: 'transparent',
-        borderCollapse: 'collapse',
-    },
-    expandTrButton: {
-        width: '540px',
-        height: '35px',
-        fontFamily: 'Lato',
-        fontSize: '10px',
-        fontWeight: '600',
-        cursor: 'pointer',
-        border: '2px solid #E0E0E0',
-        borderBottomRadius: '4px',
-        backgroundColor: 'transparent',
-        borderCollapse: 'collapse',
     },
     resizeExpandTrButton: {
         marginTop: '10px',
@@ -498,7 +497,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        position: 'relative'
+        position: 'relative',
     },
     fadingEffect: {
         position: 'absolute',
@@ -506,7 +505,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8))',
+        background: 'linear-gradient(to bottom, rgba(255, 254, 251, 0), rgba(255, 254, 251, 0.8))',
         pointerEvents: 'none'
     },
 });

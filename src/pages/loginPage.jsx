@@ -7,23 +7,38 @@ import Header from "../components/header";
 import Template from "../components/template";
 import Footer from "../components/footer";
 import Modal from '../components/modal';
+import PasswordResetModal from '../components/passwordResetModal'; 
 import Symbol from '../assets/images/symbol.png';
 
 function LoginPage() {
     const [studentId, setStudentId] = useState("");
     const [password, setPassword] = useState("");
+    const [showPasswordReset, setShowPasswordReset] = useState(false); 
     const navigate = useNavigate();
-    const { modalState, closeModal } = useContext(ModalContext)
+    const { 
+        modalState, 
+        closeModal,
+        closeFeatModal,
+    } = useContext(ModalContext);
+
     const checkRegister = async () => {
+        const expire = new Date().getTime() + (3 * 60 * 60 * 1000)   // 로그인 유지 시간 : 3시간
         try {
             const response = await axios.post('https://finishline-cku.com/user/check_register/', {
                 studentId: studentId,
                 password: password
             });
+
+            if (response.data.error) {
+                alert(response.data.error);
+                return;
+            }
+
             if (response.data.idToken && response.data.name) {
                 const { idToken, name, testing, uploadPDF, needEsseCredit, needChoiceCredit, need_sub_major, needNormalTotalCredit, needTotalCredit } = response.data;
                 localStorage.setItem('idToken', idToken);
                 localStorage.setItem('name', name);
+                localStorage.setItem('expire', expire);
 
                 if (testing) {
                     localStorage.setItem('testing', true);
@@ -48,26 +63,45 @@ function LoginPage() {
                 };
                 navigate("/userGuidePage");
                 window.scrollTo(0, 0);
-            } else {
-                const { error } = response.data;
-                alert(error)
-            };
-        } catch {
-
+            } 
+        } 
+        catch (error) {
+            alert("로그인에 실패했습니다. 학번과 비밀번호를 확인해주세요.");
         };
     };
+
     const navigateLoginPage = () => {
         document.body.style.overflow = 'auto';
         navigate('/loginPage');
         closeModal();
     };
+
     const checkInput = (e) => {
         e.preventDefault();
         if (studentId && password) {
+            checkRegister();
         } else {
             alert("학번과 비밀번호를 모두 입력해주세요.");
         };
     };
+
+    const openPasswordResetModal = (e) => {
+        e.preventDefault(); 
+        setShowPasswordReset(true);
+    };
+
+    const closePasswordResetModal = () => {
+        setShowPasswordReset(false);
+    };
+
+    useEffect(() => {
+        window.closePasswordResetModal = closePasswordResetModal;
+        
+        return () => {
+            delete window.closePasswordResetModal;
+        };
+    }, []);
+
     useEffect(() => {
         if (localStorage.getItem('idToken')) {
             navigate("/userGuidePage");
@@ -77,9 +111,20 @@ function LoginPage() {
 
     return (
         <>
-            {modalState ?
-                <Modal infoMessage="로그인 안내" infoSymbol={Symbol} mainMessage="로그인이 필요한 서비스입니다." contentMessage={<><b>학생 인증을 완료한 회원</b>만 이용 가능합니다.<br />서비스 이용을 위해 로그인 해주세요.</>} mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={closeModal} />
-                : null}
+            {modalState ? 
+            <Modal 
+                infoMessage="로그인 안내" 
+                infoSymbol={Symbol} 
+                mainMessage="로그인이 필요한 서비스입니다." 
+                contentMessage={<><b>학생 인증을 완료한 회원</b>만 이용 가능합니다.<br />서비스 이용을 위해 로그인 해주세요.</>} 
+                mainButton="로그인" 
+                mainButtonAction={navigateLoginPage} 
+                closeButton={closeModal} 
+            />
+            : null}
+
+            {showPasswordReset && <PasswordResetModal onClose={closePasswordResetModal} />}
+            
             <div className={css(styles.pageContainer)}>
                 <Header />
                 <Template title="Welcome to Finish Line!" subtitle="" />
@@ -88,11 +133,11 @@ function LoginPage() {
                         <h1 className={css(styles.loginTitle)}>로그인</h1>
                         <p className={css(styles.loginDescription)}>
                             Finish Line에 등록한 학번과 비밀번호를 입력해주세요.
-                    </p>
+                        </p>
                         <form className={css(styles.loginForm)} onSubmit={checkInput}>
                             <label className={css(styles.formLabel)}>
                                 학번
-                            <input
+                                <input
                                     type="text"
                                     placeholder="학번을 입력하세요."
                                     className={css(styles.formInput)}
@@ -102,20 +147,24 @@ function LoginPage() {
                             </label>
                             <label className={css(styles.formLabel, styles.passwordLabel)}>
                                 비밀번호
-                            <input
+                                <input
                                     type="password"
                                     placeholder="비밀번호를 입력하세요."
                                     className={css(styles.formInput)}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
-                                {/* <a href="/password-reset" className={css(styles.forgotPassword)}>
-                                비밀번호를 잊으셨나요?
-                            </a> */}
+                                <button 
+                                    onClick={openPasswordResetModal} 
+                                    className={css(styles.forgotPassword)}
+                                    type="button" // form 제출 방지
+                                >
+                                    비밀번호를 잊으셨나요?
+                                </button>
                             </label>
-                            <button type="submit" className={css(styles.submitButton)} onClick={checkRegister}>
+                            <button type="submit" className={css(styles.submitButton)}>
                                 로그인
-                        </button>
+                            </button>
                         </form>
                         <div className={css(styles.registerSection)}>
                             <div className={css(styles.line)}></div>
@@ -133,7 +182,7 @@ function LoginPage() {
 
 const styles = StyleSheet.create({
     pageContainer: {
-        minHeight: '122vh',
+        minHeight: '122px',
         display: 'flex',
         flexDirection: 'column',
     },
@@ -147,6 +196,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'center',
         position: 'relative',
+        marginBottom: '100px',
     },
     loginContent: {
         width: '100%',
@@ -204,6 +254,10 @@ const styles = StyleSheet.create({
         fontSize: '12px',
         fontWeight: '600',
         textDecoration: 'none',
+        background: 'none',
+        border: 'none',
+        padding: '0',
+        cursor: 'pointer',
         ':hover': {
             textDecoration: 'underline',
         },
