@@ -591,7 +591,7 @@ const styles = StyleSheet.create({
     contentTableArea: {
         display: 'flex',
         flexDirection: 'column',
-        padding: '25px 50px 20px 50px',
+        padding: '25px 0px 20px 0px',
         gap: '30px'
     },
     contentNothingArea: {
