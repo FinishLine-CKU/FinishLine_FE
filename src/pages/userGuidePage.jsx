@@ -62,9 +62,9 @@ function UserGuidePage() {
                             <h2 className={css(styles.stepTitle)}>회원가입 및 학생인증</h2>
                             <p className={css(styles.stepDescription)}>
                                 대학 포털 ID/PW를 입력하여<br />
-                            학생인증을 하고<br /><br />
-                            추가 정보(어학 자격) 및 비밀번호를 <br />
-                            설정하여 회원가입을 합니다.
+                            학생인증을 진행하고<br /><br />
+                            추가 전공 및 비밀번호를 <br />
+                            설정하여 회원가입 합니다.
                         </p>
                             <p className={css(styles.notice)}>
                                 학생 인증을 위해 입력한 비밀번호는<br />
