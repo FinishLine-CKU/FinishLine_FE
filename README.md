@@ -10,7 +10,11 @@
 
 ## 🎓 프로젝트 소개
 
+<div align="center">
 
+  ### 가톨릭관동대 졸업요건 검사 서비스 Finish Line
+  
+</div>
 
 ## 🔍 기능 소개
 
