@@ -31,5 +31,5 @@
 ## ⚙️ 시스템 아키텍처
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/9efb773c-0814-48bd-9f29-9fe3ff69f4eb" width="800px">
+  <img src="https://github.com/user-attachments/assets/0b4d734d-02e0-4d94-bd8a-c333e754b411" width="800px">
 </div>
