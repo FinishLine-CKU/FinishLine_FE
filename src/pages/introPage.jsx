@@ -18,7 +18,7 @@ function IntroPage() {
         // 쿠키가 없을 때만 API 호출
         if (!lastVisit) {
             try {
-                const response = await axios.post(`http://127.0.0.1:8000/user/track_visitor/`, {}, {
+                const response = await axios.post(`http://127.0.0.1:8000/user/set_visitor_cookie/`, {}, {
                     withCredentials: true,  //  Django(다른 도메인) 쿠키 전송 허용
                 });
                 console.log('Response:', response);
@@ -30,7 +30,7 @@ function IntroPage() {
 
     const visitorcount = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/user/track_visitor_count/`);
+            const response = await axios.get(`http://127.0.0.1:8000/user/get_visitor_info/`);
             const today = response.data.today_visitor;
             setTodayData(today);
             console.log('Response:', response); // 전체 응답 확인
