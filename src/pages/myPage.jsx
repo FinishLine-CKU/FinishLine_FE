@@ -240,7 +240,7 @@ function MyPage() {
         window.scrollTo(0, 0);
     };
     const navigateDoneLecture = () => {
-        navigate('/graduTestPage');
+        navigate('/donelecture');
         window.scrollTo(0, 0);
     };
     const navigateTest = () => {
@@ -400,7 +400,7 @@ function MyPage() {
                         <span className={css(styles.title)}>졸업요건검사</span>
                         {localStorage.getItem('testing') ?
                             !localStorage.getItem('tryAgainTest') ?
-                                <button className={css(styles.button)} onClick={navigateDoneLecture}>자세히보기</button>
+                                <button className={css(styles.button)} onClick={navigateTest}>자세히보기</button>
                                 : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button>
                             : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button>}
                     </div>
