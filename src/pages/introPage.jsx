@@ -54,7 +54,7 @@ function IntroPage() {
 
             {/* 중앙 콘텐츠 */}
             <div className={css(styles.centerContent)}>
-                <p className={css(styles.subtitle)}>가톨릭관동대학교 졸업 요건 확인 사이트</p>
+                <p className={css(styles.subtitle)}>가톨릭관동대학교 졸업 요건 검사 사이트</p>
                 <img src={finishlineLogo} alt="Finish Line Logo" className={css(styles.mainLogo)} />
                 <div className={css(styles.buttonContainer)}>
                     <button
