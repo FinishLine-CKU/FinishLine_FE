@@ -171,8 +171,18 @@ function MyPage() {
     };
 
     const enterSubmitDone = (e) => {
+        const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!#^%*?&])[a-zA-Z\d@$!#^%*?&]{8,20}$/;
         if (e.key === 'Enter') {
-            saveNewPassword();
+            if (password === '') {
+                setError('비밀번호를 입력하세요.');
+            } else { 
+                if (regex.test(password)) {
+                    setError('');
+                    saveNewPassword();
+                } else {
+                    setError('비밀번호 형식이 올바르지 않습니다.');
+                }
+            }
         }
     };
 
@@ -336,7 +346,7 @@ function MyPage() {
                     : passwordStateCheck ?
                         <FeatureModal title="비밀번호 변경" closeAction={closeFeatModal} mainContents={
                             <div className={css(styles.columnLayout)}>
-                                <div className={css(styles.startLayout)}>
+                                <div className={css(styles.startLayout)} onKeyDown={enterSubmitDone}>
                                     <div className={css(styles.pwLabelSpace)}>
                                         <label className={css(styles.infoLable)}>변경할 비밀번호 입력</label>
                                         {error ? <span className={css(styles.errorMessage)}>{error}</span> : null}
@@ -350,7 +360,7 @@ function MyPage() {
                                 </div>
                             </div>} buttonText="저장" buttonAction={saveNewPassword} />
                         : <FeatureModal title="본인 확인" closeAction={closeFeatModal} mainContents={
-                            <div className={css(styles.columnLayout)}>
+                            <div className={css(styles.columnLayout)} onKeyDown={enterSubmit}>
                                 <div className={css(styles.startLayout)}>
                                     <label className={css(styles.infoLable)}>비밀번호 입력</label>
                                     <input className={css(styles.certificationInput)} type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="본인 확인을 위해 비밀번호를 입력하세요."></input>
