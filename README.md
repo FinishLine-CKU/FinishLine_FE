@@ -74,9 +74,10 @@
   
   </summary>
 
-  <div markdown="1">
-    기이수과목 커스텀 설명
-  </div>
+  | 기이수 과목 커스텀 |
+  |:--:|
+  | |
+  
 </details>
 
 <details>
@@ -86,9 +87,10 @@
   
   </summary>
 
-  <div markdown="1">
-    졸업요건 검사 설명
-  </div>
+  | 졸업요건 검사 |
+  |:--:|
+  | |
+  
 </details>
 
 <br>
