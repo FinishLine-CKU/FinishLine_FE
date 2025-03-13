@@ -13,8 +13,8 @@
 
 <div align="center">
 
-  <img src="https://github.com/user-attachments/assets/97c4f148-cb31-4937-8cc6-444b5648f0fd" width="700px">
-  
+  <img src="https://github.com/user-attachments/assets/fea25f4b-da65-4b12-98af-f446ed502c8c" width="700px">
+
   ### 가톨릭관동대 졸업요건 검사 서비스 Finish Line
 
   <p>2018~2022학년도 <strong>(18~22학번)</strong>, 총 <strong>53개 학과/전공 재학생</strong>의 졸업 요건을 반영했습니다.</p>
@@ -87,7 +87,7 @@
   
   </summary>
 
-  | ![졸업요건 검사]() |
+  | ![졸업요건 검사](https://github.com/user-attachments/assets/2fb7c755-aa46-40fa-a22a-aca709dd8902) |
   |:--:|
   | **졸업요건 검사** |
   
