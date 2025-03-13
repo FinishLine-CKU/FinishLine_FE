@@ -37,7 +37,7 @@
 
   | ![학생인증](https://github.com/user-attachments/assets/7bdb13c4-944e-4533-abdf-f0a2790cd305) |
   |:--:|
-  | **재학생 인증** |
+  | **재학생 인증 & 회원가입** |
     
 </details>
 
@@ -48,7 +48,7 @@
   
   </summary>
 
-  |  |
+  | ![마이페이지](https://github.com/user-attachments/assets/3fb20041-68d9-45fa-9b08-ef534f670874) |
   |:--:|
   | **마이페이지** |
   
@@ -96,6 +96,15 @@
 <br>
 
 ## 🫂 기여
+
+<div align="center">
+
+  | **황선규** | **황선빈** | **김중호** |
+  | :------: |  :------: | :------: |
+  | [<img src="https://github.com/user-attachments/assets/0e0da7f2-1b10-4fe8-8e50-088c0d043fb5" width=150> <br/> @gnawH](https://github.com/gnawH) | [<img src="https://github.com/user-attachments/assets/2acd01cd-af8d-4f35-accb-c8abec6ff5cc" width=150> <br/> @ghkdtjsqls](https://github.com/ghkdtjsqls) | [<img src="https://github.com/user-attachments/assets/0e4f81ff-6879-4b89-a54d-855e55212572" height=150 width=150> <br/> @Selene-ovo](https://github.com/Selene-ovo)|
+  | **Full Stack Developer** |  **Full Stack Developer** | **FE Developer** |
+
+</div>
 
 <br>
 
