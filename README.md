@@ -13,7 +13,7 @@
 
 <div align="center">
 
-  <img src="https://github.com/user-attachments/assets/2e0fbb18-39aa-4738-a443-3be4562160ee" width="700px">
+  <img src="https://github.com/user-attachments/assets/97c4f148-cb31-4937-8cc6-444b5648f0fd" width="700px">
   
   ### 가톨릭관동대 졸업요건 검사 서비스 Finish Line
 
@@ -31,13 +31,13 @@
 <details>
   <summary>
     
-  #### [ 학생 인증 ]
+  #### [ 재학생 인증 ]
   
   </summary>
 
-  | 학생 인증 |
+  | ![학생인증](https://github.com/user-attachments/assets/7bdb13c4-944e-4533-abdf-f0a2790cd305) |
   |:--:|
-  | |
+  | **재학생 인증** |
     
 </details>
 
@@ -48,9 +48,9 @@
   
   </summary>
 
-  | 마이페이지 |
+  |  |
   |:--:|
-  | |
+  | **마이페이지** |
   
 </details>
 
@@ -61,9 +61,9 @@
   
   </summary>
 
-  | 기이수 과목 PDF 등록 |
+  | ![기이수 과목 PDF 등록](https://github.com/user-attachments/assets/487c01ec-ce14-4242-8ae4-968bb671faf6) |
   |:--:|
-  | |
+  | **기이수 과목 PDF 등록** |
   
 </details>
 
@@ -74,9 +74,9 @@
   
   </summary>
 
-  | 기이수 과목 커스텀 |
+  | ![기이수 과목 커스텀](https://github.com/user-attachments/assets/a29d2d5c-818d-47f4-af0d-0c981b9e5890) |
   |:--:|
-  | |
+  | **기이수 과목 커스텀** |
   
 </details>
 
@@ -87,9 +87,9 @@
   
   </summary>
 
-  | 졸업요건 검사 |
+  | ![졸업요건 검사]() |
   |:--:|
-  | |
+  | **졸업요건 검사** |
   
 </details>
 
