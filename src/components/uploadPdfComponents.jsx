@@ -132,7 +132,7 @@ function UploadPdfComponents() {
                         <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
                     </div>
                     <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 인쇄 &gt; PDF로 저장
-                    </b><b className={css(styles.custom_b_text)}>계절학기 포함 모든 학기 PDF를 첨부해주세요.</b>
+                    </b><b className={css(styles.custom_b_text)}>모든 정규 학기 PDF를 첨부해주세요.</b>
                 </div>
             </div>
         </div>
