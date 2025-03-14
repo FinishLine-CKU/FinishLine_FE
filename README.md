@@ -173,16 +173,16 @@
 ![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 
 ### Library
-- aphrodite : 2.4.0
-- react-icons : 5.4.0
-- axios: 1.7.9
-- react-chartjs-2: 5.3.0
-- selenium : 4.27.1
-- bs4 : 4.12.3
-- pdfplumber: 0.11.5
-- pandas: 2.2.3
-- openpyxl: 3.1.5
-- django-crontab: 0.7.1
+- `aphrodite` : 2.4.0
+- `react-icons` : 5.4.0
+- `axios`: 1.7.9
+- `react-chartjs-2`: 5.3.0
+- `selenium` : 4.27.1
+- `bs4` : 4.12.3
+- `pdfplumber`: 0.11.5
+- `pandas`: 2.2.3
+- `openpyxl`: 3.1.5
+- `django-crontab`: 0.7.1
 
 <br>
 
