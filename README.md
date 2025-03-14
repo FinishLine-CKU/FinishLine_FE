@@ -110,6 +110,14 @@
 
 ## 🏆 성과
 
+**2024 MIRACLE 창업동아리 경진대회 🥇최우수상(1등)**
+
+https://www.enewstoday.co.kr/news/articleView.html?idxno=2199031
+
+https://www.veritas-a.com/news/articleView.html?idxno=529034
+
+
+
 <br>
 
 ## 📚 기술 스택
