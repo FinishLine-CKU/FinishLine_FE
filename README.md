@@ -123,7 +123,7 @@
 
   | **황선규** | **황선빈** | **김중호** |
   | :------: |  :------: | :------: |
-  | [<img src="https://github.com/user-attachments/assets/0e0da7f2-1b10-4fe8-8e50-088c0d043fb5" width=150> <br/> @gnawH](https://github.com/gnawH) | [<img src="https://github.com/user-attachments/assets/2acd01cd-af8d-4f35-accb-c8abec6ff5cc" width=150> <br/> @ghkdtjsqls](https://github.com/ghkdtjsqls) | [<img src="https://github.com/user-attachments/assets/0e4f81ff-6879-4b89-a54d-855e55212572" height=150 width=150> <br/> @Selene-ovo](https://github.com/Selene-ovo)|
+  | [<img src="https://github.com/user-attachments/assets/0e0da7f2-1b10-4fe8-8e50-088c0d043fb5" width=150> <br/> @gnawH](https://github.com/gnawH) | [<img src="https://github.com/user-attachments/assets/2acd01cd-af8d-4f35-accb-c8abec6ff5cc" width=150> <br/> @ghkdtjsqls](https://github.com/ghkdtjsqls) | [<img src="https://github.com/user-attachments/assets/b990e61b-f03a-49d3-8860-939af5369ec9" height=150 width=150> <br/> @Selene-ovo](https://github.com/Selene-ovo)|
   | **Full Stack Developer** |  **Full Stack Developer** | **FE Developer** |
 
 </div>
