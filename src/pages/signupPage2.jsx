@@ -9,7 +9,7 @@ import Footer from '../components/footer';
 import Modal from '../components/modal';
 import Symbol from '../assets/images/symbol.png';
 
-//기존 코드
+// 기존 코드
 export const MAJOR = [
     { value: '030501*', label: '의예과' },
     { value: '030502*', label: '간호학과' },
@@ -104,7 +104,7 @@ export const MAJOR = [
     { value: '03300122', label: '트리니티융합-호텔관광경영학' }, 
     { value: '03300123', label: '트리니티융합-스포츠재활의학' }, 
 ];
-//학생신상기록카드 대비 코드
+// 학생신상기록카드 대비 코드
 export const MAJOR_ALL = [
     { value: '030503*', label: '의예과' }, //의예와 통일
     { value: '030502*', label: '간호학과' },
@@ -212,7 +212,7 @@ export const MAJOR_ALL = [
     { value: '03300116', label: '트리니티융합-스마트항만공학' },  
     { value: '033020', label: '자율전공학부' }, 
 ];
-//최신학과 기준 코드
+// 최신학과 기준 코드
 export const MAJOR_NEW = [
     { value: '030503*', label: '의예과' }, //의예와 통일
     { value: '030502*', label: '간호학과' },
@@ -320,6 +320,7 @@ function SignupPage2() {
     const location = useLocation();
     const { student_id, name, major } = location.state;
 
+    // 추가 전공 선택 (MAJOR)
     const checkMajor = (e) => {
         const input = e.target.value
         if (input === MAJOR.find(item => item.label === major).value) {
@@ -368,11 +369,12 @@ function SignupPage2() {
             return true
         };
     };
+    // 전공명 코드 찾기 (MAJOR_ALL)
     const registerInfo = async () => {
         try {
             const response = await axios.post('http://127.0.0.1:8000/user/register_info/', {
                 name: name,
-                major: MAJOR.find(item => item.label === major).value,
+                major: MAJOR_ALL.find(item => item.label === major).value,
                 student_id: student_id,
                 additionalMajorType: additionalMajorType,
                 additionalMajor: additionalMajor,
