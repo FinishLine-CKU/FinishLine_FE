@@ -77,6 +77,7 @@ function DoneLecturePage() {
 
     //과목찾기 -> 내 기이수 과목 DB에 추가하기 함수
     const handleSaveAllSubjects = async () => {
+        const userId = localStorage.getItem('idToken');
         try {
             const newSubjects = myLectureList.filter(subject => subject.subjectNew);
 
@@ -95,6 +96,7 @@ function DoneLecturePage() {
                 lecture_name: subject.lecture_name,
                 credit: subject.credit,
                 grade: subject.grade,
+                user_id: userId,
             }));
 
             const response = await fetch("http://127.0.0.1:8000/graduation/api/mydonelecture/", {
