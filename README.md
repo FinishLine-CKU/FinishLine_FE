@@ -3,6 +3,10 @@
 
 <div align="center">
 
+  <a href="https://finishline-cku.com">
+    <img src="https://github.com/user-attachments/assets/c4fef475-027b-4027-92b7-c17050f19469" /> 
+  </a>
+  
   ### <a href="https://finishline-cku.com" target="_blank">Finish Line 바로가기</a>
 
 </div>
