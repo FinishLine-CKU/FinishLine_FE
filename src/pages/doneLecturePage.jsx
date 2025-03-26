@@ -51,14 +51,7 @@ function DoneLecturePage() {
 
             // 과목 찾기로 현재 과목 데이터가 없다면 전체 과목 데이터를 살펴본 후 예외처리 결정정
             if (!response.data || response.data.length === 0) {
-                const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter-by-code/${lectureCode}/`);
-
-                if (!allResponse.data || allResponse.data.length === 0) {
-                    alert('과목코드를 다시 확인해 주세요');
-                } else {
-                    alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
-                }
-                
+                alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
             } else {
                 setLectureData(response.data);
             }
