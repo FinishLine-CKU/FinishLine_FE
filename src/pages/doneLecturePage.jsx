@@ -49,9 +49,16 @@ function DoneLecturePage() {
         try {
             const response = await axios.get(`http://127.0.0.1:8000/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
 
-            // 과목 찾기는 현재 과목만 찾을 수 있기에 응답이 없다면 현재 과목 코드를 입력한 것이 아닌 것
+            // 과목 찾기로 현재 과목 데이터가 없다면 전체 과목 데이터를 살펴본 후 예외처리 결정정
             if (!response.data || response.data.length === 0) {
-                alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
+                const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter-by-code/${lectureCode}/`);
+
+                if (!allResponse.data || allResponse.data.length === 0) {
+                    alert('과목코드를 다시 확인해 주세요');
+                } else {
+                    alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
+                }
+                
             } else {
                 setLectureData(response.data);
             }
@@ -77,6 +84,7 @@ function DoneLecturePage() {
 
     //과목찾기 -> 내 기이수 과목 DB에 추가하기 함수
     const handleSaveAllSubjects = async () => {
+        const userId = localStorage.getItem('idToken');
         try {
             const newSubjects = myLectureList.filter(subject => subject.subjectNew);
 
@@ -95,6 +103,7 @@ function DoneLecturePage() {
                 lecture_name: subject.lecture_name,
                 credit: subject.credit,
                 grade: subject.grade,
+                user_id: userId,
             }));
 
             const response = await fetch("http://127.0.0.1:8000/graduation/api/mydonelecture/", {
@@ -157,7 +166,7 @@ function DoneLecturePage() {
                             id="lectureCode"
                             name="Code"
                             value={lectureCode}
-                            onChange={(e) => setLectureCode(e.target.value)}
+                            onChange={(e) => setLectureCode(e.target.value.trim())}
                             placeholder="과목 코드를 입력하세요"
                             className={css(styles.inputContainer)} />
                         <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>검색</button>
