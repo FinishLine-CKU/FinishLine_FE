@@ -92,8 +92,16 @@ function UploadPdfComponents() {
                 <div className={css(styles.donelistcontainer)}>
                     <div className={css(styles.titleContainer)}>
                         <span className={css(styles.title)}>기이수과목 등록</span>
+                        <span className={css(styles.pcEnvWarn)}>* 원활한 등록을 위해 PC환경을 권장합니다.</span>
                     </div>
                     <hr className={css(styles.custom_hr)} />
+                    {localStorage.getItem('uploadPDF') ? null :
+                    <div className={css(styles.uploadGuide)}>
+                        <span className={css(styles.guideMessage)}>1. <strong><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.linkInformationSystem)} target="_blank" >종합정보시스템 (바로가기)</a></strong> 접속 후 로그인 (PC환경)</span>
+                        <span className={css(styles.guideMessage)}>2. 좌측 메뉴에서 학적관리 / <strong>학기별 성적조회 및 출력</strong> 선택</span>
+                        <span className={css(styles.guideMessage)}>3. <strong>모든 이수년도, 학기</strong> 선택 및 검색</span>
+                        <span className={css(styles.guideMessage)}>4. <strong>인쇄</strong> 및 <strong>PDF로 저장</strong></span>
+                    </div>}
                     <div className={css(styles.itemRowcontainer)}>
                         <div className={css(styles.itemTextcontainer)}>
                             <p className={css(styles.custom_text)}>파일 선택</p>
@@ -131,8 +139,6 @@ function UploadPdfComponents() {
                         </div>
                         <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
                     </div>
-                    <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 인쇄 &gt; PDF로 저장
-                    </b><b className={css(styles.custom_b_text)}>모든 정규 학기 PDF를 첨부해주세요.</b>
                 </div>
             </div>
         </div>
@@ -159,15 +165,43 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'left',
     },
+    pcEnvWarn: {
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        color: '#FF4921'
+    },
     titleContainer: {
         width: '520px',
         paddingBottom: '5px',
         fontFamily: 'Lato',
         fontSize: '23px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     custom_hr: {
         width: '100%',
         border: '1px solid #E4E4E4',
+    },
+    uploadGuide: {
+        width: '95%',
+        padding: '30px 0 30px 0',
+        display: 'flex',
+        alignItems: 'flex-start',
+        flexDirection: 'column',
+        gap: '18px'
+    },
+    linkInformationSystem: {
+        color: '#006277',
+        textDecoration: 'none',
+        ':hover': {
+            textDecoration: 'underline',
+        }
+    },
+    guideMessage: {
+        fontFamily: 'Lato',
+        fontSize: '18px',
+        fontWeight: '500'
     },
     itemRowcontainer: {
         paddingTop: '30px',
