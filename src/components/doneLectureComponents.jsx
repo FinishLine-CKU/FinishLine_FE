@@ -71,13 +71,13 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
         sortedSubjects.filter(subject => 
             subject.year === sortedSubjects[0].year && 
             subject.semester === sortedSubjects[0].semester
-        ).length : 0;
+        ).length + 5 : 0;
     
     const lastSemesterCount = sortedSubjects.length > 0 ? 
         sortedSubjects.filter(subject => 
             subject.year === sortedSubjects[addSubject].year && 
             subject.semester === sortedSubjects[addSubject].semester
-        ).length : 0;
+        ).length + 5 : 0;
 
     return (
         <div className={css(tableType === 'resize' ? styles.resizeContainer : styles.resizeContainer)}>
@@ -103,30 +103,30 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
                     {sortedSubjects && sortedSubjects.length > 0 &&
                         sortedSubjects.slice(0, addSubject === 0 ? firstSemesterCount : lastSemesterCount).map((subject) => (
                             <tr key={subject.lecture_code} className={css(subject.semester === '1' ? styles.rowColor1 : styles.rowColor2)}>
-                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
+                                <td className={css(styles.yearCell, (subject.subjectNew || subject.can_delete) ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.year}
                                 </td>
-                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
+                                <td className={css(styles.yearCell, (subject.subjectNew || subject.can_delete) ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.semester}
                                 </td>
-                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
+                                <td className={css(styles.yearCell, (subject.subjectNew || subject.can_delete) ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.lecture_code}
                                 </td>
-                                <td className={css(styles.subjectCell, subject.subjectNew ? styles.resizeSubjectAddCell : tableType === 'resize' ? styles.resizeSubjectCell : styles.subjectCell)} title={subject.lecture_name}>
+                                <td className={css(styles.subjectCell, (subject.subjectNew || subject.can_delete) ? styles.resizeSubjectAddCell : tableType === 'resize' ? styles.resizeSubjectCell : styles.subjectCell)} title={subject.lecture_name}>
                                     {subject.lecture_name}
                                 </td>
-                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
+                                <td className={css(styles.yearCell, (subject.subjectNew || subject.can_delete) ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.lecture_type}
                                 </td>
-                                <td className={css(styles.topicAddCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.topicAddCell : styles.topicAddCell)} title={subject.lecture_topic}>
+                                <td className={css(styles.topicAddCell, (subject.subjectNew || subject.can_delete) ? styles.resizeAddYearCell : tableType === 'resize' ? styles.topicAddCell : styles.topicAddCell)} title={subject.lecture_topic}>
                                     {subject.lecture_topic}
                                 </td>
-                                <td className={css(styles.yearCell, subject.subjectNew ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
+                                <td className={css(styles.yearCell, (subject.subjectNew || subject.can_delete) ? styles.resizeAddYearCell : tableType === 'resize' ? styles.resizeYearCell : styles.resizeYearCell)}>
                                     {subject.credit}
                                 </td>
                                 {tableType === 'resize' ? null :
                                     <td className={css(styles.lastCell)}>
-                                        {subject.subjectNew && <button className={css(styles.itemDeleteButton)} onClick={() => onDelete(subject.lecture_code)}>삭제</button>}
+                                        {(subject.subjectNew || subject.can_delete) && <button className={css(styles.itemDeleteButton)} onClick={() => onDelete(subject.lecture_code)}>제거</button>}
                                     </td>
                                 }
                             </tr>
@@ -143,8 +143,10 @@ export function DoneSubComponents({ subjects, onDelete, tableType = 'default' })
                             <td className={css(tableType === 'resize' ? styles.topicAddCellToo : styles.topicAddCellToo)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
                             <td className={css(tableType === 'resize' ? styles.resizeYearCell : styles.yearCell)}>{subject.credit}</td>
                             {tableType === 'resize' ? null :
-                                <td className={css(styles.lastCell)}></td>
-                            }
+                                    <td className={css(styles.lastCell)}>
+                                        {(subject.subjectNew || subject.can_delete) && <button className={css(styles.itemDeleteButton)} onClick={() => onDelete(subject.lecture_code)}>제거</button>}
+                                    </td>
+                                }
                         </tr>
                     ))}
                 </tbody>
@@ -434,10 +436,10 @@ const styles = StyleSheet.create({
         },
     },
     itemDeleteButton: {
-        border: '1px solid black',
+        border: '1px solid #3D5286',
         borderRadius: '4px',
         backgroundColor: 'transparent',
-        color: 'black',
+        color: '#3D5286',
         width: '40px',
         height: '20px',
         fontFamily: 'Lato',
