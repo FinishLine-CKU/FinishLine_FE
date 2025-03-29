@@ -3,6 +3,8 @@ import { useState, useCallback } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
 import LoadingComponents from "./loadingComponents"
+import pdfIcon from '../assets/images/pdfIcon.svg';
+import { array } from 'prop-types';
 
 function UploadPdfComponents() {
     const [fileNames, setFileNames] = useState([]);
@@ -10,26 +12,30 @@ function UploadPdfComponents() {
     const navigate = useNavigate();
     const location = useLocation();
     const [loading, setLoading] = useState();
+    const [isDrag, setIsDrag] = useState();
 
     //파일 업로드를 하면 SelectedFiles에 상태 저장
     const fileInputHandler = useCallback((event) => {
         const files = event.target && event.target.files;
         if (files) {
             const newFilesArray = Array.from(files)
-                .slice(0, 25 - fileNames.length);
+                .slice(0, 15 - fileNames.length);
 
             setSelectedFiles(prevSelectedFiles => [
                 ...prevSelectedFiles,
                 ...newFilesArray
             ]);
 
-            const newFileNamesArray = newFilesArray.map(file => file.name);
+            const newFileNamesArray = newFilesArray.map(file => ({
+                name: file.name,
+                size: Math.round(file.size / 1024)}));
             setFileNames(prevFileNames => [...prevFileNames, ...newFileNamesArray]);
         }
     }, [fileNames]);
 
     //파일 삭제 함수
-    const handleDeleteFile = (index) => {
+    const handleDeleteFile = (index, e) => {
+        e.preventDefault();
         setFileNames((prevFileNames) => prevFileNames.filter((_, i) => i !== index));
     };
 
@@ -85,6 +91,30 @@ function UploadPdfComponents() {
         }
     };
 
+    const fileDragEnter = () => {
+        setIsDrag(true);
+    };
+
+    const fileDragOver = (e) => {
+        e.preventDefault();
+        setIsDrag(true);
+    };
+
+    const fileDragEnd = () => {
+        setIsDrag(false);
+    };
+
+    const fileDrop = (e) => {
+        setIsDrag(false);
+        e.preventDefault();
+        const dragFiles = {
+            target : {
+                files: e.dataTransfer.files
+            }
+        };
+        fileInputHandler(dragFiles);
+    };
+
     return (
         <div>
             {loading && <LoadingComponents />}
@@ -103,41 +133,56 @@ function UploadPdfComponents() {
                         <span className={css(styles.guideMessage)}>4. <strong>인쇄</strong> 및 <strong>PDF로 저장</strong></span>
                     </div>}
                     <div className={css(styles.itemRowcontainer)}>
-                        <div className={css(styles.itemTextcontainer)}>
-                            <p className={css(styles.custom_text)}>파일 선택</p>
-                        </div>
                         <div className={css(styles.containerSecond)}>
-                            <div className={css(styles.itemboxcontainer)}>
+                            <label className={css(isDrag ? styles.itemboxcontainerActive : styles.itemboxcontainer)}
+                                onDragEnter={fileDragEnter}
+                                onDragOver={fileDragOver}
+                                onDragLeave={fileDragEnd}
+                                onDrop={fileDrop}>
                                 <input
                                     type="file"
-                                    style={{ display: "none" }}
                                     id="uploadpdf"
+                                    style={{ display: 'none'}}
                                     accept=".pdf"
                                     multiple
                                     onChange={fileInputHandler}
+                                    htmlFor="uploadpdf"
                                 />
-                                {fileNames.length === 0 ? (
-                                    <p className={css(styles.custom_text_box)}>
-                                        파일을 선택해주세요. (최대 25장)
-                                    </p>
-                                ) : (
-                                    fileNames.map((fileName, index) => (
-                                        <div key={index} className={css(styles.fileNameButtonContainer)}>
-                                            <span>{fileName}</span>
-                                            <button
-                                                onClick={() => handleDeleteFile(index)}
-                                                className={css(styles.itemdeleteButton)}
-                                                type="button"
-                                            >×</button>
+                                {fileNames.length === 0 ?
+                                <label htmlFor="uploadpdf"
+                                    className={css(isDrag ? styles.itemUploadButtonActive : styles.itemUploadButton)}>
+                                    <img src={pdfIcon}></img>
+                                    이곳을 클릭하거나 파일을 드래그 하여 첨부하세요.
+                                    <div className={css(styles.pdfUploadButton)}>PDF 가져오기</div>
+                                </label> : 
+                                <label htmlFor="uploadpdf" className={css(isDrag ? styles.fileControlContainerActive : styles.fileControlContainer)}>
+                                    <span className={css(styles.fileSelectText)}>파일 선택</span>
+                                    <div className={css(styles.fileControlButtons)}>
+                                        <div htmlFor="uploadpdf" className={css(styles.pdfUploadButton)}>PDF 가져오기</div>
+                                        <button className={css(styles.savePDFButton)} onClick={handleUpload}>등록하기</button>
+                                    </div>
+                                </label>}
+                                {fileNames.length === 0 ? null :
+                                <div className={css(isDrag ? styles.filesContinerActive : styles.filesContiner)}>
+                                {fileNames.map((file, index) => (
+                                <div className={css(styles.filesGap)}>
+                                    <label key={index} className={css(styles.fileNameButtonContainer)}>
+                                        <div className={css(styles.fileInfo)}>
+                                            <img src={pdfIcon} className={css(styles.pdfIcons)}></img>
+                                            <span className={css(styles.fileName)}>{file.name}</span>
+                                            <span className={css(styles.fileSize)}>{file.size}KB</span>
                                         </div>
-                                    ))
-                                )}
-                            </div>
-                            <div className={css(styles.itemboxcontainerScrollableSecond)}>
-                                <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>파일 업로드</label>
-                            </div>
+                                        <button
+                                            onClick={(e) => handleDeleteFile(index, e)}
+                                            className={css(styles.itemdeleteButton)}
+                                            type="button"
+                                        >×</button>
+                                    </label>
+                                </div>
+                                ))}
+                                </div>}
+                            </label>
                         </div>
-                        <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
                     </div>
                 </div>
             </div>
@@ -204,10 +249,12 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
     itemRowcontainer: {
-        paddingTop: '30px',
+        paddingTop: '20px',
+        width: '100%',
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'center',
+        gap: '35px'
     },
     itemRegistButton: {
         border: '1px solid black',
@@ -223,31 +270,100 @@ const styles = StyleSheet.create({
         fontWeight: '600'
     },
     itemUploadButton: {
-        marginRight: '5px',
-        width: '53px',
-        height: '16px',
-        backgroundColor: 'rgba(90, 87, 87, 0.81)',
-        border: '1px solid #CACACA',
-        borderRadius: '5px',
-        fontSize: '9px',
+        width: '100%',
+        height: '100%',
+        fontSize: '13px',
         fontWeight: '600',
         display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#FFFEFB',
+        color: '#3D5286',
         marginLeft: 'auto',
-        padding: '3px',
+        padding: '30px 0',
         cursor: 'pointer',
         ':hover': {
-            backgroundColor: 'rgba(90, 87, 87, 0.50)',
+            backgroundColor: '#F6F6F6',
         }
     },
-    custom_text: {
+    itemUploadButtonActive: {
+        width: '100%',
+        height: '100%',
+        fontSize: '13px',
+        fontWeight: '600',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#3D5286',
+        marginLeft: 'auto',
+        padding: '30px 0',
+        cursor: 'pointer',
+        backgroundColor: '#F6F6F6'
+    },
+    fileControlButtons: {
+        display: 'flex',
+        gap: '14px'
+    },
+    pdfUploadButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '110px',
+        height: '30px',
+        borderRadius: '5px',
+        backgroundColor: '#3D5286',
+        border: '1px solid #3D5286',
+        color: '#FFFEFB',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '700',
+        ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            border: '1px solid rgba(61, 82, 134, 0.8)',
+            opacity: '0.8',
+        }
+    },
+    savePDFButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100px',
+        height: '30px',
+        borderRadius: '5px',
+        backgroundColor: '#FFFEFB',
+        border: '1px solid #3D5286',
+        color: '#3D5286',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '800',
+        ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            border: '1px solid rgba(61, 82, 134, 0.8)',
+            opacity: '0.7',
+        }
+    },
+    fileControlContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '25px 30px'
+    },
+    fileControlContainerActive: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '25px 30px',
+        backgroundColor: '#F6F6F6'
+    },
+    fileSelectText: {
         fontFamily: 'Lato',
         fontSize: '18px',
-        fontWeight: '600',
-        whiteSpace: 'nowrap',
-        marginRight: '5px',
+        fontWeight: '700'
     },
     custom_text_box: {
         fontFamily: 'Lato',
@@ -269,56 +385,92 @@ const styles = StyleSheet.create({
     itemboxcontainer: {
         display: 'flex',
         flexDirection: 'column',
-        position: 'relative',
-        width: '300px',
-        minHeight: 'auto',
-        maxHeight: '100px',
+        width: '100%',
         height: 'auto',
-        border: '1px solid #CCC',
-        borderRight: 'none',
-        backgroundColor: '#F6F6F6',
-        borderRadius: '5px 0 0 5px',
-        padding: '4px',
+        border: '1px dashed #CCC',
+        backgroundColor: 'transparent',
+        borderRadius: '20px',
         overflowY: 'auto',
         overflowX: 'hidden',
-        scrollbarWidth: 'thin',
-        scrollbarColor: '#888 #F6F6F6',
-        '&::-webkit-scrollbar': {
-            width: '6px'
-        },
-        '&::-webkit-scrollbar-track': {
-            background: '#F6F6F6'
-        },
-        '&::-webkit-scrollbar-thumb': {
-            background: '#888',
-            borderRadius: '3px'
+        transition: 'border-color 0.3s ease-in-out',
+        ':hover': {
+            borderColor: '#3D5286',
         }
     },
-    itemboxcontainerScrollableSecond: {
+    itemboxcontainerActive: {
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '70px',
+        flexDirection: 'column',
+        width: '100%',
         height: 'auto',
-        border: '1px solid #CCC',
-        backgroundColor: '#F6F6F6',
-        borderRadius: '0 5px 5px 0',
-        minHeight: 'auto',
-        maxHeight: '100px',
-        borderLeft: 'none',
+        border: '1px dashed #3D5286',   // 드레그 효과 적용
+        transition: 'border-color 0.3s ease-in-out',
+        backgroundColor: 'transparent',
+        borderRadius: '20px',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+    },
+    filesContiner: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '0 30px 25px 30px',
+        ':hover': {
+            cursor: 'pointer'
+        },
+    },
+    filesContinerActive: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '0 30px 25px 30px',
+        ':hover': {
+            cursor: 'pointer'
+        },
+        backgroundColor: '#F6F6F6'
+    },
+    filesGap: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '5px 0',
+        ':hover': {
+            cursor: 'pointer'
+        },
     },
     fileNameButtonContainer: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '90%',
         padding: '4px',
         paddingLeft: '15px',
-        marginBottom: '2px',
         backgroundColor: '#FFFEFB',
-        borderRadius: '3px',
+        borderRadius: '5px',
         border: '1px solid #CACACA',
         fontSize: '14px',
+        transition: 'background-color 0.3s ease-in',
+        ':hover': {
+            backgroundColor: 'rgba(189, 185, 185, 0.25)',
+        }
+    },
+    fileInfo: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '5px'
+    },
+    pdfIcons: {
+        width: '29px',
+    },
+    fileName: {
+        color: '#3D5286',
+        fontFamily: 'Lato',
+        fontSize: '14px',
+        fontWeight: '700'
+    },
+    fileSize: {
+        paddingTop: '2px',
+        paddingLeft: '5px',
+        opacity: '0.6',
+        color: '#3D5286',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '600'
     },
     itemfileNameButton: {
         flex: 1,
@@ -341,28 +493,21 @@ const styles = StyleSheet.create({
     itemdeleteButton: {
         background: 'none',
         border: 'none',
-        color: '#FF4444',
+        color: '#3D5286',
         cursor: 'pointer',
         fontFamily: 'Lato',
-        fontSize: '16px',
-        padding: '0 10px',
+        fontSize: '20px',
+        fontWeight: '800',
+        padding: '2px 15px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        ':hover': {
-            color: '#FF0000',
-        }
     },
     containerSecond: {
         display: 'flex',
-        alignItems: 'stretch',
+        width: '100%',
         height: 'auto',
-        minHeight: 'auto',
-        maxHeight: '100px',
-        backgroundColor: '#FFFEFB'
-    },
-    itemTextcontainer: {
-        width: '80px',
+        backgroundColor: 'transparent',
     },
     modalbigcontainer: {
         display: 'flex',
