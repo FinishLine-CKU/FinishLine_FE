@@ -1,20 +1,19 @@
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
-import LoadingComponents from "./loadingComponents"
 import pdfIcon from '../assets/images/pdfIcon.svg';
-import { array } from 'prop-types';
+import LoadingComponents from "./loadingComponents"
 
 function UploadPdfComponents() {
     const [fileNames, setFileNames] = useState([]);
-    const [selectedFiles, setSelectedFiles] = useState([]);
-    const navigate = useNavigate();
-    const location = useLocation();
+    const [selectedFiles, setSelectedFiles] = useState([]); // PDF Files state
     const [loading, setLoading] = useState();
     const [isDrag, setIsDrag] = useState();
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    //파일 업로드를 하면 SelectedFiles에 상태 저장
+    // 선택한 PDF Files 처리
     const fileInputHandler = useCallback((event) => {
         const files = event.target && event.target.files;
         if (files) {
@@ -28,37 +27,35 @@ function UploadPdfComponents() {
 
             const newFileNamesArray = newFilesArray.map(file => ({
                 name: file.name,
-                size: Math.round(file.size / 1024)}));
+                size: Math.round(file.size / 1024)}));  // KB 환산
             setFileNames(prevFileNames => [...prevFileNames, ...newFileNamesArray]);
         }
     }, [fileNames]);
 
-    //파일 삭제 함수
+    // PDF Files 삭제
     const handleDeleteFile = (index, e) => {
-        e.preventDefault();
+        e.preventDefault(); // File 삭제 시 파일 선택 창 클릭 오류 방지
         setFileNames((prevFileNames) => prevFileNames.filter((_, i) => i !== index));
     };
 
-    //파일 업로드 함수
+    // 선택 Files 업로드
     const handleUpload = async () => {
         if (selectedFiles.length === 0) {
             alert('파일을 선택해주세요.');
             return;
         }
 
-        //파일 업로드 및 학번 전달을 위해 FormData 사용
+        // 파일 업로드 및 학번 전달을 위해 FormData 사용
         const formData = new FormData();
         selectedFiles.forEach((file) => {
-            formData.append('files', file);
-            formData.append('user_id', localStorage.getItem('idToken'));
+            formData.append('files', file); // Selected Files
+            formData.append('user_id', localStorage.getItem('idToken'));    // 학번
         });
 
         try {
             setLoading(true);
             console.log(formData)
             const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData);
-
-            const data = response.data.data;
             const duplicateFiles = response.data.duplicate_files;
 
             if (duplicateFiles.length > 0) {
@@ -256,19 +253,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: '35px'
     },
-    itemRegistButton: {
-        border: '1px solid black',
-        borderRadius: '5px',
-        backgroundColor: 'transparent',
-        color: 'black',
-        width: '70px',
-        height: '25px',
-        fontSize: '12px',
-        marginLeft: '1%',
-        cursor: 'pointer',
-        fontFamily: 'Lato',
-        fontWeight: '600'
-    },
     itemUploadButton: {
         width: '100%',
         height: '100%',
@@ -365,23 +349,6 @@ const styles = StyleSheet.create({
         fontSize: '18px',
         fontWeight: '700'
     },
-    custom_text_box: {
-        fontFamily: 'Lato',
-        fontSize: '13px',
-        color: '#CACACA',
-    },
-    custom_b_text: {
-        marginTop: '10px',
-        fontFamily: 'Lato',
-        fontSize: '11px',
-        color: '#006277',
-        textAlign: 'center',
-    },
-    filenameContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        marginLeft: '10px',
-    },
     itemboxcontainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -402,7 +369,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         width: '100%',
         height: 'auto',
-        border: '1px dashed #3D5286',   // 드레그 효과 적용
+        border: '1px dashed #3D5286',   // DragOver 효과 적용
         transition: 'border-color 0.3s ease-in-out',
         backgroundColor: 'transparent',
         borderRadius: '20px',
@@ -472,24 +439,6 @@ const styles = StyleSheet.create({
         fontSize: '12px',
         fontWeight: '600'
     },
-    itemfileNameButton: {
-        flex: 1,
-        minHeight: '20px',
-        height: 'auto',
-        padding: '0 8px',
-        border: '1px solid #CACACA',
-        borderRadius: '6px',
-        fontFamily: 'Lato',
-        fontSize: '13px',
-        color: 'black',
-        backgroundColor: '#FFFEFB',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: '8px',
-        wordBreak: 'break-all',
-        cursor: 'pointer',
-    },
     itemdeleteButton: {
         background: 'none',
         border: 'none',
@@ -508,95 +457,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 'auto',
         backgroundColor: 'transparent',
-    },
-    modalbigcontainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        zIndex: '999',
-    },
-    modalContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: '420px',
-        padding: '50px 70px 50px 70px',
-        backgroundColor: '#FFFEFB',
-        boxShadow: '0 0 20px rgba(0, 0, 0, 0.25)',
-        border: '1px solid #7A828A',
-        borderRadius: '6px',
-        zIndex: '1000',
-        marginBottom: '30px',
-    },
-    closeButtonContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '30px',
-    },
-    close: {
-        border: 'none',
-        backgroundColor: 'transparent',
-        padding: '0px',
-        marginRight: '-20px',
-    },
-    closeIcon: {
-        width: '30px',
-        height: '30px',
-        ':hover': {
-            cursor: 'pointer'
-        }
-    },
-    mainContents: {
-        display: 'flex',
-        justifyContent: 'center',
-        color: '#006277',
-    },
-    ActionButtonContainer: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        paddingRight: '10px'
-    },
-    actionButton: {
-        width: '83px',
-        height: '40px',
-        borderRadius: '10px',
-        backgroundColor: '#2B2A28',
-        border: '1px solid #2B2A28',
-        color: '#fff',
-        fontFamily: 'Lato',
-        fontSize: '16px',
-        fontWeight: '700',
-        marginRight: '-20px',
-        ':hover:not(:disabled)': {
-            cursor: 'pointer'
-        },
-        ':active:not(:disabled)': {
-            backgroundColor: '#595650',
-            borderColor: '#595650'
-        },
-        ':disabled': {
-            color: '#FFFEFB',
-            backgroundColor: '#CACACA',
-            borderColor: '#CACACA'
-        },
-    },
-    icons: {
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '20px',
-        width: '100%'
-    },
-    loadingGIF: {
-        position: 'absolute',
-        zIndex: '1001',
-        width: '177px',
-        marginTop: '40px',
-        marginLeft: '90px'
     },
 });
 
