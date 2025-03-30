@@ -1,59 +1,61 @@
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import axios from 'axios';
+import pdfIcon from '../assets/images/pdfIcon.svg';
 import LoadingComponents from "./loadingComponents"
 
 function UploadPdfComponents() {
     const [fileNames, setFileNames] = useState([]);
-    const [selectedFiles, setSelectedFiles] = useState([]);
-    const navigate = useNavigate();
-    const location = useLocation();
+    const [selectedFiles, setSelectedFiles] = useState([]); // PDF Files state
     const [loading, setLoading] = useState();
+    const [isDrag, setIsDrag] = useState();
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    //파일 업로드를 하면 SelectedFiles에 상태 저장
+    // 선택한 PDF Files 처리
     const fileInputHandler = useCallback((event) => {
         const files = event.target && event.target.files;
         if (files) {
             const newFilesArray = Array.from(files)
-                .slice(0, 25 - fileNames.length);
+                .slice(0, 15 - fileNames.length);
 
             setSelectedFiles(prevSelectedFiles => [
                 ...prevSelectedFiles,
                 ...newFilesArray
             ]);
 
-            const newFileNamesArray = newFilesArray.map(file => file.name);
+            const newFileNamesArray = newFilesArray.map(file => ({
+                name: file.name,
+                size: Math.round(file.size / 1024)}));  // KB 환산
             setFileNames(prevFileNames => [...prevFileNames, ...newFileNamesArray]);
         }
     }, [fileNames]);
 
-    //파일 삭제 함수
-    const handleDeleteFile = (index) => {
+    // PDF Files 삭제
+    const handleDeleteFile = (index, e) => {
+        e.preventDefault(); // File 삭제 시 파일 선택 창 클릭 오류 방지
         setFileNames((prevFileNames) => prevFileNames.filter((_, i) => i !== index));
     };
 
-    //파일 업로드 함수
+    // 선택 Files 업로드
     const handleUpload = async () => {
         if (selectedFiles.length === 0) {
             alert('파일을 선택해주세요.');
             return;
         }
 
-        //파일 업로드 및 학번 전달을 위해 FormData 사용
+        // 파일 업로드 및 학번 전달을 위해 FormData 사용
         const formData = new FormData();
         selectedFiles.forEach((file) => {
-            formData.append('files', file);
-            formData.append('user_id', localStorage.getItem('idToken'));
+            formData.append('files', file); // Selected Files
+            formData.append('user_id', localStorage.getItem('idToken'));    // 학번
         });
 
         try {
             setLoading(true);
             console.log(formData)
             const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData);
-
-            const data = response.data.data;
-            console.log(data)
             const duplicateFiles = response.data.duplicate_files;
 
             if (duplicateFiles.length > 0) {
@@ -86,6 +88,30 @@ function UploadPdfComponents() {
         }
     };
 
+    const fileDragEnter = () => {
+        setIsDrag(true);
+    };
+
+    const fileDragOver = (e) => {
+        e.preventDefault();
+        setIsDrag(true);
+    };
+
+    const fileDragEnd = () => {
+        setIsDrag(false);
+    };
+
+    const fileDrop = (e) => {
+        setIsDrag(false);
+        e.preventDefault();
+        const dragFiles = {
+            target : {
+                files: e.dataTransfer.files
+            }
+        };
+        fileInputHandler(dragFiles);
+    };
+
     return (
         <div>
             {loading && <LoadingComponents />}
@@ -93,47 +119,68 @@ function UploadPdfComponents() {
                 <div className={css(styles.donelistcontainer)}>
                     <div className={css(styles.titleContainer)}>
                         <span className={css(styles.title)}>기이수과목 등록</span>
+                        <span className={css(styles.pcEnvWarn)}>* 원활한 등록을 위해 PC환경을 권장합니다.</span>
                     </div>
                     <hr className={css(styles.custom_hr)} />
+                    {localStorage.getItem('uploadPDF') ? null :
+                    <div className={css(styles.uploadGuide)}>
+                        <span className={css(styles.guideMessage)}>1. <strong><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.linkInformationSystem)} target="_blank" >종합정보시스템 (바로가기)</a></strong> 접속 후 로그인 (PC환경)</span>
+                        <span className={css(styles.guideMessage)}>2. 좌측 메뉴에서 학적관리 / <strong>학기별 성적조회 및 출력</strong> 선택</span>
+                        <span className={css(styles.guideMessage)}>3. <strong>모든 이수년도, 학기</strong> 선택 및 검색</span>
+                        <span className={css(styles.guideMessage)}>4. <strong>인쇄</strong> 및 <strong>PDF로 저장</strong></span>
+                    </div>}
                     <div className={css(styles.itemRowcontainer)}>
-                        <div className={css(styles.itemTextcontainer)}>
-                            <p className={css(styles.custom_text)}>파일 선택</p>
-                        </div>
                         <div className={css(styles.containerSecond)}>
-                            <div className={css(styles.itemboxcontainer)}>
+                            <label className={css(isDrag ? styles.itemboxcontainerActive : styles.itemboxcontainer)}
+                                onDragEnter={fileDragEnter}
+                                onDragOver={fileDragOver}
+                                onDragLeave={fileDragEnd}
+                                onDrop={fileDrop}>
                                 <input
                                     type="file"
-                                    style={{ display: "none" }}
                                     id="uploadpdf"
+                                    style={{ display: 'none'}}
                                     accept=".pdf"
                                     multiple
                                     onChange={fileInputHandler}
+                                    htmlFor="uploadpdf"
                                 />
-                                {fileNames.length === 0 ? (
-                                    <p className={css(styles.custom_text_box)}>
-                                        파일을 선택해주세요. (최대 25장)
-                                    </p>
-                                ) : (
-                                    fileNames.map((fileName, index) => (
-                                        <div key={index} className={css(styles.fileNameButtonContainer)}>
-                                            <span>{fileName}</span>
-                                            <button
-                                                onClick={() => handleDeleteFile(index)}
-                                                className={css(styles.itemdeleteButton)}
-                                                type="button"
-                                            >×</button>
+                                {fileNames.length === 0 ?
+                                <label htmlFor="uploadpdf"
+                                    className={css(isDrag ? styles.itemUploadButtonActive : styles.itemUploadButton)}>
+                                    <img src={pdfIcon}></img>
+                                    이곳을 클릭하거나 파일을 드래그 하여 첨부하세요.
+                                    <div className={css(styles.pdfUploadButton)}>PDF 가져오기</div>
+                                </label> : 
+                                <label htmlFor="uploadpdf" className={css(isDrag ? styles.fileControlContainerActive : styles.fileControlContainer)}>
+                                    <span className={css(styles.fileSelectText)}>파일 선택</span>
+                                    <div className={css(styles.fileControlButtons)}>
+                                        <div htmlFor="uploadpdf" className={css(styles.pdfUploadButton)}>PDF 가져오기</div>
+                                        <button className={css(styles.savePDFButton)} onClick={handleUpload}>등록하기</button>
+                                    </div>
+                                </label>}
+                                {fileNames.length === 0 ? null :
+                                <div className={css(isDrag ? styles.filesContinerActive : styles.filesContiner)}>
+                                {fileNames.map((file, index) => (
+                                <div className={css(styles.filesGap)}>
+                                    <label key={index} className={css(styles.fileNameButtonContainer)}>
+                                        <div className={css(styles.fileInfo)}>
+                                            <img src={pdfIcon} className={css(styles.pdfIcons)}></img>
+                                            <span className={css(styles.fileName)}>{file.name}</span>
+                                            <span className={css(styles.fileSize)}>{file.size}KB</span>
                                         </div>
-                                    ))
-                                )}
-                            </div>
-                            <div className={css(styles.itemboxcontainerScrollableSecond)}>
-                                <label htmlFor="uploadpdf" className={css(styles.itemUploadButton)}>파일 업로드</label>
-                            </div>
+                                        <button
+                                            onClick={(e) => handleDeleteFile(index, e)}
+                                            className={css(styles.itemdeleteButton)}
+                                            type="button"
+                                        >×</button>
+                                    </label>
+                                </div>
+                                ))}
+                                </div>}
+                            </label>
                         </div>
-                        <button className={css(styles.itemRegistButton)} onClick={handleUpload}>등록하기</button>
                     </div>
-                    <b className={css(styles.custom_b_text)}>가톨릭관동대학교 포털 &gt; 로그인 &gt; 종합정보시스템 &gt; 학적관리 &gt; 학기별 성적조회 및 출력 &gt; 인쇄 &gt; PDF로 저장
-                    </b><b className={css(styles.custom_b_text)}>모든 정규 학기 PDF를 첨부해주세요.</b>
                 </div>
             </div>
         </div>
@@ -160,265 +207,256 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'left',
     },
+    pcEnvWarn: {
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        color: '#FF4921'
+    },
     titleContainer: {
         width: '520px',
         paddingBottom: '5px',
         fontFamily: 'Lato',
         fontSize: '23px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     custom_hr: {
         width: '100%',
         border: '1px solid #E4E4E4',
     },
-    itemRowcontainer: {
-        paddingTop: '30px',
+    uploadGuide: {
+        width: '95%',
+        padding: '30px 0 30px 0',
         display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-start',
+        flexDirection: 'column',
+        gap: '18px'
     },
-    itemRegistButton: {
-        border: '1px solid black',
-        borderRadius: '5px',
-        backgroundColor: 'transparent',
-        color: 'black',
-        width: '70px',
-        height: '25px',
-        fontSize: '12px',
-        marginLeft: '1%',
-        cursor: 'pointer',
-        fontFamily: 'Lato',
-        fontWeight: '600'
-    },
-    itemUploadButton: {
-        marginRight: '5px',
-        width: '53px',
-        height: '16px',
-        backgroundColor: 'rgba(90, 87, 87, 0.81)',
-        border: '1px solid #CACACA',
-        borderRadius: '5px',
-        fontSize: '9px',
-        fontWeight: '600',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#FFFEFB',
-        marginLeft: 'auto',
-        padding: '3px',
-        cursor: 'pointer',
+    linkInformationSystem: {
+        color: '#006277',
+        textDecoration: 'none',
         ':hover': {
-            backgroundColor: 'rgba(90, 87, 87, 0.50)',
+            textDecoration: 'underline',
         }
     },
-    custom_text: {
+    guideMessage: {
         fontFamily: 'Lato',
         fontSize: '18px',
-        fontWeight: '600',
-        whiteSpace: 'nowrap',
-        marginRight: '5px',
+        fontWeight: '500'
     },
-    custom_text_box: {
-        fontFamily: 'Lato',
-        fontSize: '13px',
-        color: '#CACACA',
-    },
-    custom_b_text: {
-        marginTop: '10px',
-        fontFamily: 'Lato',
-        fontSize: '11px',
-        color: '#006277',
-        textAlign: 'center',
-    },
-    filenameContainer: {
+    itemRowcontainer: {
+        paddingTop: '20px',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        marginLeft: '10px',
+        alignItems: 'center',
+        gap: '35px'
+    },
+    itemUploadButton: {
+        width: '100%',
+        height: '100%',
+        fontSize: '13px',
+        fontWeight: '600',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#3D5286',
+        marginLeft: 'auto',
+        padding: '30px 0',
+        cursor: 'pointer',
+        ':hover': {
+            backgroundColor: '#F6F6F6',
+        }
+    },
+    itemUploadButtonActive: {
+        width: '100%',
+        height: '100%',
+        fontSize: '13px',
+        fontWeight: '600',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#3D5286',
+        marginLeft: 'auto',
+        padding: '30px 0',
+        cursor: 'pointer',
+        backgroundColor: '#F6F6F6'
+    },
+    fileControlButtons: {
+        display: 'flex',
+        gap: '14px'
+    },
+    pdfUploadButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '110px',
+        height: '30px',
+        borderRadius: '5px',
+        backgroundColor: '#3D5286',
+        border: '1px solid #3D5286',
+        color: '#FFFEFB',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '700',
+        ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            border: '1px solid rgba(61, 82, 134, 0.8)',
+            opacity: '0.8',
+        }
+    },
+    savePDFButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100px',
+        height: '30px',
+        borderRadius: '5px',
+        backgroundColor: '#FFFEFB',
+        border: '1px solid #3D5286',
+        color: '#3D5286',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '800',
+        ':hover': {
+            cursor: 'pointer',
+        },
+        ':active': {
+            border: '1px solid rgba(61, 82, 134, 0.8)',
+            opacity: '0.7',
+        }
+    },
+    fileControlContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '25px 30px'
+    },
+    fileControlContainerActive: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '25px 30px',
+        backgroundColor: '#F6F6F6'
+    },
+    fileSelectText: {
+        fontFamily: 'Lato',
+        fontSize: '18px',
+        fontWeight: '700'
     },
     itemboxcontainer: {
         display: 'flex',
         flexDirection: 'column',
-        position: 'relative',
-        width: '300px',
-        minHeight: 'auto',
-        maxHeight: '100px',
+        width: '100%',
         height: 'auto',
-        border: '1px solid #CCC',
-        borderRight: 'none',
-        backgroundColor: '#F6F6F6',
-        borderRadius: '5px 0 0 5px',
-        padding: '4px',
+        border: '1px dashed #CCC',
+        backgroundColor: 'transparent',
+        borderRadius: '20px',
         overflowY: 'auto',
         overflowX: 'hidden',
-        scrollbarWidth: 'thin',
-        scrollbarColor: '#888 #F6F6F6',
-        '&::-webkit-scrollbar': {
-            width: '6px'
-        },
-        '&::-webkit-scrollbar-track': {
-            background: '#F6F6F6'
-        },
-        '&::-webkit-scrollbar-thumb': {
-            background: '#888',
-            borderRadius: '3px'
+        transition: 'border-color 0.3s ease-in-out',
+        ':hover': {
+            borderColor: '#3D5286',
         }
     },
-    itemboxcontainerScrollableSecond: {
+    itemboxcontainerActive: {
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '70px',
+        flexDirection: 'column',
+        width: '100%',
         height: 'auto',
-        border: '1px solid #CCC',
-        backgroundColor: '#F6F6F6',
-        borderRadius: '0 5px 5px 0',
-        minHeight: 'auto',
-        maxHeight: '100px',
-        borderLeft: 'none',
+        border: '1px dashed #3D5286',   // DragOver 효과 적용
+        transition: 'border-color 0.3s ease-in-out',
+        backgroundColor: 'transparent',
+        borderRadius: '20px',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+    },
+    filesContiner: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '0 30px 25px 30px',
+        ':hover': {
+            cursor: 'pointer'
+        },
+    },
+    filesContinerActive: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '0 30px 25px 30px',
+        ':hover': {
+            cursor: 'pointer'
+        },
+        backgroundColor: '#F6F6F6'
+    },
+    filesGap: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '5px 0',
+        ':hover': {
+            cursor: 'pointer'
+        },
     },
     fileNameButtonContainer: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '90%',
         padding: '4px',
         paddingLeft: '15px',
-        marginBottom: '2px',
         backgroundColor: '#FFFEFB',
-        borderRadius: '3px',
+        borderRadius: '5px',
         border: '1px solid #CACACA',
         fontSize: '14px',
+        transition: 'background-color 0.3s ease-in',
+        ':hover': {
+            backgroundColor: 'rgba(189, 185, 185, 0.25)',
+        }
     },
-    itemfileNameButton: {
-        flex: 1,
-        minHeight: '20px',
-        height: 'auto',
-        padding: '0 8px',
-        border: '1px solid #CACACA',
-        borderRadius: '6px',
-        fontFamily: 'Lato',
-        fontSize: '13px',
-        color: 'black',
-        backgroundColor: '#FFFEFB',
+    fileInfo: {
         display: 'flex',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        gap: '8px',
-        wordBreak: 'break-all',
-        cursor: 'pointer',
+        gap: '5px'
+    },
+    pdfIcons: {
+        width: '29px',
+    },
+    fileName: {
+        color: '#3D5286',
+        fontFamily: 'Lato',
+        fontSize: '14px',
+        fontWeight: '700'
+    },
+    fileSize: {
+        paddingTop: '2px',
+        paddingLeft: '5px',
+        opacity: '0.6',
+        color: '#3D5286',
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '600'
     },
     itemdeleteButton: {
         background: 'none',
         border: 'none',
-        color: '#FF4444',
+        color: '#3D5286',
         cursor: 'pointer',
         fontFamily: 'Lato',
-        fontSize: '16px',
-        padding: '0 10px',
+        fontSize: '20px',
+        fontWeight: '800',
+        padding: '2px 15px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        ':hover': {
-            color: '#FF0000',
-        }
     },
     containerSecond: {
         display: 'flex',
-        alignItems: 'stretch',
+        width: '100%',
         height: 'auto',
-        minHeight: 'auto',
-        maxHeight: '100px',
-        backgroundColor: '#FFFEFB'
-    },
-    itemTextcontainer: {
-        width: '80px',
-    },
-    modalbigcontainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        zIndex: '999',
-    },
-    modalContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: '420px',
-        padding: '50px 70px 50px 70px',
-        backgroundColor: '#FFFEFB',
-        boxShadow: '0 0 20px rgba(0, 0, 0, 0.25)',
-        border: '1px solid #7A828A',
-        borderRadius: '6px',
-        zIndex: '1000',
-        marginBottom: '30px',
-    },
-    closeButtonContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '30px',
-    },
-    close: {
-        border: 'none',
         backgroundColor: 'transparent',
-        padding: '0px',
-        marginRight: '-20px',
-    },
-    closeIcon: {
-        width: '30px',
-        height: '30px',
-        ':hover': {
-            cursor: 'pointer'
-        }
-    },
-    mainContents: {
-        display: 'flex',
-        justifyContent: 'center',
-        color: '#006277',
-    },
-    ActionButtonContainer: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        paddingRight: '10px'
-    },
-    actionButton: {
-        width: '83px',
-        height: '40px',
-        borderRadius: '10px',
-        backgroundColor: '#2B2A28',
-        border: '1px solid #2B2A28',
-        color: '#fff',
-        fontFamily: 'Lato',
-        fontSize: '16px',
-        fontWeight: '700',
-        marginRight: '-20px',
-        ':hover:not(:disabled)': {
-            cursor: 'pointer'
-        },
-        ':active:not(:disabled)': {
-            backgroundColor: '#595650',
-            borderColor: '#595650'
-        },
-        ':disabled': {
-            color: '#FFFEFB',
-            backgroundColor: '#CACACA',
-            borderColor: '#CACACA'
-        },
-    },
-    icons: {
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '20px',
-        width: '100%'
-    },
-    loadingGIF: {
-        position: 'absolute',
-        zIndex: '1001',
-        width: '177px',
-        marginTop: '40px',
-        marginLeft: '90px'
     },
 });
 
