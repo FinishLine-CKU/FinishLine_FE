@@ -53,6 +53,7 @@ function UploadPdfComponents() {
             const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData);
 
             const data = response.data.data;
+            console.log(data)
             const duplicateFiles = response.data.duplicate_files;
 
             if (duplicateFiles.length > 0) {

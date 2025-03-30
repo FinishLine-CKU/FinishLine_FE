@@ -42,9 +42,16 @@ function DoneLecturePage() {
                     user_id: userId,
                 },
             });
+
+            if (response.status == 204) {
+                alert("성공적으로 삭제되었습니다");
+            } else if (response.status == 400) {
+                alert("잠시후 다시 시도하세요");
+            } else if (response.status == 404) {
+                alert("삭제할 데이터를 찾지 못했습니다");
+            }
+
             myLectureUpdate();
-            console.log(response.data);
-            alert("성공적으로 삭제되었습니다");
         } catch (error) {
             console.error("삭제 오류:", error);
         }
@@ -76,9 +83,11 @@ function DoneLecturePage() {
                 const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter-by-code/${lectureCode}/`);
 
                 if (!allResponse.data || allResponse.data.length === 0) {
-                    alert('과목코드를 다시 확인해 주세요');
-                } else {
+                    alert('과목코드를 다시 확인하세요');
+                } else if (allResponse.data && allResponse.data.length > 0) {
                     alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
+                } else {
+                    alert('과목코드를 다시 입력하세요');
                 }
                 
             } else {
@@ -87,8 +96,7 @@ function DoneLecturePage() {
 
         } catch (error) {
             setError('과목 정보를 가져오는데 실패했습니다.');
-            console.error('Error fetching data: ', error);
-            alert('과목코드를 입력하고 다시 시도하세요.');
+            alert('과목 정보를 가져오는데 실패했습니다.');
         }
     };
 
@@ -97,7 +105,6 @@ function DoneLecturePage() {
         const userId = localStorage.getItem('idToken');
         try {
             const response = await axios.get(`http://127.0.0.1:8000/graduation/api/mydonelecture?user_id=${userId}`);
-            console.log(response.data);
             setMyLectureList(response.data);
         } catch (error) {
             setError('과목 정보를 가져오는데 실패했습니다.');
@@ -174,6 +181,12 @@ function DoneLecturePage() {
         };
     }, []);
 
+    const enterSubmit = (e) => {
+        if (e.key === 'Enter') {
+            SubjectSearch();
+        }
+    };
+
     return (
         <div>
             <Header />
@@ -185,7 +198,7 @@ function DoneLecturePage() {
                     </div>
                     <hr className={css(styles.custom_hr)} />
                     <p className={css(styles.small_title)}>과목코드로 검색</p>
-                    <div className={css(styles.textboxContainer)}>
+                    <div className={css(styles.textboxContainer)} onKeyDown={enterSubmit}>
                         <input
                             type="text"
                             id="lectureCode"
