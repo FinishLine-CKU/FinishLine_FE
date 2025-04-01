@@ -17,14 +17,43 @@ function DoneLecturePage() {
     const [filteredSubjects, setFilteredSubjects] = useState([]);
     const navigate = useNavigate();
 
+    const deleteButton = (lecture_code) => {
+        const shouldWeDelete = myLectureList.find((subject) => subject.lecture_code === lecture_code);
+    
+        if (shouldWeDelete && shouldWeDelete.can_delete === true) {
+            deleteButtonToDb(lecture_code);
+        } else {
+            deleteButtonToReat(lecture_code);
+        }
+    };
+
     //과목 목록 삭제 함수, 과목찾기와 내 기이수 과목 목록을 구분하기 위해 상태 저장
-    const deleteButton = (lecture_code, listType) => {
-        if (listType === 'lectureData') {
-            const updatedSubjects = lectureData.filter(subject => subject.lecture_code !== lecture_code);
-            setLectureData(updatedSubjects);
-        } else if (listType === 'myLectureList') {
-            const updatedMyLectures = myLectureList.filter(subject => subject.lecture_code !== lecture_code);
-            setMyLectureList(updatedMyLectures);
+    const deleteButtonToReat = (lecture_code) => {
+        const updatedMyLectures = myLectureList.filter(subject => subject.lecture_code !== lecture_code);
+        setMyLectureList(updatedMyLectures);
+    };
+    
+    const deleteButtonToDb = async (lecture_code) => {
+        const userId = localStorage.getItem("idToken");
+    
+        try {
+            const response = await axios.delete(`http://127.0.0.1:8000/graduation/api/mydonelecture/${lecture_code}/`, {
+                data: {
+                    user_id: userId,
+                },
+            });
+
+            if (response.status == 204) {
+                alert("해당 과목이 삭제되었습니다");
+            } else if (response.status == 400) {
+                alert("잠시후 다시 시도하세요");
+            } else if (response.status == 404) {
+                alert("삭제할 데이터를 찾지 못했습니다");
+            }
+
+            myLectureUpdate();
+        } catch (error) {
+            console.error("삭제 오류:", error);
         }
     };
 
@@ -49,17 +78,25 @@ function DoneLecturePage() {
         try {
             const response = await axios.get(`https://finishline-cku.com/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
 
-            // 과목 찾기로 현재 과목 데이터가 없다면 전체 과목 데이터를 살펴본 후 예외처리 결정정
+            // 과목 찾기로 현재 과목 데이터가 없다면 전체 과목 데이터를 살펴본 후 예외처리 결정
             if (!response.data || response.data.length === 0) {
-                alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
+                const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter-by-code/${lectureCode}/`);
+
+                if (!allResponse.data || allResponse.data.length === 0) {
+                    alert('과목코드를 다시 확인하세요');
+                } else if (allResponse.data && allResponse.data.length > 0) {
+                    alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
+                } else {
+                    alert('과목코드를 다시 입력하세요');
+                }
+                
             } else {
                 setLectureData(response.data);
             }
 
         } catch (error) {
             setError('과목 정보를 가져오는데 실패했습니다.');
-            console.error('Error fetching data: ', error);
-            alert('과목코드를 입력하고 다시 시도하세요.');
+            alert('과목 정보를 가져오는데 실패했습니다.');
         }
     };
 
@@ -97,23 +134,19 @@ function DoneLecturePage() {
                 credit: subject.credit,
                 grade: subject.grade,
                 user_id: userId,
+                can_delete: true,
             }));
 
-            const response = await fetch("https://finishline-cku.com/graduation/api/mydonelecture/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(subjectsToSave),
+            const response = await axios.post("http://127.0.0.1:8000/graduation/api/mydonelecture/", {
+                subjectsToSave: subjectsToSave,
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("서버 응답:", errorText);
-                throw new Error("과목 저장에 실패했습니다.");
+            if (!response.status == 201) {
+                alert("과목 저장에 실패했습니다.");
             }
 
-            alert("새로운 과목이 성공적으로 저장되었습니다.");
+            myLectureUpdate();
+            alert("저장되었습니다.");
 
             //현재 과목 목록을 내 기이수 과목으로 전달했다면 subjectNew 상태 저장(색상 변경을 위함)
             setMyLectureList(prev =>
@@ -142,6 +175,12 @@ function DoneLecturePage() {
         };
     }, []);
 
+    const enterSubmit = (e) => {
+        if (e.key === 'Enter') {
+            SubjectSearch();
+        }
+    };
+
     return (
         <div>
             <Header />
@@ -153,7 +192,7 @@ function DoneLecturePage() {
                     </div>
                     <hr className={css(styles.custom_hr)} />
                     <p className={css(styles.small_title)}>과목코드로 검색</p>
-                    <div className={css(styles.textboxContainer)}>
+                    <div className={css(styles.textboxContainer)} onKeyDown={enterSubmit}>
                         <input
                             type="text"
                             id="lectureCode"
@@ -175,7 +214,7 @@ function DoneLecturePage() {
                     </div>
                     <hr className={css(styles.second_custom_hr)} />
                     <div className={css(styles.tableContainerSecond)}>
-                        <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code, 'myLectureList')} />
+                        <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code)} />
                     </div>
                     <button className={css(styles.itemGraduButton)} onClick={navigateToGraduTest}>졸업요건 검사</button>
                 </div>
