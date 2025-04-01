@@ -135,7 +135,6 @@ function DoneLecturePage() {
                 grade: subject.grade,
                 user_id: userId,
                 can_delete: true,
-                subject_major_code: subject.major_code,
             }));
 
             const response = await axios.post("http://127.0.0.1:8000/graduation/api/mydonelecture/", {
