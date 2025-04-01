@@ -37,7 +37,7 @@ function DoneLecturePage() {
         const userId = localStorage.getItem("idToken");
     
         try {
-            const response = await axios.delete(`http://127.0.0.1:8000/graduation/api/mydonelecture/${lecture_code}/`, {
+            const response = await axios.delete(`http://finishline-cku.com/graduation/api/mydonelecture/${lecture_code}/`, {
                 data: {
                     user_id: userId,
                 },
@@ -80,7 +80,7 @@ function DoneLecturePage() {
 
             // 과목 찾기로 현재 과목 데이터가 없다면 전체 과목 데이터를 살펴본 후 예외처리 결정
             if (!response.data || response.data.length === 0) {
-                const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter-by-code/${lectureCode}/`);
+                const allResponse = await axios.get(`http://finishline-cku.com/graduation/api/allLectureData/filter-by-code/${lectureCode}/`);
 
                 if (!allResponse.data || allResponse.data.length === 0) {
                     alert('과목코드를 다시 확인하세요');
@@ -137,7 +137,7 @@ function DoneLecturePage() {
                 can_delete: true,
             }));
 
-            const response = await axios.post("http://127.0.0.1:8000/graduation/api/mydonelecture/", {
+            const response = await axios.post("http://finishline-cku.com/graduation/api/mydonelecture/", {
                 subjectsToSave: subjectsToSave,
             });
 
