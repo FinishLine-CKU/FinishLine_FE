@@ -135,20 +135,15 @@ function DoneLecturePage() {
                 grade: subject.grade,
                 user_id: userId,
                 can_delete: true,
+                subject_major_code: subject.major_code,
             }));
 
-            const response = await fetch("http://127.0.0.1:8000/graduation/api/mydonelecture/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(subjectsToSave),
+            const response = await axios.post("http://127.0.0.1:8000/graduation/api/mydonelecture/", {
+                subjectsToSave: subjectsToSave,
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("서버 응답:", errorText);
-                throw new Error("과목 저장에 실패했습니다.");
+            if (!response.status == 201) {
+                alert("과목 저장에 실패했습니다.");
             }
 
             myLectureUpdate();
