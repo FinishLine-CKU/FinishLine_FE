@@ -44,7 +44,7 @@ function DoneLecturePage() {
             });
 
             if (response.status == 204) {
-                alert("성공적으로 삭제되었습니다");
+                alert("해당 과목이 삭제되었습니다");
             } else if (response.status == 400) {
                 alert("잠시후 다시 시도하세요");
             } else if (response.status == 404) {
@@ -146,7 +146,7 @@ function DoneLecturePage() {
             }
 
             myLectureUpdate();
-            alert("새로운 과목이 성공적으로 저장되었습니다.");
+            alert("저장되었습니다.");
 
             //현재 과목 목록을 내 기이수 과목으로 전달했다면 subjectNew 상태 저장(색상 변경을 위함)
             setMyLectureList(prev =>
