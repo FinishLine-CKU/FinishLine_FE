@@ -125,7 +125,7 @@ function UploadPdfComponents() {
                     {localStorage.getItem('uploadPDF') ? null :
                     <div className={css(styles.uploadGuide)}>
                         <span className={css(styles.guideMessage)}>1. <strong><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.linkInformationSystem)} target="_blank" >종합정보시스템 (바로가기)</a></strong> 접속 후 로그인 (PC환경)</span>
-                        <span className={css(styles.guideMessage)}>2. 좌측 메뉴에서 학적관리 / <strong>학기별 성적조회 및 출력</strong> 선택</span>
+                        <span className={css(styles.guideMessage)}>2. 좌측 메뉴에서 <strong>학적관리＞학기별 성적조회 및 출력</strong> 선택</span>
                         <span className={css(styles.guideMessage)}>3. <strong>모든 이수년도, 학기</strong> 선택 및 검색</span>
                         <span className={css(styles.guideMessage)}>4. <strong>인쇄</strong> 및 <strong>PDF로 저장</strong></span>
                     </div>}
