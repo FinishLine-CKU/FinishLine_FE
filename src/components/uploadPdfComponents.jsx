@@ -124,7 +124,10 @@ function UploadPdfComponents() {
                     <hr className={css(styles.custom_hr)} />
                     {localStorage.getItem('uploadPDF') ? null :
                     <div className={css(styles.uploadGuide)}>
-                        <span className={css(styles.guideMessage)}>1. <strong><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.linkInformationSystem)} target="_blank" >종합정보시스템 (바로가기)</a></strong> 접속 후 로그인 (PC환경)</span>
+                        <div className={css(styles.straight)}>
+                            <span className={css(styles.guideMessage)}>1. <strong><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.linkInformationSystem)} target="_blank" >종합정보시스템</a></strong> 접속 후 로그인 (PC환경)</span>
+                            <button className={css(styles.ckuWeb)}><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" target="_blank" className={css(styles.removeStyle)}>바로가기</a></button>
+                        </div>
                         <span className={css(styles.guideMessage)}>2. 좌측 메뉴에서 학적관리 / <strong>학기별 성적조회 및 출력</strong> 선택</span>
                         <span className={css(styles.guideMessage)}>3. <strong>모든 이수년도, 학기</strong> 선택 및 검색</span>
                         <span className={css(styles.guideMessage)}>4. <strong>인쇄</strong> 및 <strong>PDF로 저장</strong></span>
@@ -233,17 +236,45 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: '18px'
     },
+    straight: {
+        display: 'flex',
+        alignItems: 'center',
+    },
     linkInformationSystem: {
         color: '#006277',
-        textDecoration: 'none',
+        // textDecoration: 'none',
+        padding: '3px 0',
+        transition: 'color 0.1s ease',
         ':hover': {
+            color: '#EA7175',
             textDecoration: 'underline',
         }
+    },
+    ckuWeb: {
+        backgroundColor: '#006277',
+        font: 'Lato',
+        fontWeight: '600',
+        fontSize: '11px',
+        color: '#FFFEFB',
+        border: '1px solid #006277',
+        borderRadius: '6px',
+        height: '23px',
+        ':hover': {
+            cursor: 'pointer'
+        },
+        ':active': {
+            opacity: '0.8'
+        }
+    },
+    removeStyle: {
+        textDecoration: 'none',
+        color: '#FFFEFB'
     },
     guideMessage: {
         fontFamily: 'Lato',
         fontSize: '18px',
-        fontWeight: '500'
+        fontWeight: '500',
+        paddingRight: '15px'
     },
     itemRowcontainer: {
         paddingTop: '20px',
