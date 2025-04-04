@@ -322,7 +322,6 @@ const styles = StyleSheet.create({
             borderRight: '0px'
         },
         wordWrap: 'break-word',
-        maxWidth: '180px',
         minWidth: '180px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
@@ -345,7 +344,6 @@ const styles = StyleSheet.create({
         },
         wordWrap: 'break-word',
         maxWidth: '180px',
-        minWidth: '180px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
@@ -367,7 +365,6 @@ const styles = StyleSheet.create({
         },
         wordWrap: 'break-word',
         maxWidth: '180px',
-        minWidth: '180px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
@@ -412,7 +409,6 @@ const styles = StyleSheet.create({
             borderRight: '0px'
         },
         wordWrap: 'break-word',
-        maxWidth: '180px',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',

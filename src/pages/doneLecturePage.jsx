@@ -43,11 +43,11 @@ function DoneLecturePage() {
                 },
             });
 
-            if (response.status == 204) {
+            if (response.status === 204) {
                 alert("해당 과목이 삭제되었습니다");
-            } else if (response.status == 400) {
+            } else if (response.status === 400) {
                 alert("잠시후 다시 시도하세요");
-            } else if (response.status == 404) {
+            } else if (response.status === 404) {
                 alert("삭제할 데이터를 찾지 못했습니다");
             }
 
@@ -141,7 +141,7 @@ function DoneLecturePage() {
                 subjectsToSave: subjectsToSave,
             });
 
-            if (!response.status == 201) {
+            if (!response.status === 201) {
                 alert("과목 저장에 실패했습니다.");
             }
 
@@ -270,112 +270,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontSize: '23px',
         fontWeight: '700',
-    },
-    titleContainer: {
-        width: '520px',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    custom_hr: {
-        width: '520px',
-        border: '1px solid #E4E4E4',
-    },
-    second_custom_hr: {
-        marginTop: '1px',
-        marginBottom: '32px',
-        width: '520px',
-        border: '1px solid #E4E4E4',
-    },
-    small_title: {
-        fontFamily: 'Lato',
-        fontSize: '20px',
-        fontWeight: '600',
-        textAlign: 'center',
-        color: '#006277',
-    },
-    textboxContainer: {
-        marginTop: '10px',
-        marginBottom: '40px',
-        display: 'flex',
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'center',
-    },
-    itemTextboxContainer: {
-        width: '450px',
-        height: '100px',
-        border: '1px solid black',
-        backgroundColor: 'transparent',
-        borderRadius: '5px',
-    },
-    itemSearchButton: {
-        border: '1px solid black',
-        borderRadius: '4px',
-        backgroundColor: 'transparent',
-        color: 'black',
-        width: '81px',
-        height: '46px',
-        fontFamily: 'Lato',
-        fontSize: '15px',
-        fontWeight: '600',
-        marginLeft: '15px',
-        cursor: 'pointer',
-    },
-    itemAddButton: {
-        marginTop: '30px',
-        marginBottom: '70px',
-        width: '70px',
-        height: '25px',
-        borderRadius: '5px',
-        border: '1px solid transparent',
-        backgroundColor: 'black',
-        color: '#FFFEFB',
-        cursor: 'pointer',
-        ':active': {
-            backgroundColor: '#595650',
-        },
-        fontFamily: 'Lato',
-        fontSize: '12px',
-        fontWeight: '600',
-    },
-    ColumnContainer: {
-        marginTop: '50px',
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        alignItems: 'center',
-    },
-    tableContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    inputContainer: {
-        width: '424px',
-        height: '27px',
-        padding: '10px',
-        paddingLeft: '16px',
-        fontFamily: 'Lato',
-        fontSize: '16px',
-        border: '1px solid #CACACA',
-        borderRadius: '4px',
-        outline: 'none',
-        backgroundColor: 'transparent',
-    },
-    tableContainerSecond: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    title: {
-        marginBottom: '5px',
-        fontFamily: 'Lato',
-        fontSize: '23px',
-        textAlign: 'left',
-        fontWeight: '700'
-    },
-    secondTitle: {
-        fontFamily: 'Lato',
-        fontSize: '23px',
-        fontWeight: '700'
     },
     titleContainer: {
         width: '520px',

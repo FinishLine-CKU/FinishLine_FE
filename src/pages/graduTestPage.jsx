@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
-import { MAJOR, MAJOR_NEW, SUBMAJORTYPE } from '../pages/signupPage2';
+import { MAJOR_NEW, SUBMAJORTYPE } from '../pages/signupPage2';
 import Template from '../components/template';
 import Header from '../components/header';
 import Footer from '../components/footer';
@@ -535,12 +535,6 @@ const styles = StyleSheet.create({
         color: '#FF4921',
         padding: '0 10px'
     },
-    majortextContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        marginBottom: '30px',
-    },
     textContainer: {
         marginTop: '30px',
         display: 'flex',
@@ -594,57 +588,12 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         padding: '0 10px'
     },
-    custom_result_text: {
-        textAlign: 'center',
-        fontFamily: 'Lato',
-        fontSize: '30px',
-        fontWeight: '600',
-        color: 'black',
-        marginTop: '7px',
-        marginBottom: '7px',
-    },
-    custom_result_text_last: {
-        marginTop: '7px',
-        marginBottom: '7px',
-        fontFamily: 'Lato',
-        fontSize: '30px',
-        fontWeight: '600',
-        color: 'black',
-    },
-    custom_result_text_ness: {
-        marginTop: '0px',
-        fontFamily: 'Lato',
-        fontSize: '30px',
-        fontWeight: '600',
-        color: 'black',
-    },
     custom_smalltext: {
         fontFamily: 'Lato',
         fontSize: '18px',
         fontWeight: '500',
         textAlign: 'center',
         color: 'black',
-    },
-    custom_verysmall_text: {
-        fontFamily: 'Lato',
-        fontSize: '15px',
-        fontWeight: '600',
-        textAlign: 'center',
-        color: 'black',
-        marginBottom: '-5px',
-        textAlign: 'left',
-        paddingLeft: '5px',
-    },
-    custom_verysmall_content: {
-        fontFamily: 'Lato',
-        fontSize: '15px',
-        fontWeight: '600',
-        textAlign: 'center',
-        color: '#3D5286',
-        textAlign: 'left',
-        paddingLeft: '5px',
-        marginTop: '0px',
-        marginBottom: '10px',
     },
     custom_h: {
         fontFamily: 'Lato',
@@ -658,14 +607,6 @@ const styles = StyleSheet.create({
         fontSize: '30px',
         fontFamily: 'Lato',
         fontWeight: '800'
-    },
-    custom_h_react: {
-        fontFamily: 'Lato',
-        fontSize: '25px',
-        fontWeight: '600',
-        color: '#3D5286',
-        marginRight: '8px',
-        marginBottom: '15px',
     },
     custom_hr_react: {
         fontFamily: 'Lato',
@@ -696,9 +637,6 @@ const styles = StyleSheet.create({
         fontSize: '15px',
         fontWeight: '600',
         marginTop: '0px',
-    },
-    imgcontainer: {
-        marginTop: '18px',
     },
 });
 
