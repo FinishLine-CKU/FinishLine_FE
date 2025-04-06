@@ -307,6 +307,10 @@ export const MICRO_DEGREE = [
     { value: '250', label: '미래모빌리티 마이크로디그리' },
     { value: '260', label: '의료데이터분석&시각화 마이크로디그리' },
     { value: '270', label: '스마트푸드테크와IT 마이크로디그리' },
+    { value: '280', label: '스마트양식과식품데이터 마이크로디그리' },
+    { value: '290', label: '스마트ICT융합기술 마이크로디그리' },
+    { value: '300', label: '미래에너지 마이크로디그리' },
+    { value: '310', label: '웰니스치유 마이크로디그리' },
 ];
 export const SUBMAJORTYPE = [
     { value: 'double', label: '복수전공' },
