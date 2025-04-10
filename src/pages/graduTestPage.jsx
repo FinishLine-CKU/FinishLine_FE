@@ -29,7 +29,7 @@ function GraduTestPage() {
     const [choiceGEStandard, setChoiceGEStandard] = useState();  // general_selection_credit => choiceGEStandard
     const [restStandard, setRestStandard] = useState();  // rest_credit => restStandard
     const [lackSubMajor, setLackSubMajor] = useState();  // need_sub_major => lackSubMajor
-    const [user_sub_major, setUser_sub_major] = useState();
+    const [doneSubMajor, setDoneSubMajor] = useState();  // user_sub_major => doneSubMajor
     const [sub_major_credit, setSub_major_credit] = useState();
     const [sub_major_type, setSub_major_type] = useState();
     const [done_major_rest, setDone_major_rest] = useState();
@@ -44,7 +44,7 @@ function GraduTestPage() {
         if (response.data) {
             if (response.data.sub_major_type) { // 추가 전공 시
               if (response.data.restStandard === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, user_sub_major, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
+                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, doneSubMajor, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
                   setMajor_info(major_info);
                   setLackMajor(lackMajor)
                   setDoneMajor(doneMajor)
@@ -54,13 +54,13 @@ function GraduTestPage() {
                   setChoiceGEStandard(choiceGEStandard)
                   setRestStandard(0)
                   setLackSubMajor(lackSubMajor)
-                  setUser_sub_major(user_sub_major)
+                  setDoneSubMajor(doneSubMajor)
                   setSub_major_credit(sub_major_credit)
                   setSub_major_type(sub_major_type)
                   setDone_major_rest(done_major_rest)
                   setDone_rest(done_rest)
               } else {
-                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, user_sub_major, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
+                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, doneSubMajor, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
                   setMajor_info(major_info);
                   setLackMajor(lackMajor)
                   setDoneMajor(doneMajor)
@@ -70,7 +70,7 @@ function GraduTestPage() {
                   setChoiceGEStandard(choiceGEStandard)
                   setRestStandard(restStandard)
                   setLackSubMajor(lackSubMajor)
-                  setUser_sub_major(user_sub_major)
+                  setDoneSubMajor(doneSubMajor)
                   setSub_major_credit(sub_major_credit)
                   setSub_major_type(sub_major_type)
                   setDone_major_rest(done_major_rest)
@@ -90,7 +90,7 @@ function GraduTestPage() {
                     setDone_major_rest(done_major_rest)
                     setLackSubMajor(lackSubMajor)
                     {localStorage.setItem('lackSubMajor', lackSubMajor)}
-                    setUser_sub_major(0)
+                    setDoneSubMajor(0)
                     setDone_rest(done_rest)
                 } else {
                     const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, done_major_rest, lackSubMajor, done_rest } = response.data;
@@ -105,7 +105,7 @@ function GraduTestPage() {
                     setDone_major_rest(done_major_rest)
                     setLackSubMajor(lackSubMajor)
                     {localStorage.setItem('lackSubMajor', lackSubMajor)}
-                    setUser_sub_major(0)
+                    setDoneSubMajor(0)
                     setDone_rest(done_rest)
                 };
             }
@@ -177,7 +177,7 @@ function GraduTestPage() {
                     <p className={css(styles.custom_result_hr)}> {MAJOR_NEW.find(item => item.value === major_info)?.label || major_info} {localStorage.getItem('name')}님의 결과입니다</p>
                 </div>
                 <GraduChartComponets earned={
-                    sub_major_type ? doneMajor + doneEssentialGE + doneChoiceGE + done_micro_degree + user_sub_major + done_rest : doneMajor + doneEssentialGE + doneChoiceGE + done_micro_degree + user_sub_major + done_major_rest + done_rest} total={totalStandard} />
+                    sub_major_type ? doneMajor + doneEssentialGE + doneChoiceGE + done_micro_degree + doneSubMajor + done_rest : doneMajor + doneEssentialGE + doneChoiceGE + done_micro_degree + doneSubMajor + done_major_rest + done_rest} total={totalStandard} />
                 <div className={css(styles.textContainer)}>
                     <div>
                       {lackMajor + lackEssentialGE + lackChoiceGE + lackSubMajor <= 0 ? 
@@ -239,12 +239,12 @@ function GraduTestPage() {
                 <div className={css(styles.majorContainer)}>
                   <div className={css(styles.majortitleContainer)}>
                     <span className={css(styles.custom_h)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type).label}</span>
-                    <span className={css(styles.userCredit)}>{user_sub_major}</span>
+                    <span className={css(styles.userCredit)}>{doneSubMajor}</span>
                     <span className={css(styles.custom_hr_react)}> / </span>
                     <span className={css(styles.custom_h_focus)}>{sub_major_credit} 학점</span>
                   </div>
                   <hr className={css(styles.custom_major_hr)}/>
-                  {user_sub_major >= sub_major_credit ?
+                  {doneSubMajor >= sub_major_credit ?
                   <div className={css(styles.majorContentsContainer)}>
                     <img src={sogood}/>
                     <div className={css(styles.successContainer)}>
