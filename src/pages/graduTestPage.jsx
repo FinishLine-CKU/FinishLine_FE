@@ -30,7 +30,7 @@ function GraduTestPage() {
     const [restStandard, setRestStandard] = useState();  // rest_credit => restStandard
     const [lackSubMajor, setLackSubMajor] = useState();  // need_sub_major => lackSubMajor
     const [doneSubMajor, setDoneSubMajor] = useState();  // user_sub_major => doneSubMajor
-    const [sub_major_credit, setSub_major_credit] = useState();
+    const [subMajorStandard, setSubMajorStandard] = useState();  // sub_major_credit => subMajorStandard
     const [sub_major_type, setSub_major_type] = useState();
     const [done_major_rest, setDone_major_rest] = useState();
     const [done_rest, setDone_rest] = useState();
@@ -44,7 +44,7 @@ function GraduTestPage() {
         if (response.data) {
             if (response.data.sub_major_type) { // 추가 전공 시
               if (response.data.restStandard === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, doneSubMajor, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
+                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, doneSubMajor, subMajorStandard, sub_major_type, done_major_rest, done_rest } = response.data;
                   setMajor_info(major_info);
                   setLackMajor(lackMajor)
                   setDoneMajor(doneMajor)
@@ -55,12 +55,12 @@ function GraduTestPage() {
                   setRestStandard(0)
                   setLackSubMajor(lackSubMajor)
                   setDoneSubMajor(doneSubMajor)
-                  setSub_major_credit(sub_major_credit)
+                  setSubMajorStandard(subMajorStandard)
                   setSub_major_type(sub_major_type)
                   setDone_major_rest(done_major_rest)
                   setDone_rest(done_rest)
               } else {
-                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, doneSubMajor, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
+                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, doneSubMajor, subMajorStandard, sub_major_type, done_major_rest, done_rest } = response.data;
                   setMajor_info(major_info);
                   setLackMajor(lackMajor)
                   setDoneMajor(doneMajor)
@@ -71,7 +71,7 @@ function GraduTestPage() {
                   setRestStandard(restStandard)
                   setLackSubMajor(lackSubMajor)
                   setDoneSubMajor(doneSubMajor)
-                  setSub_major_credit(sub_major_credit)
+                  setSubMajorStandard(subMajorStandard)
                   setSub_major_type(sub_major_type)
                   setDone_major_rest(done_major_rest)
                   setDone_rest(done_rest)
@@ -241,10 +241,10 @@ function GraduTestPage() {
                     <span className={css(styles.custom_h)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type).label}</span>
                     <span className={css(styles.userCredit)}>{doneSubMajor}</span>
                     <span className={css(styles.custom_hr_react)}> / </span>
-                    <span className={css(styles.custom_h_focus)}>{sub_major_credit} 학점</span>
+                    <span className={css(styles.custom_h_focus)}>{subMajorStandard} 학점</span>
                   </div>
                   <hr className={css(styles.custom_major_hr)}/>
-                  {doneSubMajor >= sub_major_credit ?
+                  {doneSubMajor >= subMajorStandard ?
                   <div className={css(styles.majorContentsContainer)}>
                     <img src={sogood}/>
                     <div className={css(styles.successContainer)}>
