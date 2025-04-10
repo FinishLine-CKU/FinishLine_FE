@@ -17,7 +17,7 @@ function GraduTestPage() {
     const [doneEssentialGE, setDoneEssentialGE] = useState(0);  // completeEsseCredit => doneEssentialGE
     const [doneChoiceGE, setDoneChoiceGE] = useState(0);  // completeChoiceCredit => doneChoiceGE
     const [lackEssentialGETopic, setLackEssentialGETopic] = useState({});  // needNessArea => lackEssentialGETopic
-    const [needChoiceArea, setNeedChoiceArea] = useState({});
+    const [lackChoiceGETopic, setLackChoiceGETopic] = useState({});  // needChoiceArea => lackChoiceGETopic
     const [completeNormalCredit, setCompleteNormalCredit] = useState(0);
     const [needNormalCredit, setNeedNormalCredit] = useState(0);
 
@@ -131,7 +131,7 @@ function GraduTestPage() {
               setDoneEssentialGE(generalData['doneEssentialGE']);
               setDoneChoiceGE(generalData['doneChoiceGE']);
               setLackEssentialGETopic(generalData['lackEssentialGETopic']);
-              setNeedChoiceArea(generalData['교양선택_부족_영역']);
+              setLackChoiceGETopic(generalData['lackChoiceGETopic']);
               setCompleteNormalCredit(generalData['일반선택_이수_학점']);
           } else {
               console.error('user_id가 로컬스토리지에 없습니다.');
@@ -378,7 +378,7 @@ function GraduTestPage() {
                           </div>
                           <div className={css(styles.generalLacks)}>
                               <span className={css(styles.generalLecture)}>
-                                    {needChoiceArea && Object.entries(needChoiceArea).map(([key, value]) => {
+                                    {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
                                       const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
                                       return (
                                         <div key={key}>
