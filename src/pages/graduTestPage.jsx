@@ -14,7 +14,7 @@ import axios from 'axios';
 function GraduTestPage() { 
     const [lackEssentialGE, setLackEssentialGE] = useState(0);  // needEsseCredit => lackEssentialGE
     const [lackChoiceGE, setLackChoiceGE] = useState(0);  // needChoiceCredit => lackChoiceGE
-    const [completeEsseCredit, setCompleteEsseCredit] = useState(0);
+    const [doneEssentialGE, setDoneEssentialGE] = useState(0);  // completeEsseCredit => doneEssentialGE
     const [completeChoiceCredit, setCompleteChoiceCredit] = useState(0);
     const [needNessArea, setNeedNessArea] = useState({});
     const [needChoiceArea, setNeedChoiceArea] = useState({});
@@ -128,7 +128,7 @@ function GraduTestPage() {
         
               setLackEssentialGE(generalData['lackEssentialGE']);
               setLackChoiceGE(generalData['lackChoiceGE']);
-              setCompleteEsseCredit(generalData['교양필수_이수_학점']);
+              setDoneEssentialGE(generalData['doneEssentialGE']);
               setCompleteChoiceCredit(generalData['교양선택_이수_학점']);
               setNeedNessArea(generalData['교양필수_부족_영역']);
               setNeedChoiceArea(generalData['교양선택_부족_영역']);
@@ -178,7 +178,7 @@ function GraduTestPage() {
                     <p className={css(styles.custom_result_hr)}> {MAJOR_NEW.find(item => item.value === major_info)?.label || major_info} {localStorage.getItem('name')}님의 결과입니다</p>
                 </div>
                 <GraduChartComponets earned={
-                    sub_major_type ? user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree + user_sub_major + done_rest : user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree + user_sub_major + done_major_rest + done_rest} total={total_credit} />
+                    sub_major_type ? user_major + doneEssentialGE + completeChoiceCredit + done_micro_degree + user_sub_major + done_rest : user_major + doneEssentialGE + completeChoiceCredit + done_micro_degree + user_sub_major + done_major_rest + done_rest} total={total_credit} />
                 <div className={css(styles.textContainer)}>
                     <div>
                       {need_major + lackEssentialGE + lackChoiceGE + need_sub_major <= 0 ? 
@@ -303,7 +303,7 @@ function GraduTestPage() {
                   <div className={css(styles.majorContainer)}>
                       <div className={css(styles.majortitleContainer)}>
                           <span className={css(styles.custom_h)}>교양</span>
-                          <span className={css(styles.userCredit)}>{completeEsseCredit + completeChoiceCredit}</span>
+                          <span className={css(styles.userCredit)}>{doneEssentialGE + completeChoiceCredit}</span>
                           <span className={css(styles.custom_hr_react)}> / </span>
                           <span className={css(styles.custom_h_focus)}>{general_essential_credit + general_selection_credit} 학점</span>
                       </div>
