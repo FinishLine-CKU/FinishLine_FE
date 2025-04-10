@@ -24,7 +24,7 @@ function GraduTestPage() {
     const [lackMajor, setLackMajor] = useState(); // need_major => lackMajor
     const [doneMajor, setDoneMajor] = useState();  // user_major => doneMajor
     const [totalStandard, setTotalStandard] = useState();  // total_credit => totalStandard
-    const [major_credit, setMajor_credit] = useState();
+    const [majorStandard, setMajorStandard] = useState();  // major_credit => majorStandard
     const [general_essential_credit, setGeneral_essential_credit] = useState();
     const [general_selection_credit, setGeneral_selection_credit] = useState();
     const [rest_credit, setRest_credit] = useState();
@@ -44,12 +44,12 @@ function GraduTestPage() {
         if (response.data) {
             if (response.data.sub_major_type) { // 추가 전공 시
               if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                  const { major_info, lackMajor, doneMajor, totalStandard, major_credit, general_essential_credit, general_selection_credit, rest_credit, need_sub_major, user_sub_major, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
+                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, general_essential_credit, general_selection_credit, rest_credit, need_sub_major, user_sub_major, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
                   setMajor_info(major_info);
                   setLackMajor(lackMajor)
                   setDoneMajor(doneMajor)
                   setTotalStandard(totalStandard)
-                  setMajor_credit(major_credit)
+                  setMajorStandard(majorStandard)
                   setGeneral_essential_credit(general_essential_credit)
                   setGeneral_selection_credit(general_selection_credit)
                   setRest_credit(0)
@@ -60,12 +60,12 @@ function GraduTestPage() {
                   setDone_major_rest(done_major_rest)
                   setDone_rest(done_rest)
               } else {
-                  const { major_info, lackMajor, doneMajor, totalStandard, major_credit, general_essential_credit, general_selection_credit, rest_credit, need_sub_major, user_sub_major, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
+                  const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, general_essential_credit, general_selection_credit, rest_credit, need_sub_major, user_sub_major, sub_major_credit, sub_major_type, done_major_rest, done_rest } = response.data;
                   setMajor_info(major_info);
                   setLackMajor(lackMajor)
                   setDoneMajor(doneMajor)
                   setTotalStandard(totalStandard)
-                  setMajor_credit(major_credit)
+                  setMajorStandard(majorStandard)
                   setGeneral_essential_credit(general_essential_credit)
                   setGeneral_selection_credit(general_selection_credit)
                   setRest_credit(rest_credit)
@@ -78,12 +78,12 @@ function GraduTestPage() {
               };
             } else { // 추가 전공 해당 없을 시
                 if (response.data.rest_credit === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                    const { major_info, lackMajor, doneMajor, totalStandard, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest, need_sub_major, done_rest } = response.data;
+                    const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, general_essential_credit, general_selection_credit, rest_credit, done_major_rest, need_sub_major, done_rest } = response.data;
                     setMajor_info(major_info);
                     setLackMajor(lackMajor)
                     setDoneMajor(doneMajor)
                     setTotalStandard(totalStandard)
-                    setMajor_credit(major_credit)
+                    setMajorStandard(majorStandard)
                     setGeneral_essential_credit(general_essential_credit)
                     setGeneral_selection_credit(general_selection_credit)
                     setRest_credit(0)
@@ -93,12 +93,12 @@ function GraduTestPage() {
                     setUser_sub_major(0)
                     setDone_rest(done_rest)
                 } else {
-                    const { major_info, lackMajor, doneMajor, totalStandard, major_credit, general_essential_credit, general_selection_credit, rest_credit, done_major_rest, need_sub_major, done_rest } = response.data;
+                    const { major_info, lackMajor, doneMajor, totalStandard, majorStandard, general_essential_credit, general_selection_credit, rest_credit, done_major_rest, need_sub_major, done_rest } = response.data;
                     setMajor_info(major_info);
                     setLackMajor(lackMajor)
                     setDoneMajor(doneMajor)
                     setTotalStandard(totalStandard)
-                    setMajor_credit(major_credit)
+                    setMajorStandard(majorStandard)
                     setGeneral_essential_credit(general_essential_credit)
                     setGeneral_selection_credit(general_selection_credit)
                     setRest_credit(rest_credit)
@@ -212,10 +212,10 @@ function GraduTestPage() {
                     <span className={css(styles.custom_h)}>전공</span>
                     <span className={css(styles.userCredit)}>{doneMajor}</span>
                     <span className={css(styles.custom_hr_react)}> / </span>
-                    <span className={css(styles.custom_h_focus)}>{major_credit} 학점</span>
+                    <span className={css(styles.custom_h_focus)}>{majorStandard} 학점</span>
                   </div>
                   <hr className={css(styles.custom_major_hr)}/>
-                  {doneMajor >= major_credit ?
+                  {doneMajor >= majorStandard ?
                   <div className={css(styles.majorContentsContainer)}>
                     <img src={sogood}/>
                     <div className={css(styles.successContainer)}>
