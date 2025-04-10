@@ -419,11 +419,11 @@ function MyPage() {
                         <>
                             {localStorage.getItem('testing') ?
                                 <>
-                                    {localStorage.getItem('needTotalCredit') ?
+                                    {localStorage.getItem('lackTotal') ?
                                         <div className={css(styles.contentArea)}>
                                             <div className={css(styles.marginBottom)}>
                                                 <span className={css(styles.graduState)}>졸업까지</span>
-                                                <span className={css(styles.totalCredit)}>{localStorage.getItem('needTotalCredit')}학점</span>
+                                                <span className={css(styles.totalCredit)}>{localStorage.getItem('lackTotal')}학점</span>
                                                 <span className={css(styles.graduState)}>이수해야 합니다!</span>
                                             </div>
                                             {lackMajor ?
@@ -452,11 +452,11 @@ function MyPage() {
                                                 </div>
                                                 : null
                                             }
-                                            {localStorage.getItem('needNormalTotalCredit') == 0 ?
+                                            {localStorage.getItem('lackRestTotal') == 0 ?
                                                 null
                                                 : <div className={css(styles.contentContainer)}>
                                                     <span className={css(styles.contentTitle)}>일반선택</span>
-                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needNormalTotalCredit')}학점</strong> 부족</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackRestTotal')}학점</strong> 부족</span>
                                                 </div>}
                                         </div> :
                                         <div className={css(styles.contentArea)}>
