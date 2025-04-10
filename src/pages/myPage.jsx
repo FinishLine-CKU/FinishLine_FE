@@ -73,8 +73,8 @@ function MyPage() {
             student_id: localStorage.getItem('idToken')
         });
         if (!response.data.error) {
-            const { need_major } = response.data;
-            setLackMajor(need_major);
+            const { lackMajor } = response.data;
+            setLackMajor(lackMajor);
         } else {
             alert("서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요")
         }
