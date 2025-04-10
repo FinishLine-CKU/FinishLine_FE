@@ -35,7 +35,7 @@ function LoginPage() {
             }
 
             if (response.data.idToken && response.data.name) {
-                const { idToken, name, testing, uploadPDF, lackEssentialGE, lackChoiceGE, need_sub_major, needNormalTotalCredit, needTotalCredit } = response.data;
+                const { idToken, name, testing, uploadPDF, lackEssentialGE, lackChoiceGE, lackSubMajor, needNormalTotalCredit, needTotalCredit } = response.data;
                 localStorage.setItem('idToken', idToken);
                 localStorage.setItem('name', name);
                 localStorage.setItem('expire', expire);
@@ -52,8 +52,8 @@ function LoginPage() {
                 if (lackChoiceGE) {
                     localStorage.setItem('lackChoiceGE', lackChoiceGE);
                 };
-                if (need_sub_major) {
-                    localStorage.setItem('need_sub_major', need_sub_major);
+                if (lackSubMajor) {
+                    localStorage.setItem('lackSubMajor', lackSubMajor);
                 };
                 if (needNormalTotalCredit) {
                     localStorage.setItem('needNormalTotalCredit', needNormalTotalCredit);

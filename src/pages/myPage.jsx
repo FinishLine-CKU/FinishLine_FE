@@ -432,11 +432,11 @@ function MyPage() {
                                                     <span className={css(styles.graduContent)}><strong>{lackMajor}학점</strong> 부족</span>
                                                 </div>
                                                 : null}
-                                            {localStorage.getItem('need_sub_major') ?
-                                                localStorage.getItem('need_sub_major') != 0 ?
+                                            {localStorage.getItem('lackSubMajor') ?
+                                                localStorage.getItem('lackSubMajor') != 0 ?
                                                     <div className={css(styles.contentContainer)}>
                                                         <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
-                                                        <span className={css(styles.graduContent)}><strong>{localStorage.getItem('need_sub_major')}학점</strong> 부족</span>
+                                                        <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackSubMajor')}학점</strong> 부족</span>
                                                     </div>
                                                     : null : null}
                                             {localStorage.getItem('lackEssentialGE') ?
