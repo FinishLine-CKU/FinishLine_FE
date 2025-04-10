@@ -16,7 +16,7 @@ function GraduTestPage() {
     const [lackChoiceGE, setLackChoiceGE] = useState(0);  // needChoiceCredit => lackChoiceGE
     const [doneEssentialGE, setDoneEssentialGE] = useState(0);  // completeEsseCredit => doneEssentialGE
     const [doneChoiceGE, setDoneChoiceGE] = useState(0);  // completeChoiceCredit => doneChoiceGE
-    const [needNessArea, setNeedNessArea] = useState({});
+    const [lackEssentialGETopic, setLackEssentialGETopic] = useState({});  // needNessArea => lackEssentialGETopic
     const [needChoiceArea, setNeedChoiceArea] = useState({});
     const [completeNormalCredit, setCompleteNormalCredit] = useState(0);
     const [needNormalCredit, setNeedNormalCredit] = useState(0);
@@ -130,7 +130,7 @@ function GraduTestPage() {
               setLackChoiceGE(generalData['lackChoiceGE']);
               setDoneEssentialGE(generalData['doneEssentialGE']);
               setDoneChoiceGE(generalData['doneChoiceGE']);
-              setNeedNessArea(generalData['교양필수_부족_영역']);
+              setLackEssentialGETopic(generalData['lackEssentialGETopic']);
               setNeedChoiceArea(generalData['교양선택_부족_영역']);
               setCompleteNormalCredit(generalData['일반선택_이수_학점']);
           } else {
@@ -338,7 +338,7 @@ function GraduTestPage() {
                             </div>
                             <div className={css(styles.generalLacks)}>
                                 <span className={css(styles.generalLecture)}>
-                                    {needNessArea && Object.entries(needNessArea).map(([key, value]) => {
+                                    {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
                                         const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
                                         return (
                                             <div key={key}>
