@@ -13,7 +13,7 @@ import axios from 'axios';
 
 function GraduTestPage() { 
     const [lackEssentialGE, setLackEssentialGE] = useState(0);  // needEsseCredit => lackEssentialGE
-    const [needChoiceCredit, setNeedChoiceCredit] = useState(0);
+    const [lackChoiceGE, setLackChoiceGE] = useState(0);  // needChoiceCredit => lackChoiceGE
     const [completeEsseCredit, setCompleteEsseCredit] = useState(0);
     const [completeChoiceCredit, setCompleteChoiceCredit] = useState(0);
     const [needNessArea, setNeedNessArea] = useState({});
@@ -127,7 +127,7 @@ function GraduTestPage() {
               const generalData = response.data.general_data;
         
               setLackEssentialGE(generalData['lackEssentialGE']);
-              setNeedChoiceCredit(generalData['교양선택_부족_학점']);
+              setLackChoiceGE(generalData['lackChoiceGE']);
               setCompleteEsseCredit(generalData['교양필수_이수_학점']);
               setCompleteChoiceCredit(generalData['교양선택_이수_학점']);
               setNeedNessArea(generalData['교양필수_부족_영역']);
@@ -181,7 +181,7 @@ function GraduTestPage() {
                     sub_major_type ? user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree + user_sub_major + done_rest : user_major + completeEsseCredit + completeChoiceCredit + done_micro_degree + user_sub_major + done_major_rest + done_rest} total={total_credit} />
                 <div className={css(styles.textContainer)}>
                     <div>
-                      {need_major + lackEssentialGE + needChoiceCredit + need_sub_major <= 0 ? 
+                      {need_major + lackEssentialGE + lackChoiceGE + need_sub_major <= 0 ? 
                       <>
                         <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
                         {localStorage.removeItem('needTotalCredit')}
@@ -191,13 +191,13 @@ function GraduTestPage() {
                       <span className={css(styles.custom_title_result_text)}>졸업까지</span>
                       {sub_major_type ?
                       <>
-                        <span className={css(styles.restCredit)}>{rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree + done_rest) ? need_major + lackEssentialGE + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree + done_rest)) + need_sub_major : need_major + lackEssentialGE + needChoiceCredit + need_sub_major}학점</span>
-                        {localStorage.setItem('needTotalCredit', rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree + done_rest) ? need_major + lackEssentialGE + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree + done_rest)) + need_sub_major : need_major + lackEssentialGE + needChoiceCredit + need_sub_major)}
+                        <span className={css(styles.restCredit)}>{rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree + done_rest) ? need_major + lackEssentialGE + lackChoiceGE + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree + done_rest)) + need_sub_major : need_major + lackEssentialGE + lackChoiceGE + need_sub_major}학점</span>
+                        {localStorage.setItem('needTotalCredit', rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree + done_rest) ? need_major + lackEssentialGE + lackChoiceGE + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree + done_rest)) + need_sub_major : need_major + lackEssentialGE + lackChoiceGE + need_sub_major)}
                         <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
                       </>
                       : <>
-                        <span className={css(styles.restCredit)}>{rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree + done_rest) ? need_major + lackEssentialGE + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree + done_rest)) : need_major + lackEssentialGE + needChoiceCredit}학점</span>
-                        {localStorage.setItem('needTotalCredit', rest_credit > (completeNormalCredit + done_major_rest+ done_micro_degree + done_rest) ? need_major + lackEssentialGE + needChoiceCredit + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree + done_rest)) : need_major + lackEssentialGE + needChoiceCredit)}
+                        <span className={css(styles.restCredit)}>{rest_credit > (completeNormalCredit + done_major_rest + done_micro_degree + done_rest) ? need_major + lackEssentialGE + lackChoiceGE + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree + done_rest)) : need_major + lackEssentialGE + lackChoiceGE}학점</span>
+                        {localStorage.setItem('needTotalCredit', rest_credit > (completeNormalCredit + done_major_rest+ done_micro_degree + done_rest) ? need_major + lackEssentialGE + lackChoiceGE + (rest_credit - (completeNormalCredit + done_major_rest + done_micro_degree + done_rest)) : need_major + lackEssentialGE + lackChoiceGE)}
                         <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
                       </>}
                       </>
@@ -350,7 +350,7 @@ function GraduTestPage() {
                             </div>
                           </> }
                         {/* 교양 선택 로직 추가 */}
-                        {!needChoiceCredit ?
+                        {!lackChoiceGE ?
                         <div className={css(styles.majorContentsContainer)}>
                             <img src={sogood}/>
                             <div className={css(styles.successContainer)}>
@@ -359,7 +359,7 @@ function GraduTestPage() {
                                     <span className={css(styles.contentAlertText)}>교양 선택</span>
                                     <span className={css(styles.contextSuccess)}>이수완료</span>
                                     <span className={css(styles.contentAlertText)}>했습니다!</span>
-                                    {localStorage.removeItem('needChoiceCredit')}
+                                    {localStorage.removeItem('lackChoiceGE')}
                                 </div>
                             </div>
                         </div> :
@@ -370,9 +370,9 @@ function GraduTestPage() {
                                   <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
                                   <div>
                                       <span className={css(styles.contentAlertText)}>교양 선택</span>
-                                      <span className={css(styles.lackCredit)}>{needChoiceCredit}학점</span>
+                                      <span className={css(styles.lackCredit)}>{lackChoiceGE}학점</span>
                                       <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                                      {localStorage.setItem('needChoiceCredit', needChoiceCredit)}
+                                      {localStorage.setItem('lackChoiceGE', lackChoiceGE)}
                                   </div>
                               </div>
                           </div>

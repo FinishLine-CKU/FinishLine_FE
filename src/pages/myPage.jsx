@@ -445,10 +445,10 @@ function MyPage() {
                                                     <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackEssentialGE')}학점</strong> 부족</span>
                                                 </div>
                                                 : null}
-                                            {localStorage.getItem('needChoiceCredit') ?
+                                            {localStorage.getItem('lackChoiceGE') ?
                                                 <div className={css(styles.contentContainer)}>
                                                     <span className={css(styles.contentTitle)}>교양선택</span>
-                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needChoiceCredit')}학점</strong> 부족</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackChoiceGE')}학점</strong> 부족</span>
                                                 </div>
                                                 : null
                                             }
