@@ -439,10 +439,10 @@ function MyPage() {
                                                         <span className={css(styles.graduContent)}><strong>{localStorage.getItem('need_sub_major')}학점</strong> 부족</span>
                                                     </div>
                                                     : null : null}
-                                            {localStorage.getItem('needEsseCredit') ?
+                                            {localStorage.getItem('lackEssentialGE') ?
                                                 <div className={css(styles.contentContainer)}>
                                                     <span className={css(styles.contentTitle)}>교양필수</span>
-                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needEsseCredit')}학점</strong> 부족</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackEssentialGE')}학점</strong> 부족</span>
                                                 </div>
                                                 : null}
                                             {localStorage.getItem('needChoiceCredit') ?
