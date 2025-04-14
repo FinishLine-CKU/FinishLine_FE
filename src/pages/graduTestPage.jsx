@@ -46,76 +46,23 @@ function GraduTestPage() {
           student_id : localStorage.getItem('idToken')
         });
         if (response.data) {
-            if (response.data.subMajorType) { // 추가 전공 시 (subMajorStandard) (subMajorType)
-                if (!response.data.restStandard) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                    const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
-                    setMajor(major)
-                    setSubMajorType(subMajorType)
-                    setDoneMajor(doneMajor)
-                    setDoneSubMajor(doneSubMajor)
-                    setDoneMajorRest(doneMajorRest)
-                    setDoneSubMajorRest(doneSubMajorRest)
-                    setDoneRest(doneRest)
-                    setTotalStandard(totalStandard)
-                    setMajorStandard(majorStandard)
-                    setSubMajorStandard(subMajorStandard)
-                    setEssentialGEStandard(essentialGEStandard)
-                    setChoiceGEStandard(choiceGEStandard)
-                    setRestStandard(0)
-                    setLackMajor(lackMajor)
-                    setLackSubMajor(lackSubMajor)
-                } else {  // restStandard (일반 선택 기준 X)
-                    const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
-                    setMajor(major)
-                    setSubMajorType(subMajorType)
-                    setDoneMajor(doneMajor)
-                    setDoneSubMajor(doneSubMajor)
-                    setDoneMajorRest(doneMajorRest)
-                    setDoneSubMajorRest(doneSubMajorRest)
-                    setDoneRest(doneRest)
-                    setTotalStandard(totalStandard)
-                    setMajorStandard(majorStandard)
-                    setSubMajorStandard(subMajorStandard)
-                    setEssentialGEStandard(essentialGEStandard)
-                    setChoiceGEStandard(choiceGEStandard)
-                    setRestStandard(restStandard)
-                    setLackMajor(lackMajor)
-                    setLackSubMajor(lackSubMajor)
-                };
-            } else { // 추가 전공 해당 없을 시
-                if (!response.data.restStandard) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                    const { major, doneMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
-                    alert(major)
-                    setMajor(major)
-                    setDoneMajor(doneMajor)
-                    setDoneMajorRest(doneMajorRest)
-                    setDoneSubMajorRest(doneSubMajorRest)
-                    setDoneRest(doneRest)
-                    setTotalStandard(totalStandard)
-                    setMajorStandard(majorStandard)
-                    setEssentialGEStandard(essentialGEStandard)
-                    setChoiceGEStandard(choiceGEStandard)
-                    setRestStandard(restStandard)
-                    setLackMajor(lackMajor)
-                    setLackSubMajor(lackSubMajor)
-                    {localStorage.setItem('lackSubMajor', lackSubMajor)}
-                } else {
-                    const { major, doneMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
-                    setMajor(major)
-                    setDoneMajor(doneMajor)
-                    setDoneMajorRest(doneMajorRest)
-                    setDoneSubMajorRest(doneSubMajorRest)
-                    setDoneRest(doneRest)
-                    setTotalStandard(totalStandard)
-                    setMajorStandard(majorStandard)
-                    setEssentialGEStandard(essentialGEStandard)
-                    setChoiceGEStandard(choiceGEStandard)
-                    setRestStandard(restStandard)
-                    setLackMajor(lackMajor)
-                    setLackSubMajor(lackSubMajor)
-                    {localStorage.setItem('lackSubMajor', lackSubMajor)}
-                };
-            }
+            const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
+            setMajor(major)
+            setSubMajorType(subMajorType)  // subMajorType / doneSubMajor / subMajorStandard
+            setDoneMajor(doneMajor)
+            setDoneSubMajor(doneSubMajor)
+            setDoneMajorRest(doneMajorRest)
+            setDoneSubMajorRest(doneSubMajorRest)
+            setDoneRest(doneRest)
+            setTotalStandard(totalStandard)
+            setMajorStandard(majorStandard)
+            setSubMajorStandard(subMajorStandard)
+            setEssentialGEStandard(essentialGEStandard)
+            setChoiceGEStandard(choiceGEStandard)
+            setRestStandard(restStandard)
+            setLackMajor(lackMajor)
+            setLackSubMajor(lackSubMajor)
+            {localStorage.setItem('lackSubMajor', lackSubMajor)}
         } else {
             alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
         };
@@ -268,8 +215,7 @@ function GraduTestPage() {
                     {localStorage.setItem('lackSubMajor', lackSubMajor)}
                   </div>
                   }
-                </div> :
-                null }
+                </div> : null }
                 {!restStandard ? null :
                 <div className={css(styles.majorContainer)}>
                   <div className={css(styles.majortitleContainer)}>
