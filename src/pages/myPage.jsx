@@ -73,8 +73,8 @@ function MyPage() {
             student_id: localStorage.getItem('idToken')
         });
         if (!response.data.error) {
-            const { need_major } = response.data;
-            setLackMajor(need_major);
+            const { lackMajor } = response.data;
+            setLackMajor(lackMajor);
         } else {
             alert("서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요")
         }
@@ -419,11 +419,11 @@ function MyPage() {
                         <>
                             {localStorage.getItem('testing') ?
                                 <>
-                                    {localStorage.getItem('needTotalCredit') ?
+                                    {localStorage.getItem('lackTotal') ?
                                         <div className={css(styles.contentArea)}>
                                             <div className={css(styles.marginBottom)}>
                                                 <span className={css(styles.graduState)}>졸업까지</span>
-                                                <span className={css(styles.totalCredit)}>{localStorage.getItem('needTotalCredit')}학점</span>
+                                                <span className={css(styles.totalCredit)}>{localStorage.getItem('lackTotal')}학점</span>
                                                 <span className={css(styles.graduState)}>이수해야 합니다!</span>
                                             </div>
                                             {lackMajor ?
@@ -432,31 +432,31 @@ function MyPage() {
                                                     <span className={css(styles.graduContent)}><strong>{lackMajor}학점</strong> 부족</span>
                                                 </div>
                                                 : null}
-                                            {localStorage.getItem('need_sub_major') ?
-                                                localStorage.getItem('need_sub_major') != 0 ?
+                                            {localStorage.getItem('lackSubMajor') ?
+                                                localStorage.getItem('lackSubMajor') != 0 ?
                                                     <div className={css(styles.contentContainer)}>
                                                         <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
-                                                        <span className={css(styles.graduContent)}><strong>{localStorage.getItem('need_sub_major')}학점</strong> 부족</span>
+                                                        <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackSubMajor')}학점</strong> 부족</span>
                                                     </div>
                                                     : null : null}
-                                            {localStorage.getItem('needEsseCredit') ?
+                                            {localStorage.getItem('lackEssentialGE') ?
                                                 <div className={css(styles.contentContainer)}>
                                                     <span className={css(styles.contentTitle)}>교양필수</span>
-                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needEsseCredit')}학점</strong> 부족</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackEssentialGE')}학점</strong> 부족</span>
                                                 </div>
                                                 : null}
-                                            {localStorage.getItem('needChoiceCredit') ?
+                                            {localStorage.getItem('lackChoiceGE') ?
                                                 <div className={css(styles.contentContainer)}>
                                                     <span className={css(styles.contentTitle)}>교양선택</span>
-                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needChoiceCredit')}학점</strong> 부족</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackChoiceGE')}학점</strong> 부족</span>
                                                 </div>
                                                 : null
                                             }
-                                            {localStorage.getItem('needNormalTotalCredit') == 0 ?
+                                            {localStorage.getItem('lackRestTotal') == 0 ?
                                                 null
                                                 : <div className={css(styles.contentContainer)}>
                                                     <span className={css(styles.contentTitle)}>일반선택</span>
-                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('needNormalTotalCredit')}학점</strong> 부족</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackRestTotal')}학점</strong> 부족</span>
                                                 </div>}
                                         </div> :
                                         <div className={css(styles.contentArea)}>
