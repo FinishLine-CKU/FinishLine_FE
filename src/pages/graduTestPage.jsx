@@ -16,21 +16,21 @@ function GraduTestPage() {
     const [subMajorType, setSubMajorType] = useState();
     
     const [doneMajor, setDoneMajor] = useState();  // user_major => doneMajor
-    const [doneSubMajor, setDoneSubMajor] = useState();  // user_sub_major => doneSubMajor
+    const [doneSubMajor, setDoneSubMajor] = useState(0);  // user_sub_major => doneSubMajor
     const [doneEssentialGE, setDoneEssentialGE] = useState(0);  // completeEsseCredit => doneEssentialGE
     const [doneChoiceGE, setDoneChoiceGE] = useState(0);  // completeChoiceCredit => doneChoiceGE
     const [doneMajorRest, setDoneMajorRest] = useState();  // done_major_rest => doneMajorRest
     const [doneSubMajorRest, setDoneSubMajorRest] = useState();  // done_major_rest => doneMajorRest
     const [doneGERest, setDoneGERest] = useState(0);  // completeNormalCredit => doneGERest
     const [doneRest, setDoneRest] = useState();  // done_rest => doneRest
-    const [doneMD, setDoneMD] = useState();  // done_micro_degree => doneMD
+    const [doneMD, setDoneMD] = useState(0);  // done_micro_degree => doneMD
     
     const [totalStandard, setTotalStandard] = useState();  // total_credit => totalStandard
     const [majorStandard, setMajorStandard] = useState();  // major_credit => majorStandard
     const [subMajorStandard, setSubMajorStandard] = useState();  // sub_major_credit => subMajorStandard
     const [essentialGEStandard, setEssentialGEStandard] = useState();  // general_essential_credit => essentialGEStandard
     const [choiceGEStandard, setChoiceGEStandard] = useState();  // general_selection_credit => choiceGEStandard
-    const [restStandard, setRestStandard] = useState();  // rest_credit => restStandard
+    const [restStandard, setRestStandard] = useState(0);  // rest_credit => restStandard
 
     const [lackMajor, setLackMajor] = useState(); // need_major => lackMajor
     const [lackSubMajor, setLackSubMajor] = useState();  // need_sub_major => lackSubMajor
@@ -48,73 +48,71 @@ function GraduTestPage() {
         if (response.data) {
             if (response.data.subMajorType) { // 추가 전공 시 (subMajorStandard) (subMajorType)
               if (response.data.restStandard === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                  const { major, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, doneSubMajor, subMajorStandard, subMajorType, doneMajorRest, doneSubMajorRest, doneRest } = response.data;
-                  setMajor(major);
-                  setLackMajor(lackMajor)
+                  const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
+                  setMajor(major)
+                  setSubMajorType(subMajorType)
                   setDoneMajor(doneMajor)
+                  setDoneSubMajor(doneSubMajor)
+                  setDoneMajorRest(doneMajorRest)
+                  setDoneSubMajorRest(doneSubMajorRest)
+                  setDoneRest(doneRest)
                   setTotalStandard(totalStandard)
                   setMajorStandard(majorStandard)
+                  setSubMajorStandard(subMajorStandard)
                   setEssentialGEStandard(essentialGEStandard)
                   setChoiceGEStandard(choiceGEStandard)
                   setRestStandard(0)
+                  setLackMajor(lackMajor)
                   setLackSubMajor(lackSubMajor)
-                  setDoneSubMajor(doneSubMajor)
-                  setSubMajorStandard(subMajorStandard)
+              } else {  // restStandard (일반 선택 기준 X)
+                  const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
+                  setMajor(major)
                   setSubMajorType(subMajorType)
+                  setDoneMajor(doneMajor)
+                  setDoneSubMajor(doneSubMajor)
                   setDoneMajorRest(doneMajorRest)
                   setDoneSubMajorRest(doneSubMajorRest)
                   setDoneRest(doneRest)
-              } else {  // restStandard (일반 선택 기준 X)
-                  const { major, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackSubMajor, doneSubMajor, subMajorStandard, subMajorType, doneMajorRest, doneSubMajorRest, doneRest } = response.data;
-                  setMajor(major);
-                  setLackMajor(lackMajor)
-                  setDoneMajor(doneMajor)
                   setTotalStandard(totalStandard)
                   setMajorStandard(majorStandard)
+                  setSubMajorStandard(subMajorStandard)
                   setEssentialGEStandard(essentialGEStandard)
                   setChoiceGEStandard(choiceGEStandard)
                   setRestStandard(restStandard)
+                  setLackMajor(lackMajor)
                   setLackSubMajor(lackSubMajor)
-                  setDoneSubMajor(doneSubMajor)
-                  setSubMajorStandard(subMajorStandard)
-                  setSubMajorType(subMajorType)
-                  setDoneMajorRest(doneMajorRest)
-                  setDoneSubMajorRest(doneSubMajorRest)
-                  setDoneRest(doneRest)
               };
             } else { // 추가 전공 해당 없을 시
                 if (response.data.restStandard === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                    const { major, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, doneMajorRest, doneSubMajorRest, lackSubMajor, doneRest } = response.data;
-                    setMajor(major);
-                    setLackMajor(lackMajor)
+                    const { major, doneMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, essentialGEStandard, restStandard, choiceGEStandard, lackMajor, lackSubMajor } = response.data;
+                    setMajor(major)
                     setDoneMajor(doneMajor)
+                    setDoneMajorRest(doneMajorRest)
+                    setDoneSubMajorRest(doneSubMajorRest)
+                    setDoneRest(doneRest)
                     setTotalStandard(totalStandard)
                     setMajorStandard(majorStandard)
                     setEssentialGEStandard(essentialGEStandard)
                     setChoiceGEStandard(choiceGEStandard)
-                    setRestStandard(0)
-                    setDoneMajorRest(doneMajorRest)
-                    setDoneSubMajorRest(doneSubMajorRest)
+                    setLackMajor(lackMajor)
                     setLackSubMajor(lackSubMajor)
                     {localStorage.setItem('lackSubMajor', lackSubMajor)}
-                    setDoneSubMajor(0)
-                    setDoneRest(doneRest)
+                    
                 } else {
-                    const { major, lackMajor, doneMajor, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, doneMajorRest, doneSubMajorRest, lackSubMajor, doneRest } = response.data;
-                    setMajor(major);
-                    setLackMajor(lackMajor)
+                    const { major, doneMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, essentialGEStandard, restStandard, choiceGEStandard, lackMajor, lackSubMajor } = response.data;
+                    setMajor(major)
                     setDoneMajor(doneMajor)
+                    setDoneMajorRest(doneMajorRest)
+                    setDoneSubMajorRest(doneSubMajorRest)
+                    setDoneRest(doneRest)
                     setTotalStandard(totalStandard)
                     setMajorStandard(majorStandard)
                     setEssentialGEStandard(essentialGEStandard)
                     setChoiceGEStandard(choiceGEStandard)
                     setRestStandard(restStandard)
-                    setDoneMajorRest(doneMajorRest)
-                    setDoneSubMajorRest(doneSubMajorRest)
+                    setLackMajor(lackMajor)
                     setLackSubMajor(lackSubMajor)
                     {localStorage.setItem('lackSubMajor', lackSubMajor)}
-                    setDoneSubMajor(0)
-                    setDoneRest(doneRest)
                 };
             }
         } else {
@@ -154,10 +152,7 @@ function GraduTestPage() {
       });
       const { doneMD } = response.data
       if (doneMD) {
-        setDoneMD(doneMD);
-      }
-      else {
-        setDoneMD(0);
+        setDoneMD(doneMD)
       };
     };
 
@@ -185,10 +180,10 @@ function GraduTestPage() {
                     <p className={css(styles.custom_result_hr)}> {MAJOR_NEW.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</p>
                 </div>
                 <GraduChartComponets earned={
-                    subMajorType ? doneMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajor + doneRest : doneMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajor + doneSubMajorRest + doneRest} total={totalStandard} />
+                    subMajorType ? doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneRest + doneMD : doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneSubMajorRest + doneRest + doneMD } total={totalStandard} />
                 <div className={css(styles.textContainer)}>
                     <div>
-                      {lackMajor + lackEssentialGE + lackChoiceGE + lackSubMajor <= 0 ? 
+                      {lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE <= 0 ? 
                       <>
                         <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
                         {localStorage.removeItem('lackTotal')}
@@ -198,13 +193,13 @@ function GraduTestPage() {
                       <span className={css(styles.custom_title_result_text)}>졸업까지</span>
                       {subMajorType ?
                       <>
-                        <span className={css(styles.restCredit)}>{restStandard > (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest)) + lackSubMajor : lackMajor + lackEssentialGE + lackChoiceGE + lackSubMajor}학점</span>
-                        {localStorage.setItem('lackTotal', restStandard > (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest)) + lackSubMajor : lackMajor + lackEssentialGE + lackChoiceGE + lackSubMajor)}
+                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneRest + doneMD)) + lackSubMajor : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE}학점</span>
+                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneRest + doneMD)) + lackSubMajor : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE)}
                         <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
                       </>
                       : <>
-                        <span className={css(styles.restCredit)}>{restStandard > (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE}학점</span>
-                        {localStorage.setItem('lackTotal', restStandard > (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE)}
+                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneRest + doneMD)) : lackMajor + lackEssentialGE + lackChoiceGE}학점</span>
+                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneRest + doneMD)) : lackMajor + lackEssentialGE + lackChoiceGE)}
                         <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
                       </>}
                       </>
@@ -277,13 +272,13 @@ function GraduTestPage() {
                 <div className={css(styles.majorContainer)}>
                   <div className={css(styles.majortitleContainer)}>
                     <span className={css(styles.custom_h)}>일반선택</span>
-                    <span className={css(styles.userCredit)}>{doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest}</span>
+                    <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD}</span>
                     <span className={css(styles.custom_hr_react)}> / </span>
                     <span className={css(styles.custom_h_focus)}>{restStandard} 학점</span>
                   </div>
                   <hr className={css(styles.custom_major_hr)}/>
                   {/* 일반선택 로직 추가 */}
-                  {(doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest) >= restStandard ?
+                  {(doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) >= restStandard ?
                   <div className={css(styles.majorContentsContainer)}>
                     <img src={sogood}/>
                     <div className={css(styles.successContainer)}>
@@ -298,8 +293,8 @@ function GraduTestPage() {
                   <div className={css(styles.majorContentsContainer)}>
                     <img src={notgood}/>
                     <span className={css(styles.contentAlertText)}>일반 선택</span>
-                    <span className={css(styles.lackCredit)}>{restStandard - (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest)}학점</span>
-                    {localStorage.setItem('lackRestTotal',  restStandard > (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest) ? restStandard - (doneGERest + doneMajorRest + doneSubMajorRest + doneMD + doneRest) : 0)}
+                    <span className={css(styles.lackCredit)}>{restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD)}학점</span>
+                    {localStorage.setItem('lackRestTotal',  restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) : 0)}
                     {}
                     <span className={css(styles.contentAlertText)}>부족합니다.</span>
                   </div>
