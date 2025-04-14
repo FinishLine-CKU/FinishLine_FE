@@ -47,44 +47,45 @@ function GraduTestPage() {
         });
         if (response.data) {
             if (response.data.subMajorType) { // 추가 전공 시 (subMajorStandard) (subMajorType)
-              if (response.data.restStandard === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                  const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
-                  setMajor(major)
-                  setSubMajorType(subMajorType)
-                  setDoneMajor(doneMajor)
-                  setDoneSubMajor(doneSubMajor)
-                  setDoneMajorRest(doneMajorRest)
-                  setDoneSubMajorRest(doneSubMajorRest)
-                  setDoneRest(doneRest)
-                  setTotalStandard(totalStandard)
-                  setMajorStandard(majorStandard)
-                  setSubMajorStandard(subMajorStandard)
-                  setEssentialGEStandard(essentialGEStandard)
-                  setChoiceGEStandard(choiceGEStandard)
-                  setRestStandard(0)
-                  setLackMajor(lackMajor)
-                  setLackSubMajor(lackSubMajor)
-              } else {  // restStandard (일반 선택 기준 X)
-                  const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
-                  setMajor(major)
-                  setSubMajorType(subMajorType)
-                  setDoneMajor(doneMajor)
-                  setDoneSubMajor(doneSubMajor)
-                  setDoneMajorRest(doneMajorRest)
-                  setDoneSubMajorRest(doneSubMajorRest)
-                  setDoneRest(doneRest)
-                  setTotalStandard(totalStandard)
-                  setMajorStandard(majorStandard)
-                  setSubMajorStandard(subMajorStandard)
-                  setEssentialGEStandard(essentialGEStandard)
-                  setChoiceGEStandard(choiceGEStandard)
-                  setRestStandard(restStandard)
-                  setLackMajor(lackMajor)
-                  setLackSubMajor(lackSubMajor)
-              };
+                if (!response.data.restStandard) { // 의학과 or 간호 : 일선 학점 보이면 안됨
+                    const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
+                    setMajor(major)
+                    setSubMajorType(subMajorType)
+                    setDoneMajor(doneMajor)
+                    setDoneSubMajor(doneSubMajor)
+                    setDoneMajorRest(doneMajorRest)
+                    setDoneSubMajorRest(doneSubMajorRest)
+                    setDoneRest(doneRest)
+                    setTotalStandard(totalStandard)
+                    setMajorStandard(majorStandard)
+                    setSubMajorStandard(subMajorStandard)
+                    setEssentialGEStandard(essentialGEStandard)
+                    setChoiceGEStandard(choiceGEStandard)
+                    setRestStandard(0)
+                    setLackMajor(lackMajor)
+                    setLackSubMajor(lackSubMajor)
+                } else {  // restStandard (일반 선택 기준 X)
+                    const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
+                    setMajor(major)
+                    setSubMajorType(subMajorType)
+                    setDoneMajor(doneMajor)
+                    setDoneSubMajor(doneSubMajor)
+                    setDoneMajorRest(doneMajorRest)
+                    setDoneSubMajorRest(doneSubMajorRest)
+                    setDoneRest(doneRest)
+                    setTotalStandard(totalStandard)
+                    setMajorStandard(majorStandard)
+                    setSubMajorStandard(subMajorStandard)
+                    setEssentialGEStandard(essentialGEStandard)
+                    setChoiceGEStandard(choiceGEStandard)
+                    setRestStandard(restStandard)
+                    setLackMajor(lackMajor)
+                    setLackSubMajor(lackSubMajor)
+                };
             } else { // 추가 전공 해당 없을 시
-                if (response.data.restStandard === 0) { // 의학과 or 간호 : 일선 학점 보이면 안됨
-                    const { major, doneMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, essentialGEStandard, restStandard, choiceGEStandard, lackMajor, lackSubMajor } = response.data;
+                if (!response.data.restStandard) { // 의학과 or 간호 : 일선 학점 보이면 안됨
+                    const { major, doneMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
+                    alert(major)
                     setMajor(major)
                     setDoneMajor(doneMajor)
                     setDoneMajorRest(doneMajorRest)
@@ -94,12 +95,12 @@ function GraduTestPage() {
                     setMajorStandard(majorStandard)
                     setEssentialGEStandard(essentialGEStandard)
                     setChoiceGEStandard(choiceGEStandard)
+                    setRestStandard(restStandard)
                     setLackMajor(lackMajor)
                     setLackSubMajor(lackSubMajor)
                     {localStorage.setItem('lackSubMajor', lackSubMajor)}
-                    
                 } else {
-                    const { major, doneMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, essentialGEStandard, restStandard, choiceGEStandard, lackMajor, lackSubMajor } = response.data;
+                    const { major, doneMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
                     setMajor(major)
                     setDoneMajor(doneMajor)
                     setDoneMajorRest(doneMajorRest)
@@ -269,6 +270,7 @@ function GraduTestPage() {
                   }
                 </div> :
                 null }
+                {!restStandard ? null :
                 <div className={css(styles.majorContainer)}>
                   <div className={css(styles.majortitleContainer)}>
                     <span className={css(styles.custom_h)}>일반선택</span>
@@ -299,7 +301,7 @@ function GraduTestPage() {
                     <span className={css(styles.contentAlertText)}>부족합니다.</span>
                   </div>
                   }
-                </div>
+                </div>}
               </div>
               <div className={css(styles.rightContainer)}>
                   <div className={css(styles.majorContainer)}>
