@@ -131,10 +131,10 @@ function GraduTestPage() {
             <Template title="졸업요건 검사 결과" />
             <div className={css(styles.columnContainer)}>
                 <div className={css(styles.hrContainer)}>
-                    <p className={css(styles.custom_h)}>전체</p>
+                    <p className={css(styles.whole)}>전체</p>
                     <hr className={css(styles.custom_hr)}/>
-                    <p className={css(styles.custom_result_hr)}> {MAJOR_NEW.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</p>
                 </div>
+                <span className={css(styles.custom_result_hr)}> {MAJOR_NEW.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</span>
                 <GraduChartComponets earned={ doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajorRest + doneRest } total={totalStandard} />
                 <div className={css(styles.textContainer)}>
                     <div>
@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: '66px',
+        paddingBottom: '66px',
         backgroundColor: '#FFFEFB'
     },
     rowContainer: {
@@ -461,7 +461,13 @@ const styles = StyleSheet.create({
         width: '520px',
         alignItems: 'center',
         justifyContent: 'center',
-        whiteSpace: 'nowrap',
+        whiteSpace: 'nowrap'
+    },
+    whole: {
+      fontFamily: 'Lato',
+      fontSize: '25px',
+      fontWeight: '700',
+      color: 'black',
     },
     majortitleContainer: {
         display: 'flex',
@@ -524,7 +530,7 @@ const styles = StyleSheet.create({
         padding: '0 10px'
     },
     textContainer: {
-        marginTop: '30px',
+        paddingTop: '30px',
         display: 'flex',
         flexDirection: 'column',
         gap: '15px',
@@ -533,8 +539,7 @@ const styles = StyleSheet.create({
     },
     custom_hr: {
         width: '520px',
-        border: '1px solid #E4E4E4',
-        marginBottom: '40px',
+        border: '1px solid #E4E4E4'
     },
     custom_major_hr: {
         marginTop: '10px',
@@ -554,6 +559,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'center',
         color: '#3D5286',
+        padding: '40px 0 30px 0'
     },
     custom_title_result_text: {
         textAlign: 'center',
@@ -588,7 +594,7 @@ const styles = StyleSheet.create({
         fontSize: '25px',
         fontWeight: '700',
         color: 'black',
-        marginRight: '30px',
+        paddingRight: '30px',
     },
     userCredit: {
         color: '#3D5286',
@@ -601,7 +607,7 @@ const styles = StyleSheet.create({
         fontSize: '30px',
         fontWeight: '700',
         color: 'black',
-        margin: '0 5px'
+        padding: '0 5px'
     },
     custom_h_focus: {
         fontFamily: 'Lato',
@@ -624,7 +630,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontSize: '15px',
         fontWeight: '600',
-        marginTop: '0px',
+        paddingTop: '0px',
     },
 });
 
