@@ -39,9 +39,7 @@ function App() {
 
     useEffect(() => {
         if (new Date().getTime() > localStorage.getItem('expire')) {
-            localStorage.removeItem('name')
-            localStorage.removeItem('idToken')
-            localStorage.removeItem('expire')
+            localStorage.clear();
         };
     })
 

@@ -439,6 +439,12 @@ function MyPage() {
                                                         <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackSubMajor')}학점</strong> 부족</span>
                                                     </div>
                                                     : null : null}
+                                            {localStorage.getItem('lackMD') ?
+                                                <div className={css(styles.contentContainer)}>
+                                                    <span className={css(styles.contentTitle)}>소단위전공</span>
+                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackMD')}학점</strong> 부족</span>
+                                                </div>
+                                                : null}
                                             {localStorage.getItem('lackEssentialGE') ?
                                                 <div className={css(styles.contentContainer)}>
                                                     <span className={css(styles.contentTitle)}>교양필수</span>
@@ -452,12 +458,11 @@ function MyPage() {
                                                 </div>
                                                 : null
                                             }
-                                            {localStorage.getItem('lackRestTotal') == 0 ?
-                                                null
-                                                : <div className={css(styles.contentContainer)}>
+                                            {localStorage.getItem('lackRestTotal') ?
+                                                <div className={css(styles.contentContainer)}>
                                                     <span className={css(styles.contentTitle)}>일반선택</span>
                                                     <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackRestTotal')}학점</strong> 부족</span>
-                                                </div>}
+                                                </div> : null}
                                         </div> :
                                         <div className={css(styles.contentArea)}>
                                             <div className={css(styles.marginBottom)}>
