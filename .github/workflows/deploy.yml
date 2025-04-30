@@ -1,0 +1,55 @@
+name: Frontend Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.15.0
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build React app
+        run: yarn build
+
+      - name: Decode PEM KEY & Access EC2
+        run: |
+          echo "$EC2_KEY" | base64 -d > ec2_key.pem
+          chmod 600 ec2_key.pem
+        env:
+          EC2_KEY: ${{ secrets.EC2_KEY }}
+
+      - name: Setting Permission
+        run: ssh -i ec2_key.pem $EC2_USER@$EC2_HOST 'sudo chown -R $EC2_USER:$EC2_USER $DEPLOY_PATH'
+        env:
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        
+      - name: Update build files to EC2
+        run: |
+          scp -i ec2_key.pem -r build/* $EC2_USER@$EC2_HOST:$DEPLOY_PATH
+        env:
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+
+      - name: Restart Nginx on EC2
+        run: |
+          ssh -i ec2_key.pem $EC2_USER@$EC2_HOST 'sudo systemctl restart nginx'
+        env:
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+    
+      
