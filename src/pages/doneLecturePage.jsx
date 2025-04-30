@@ -188,7 +188,7 @@ function DoneLecturePage() {
             <div className={css(styles.container)}>
                 <div className={css(styles.ColumnContainer)}>
                     <div className={css(styles.titleContainer)}>
-                        <h2 className={css(styles.title)}>과목 직접 추가</h2>
+                        <span className={css(styles.title)}>과목 직접 추가</span>
                     </div>
                     <hr className={css(styles.custom_hr)} />
                     <p className={css(styles.small_title)}>과목코드로 검색</p>
@@ -207,12 +207,12 @@ function DoneLecturePage() {
                         {lectureData && lectureData.length > 0 ? (<SubSearchComponents subjects={lectureData} onAdd={handleAddSubject} />) : null}
                     </div>
                     <div className={css(styles.secondTitleContainer)}>
-                        <h2 className={css(styles.secondTitle)}>내 기이수 과목</h2>
+                        <span className={css(styles.secondTitle)}>내 기이수 과목</span>
                         {lectureData && lectureData.length > 0 ?
                             <button className={css(styles.itemSaveButton)} onClick={handleSaveAllSubjects}>저장하기</button>
                             : null}
                     </div>
-                    <hr className={css(styles.second_custom_hr)} />
+                    <hr className={css(styles.custom_hr)} />
                     <div className={css(styles.tableContainerSecond)}>
                         <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code)} />
                     </div>
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFEFB',
     },
     ColumnContainer: {
-        marginTop: '50px',
+        paddingTop: '50px',
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
@@ -258,9 +258,10 @@ const styles = StyleSheet.create({
     tableContainerSecond: {
         justifyContent: 'center',
         alignItems: 'center',
+        padding: '32px 0'
     },
     title: {
-        marginBottom: '5px',
+        paddingBottom: '5px',
         fontFamily: 'Lato',
         fontSize: '23px',
         textAlign: 'left',
@@ -280,12 +281,6 @@ const styles = StyleSheet.create({
         width: '520px',
         border: '1px solid #E4E4E4',
     },
-    second_custom_hr: {
-        marginTop: '1px',
-        marginBottom: '32px',
-        width: '520px',
-        border: '1px solid #E4E4E4',
-    },
     small_title: {
         fontFamily: 'Lato',
         fontSize: '20px',
@@ -294,12 +289,13 @@ const styles = StyleSheet.create({
         color: '#006277',
     },
     textboxContainer: {
-        marginTop: '10px',
-        marginBottom: '40px',
+        paddingTop: '10px',
+        paddingBottom: '40px',
         display: 'flex',
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'center',
+        gap: '15px'
     },
     itemTextboxContainer: {
         width: '450px',
@@ -318,29 +314,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontSize: '15px',
         fontWeight: '600',
-        marginLeft: '15px',
         cursor: 'pointer',
-    },
-    itemAddButton: {
-        marginTop: '30px',
-        marginBottom: '70px',
-        width: '70px',
-        height: '25px',
-        borderRadius: '5px',
-        border: '1px solid transparent',
-        backgroundColor: 'black',
-        color: '#FFFEFB',
-        cursor: 'pointer',
-        ':active': {
-            backgroundColor: '#595650',
-        },
-        fontFamily: 'Lato',
-        fontSize: '12px',
-        fontWeight: '600',
     },
     secondTitleContainer: {
+        paddingTop: '15px',
         width: '520px',
-        height: '54px',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -380,7 +358,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontSize: '15px',
         fontWeight: '700',
-        marginTop: '32px',
     },
 });
 
