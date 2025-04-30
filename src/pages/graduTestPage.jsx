@@ -19,17 +19,19 @@ function GraduTestPage() {
     const [doneSubMajor, setDoneSubMajor] = useState(0);  // user_sub_major => doneSubMajor
     const [doneEssentialGE, setDoneEssentialGE] = useState(0);  // completeEsseCredit => doneEssentialGE
     const [doneChoiceGE, setDoneChoiceGE] = useState(0);  // completeChoiceCredit => doneChoiceGE
-    const [doneMajorRest, setDoneMajorRest] = useState();  // done_major_rest => doneMajorRest
-    const [doneSubMajorRest, setDoneSubMajorRest] = useState();  // done_major_rest => doneMajorRest
-    const [doneGERest, setDoneGERest] = useState(0);  // completeNormalCredit => doneGERest
-    const [doneRest, setDoneRest] = useState();  // done_rest => doneRest
     const [doneMD, setDoneMD] = useState(0);  // done_micro_degree => doneMD
+    const [doneMajorRest, setDoneMajorRest] = useState();  // done_major_rest => doneMajorRest
+    const [doneSubMajorRest, setDoneSubMajorRest] = useState(0);  // done_major_rest => doneMajorRest
+    const [doneGERest, setDoneGERest] = useState(0);  // completeNormalCredit => doneGERest
+    const [doneMDRest, setDoneMDRest] = useState(0);
+    const [doneRest, setDoneRest] = useState();  // done_rest => doneRest
     
     const [totalStandard, setTotalStandard] = useState();  // total_credit => totalStandard
     const [majorStandard, setMajorStandard] = useState();  // major_credit => majorStandard
     const [subMajorStandard, setSubMajorStandard] = useState();  // sub_major_credit => subMajorStandard
     const [essentialGEStandard, setEssentialGEStandard] = useState();  // general_essential_credit => essentialGEStandard
     const [choiceGEStandard, setChoiceGEStandard] = useState();  // general_selection_credit => choiceGEStandard
+    const [MDStandard, setMDStandard] = useState(0);
     const [restStandard, setRestStandard] = useState(0);  // rest_credit => restStandard
 
     const [lackMajor, setLackMajor] = useState(); // need_major => lackMajor
@@ -38,6 +40,7 @@ function GraduTestPage() {
     const [lackEssentialGETopic, setLackEssentialGETopic] = useState({});  // needNessArea => lackEssentialGETopic
     const [lackChoiceGE, setLackChoiceGE] = useState(0);  // needChoiceCredit => lackChoiceGE
     const [lackChoiceGETopic, setLackChoiceGETopic] = useState({});  // needChoiceArea => lackChoiceGETopic
+    const [lackMD, setLackMD] = useState(0);
     
     const navigate = useNavigate();
 
@@ -46,7 +49,7 @@ function GraduTestPage() {
           student_id : localStorage.getItem('idToken')
         });
         if (response.data) {
-            const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, restStandard, lackMajor, lackSubMajor } = response.data;
+            const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, lackMajor, lackSubMajor } = response.data;
             setMajor(major)
             setSubMajorType(subMajorType)  // subMajorType / doneSubMajor / subMajorStandard
             setDoneMajor(doneMajor)
@@ -59,7 +62,6 @@ function GraduTestPage() {
             setSubMajorStandard(subMajorStandard)
             setEssentialGEStandard(essentialGEStandard)
             setChoiceGEStandard(choiceGEStandard)
-            setRestStandard(restStandard)
             setLackMajor(lackMajor)
             setLackSubMajor(lackSubMajor)
             {localStorage.setItem('lackSubMajor', lackSubMajor)}
@@ -98,9 +100,15 @@ function GraduTestPage() {
       const response = await axios.post('http://127.0.0.1:8000/graduation/test_micro_degree/', {
         student_id : localStorage.getItem('idToken')
       });
-      const { doneMD } = response.data
-      if (doneMD) {
+      if (response.data) {
+        const { doneMD, doneMDRest, MDStandard, restStandard, lackMD } = response.data
         setDoneMD(doneMD)
+        setDoneMDRest(doneMDRest)
+        setMDStandard(MDStandard)
+        setRestStandard(restStandard)
+        setLackMD(lackMD)
+      } else {
+        alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
       };
     };
 
@@ -123,15 +131,14 @@ function GraduTestPage() {
             <Template title="졸업요건 검사 결과" />
             <div className={css(styles.columnContainer)}>
                 <div className={css(styles.hrContainer)}>
-                    <p className={css(styles.custom_h)}>전체</p>
+                    <p className={css(styles.whole)}>전체</p>
                     <hr className={css(styles.custom_hr)}/>
-                    <p className={css(styles.custom_result_hr)}> {MAJOR_NEW.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</p>
                 </div>
-                <GraduChartComponets earned={
-                    subMajorType ? doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneRest + doneMD : doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneSubMajorRest + doneRest + doneMD } total={totalStandard} />
+                <span className={css(styles.custom_result_hr)}> {MAJOR_NEW.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</span>
+                <GraduChartComponets earned={ doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajorRest + doneRest } total={totalStandard} />
                 <div className={css(styles.textContainer)}>
                     <div>
-                      {lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE <= 0 ? 
+                      {lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD <= 0 ? 
                       <>
                         <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
                         {localStorage.removeItem('lackTotal')}
@@ -141,13 +148,13 @@ function GraduTestPage() {
                       <span className={css(styles.custom_title_result_text)}>졸업까지</span>
                       {subMajorType ?
                       <>
-                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneRest + doneMD)) + lackSubMajor : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE}학점</span>
-                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneRest + doneMD)) + lackSubMajor : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE)}
+                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneMDRest + doneRest)) : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
+                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD)}
                         <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
                       </>
                       : <>
-                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneRest + doneMD)) : lackMajor + lackEssentialGE + lackChoiceGE}학점</span>
-                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneRest + doneMD)) : lackMajor + lackEssentialGE + lackChoiceGE)}
+                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
+                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE + lackMD)}
                         <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
                       </>}
                       </>
@@ -204,6 +211,7 @@ function GraduTestPage() {
                         <span className={css(styles.contentAlertText)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
                         <span className={css(styles.contextSuccess)}>이수완료</span>
                         <span className={css(styles.contentAlertText)}>했습니다!</span>
+                        {localStorage.removeItem('lackSubMajor', lackSubMajor)}
                       </div>
                     </div>
                   </div> :
@@ -216,17 +224,48 @@ function GraduTestPage() {
                   </div>
                   }
                 </div> : null }
+                {!MDStandard ? null :
+                <div className={css(styles.majorContainer)}>
+                  <div className={css(styles.majortitleContainer)}>
+                    <span className={css(styles.custom_h)}>소단위전공</span>
+                    <span className={css(styles.userCredit)}>{doneMD}</span>
+                    <span className={css(styles.custom_hr_react)}> / </span>
+                    <span className={css(styles.custom_h_focus)}>{MDStandard} 학점</span>
+                  </div>
+                  <hr className={css(styles.custom_major_hr)}/>
+                  {doneMD >= MDStandard ?
+                  <div className={css(styles.majorContentsContainer)}>
+                    <img src={sogood}/>
+                    <div className={css(styles.successContainer)}>
+                      <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                      <div>
+                        <span className={css(styles.contentAlertText)}>소단위전공</span>
+                        <span className={css(styles.contextSuccess)}>이수완료</span>
+                        <span className={css(styles.contentAlertText)}>했습니다!</span>
+                        {localStorage.removeItem('lackMD', lackMD)}
+                      </div>
+                    </div>
+                  </div> :
+                  <div className={css(styles.majorContentsContainer)}>
+                    <img src={notgood}/>
+                    <span className={css(styles.contentAlertText)}>소단위전공</span>
+                    <span className={css(styles.lackCredit)}>{lackMD}학점</span>
+                    {localStorage.setItem('lackMD', lackMD)}
+                    {}
+                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                  </div>}
+                </div>}
                 {!restStandard ? null :
                 <div className={css(styles.majorContainer)}>
                   <div className={css(styles.majortitleContainer)}>
                     <span className={css(styles.custom_h)}>일반선택</span>
-                    <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD}</span>
+                    <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest}</span>
                     <span className={css(styles.custom_hr_react)}> / </span>
                     <span className={css(styles.custom_h_focus)}>{restStandard} 학점</span>
                   </div>
                   <hr className={css(styles.custom_major_hr)}/>
                   {/* 일반선택 로직 추가 */}
-                  {(doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) >= restStandard ?
+                  {(doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) >= restStandard ?
                   <div className={css(styles.majorContentsContainer)}>
                     <img src={sogood}/>
                     <div className={css(styles.successContainer)}>
@@ -235,18 +274,17 @@ function GraduTestPage() {
                         <span className={css(styles.contentAlertText)}>일반 선택</span>
                         <span className={css(styles.contextSuccess)}>이수완료</span>
                         <span className={css(styles.contentAlertText)}>했습니다!</span>
+                        {localStorage.removeItem('lackRestTotal')}
                       </div>
                     </div>
                   </div> :
                   <div className={css(styles.majorContentsContainer)}>
                     <img src={notgood}/>
                     <span className={css(styles.contentAlertText)}>일반 선택</span>
-                    <span className={css(styles.lackCredit)}>{restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD)}학점</span>
-                    {localStorage.setItem('lackRestTotal',  restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) ? restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneRest + doneMD) : 0)}
-                    {}
+                    <span className={css(styles.lackCredit)}>{restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)}학점</span>
+                    {localStorage.setItem('lackRestTotal',  restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) : 0)}
                     <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                  </div>
-                  }
+                  </div>}
                 </div>}
               </div>
               <div className={css(styles.rightContainer)}>
@@ -364,7 +402,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: '66px',
+        paddingBottom: '66px',
         backgroundColor: '#FFFEFB'
     },
     rowContainer: {
@@ -423,7 +461,13 @@ const styles = StyleSheet.create({
         width: '520px',
         alignItems: 'center',
         justifyContent: 'center',
-        whiteSpace: 'nowrap',
+        whiteSpace: 'nowrap'
+    },
+    whole: {
+      fontFamily: 'Lato',
+      fontSize: '25px',
+      fontWeight: '700',
+      color: 'black',
     },
     majortitleContainer: {
         display: 'flex',
@@ -486,7 +530,7 @@ const styles = StyleSheet.create({
         padding: '0 10px'
     },
     textContainer: {
-        marginTop: '30px',
+        paddingTop: '30px',
         display: 'flex',
         flexDirection: 'column',
         gap: '15px',
@@ -495,8 +539,7 @@ const styles = StyleSheet.create({
     },
     custom_hr: {
         width: '520px',
-        border: '1px solid #E4E4E4',
-        marginBottom: '40px',
+        border: '1px solid #E4E4E4'
     },
     custom_major_hr: {
         marginTop: '10px',
@@ -516,6 +559,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         textAlign: 'center',
         color: '#3D5286',
+        padding: '40px 0 30px 0'
     },
     custom_title_result_text: {
         textAlign: 'center',
@@ -550,7 +594,7 @@ const styles = StyleSheet.create({
         fontSize: '25px',
         fontWeight: '700',
         color: 'black',
-        marginRight: '30px',
+        paddingRight: '30px',
     },
     userCredit: {
         color: '#3D5286',
@@ -563,7 +607,7 @@ const styles = StyleSheet.create({
         fontSize: '30px',
         fontWeight: '700',
         color: 'black',
-        margin: '0 5px'
+        padding: '0 5px'
     },
     custom_h_focus: {
         fontFamily: 'Lato',
@@ -586,7 +630,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontSize: '15px',
         fontWeight: '600',
-        marginTop: '0px',
+        paddingTop: '0px',
     },
 });
 
