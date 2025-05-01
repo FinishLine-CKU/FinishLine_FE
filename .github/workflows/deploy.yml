@@ -21,7 +21,7 @@ jobs:
         run: yarn install
 
       - name: Build React app
-        run: yarn build
+        run: CI=false yarn build
 
       - name: Decode PEM KEY & Access EC2
         run: |
