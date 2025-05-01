@@ -30,6 +30,13 @@ jobs:
         env:
           FinishLine-Server: ${{ secrets.EC2_KEY }}
 
+      - name: Add EC2 host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+
       - name: Setting Permission
         run: ssh -i FinishLine-Server.pem $EC2_USER@$EC2_HOST 'sudo chown -R $EC2_USER:$EC2_USER $DEPLOY_PATH'
         env:
