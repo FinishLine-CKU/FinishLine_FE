@@ -38,7 +38,7 @@ jobs:
           EC2_HOST: ${{ secrets.EC2_HOST }}
 
       - name: Setting Permission
-        run: ssh -i FinishLine-Server.pem $EC2_USER@$EC2_HOST 'sudo chown -R $EC2_USER:$EC2_USER $DEPLOY_PATH'
+        run: ssh -i FinishLine-Server.pem $EC2_USER@$EC2_HOST 'sudo chown -R ububtu:ubuntu $DEPLOY_PATH'
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
