@@ -38,25 +38,31 @@ jobs:
           EC2_HOST: ${{ secrets.EC2_HOST }}
 
       - name: Setting Permission
-        run: ssh -i FinishLine-Server.pem $EC2_USER@$EC2_HOST "sudo chown -R $EC2_HOST:$EC2_HOST $DEPLOY_PATH"
-        env:
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          port: 22
+          script: sudo chown -R ${{ secrets.EC2_User }}:${{ secrets.EC2_USER }} ${{ secrets.DEPLOY_PATH }}
         
       - name: Update build files to EC2
-        run: |
-          scp -i FinishLine-Server.pem -r build/* $EC2_USER@$EC2_HOST:$DEPLOY_PATH
-        env:
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          port: 22
+          source: "build/*"
+          target: "/home/ubuntu/build"
 
       - name: Restart Nginx on EC2
-        run: |
-          ssh -i FinishLine-Server.pem $EC2_USER@$EC2_HOST "sudo systemctl restart nginx"
-        env:
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          port: 22
+          script: "sudo systemctl restart nginx"
     
       
