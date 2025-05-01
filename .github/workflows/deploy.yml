@@ -23,20 +23,6 @@ jobs:
       - name: Build React app
         run: CI=false yarn build
 
-      - name: Decode PEM KEY & Access EC2
-        run: |
-          echo "$EC2_KEY" | base64 -d > FinishLine-Server.pem
-          chmod 600 FinishLine-Server.pem
-        env:
-          EC2_KEY: ${{ secrets.EC2_KEY }}
-
-      - name: Add EC2 host to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-
       - name: Setting Permission
         uses: appleboy/ssh-action@v1
         with:
