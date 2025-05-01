@@ -25,10 +25,10 @@ jobs:
 
       - name: Decode PEM KEY & Access EC2
         run: |
-          echo "$FinishLine-Server" | base64 -d > FinishLine-Server.pem
+          echo "$EC2_KEY" | base64 -d > FinishLine-Server.pem
           chmod 600 FinishLine-Server.pem
         env:
-          FinishLine-Server: ${{ secrets.EC2_KEY }}
+          EC2_KEY: ${{ secrets.EC2_KEY }}
 
       - name: Add EC2 host to known_hosts
         run: |
@@ -43,7 +43,6 @@ jobs:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-          FinishLine-Server: ${{ secrets.EC2_KEY }}
         
       - name: Update build files to EC2
         run: |
@@ -52,7 +51,6 @@ jobs:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-          FinishLine-Server: ${{ secrets.EC2_KEY }}
 
       - name: Restart Nginx on EC2
         run: |
@@ -60,6 +58,5 @@ jobs:
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
-          FinishLine-Server: ${{ secrets.EC2_KEY }}
     
       
