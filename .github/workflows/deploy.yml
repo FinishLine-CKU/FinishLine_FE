@@ -25,31 +25,34 @@ jobs:
 
       - name: Decode PEM KEY & Access EC2
         run: |
-          echo "$EC2_KEY" | base64 -d > ec2_key.pem
-          chmod 600 ec2_key.pem
+          echo "$EC2_KEY" | base64 -d > FinishLine-Server.pem
+          chmod 600 FinishLine-Server.pem
         env:
-          EC2_KEY: ${{ secrets.EC2_KEY }}
+          FinishLine-Server: ${{ secrets.EC2_KEY }}
 
       - name: Setting Permission
-        run: ssh -i ec2_key.pem $EC2_USER@$EC2_HOST 'sudo chown -R $EC2_USER:$EC2_USER $DEPLOY_PATH'
+        run: ssh -i FinishLine-Server.pem $EC2_USER@$EC2_HOST 'sudo chown -R $EC2_USER:$EC2_USER $DEPLOY_PATH'
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          FinishLine-Server: ${{ secrets.EC2_KEY }}
         
       - name: Update build files to EC2
         run: |
-          scp -i ec2_key.pem -r build/* $EC2_USER@$EC2_HOST:$DEPLOY_PATH
+          scp -i FinishLine-Server.pem -r build/* $EC2_USER@$EC2_HOST:$DEPLOY_PATH
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          FinishLine-Server: ${{ secrets.EC2_KEY }}
 
       - name: Restart Nginx on EC2
         run: |
-          ssh -i ec2_key.pem $EC2_USER@$EC2_HOST 'sudo systemctl restart nginx'
+          ssh -i FinishLine-Server.pem $EC2_USER@$EC2_HOST 'sudo systemctl restart nginx'
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
+          FinishLine-Server: ${{ secrets.EC2_KEY }}
     
       
