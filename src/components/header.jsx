@@ -48,6 +48,7 @@ function Header() {
                                 : <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
                             : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span>}
                     </li>
+                    <li><a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" className={css(styles.menu)} target="_blank" title="FinishLine 설문 링크">문의 & 피드백</a></li>
                     <li>
                         {localStorage.getItem('idToken') ?
                             optionState ?
