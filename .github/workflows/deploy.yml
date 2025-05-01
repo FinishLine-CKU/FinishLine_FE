@@ -25,7 +25,7 @@ jobs:
 
       - name: Decode PEM KEY & Access EC2
         run: |
-          echo "$EC2_KEY" | base64 -d > FinishLine-Server.pem
+          echo "$FinishLine-Server" | base64 -d > FinishLine-Server.pem
           chmod 600 FinishLine-Server.pem
         env:
           FinishLine-Server: ${{ secrets.EC2_KEY }}
