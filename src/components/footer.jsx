@@ -32,7 +32,7 @@ function Footer({ footerType = 'default' }) {
     return (
         <footer className={css(footerType === 'transparent' ? styles.transparentFooter : footerType === 'manage' ? styles.manageFooter : styles.footerContainer)}>
             <div className={css(footerType === 'transparent' ? styles.transparentLeftSection : footerType === 'manage' ? styles.manageLeftSection : styles.footerLeftSection)}>
-                <a href="https://naver.me/FHlQ2NqP" className={css(styles.surveyLink)} target="_blank" title="FinishLine 설문 링크">
+                <a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit" className={css(styles.surveyLink)} target="_blank" title="FinishLine 설문 링크">
                     <img src={footerType === 'manage' ? blackFinishlineLogo : formLink} className={css(styles.formImage)} alt="FinishLine Survey Form" />
                     <span className={css(footerType === 'manage' ? styles.manageFormText : styles.formText)}>의 사용 후기를 알려주세요!</span>
                 </a>
