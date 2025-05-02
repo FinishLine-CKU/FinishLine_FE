@@ -40,7 +40,7 @@ function GraduTestPage() {
     const [lackChoiceGE, setLackChoiceGE] = useState(0);  // needChoiceCredit => lackChoiceGE
     const [lackChoiceGETopic, setLackChoiceGETopic] = useState({});  // needChoiceArea => lackChoiceGETopic
     const [lackMD, setLackMD] = useState(0);
-    const userId = localStorage.getItem('idToken');
+    const year = parseInt(localStorage.getItem('idToken').substr(4));
     const navigate = useNavigate();
 
     const testing = async () => {
@@ -296,137 +296,142 @@ function GraduTestPage() {
                         </div>
                         <hr className={css(styles.custom_major_hr)} />
                         <div className={css(styles.generalContainer)}>
-                            {userId > 2022 ?
-
-                                (!lackEssentialGE ?
+                        {year > 2022 ?
+                            <>
+                            {!lackEssentialGE ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>교양</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackEssentialGE')}
+                                        </div>
+                                    </div>
+                                </div> :
+                                <>
                                     <div className={css(styles.majorContentsContainer)}>
-                                        <img src={sogood} />
+                                        <img src={notgood} />
                                         <div className={css(styles.successContainer)}>
-                                            <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                            <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
                                             <div>
                                                 <span className={css(styles.contentAlertText)}>교양</span>
-                                                <span className={css(styles.contextSuccess)}>이수완료</span>
-                                                <span className={css(styles.contentAlertText)}>했습니다!</span>
-                                                {localStorage.removeItem('lackEssentialGE')}
+                                                <span className={css(styles.lackCredit)}>{lackEssentialGE + lackChoiceGE}학점</span>
+                                                <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                                {localStorage.setItem('lackEssentialGE', lackEssentialGE)}
+                                                {localStorage.setItem('lackChoiceGE', lackChoiceGE)}
                                             </div>
                                         </div>
-                                    </div> :
-                                    <>
-                                        <div className={css(styles.majorContentsContainer)}>
-                                            <img src={notgood} />
-                                            <div className={css(styles.successContainer)}>
-                                                <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
-                                                <div>
-                                                    <span className={css(styles.contentAlertText)}>교양</span>
-                                                    <span className={css(styles.lackCredit)}>{lackEssentialGE + lackChoiceGE}학점</span>
-                                                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                                                    {localStorage.setItem('lackEssentialGE', lackEssentialGE)}
-                                                    {localStorage.setItem('lackChoiceGE', lackChoiceGE)}
-                                                </div>
-                                            </div>
+                                    </div>
+                                    <div className={css(styles.generalLacks)}>
+                                        <span className={css(styles.generalLecture)}>
+                                            {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미') ? 1 : 2;
+                                                return (
+                                                    <div key={key}>
+                                                        {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                                                    </div>
+                                                );
+                                            })}
+                                            {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미') ? 1 : 2;
+                                                return (
+                                                    <div key={key}>
+                                                        {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                                                    </div>
+                                                );
+                                            })}
+                                        </span>
+                                    </div>
+                                </> 
+                            } 
+                            </> : 
+                            <>
+                            {!lackEssentialGE ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>교양 필수</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackEssentialGE')}
                                         </div>
-                                        <div className={css(styles.generalLacks)}>
-                                            <span className={css(styles.generalLecture)}>
-                                                {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
-                                                    const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미') ? 1 : 2;
-                                                    return (
-                                                        <div key={key}>
-                                                            {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
-                                                        </div>
-                                                    );
-                                                })}
-                                                {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
-                                                    const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미') ? 1 : 2;
-                                                    return (
-                                                        <div key={key}>
-                                                            {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
-                                                        </div>
-                                                    );
-                                                })}
-                                            </span>
-                                        </div>
-                                    </>)
-                                :
-
-                                (!lackEssentialGE ?
+                                    </div>
+                                </div> :
+                                <>
                                     <div className={css(styles.majorContentsContainer)}>
-                                        <img src={sogood} />
+                                        <img src={notgood} />
                                         <div className={css(styles.successContainer)}>
-                                            <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                            <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
                                             <div>
                                                 <span className={css(styles.contentAlertText)}>교양 필수</span>
-                                                <span className={css(styles.contextSuccess)}>이수완료</span>
-                                                <span className={css(styles.contentAlertText)}>했습니다!</span>
-                                                {localStorage.removeItem('lackEssentialGE')}
+                                                <span className={css(styles.lackCredit)}>{lackEssentialGE}학점</span>
+                                                <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                                {localStorage.setItem('lackEssentialGE', lackEssentialGE)}
                                             </div>
                                         </div>
-                                    </div> :
-                                    <>
-                                        <div className={css(styles.majorContentsContainer)}>
-                                            <img src={notgood} />
-                                            <div className={css(styles.successContainer)}>
-                                                <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
-                                                <div>
-                                                    <span className={css(styles.contentAlertText)}>교양 필수</span>
-                                                    <span className={css(styles.lackCredit)}>{lackEssentialGE}학점</span>
-                                                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                                                    {localStorage.setItem('lackEssentialGE', lackEssentialGE)}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className={css(styles.generalLacks)}>
-                                            <span className={css(styles.generalLecture)}>
-                                                {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
-                                                    const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
-                                                    return (
-                                                        <div key={key}>
-                                                            {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
-                                                        </div>
-                                                    );
-                                                })}
-                                            </span>
-                                        </div>
-                                    </>)
-
-                                    (!lackChoiceGE ?
-                                        <div className={css(styles.majorContentsContainer)}>
-                                            <img src={sogood} />
-                                            <div className={css(styles.successContainer)}>
-                                                <span className={css(styles.congratulation)}>축하합니다 🎉</span>
-                                                <div>
-                                                    <span className={css(styles.contentAlertText)}>교양 선택</span>
-                                                    <span className={css(styles.contextSuccess)}>이수완료</span>
-                                                    <span className={css(styles.contentAlertText)}>했습니다!</span>
-                                                    {localStorage.removeItem('lackChoiceGE')}
-                                                </div>
-                                            </div>
-                                        </div> :
-                                        <>
-                                            <div className={css(styles.majorContentsContainer)}>
-                                                <img src={notgood} />
-                                                <div className={css(styles.successContainer)}>
-                                                    <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
-                                                    <div>
-                                                        <span className={css(styles.contentAlertText)}>교양 선택</span>
-                                                        <span className={css(styles.lackCredit)}>{lackChoiceGE}학점</span>
-                                                        <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                                                        {localStorage.setItem('lackChoiceGE', lackChoiceGE)}
+                                    </div>
+                                    <div className={css(styles.generalLacks)}>
+                                        <span className={css(styles.generalLecture)}>
+                                            {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
+                                                return (
+                                                    <div key={key}>
+                                                        {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
                                                     </div>
-                                                </div>
+                                                );
+                                            })}
+                                        </span>
+                                    </div>
+                                </>
+                            }
+
+                            {!lackChoiceGE ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>교양 선택</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackChoiceGE')}
+                                        </div>
+                                    </div>
+                                </div> :
+                                <>
+                                    <div className={css(styles.majorContentsContainer)}>
+                                        <img src={notgood} />
+                                        <div className={css(styles.successContainer)}>
+                                            <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
+                                            <div>
+                                                <span className={css(styles.contentAlertText)}>교양 선택</span>
+                                                <span className={css(styles.lackCredit)}>{lackChoiceGE}학점</span>
+                                                <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                                {localStorage.setItem('lackChoiceGE', lackChoiceGE)}
                                             </div>
-                                            <div className={css(styles.generalLacks)}>
-                                                <span className={css(styles.generalLecture)}>
-                                                    {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
-                                                        const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
-                                                        return (
-                                                            <div key={key}>
-                                                                {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </span>
-                                            </div>
-                                        </>)}
+                                        </div>
+                                    </div>
+                                    <div className={css(styles.generalLacks)}>
+                                        <span className={css(styles.generalLecture)}>
+                                            {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
+                                                return (
+                                                    <div key={key}>
+                                                        {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                                                    </div>
+                                                );
+                                            })}
+                                        </span>
+                                    </div>
+                                </>
+                            }
+                            </>
+                        }
                         </div>
                     </div>
                 </div>
