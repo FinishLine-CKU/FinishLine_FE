@@ -8,7 +8,6 @@ import Footer from '../components/footer';
 import GraduChartComponets from "../components/graduChartComponents";
 import notgood from "../assets/images/notgood.png";
 import sogood from "../assets/images/sogood.png";
-import ChillGuy from "../assets/images/chillGuy.png";
 import axios from 'axios';
 
 function GraduTestPage() {
@@ -436,12 +435,9 @@ function GraduTestPage() {
                 <button className={css(styles.gradubutton)} onClick={goToDoneLecture}>
                     기이수 과목 추가하기
                 </button>
-                <div className={css(styles.feedbackContainer)}>
-                    <img src={ChillGuy} className={css(styles.chillGuy)} />
-                    <a href="https://naver.me/FHlQ2NqP" className={css(styles.feedbackLink)} target="_blank" title="FinishLine 설문 링크">
-                        ✌️✋ chill초면 충분해요! 빠른 피드백 남기기 🙏
-                    </a>
-                </div>
+                <a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" className={css(styles.feedbackLink)} target="_blank" title="FinishLine 설문 링크">
+                  문의 및 피드백 하기
+                </a>
             </div>
             <Footer />
         </>
@@ -465,31 +461,32 @@ const styles = StyleSheet.create({
     },
     bottomContainer: {
         display: 'flex',
-        flexDirection: 'column',
+        // flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: '200px',
         backgroundColor: '#FFFEFB',
-        gap: '60px',
-    },
-    feedbackContainer: {
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    chillGuy: {
-        width: '54px',
-        height: '54px',
-        position: 'absolute',
-        top: '-52px',
-        left: '24px'
+        gap: '30px',
     },
     feedbackLink: {
+        width: '155px',
+        height: '49px',
+        borderRadius: '5px',
+        border: '1.5px solid #3D5286',
         fontFamily: 'Lato',
         fontSize: '15px',
-        color: '#5EAEE0',
+        fontWeight: '600',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#3D5286',
+        backgroundColor: '#FFFEFB',
         cursor: 'pointer',
+        whiteSpace: 'nowrap',
+        ':active': {
+          fontWeight: '700',
+          opacity: '0.5'
+        },
         textDecoration: 'none',
     },
     majorContainer: {

@@ -133,7 +133,7 @@ function LoginPage() {
                 <Template title="Welcome to Finish Line!" subtitle="" />
                 <main className={css(styles.loginContainer)}>
                     <div className={css(styles.loginContent)}>
-                        <h1 className={css(styles.loginTitle)}>로그인</h1>
+                        <h2 className={css(styles.loginTitle)}>로그인</h2>
                         <p className={css(styles.loginDescription)}>
                             Finish Line에 등록한 학번과 비밀번호를 입력해주세요.
                         </p>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'center',
         position: 'relative',
-        marginBottom: '100px',
+        paddingBottom: '100px',
     },
     loginContent: {
         width: '100%',
@@ -208,20 +208,20 @@ const styles = StyleSheet.create({
     },
     loginTitle: {
         fontSize: '28px',
+        fontFamily: 'Lato',
         fontWeight: '600',
-        marginBottom: '8px',
     },
     loginDescription: {
         fontSize: '15px',
         fontWeight: '500',
         color: '#888888',
-        marginBottom: '50px',
+        paddingBottom: '50px',
     },
     loginForm: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '100%',
+        width: '100%'
     },
     formLabel: {
         width: '112%',
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '35px',
+        paddingTop: '35px',
         width: '117%',
         flexWrap: 'nowrap',
         marginLeft: '-34px',
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
         fontSize: '14px',
         fontWeight: 'bold',
         color: '#006277',
-        marginLeft: '10px',
+        paddingLeft: '10px',
         textDecoration: 'none',
         whiteSpace: 'nowrap',
         ':hover': {
