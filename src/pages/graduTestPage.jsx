@@ -318,10 +318,9 @@ function GraduTestPage() {
                                             <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
                                             <div>
                                                 <span className={css(styles.contentAlertText)}>교양</span>
-                                                <span className={css(styles.lackCredit)}>{lackEssentialGE + lackChoiceGE}학점</span>
+                                                <span className={css(styles.lackCredit)}>{lackEssentialGE}학점</span>
                                                 <span className={css(styles.contentAlertText)}>부족합니다.</span>
                                                 {localStorage.setItem('lackEssentialGE', lackEssentialGE)}
-                                                {localStorage.setItem('lackChoiceGE', lackChoiceGE)}
                                             </div>
                                         </div>
                                     </div>
