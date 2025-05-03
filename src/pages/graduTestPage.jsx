@@ -40,7 +40,7 @@ function GraduTestPage() {
     const [lackChoiceGE, setLackChoiceGE] = useState(0);  // needChoiceCredit => lackChoiceGE
     const [lackChoiceGETopic, setLackChoiceGETopic] = useState({});  // needChoiceArea => lackChoiceGETopic
     const [lackMD, setLackMD] = useState(0);
-    const year = parseInt(localStorage.getItem('idToken').substr(4));
+    const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
 
     const testing = async () => {
@@ -250,7 +250,6 @@ function GraduTestPage() {
                                     <span className={css(styles.contentAlertText)}>소단위전공</span>
                                     <span className={css(styles.lackCredit)}>{lackMD}학점</span>
                                     {localStorage.setItem('lackMD', lackMD)}
-                                    { }
                                     <span className={css(styles.contentAlertText)}>부족합니다.</span>
                                 </div>}
                         </div>}
@@ -308,6 +307,7 @@ function GraduTestPage() {
                                             <span className={css(styles.contextSuccess)}>이수완료</span>
                                             <span className={css(styles.contentAlertText)}>했습니다!</span>
                                             {localStorage.removeItem('lackEssentialGE')}
+                                            {localStorage.removeItem('lackChoiceGE')}
                                         </div>
                                     </div>
                                 </div> :
