@@ -10,10 +10,10 @@ import notgood from "../assets/images/notgood.png";
 import sogood from "../assets/images/sogood.png";
 import axios from 'axios';
 
-function GraduTestPage() { 
+function GraduTestPage() {
     const [major, setMajor] = useState();
     const [subMajorType, setSubMajorType] = useState();
-    
+
     const [doneMajor, setDoneMajor] = useState();  // user_major => doneMajor
     const [doneSubMajor, setDoneSubMajor] = useState(0);  // user_sub_major => doneSubMajor
     const [doneEssentialGE, setDoneEssentialGE] = useState(0);  // completeEsseCredit => doneEssentialGE
@@ -24,7 +24,7 @@ function GraduTestPage() {
     const [doneGERest, setDoneGERest] = useState(0);  // completeNormalCredit => doneGERest
     const [doneMDRest, setDoneMDRest] = useState(0);
     const [doneRest, setDoneRest] = useState();  // done_rest => doneRest
-    
+
     const [totalStandard, setTotalStandard] = useState();  // total_credit => totalStandard
     const [majorStandard, setMajorStandard] = useState();  // major_credit => majorStandard
     const [subMajorStandard, setSubMajorStandard] = useState();  // sub_major_credit => subMajorStandard
@@ -40,12 +40,12 @@ function GraduTestPage() {
     const [lackChoiceGE, setLackChoiceGE] = useState(0);  // needChoiceCredit => lackChoiceGE
     const [lackChoiceGETopic, setLackChoiceGETopic] = useState({});  // needChoiceArea => lackChoiceGETopic
     const [lackMD, setLackMD] = useState(0);
-    
+    const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
 
     const testing = async () => {
         const response = await axios.post('https://finishline-cku.com/graduation/test_major/', {
-          student_id : localStorage.getItem('idToken')
+            student_id : localStorage.getItem('idToken')
         });
         if (response.data) {
             const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, lackMajor, lackSubMajor } = response.data;
@@ -63,7 +63,7 @@ function GraduTestPage() {
             setChoiceGEStandard(choiceGEStandard)
             setLackMajor(lackMajor)
             setLackSubMajor(lackSubMajor)
-            {localStorage.setItem('lackSubMajor', lackSubMajor)}
+            { localStorage.setItem('lackSubMajor', lackSubMajor) }
         } else {
             alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
         };
@@ -72,56 +72,56 @@ function GraduTestPage() {
     const goGraduationCheck = async () => {
         try {
             const userId = localStorage.getItem('idToken');
-        
+
             if (userId) {
-              const response = await axios.post('https://finishline-cku.com/graduation/general_check/', {
-                user_id: userId
-              });
+                const response = await axios.post('https://finishline-cku.com/graduation/general_check/', {
+                    user_id: userId
+                });
         
-              const generalData = response.data.general_data;
-        
-              setLackEssentialGE(generalData['lackEssentialGE']);
-              setLackChoiceGE(generalData['lackChoiceGE']);
-              setDoneEssentialGE(generalData['doneEssentialGE']);
-              setDoneChoiceGE(generalData['doneChoiceGE']);
-              setLackEssentialGETopic(generalData['lackEssentialGETopic']);
-              setLackChoiceGETopic(generalData['lackChoiceGETopic']);
-              setDoneGERest(generalData['doneGERest']);
-          } else {
-              console.error('user_id가 로컬스토리지에 없습니다.');
-          }
+                const generalData = response.data.general_data;
+            
+                setLackEssentialGE(generalData['lackEssentialGE']);
+                setLackChoiceGE(generalData['lackChoiceGE']);
+                setDoneEssentialGE(generalData['doneEssentialGE']);
+                setDoneChoiceGE(generalData['doneChoiceGE']);
+                setLackEssentialGETopic(generalData['lackEssentialGETopic']);
+                setLackChoiceGETopic(generalData['lackChoiceGETopic']);
+                setDoneGERest(generalData['doneGERest']);
+            } else {
+                console.error('user_id가 로컬스토리지에 없습니다.');
+            }
         } catch (error) {
             console.error('Error fetching data: ', error);
         }
     };
-  
+
     const microDegreeCheck = async () => {
-      const response = await axios.post('https://finishline-cku.com/graduation/test_micro_degree/', {
-        student_id : localStorage.getItem('idToken')
-      });
-      if (response.data) {
-        const { doneMD, doneMDRest, MDStandard, restStandard, lackMD } = response.data
-        setDoneMD(doneMD)
-        setDoneMDRest(doneMDRest)
-        setMDStandard(MDStandard)
-        setRestStandard(restStandard)
-        setLackMD(lackMD)
-      } else {
-        alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
-      };
+        const response = await axios.post('https://finishline-cku.com/graduation/test_micro_degree/', {
+            student_id : localStorage.getItem('idToken')
+        });
+        if (response.data) {
+            const { doneMD, doneMDRest, MDStandard, restStandard, lackMD } = response.data
+            setDoneMD(doneMD)
+            setDoneMDRest(doneMDRest)
+            setMDStandard(MDStandard)
+            setRestStandard(restStandard)
+            setLackMD(lackMD)
+        } else {
+            alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+        };
     };
 
     const goToDoneLecture = () => {
-      navigate("/donelecture");
-      window.scrollTo(0, 0);
+        navigate("/donelecture");
+        window.scrollTo(0, 0);
     };
 
     useEffect(() => {
-      testing();
-      localStorage.setItem('testing', true);
-      goGraduationCheck();
-      localStorage.removeItem('tryAgainTest');
-      microDegreeCheck();
+        testing();
+        localStorage.setItem('testing', true);
+        goGraduationCheck();
+        localStorage.removeItem('tryAgainTest');
+        microDegreeCheck();
     }, []);
 
     return (
@@ -131,254 +131,309 @@ function GraduTestPage() {
             <div className={css(styles.columnContainer)}>
                 <div className={css(styles.hrContainer)}>
                     <p className={css(styles.whole)}>전체</p>
-                    <hr className={css(styles.custom_hr)}/>
+                    <hr className={css(styles.custom_hr)} />
                 </div>
                 <span className={css(styles.custom_result_hr)}> {MAJOR_NEW.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</span>
-                <GraduChartComponets earned={ doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajorRest + doneRest } total={totalStandard} />
+                <GraduChartComponets earned={doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajorRest + doneRest} total={totalStandard} />
                 <div className={css(styles.textContainer)}>
                     <div>
-                      {lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD <= 0 ? 
-                      <>
-                        <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
-                        {localStorage.removeItem('lackTotal')}
-                      </>
-                      :
-                      <>
-                      <span className={css(styles.custom_title_result_text)}>졸업까지</span>
-                      {subMajorType ?
-                      <>
-                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest +  doneMDRest + doneRest)) : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
-                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD)}
-                        <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
-                      </>
-                      : <>
-                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
-                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE + lackMD)}
-                        <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
-                      </>}
-                      </>
-                      }
+                        {lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD <= 0 ?
+                            <>
+                                <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
+                                {localStorage.removeItem('lackTotal')}
+                            </>
+                            :
+                            <>
+                                <span className={css(styles.custom_title_result_text)}>졸업까지</span>
+                                {subMajorType ?
+                                    <>
+                                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
+                                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD)}
+                                        <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+                                    </>
+                                    : <>
+                                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
+                                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE + lackMD)}
+                                        <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+                                    </>}
+                            </>
+                        }
                     </div>
                     <span className={css(styles.custom_smalltext)}>아래에서 부족한 영역을 확인하세요</span>
                 </div>
             </div>
             <div className={css(styles.rowContainer)}>
-              <div className={css(styles.leftContainer)}>
-                <div className={css(styles.majorContainer)}>
-                  <div className={css(styles.majortitleContainer)}>
-                    <span className={css(styles.custom_h)}>전공</span>
-                    <span className={css(styles.userCredit)}>{doneMajor}</span>
-                    <span className={css(styles.custom_hr_react)}> / </span>
-                    <span className={css(styles.custom_h_focus)}>{majorStandard} 학점</span>
-                  </div>
-                  <hr className={css(styles.custom_major_hr)}/>
-                  {doneMajor >= majorStandard ?
-                  <div className={css(styles.majorContentsContainer)}>
-                    <img src={sogood}/>
-                    <div className={css(styles.successContainer)}>
-                      <span className={css(styles.congratulation)}>축하합니다 🎉</span>
-                      <div>
-                        <span className={css(styles.contentAlertText)}>전공 학점</span>
-                        <span className={css(styles.contextSuccess)}>이수완료</span>
-                        <span className={css(styles.contentAlertText)}>했습니다!</span>
-                      </div>
-                    </div>
-                  </div> :
-                  <div className={css(styles.majorContentsContainer)}>
-                    <img src={notgood}/>
-                    <span className={css(styles.contentAlertText)}>전공 학점</span>
-                    <span className={css(styles.lackCredit)}>{lackMajor}학점</span>
-                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                  </div>
-                  }
-                </div>
-                { subMajorType ?
-                <div className={css(styles.majorContainer)}>
-                  <div className={css(styles.majortitleContainer)}>
-                    <span className={css(styles.custom_h)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
-                    <span className={css(styles.userCredit)}>{doneSubMajor}</span>
-                    <span className={css(styles.custom_hr_react)}> / </span>
-                    <span className={css(styles.custom_h_focus)}>{subMajorStandard} 학점</span>
-                  </div>
-                  <hr className={css(styles.custom_major_hr)}/>
-                  {doneSubMajor >= subMajorStandard ?
-                  <div className={css(styles.majorContentsContainer)}>
-                    <img src={sogood}/>
-                    <div className={css(styles.successContainer)}>
-                      <span className={css(styles.congratulation)}>축하합니다 🎉</span>
-                      <div>
-                        <span className={css(styles.contentAlertText)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
-                        <span className={css(styles.contextSuccess)}>이수완료</span>
-                        <span className={css(styles.contentAlertText)}>했습니다!</span>
-                        {localStorage.removeItem('lackSubMajor', lackSubMajor)}
-                      </div>
-                    </div>
-                  </div> :
-                  <div className={css(styles.majorContentsContainer)}>
-                    <img src={notgood}/>
-                    <span className={css(styles.contentAlertText)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
-                    <span className={css(styles.lackCredit)}>{lackSubMajor}학점</span>
-                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                    {localStorage.setItem('lackSubMajor', lackSubMajor)}
-                  </div>
-                  }
-                </div> : null }
-                {!MDStandard ? null :
-                <div className={css(styles.majorContainer)}>
-                  <div className={css(styles.majortitleContainer)}>
-                    <span className={css(styles.custom_h)}>소단위전공</span>
-                    <span className={css(styles.userCredit)}>{doneMD}</span>
-                    <span className={css(styles.custom_hr_react)}> / </span>
-                    <span className={css(styles.custom_h_focus)}>{MDStandard} 학점</span>
-                  </div>
-                  <hr className={css(styles.custom_major_hr)}/>
-                  {doneMD >= MDStandard ?
-                  <div className={css(styles.majorContentsContainer)}>
-                    <img src={sogood}/>
-                    <div className={css(styles.successContainer)}>
-                      <span className={css(styles.congratulation)}>축하합니다 🎉</span>
-                      <div>
-                        <span className={css(styles.contentAlertText)}>소단위전공</span>
-                        <span className={css(styles.contextSuccess)}>이수완료</span>
-                        <span className={css(styles.contentAlertText)}>했습니다!</span>
-                        {localStorage.removeItem('lackMD', lackMD)}
-                      </div>
-                    </div>
-                  </div> :
-                  <div className={css(styles.majorContentsContainer)}>
-                    <img src={notgood}/>
-                    <span className={css(styles.contentAlertText)}>소단위전공</span>
-                    <span className={css(styles.lackCredit)}>{lackMD}학점</span>
-                    {localStorage.setItem('lackMD', lackMD)}
-                    {}
-                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                  </div>}
-                </div>}
-                {!restStandard ? null :
-                <div className={css(styles.majorContainer)}>
-                  <div className={css(styles.majortitleContainer)}>
-                    <span className={css(styles.custom_h)}>일반선택</span>
-                    <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest}</span>
-                    <span className={css(styles.custom_hr_react)}> / </span>
-                    <span className={css(styles.custom_h_focus)}>{restStandard} 학점</span>
-                  </div>
-                  <hr className={css(styles.custom_major_hr)}/>
-                  {/* 일반선택 로직 추가 */}
-                  {(doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) >= restStandard ?
-                  <div className={css(styles.majorContentsContainer)}>
-                    <img src={sogood}/>
-                    <div className={css(styles.successContainer)}>
-                      <span className={css(styles.congratulation)}>축하합니다 🎉</span>
-                      <div>
-                        <span className={css(styles.contentAlertText)}>일반 선택</span>
-                        <span className={css(styles.contextSuccess)}>이수완료</span>
-                        <span className={css(styles.contentAlertText)}>했습니다!</span>
-                        {localStorage.removeItem('lackRestTotal')}
-                      </div>
-                    </div>
-                  </div> :
-                  <div className={css(styles.majorContentsContainer)}>
-                    <img src={notgood}/>
-                    <span className={css(styles.contentAlertText)}>일반 선택</span>
-                    <span className={css(styles.lackCredit)}>{restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)}학점</span>
-                    {localStorage.setItem('lackRestTotal',  restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) : 0)}
-                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                  </div>}
-                </div>}
-              </div>
-              <div className={css(styles.rightContainer)}>
-                  <div className={css(styles.majorContainer)}>
-                      <div className={css(styles.majortitleContainer)}>
-                          <span className={css(styles.custom_h)}>교양</span>
-                          <span className={css(styles.userCredit)}>{doneEssentialGE + doneChoiceGE}</span>
-                          <span className={css(styles.custom_hr_react)}> / </span>
-                          <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
-                      </div>
-                      <hr className={css(styles.custom_major_hr)}/>
-                      <div className={css(styles.generalContainer)}>
-                          {/* 교양 필수 로직 추가 */}
-                          {!lackEssentialGE ? 
-                          <div className={css(styles.majorContentsContainer)}>
-                              <img src={sogood}/>
-                              <div className={css(styles.successContainer)}>
-                                  <span className={css(styles.congratulation)}>축하합니다 🎉</span>
-                                  <div>
-                                      <span className={css(styles.contentAlertText)}>교양 필수</span>
-                                      <span className={css(styles.contextSuccess)}>이수완료</span>
-                                      <span className={css(styles.contentAlertText)}>했습니다!</span>
-                                      {localStorage.removeItem('lackEssentialGE')}
-                                  </div>
-                              </div>
-                          </div> :
-                          <>
+                <div className={css(styles.leftContainer)}>
+                    <div className={css(styles.majorContainer)}>
+                        <div className={css(styles.majortitleContainer)}>
+                            <span className={css(styles.custom_h)}>전공</span>
+                            <span className={css(styles.userCredit)}>{doneMajor}</span>
+                            <span className={css(styles.custom_hr_react)}> / </span>
+                            <span className={css(styles.custom_h_focus)}>{majorStandard} 학점</span>
+                        </div>
+                        <hr className={css(styles.custom_major_hr)} />
+                        {doneMajor >= majorStandard ?
                             <div className={css(styles.majorContentsContainer)}>
-                                <img src={notgood}/>
+                                <img src={sogood} />
                                 <div className={css(styles.successContainer)}>
-                                    <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
+                                    <span className={css(styles.congratulation)}>축하합니다 🎉</span>
                                     <div>
-                                        <span className={css(styles.contentAlertText)}>교양 필수</span>
-                                        <span className={css(styles.lackCredit)}>{lackEssentialGE}학점</span>
-                                        <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                                        {localStorage.setItem('lackEssentialGE', lackEssentialGE)}
+                                        <span className={css(styles.contentAlertText)}>전공 학점</span>
+                                        <span className={css(styles.contextSuccess)}>이수완료</span>
+                                        <span className={css(styles.contentAlertText)}>했습니다!</span>
                                     </div>
                                 </div>
+                            </div> :
+                            <div className={css(styles.majorContentsContainer)}>
+                                <img src={notgood} />
+                                <span className={css(styles.contentAlertText)}>전공 학점</span>
+                                <span className={css(styles.lackCredit)}>{lackMajor}학점</span>
+                                <span className={css(styles.contentAlertText)}>부족합니다.</span>
                             </div>
-                            <div className={css(styles.generalLacks)}>
-                                <span className={css(styles.generalLecture)}>
-                                    {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
-                                        const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
-                                        return (
-                                            <div key={key}>
-                                                {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
-                                            </div>
-                                        );
-                                    })}
-                                </span>
+                        }
+                    </div>
+                    {subMajorType ?
+                        <div className={css(styles.majorContainer)}>
+                            <div className={css(styles.majortitleContainer)}>
+                                <span className={css(styles.custom_h)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
+                                <span className={css(styles.userCredit)}>{doneSubMajor}</span>
+                                <span className={css(styles.custom_hr_react)}> / </span>
+                                <span className={css(styles.custom_h_focus)}>{subMajorStandard} 학점</span>
                             </div>
-                          </> }
-                        {/* 교양 선택 로직 추가 */}
-                        {!lackChoiceGE ?
-                        <div className={css(styles.majorContentsContainer)}>
-                            <img src={sogood}/>
-                            <div className={css(styles.successContainer)}>
-                                <span className={css(styles.congratulation)}>축하합니다 🎉</span>
-                                <div>
-                                    <span className={css(styles.contentAlertText)}>교양 선택</span>
-                                    <span className={css(styles.contextSuccess)}>이수완료</span>
-                                    <span className={css(styles.contentAlertText)}>했습니다!</span>
-                                    {localStorage.removeItem('lackChoiceGE')}
-                                </div>
-                            </div>
-                        </div> :
-                        <>
-                          <div className={css(styles.majorContentsContainer)}>
-                              <img src={notgood}/>
-                              <div className={css(styles.successContainer)}>
-                                  <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
-                                  <div>
-                                      <span className={css(styles.contentAlertText)}>교양 선택</span>
-                                      <span className={css(styles.lackCredit)}>{lackChoiceGE}학점</span>
-                                      <span className={css(styles.contentAlertText)}>부족합니다.</span>
-                                      {localStorage.setItem('lackChoiceGE', lackChoiceGE)}
-                                  </div>
-                              </div>
-                          </div>
-                          <div className={css(styles.generalLacks)}>
-                              <span className={css(styles.generalLecture)}>
-                                    {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
-                                      const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
-                                      return (
-                                        <div key={key}>
-                                          {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                            <hr className={css(styles.custom_major_hr)} />
+                            {doneSubMajor >= subMajorStandard ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackSubMajor', lackSubMajor)}
                                         </div>
-                                      );
-                                    })}
-                                </span>
-                          </div>
-                        </> }
-                      </div>
-                  </div>
-              </div>
+                                    </div>
+                                </div> :
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={notgood} />
+                                    <span className={css(styles.contentAlertText)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
+                                    <span className={css(styles.lackCredit)}>{lackSubMajor}학점</span>
+                                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                    {localStorage.setItem('lackSubMajor', lackSubMajor)}
+                                </div>
+                            }
+                        </div> : null}
+                    {!MDStandard ? null :
+                        <div className={css(styles.majorContainer)}>
+                            <div className={css(styles.majortitleContainer)}>
+                                <span className={css(styles.custom_h)}>소단위전공</span>
+                                <span className={css(styles.userCredit)}>{doneMD}</span>
+                                <span className={css(styles.custom_hr_react)}> / </span>
+                                <span className={css(styles.custom_h_focus)}>{MDStandard} 학점</span>
+                            </div>
+                            <hr className={css(styles.custom_major_hr)} />
+                            {doneMD >= MDStandard ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>소단위전공</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackMD', lackMD)}
+                                        </div>
+                                    </div>
+                                </div> :
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={notgood} />
+                                    <span className={css(styles.contentAlertText)}>소단위전공</span>
+                                    <span className={css(styles.lackCredit)}>{lackMD}학점</span>
+                                    {localStorage.setItem('lackMD', lackMD)}
+                                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                </div>}
+                        </div>}
+                    {!restStandard ? null :
+                        <div className={css(styles.majorContainer)}>
+                            <div className={css(styles.majortitleContainer)}>
+                                <span className={css(styles.custom_h)}>일반선택</span>
+                                <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest}</span>
+                                <span className={css(styles.custom_hr_react)}> / </span>
+                                <span className={css(styles.custom_h_focus)}>{restStandard} 학점</span>
+                            </div>
+                            <hr className={css(styles.custom_major_hr)} />
+                            {/* 일반선택 로직 추가 */}
+                            {(doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) >= restStandard ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>일반 선택</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackRestTotal')}
+                                        </div>
+                                    </div>
+                                </div> :
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={notgood} />
+                                    <span className={css(styles.contentAlertText)}>일반 선택</span>
+                                    <span className={css(styles.lackCredit)}>{restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)}학점</span>
+                                    {localStorage.setItem('lackRestTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) : 0)}
+                                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                </div>}
+                        </div>}
+                </div>
+                <div className={css(styles.rightContainer)}>
+                    <div className={css(styles.majorContainer)}>
+                        <div className={css(styles.majortitleContainer)}>
+                            <span className={css(styles.custom_h)}>교양</span>
+                            <span className={css(styles.userCredit)}>{doneEssentialGE + doneChoiceGE}</span>
+                            <span className={css(styles.custom_hr_react)}> / </span>
+                            <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
+                        </div>
+                        <hr className={css(styles.custom_major_hr)} />
+                        <div className={css(styles.generalContainer)}>
+                        {year > 2022 ?
+                            <>
+                            {!lackEssentialGE ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>교양</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackEssentialGE')}
+                                            {localStorage.removeItem('lackChoiceGE')}
+                                        </div>
+                                    </div>
+                                </div> :
+                                <>
+                                    <div className={css(styles.majorContentsContainer)}>
+                                        <img src={notgood} />
+                                        <div className={css(styles.successContainer)}>
+                                            <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
+                                            <div>
+                                                <span className={css(styles.contentAlertText)}>교양</span>
+                                                <span className={css(styles.lackCredit)}>{lackEssentialGE}학점</span>
+                                                <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                                {localStorage.setItem('lackEssentialGE', lackEssentialGE)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={css(styles.generalLacks)}>
+                                        <span className={css(styles.generalLecture)}>
+                                            {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미' || key === 'VERUM인성') ? 1 : 2;
+                                                return (
+                                                    <div key={key}>
+                                                        {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                                                    </div>
+                                                );
+                                            })}
+                                            {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미' || key === 'VERUM인성') ? 1 : 2;
+                                                return (
+                                                    <div key={key}>
+                                                        {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                                                    </div>
+                                                );
+                                            })}
+                                        </span>
+                                    </div>
+                                </> 
+                            } 
+                            </> : 
+                            <>
+                            {!lackEssentialGE ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>교양 필수</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackEssentialGE')}
+                                        </div>
+                                    </div>
+                                </div> :
+                                <>
+                                    <div className={css(styles.majorContentsContainer)}>
+                                        <img src={notgood} />
+                                        <div className={css(styles.successContainer)}>
+                                            <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
+                                            <div>
+                                                <span className={css(styles.contentAlertText)}>교양 필수</span>
+                                                <span className={css(styles.lackCredit)}>{lackEssentialGE}학점</span>
+                                                <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                                {localStorage.setItem('lackEssentialGE', lackEssentialGE)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={css(styles.generalLacks)}>
+                                        <span className={css(styles.generalLecture)}>
+                                            {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === 'VERUM인성') ? 1 : 2;
+                                                return (
+                                                    <div key={key}>
+                                                        {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                                                    </div>
+                                                );
+                                            })}
+                                        </span>
+                                    </div>
+                                </>
+                            }
+
+                            {!lackChoiceGE ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>교양 선택</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackChoiceGE')}
+                                        </div>
+                                    </div>
+                                </div> :
+                                <>
+                                    <div className={css(styles.majorContentsContainer)}>
+                                        <img src={notgood} />
+                                        <div className={css(styles.successContainer)}>
+                                            <span className={css(styles.congratulation)}>추가로 수강해야하는 영역을 확인하세요.</span>
+                                            <div>
+                                                <span className={css(styles.contentAlertText)}>교양 선택</span>
+                                                <span className={css(styles.lackCredit)}>{lackChoiceGE}학점</span>
+                                                <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                                {localStorage.setItem('lackChoiceGE', lackChoiceGE)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={css(styles.generalLacks)}>
+                                        <span className={css(styles.generalLecture)}>
+                                            {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === 'VERUM인성') ? 1 : 2;
+                                                return (
+                                                    <div key={key}>
+                                                        {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
+                                                    </div>
+                                                );
+                                            })}
+                                        </span>
+                                    </div>
+                                </>
+                            }
+                            </>
+                        }
+                        </div>
+                    </div>
+                </div>
             </div>
             <div className={css(styles.bottomContainer)}>
                 <button className={css(styles.gradubutton)} onClick={goToDoneLecture}>
@@ -388,7 +443,7 @@ function GraduTestPage() {
                   문의 및 피드백 하기
                 </a>
             </div>
-          <Footer />
+            <Footer />
         </>
     );
 }
@@ -461,10 +516,10 @@ const styles = StyleSheet.create({
         whiteSpace: 'nowrap'
     },
     whole: {
-      fontFamily: 'Lato',
-      fontSize: '25px',
-      fontWeight: '700',
-      color: 'black',
+        fontFamily: 'Lato',
+        fontSize: '25px',
+        fontWeight: '700',
+        color: 'black',
     },
     majortitleContainer: {
         display: 'flex',

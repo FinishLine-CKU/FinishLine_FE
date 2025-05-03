@@ -28,8 +28,10 @@ function MyPage() {
     const [removeInfoCheck, setRemoveInfoCheck] = useState(false);
     const [successChangePW, setSuccessChangePW] = useState(false);
     const [myLectureList, setMyLectureList] = useState([]);
+    const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
     const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
+    
     const myInfo = async () => {
         const response = await axios.post('https://finishline-cku.com/user/my_info/', {
             idToken: localStorage.getItem('idToken')
@@ -445,18 +447,30 @@ function MyPage() {
                                                     <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackMD')}학점</strong> 부족</span>
                                                 </div>
                                                 : null}
-                                            {localStorage.getItem('lackEssentialGE') ?
-                                                <div className={css(styles.contentContainer)}>
-                                                    <span className={css(styles.contentTitle)}>교양필수</span>
-                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackEssentialGE')}학점</strong> 부족</span>
-                                                </div>
-                                                : null}
-                                            {localStorage.getItem('lackChoiceGE') ?
-                                                <div className={css(styles.contentContainer)}>
-                                                    <span className={css(styles.contentTitle)}>교양선택</span>
-                                                    <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackChoiceGE')}학점</strong> 부족</span>
-                                                </div>
-                                                : null
+                                            {year > 2022 ?
+                                                <>
+                                                    {localStorage.getItem('lackEssentialGE') ?
+                                                        <div className={css(styles.contentContainer)}>
+                                                            <span className={css(styles.contentTitle)}>교양</span>
+                                                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackEssentialGE')}학점</strong> 부족</span>
+                                                        </div>
+                                                        : null}
+                                                </> :
+                                                <>
+                                                    {localStorage.getItem('lackEssentialGE') ?
+                                                        <div className={css(styles.contentContainer)}>
+                                                            <span className={css(styles.contentTitle)}>교양필수</span>
+                                                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackEssentialGE')}학점</strong> 부족</span>
+                                                        </div>
+                                                        : null}
+                                                    {localStorage.getItem('lackChoiceGE') ?
+                                                        <div className={css(styles.contentContainer)}>
+                                                            <span className={css(styles.contentTitle)}>교양선택</span>
+                                                            <span className={css(styles.graduContent)}><strong>{localStorage.getItem('lackChoiceGE')}학점</strong> 부족</span>
+                                                        </div>
+                                                        : null
+                                                    }
+                                                </>
                                             }
                                             {localStorage.getItem('lackRestTotal') ?
                                                 <div className={css(styles.contentContainer)}>
