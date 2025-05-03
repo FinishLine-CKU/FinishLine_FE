@@ -328,7 +328,7 @@ function GraduTestPage() {
                                     <div className={css(styles.generalLacks)}>
                                         <span className={css(styles.generalLecture)}>
                                             {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
-                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미') ? 1 : 2;
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미' || key === 'VERUM인성') ? 1 : 2;
                                                 return (
                                                     <div key={key}>
                                                         {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
@@ -336,7 +336,7 @@ function GraduTestPage() {
                                                 );
                                             })}
                                             {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
-                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미') ? 1 : 2;
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === '트리니티아카데미' || key === 'VERUM인성') ? 1 : 2;
                                                 return (
                                                     <div key={key}>
                                                         {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
@@ -378,7 +378,7 @@ function GraduTestPage() {
                                     <div className={css(styles.generalLacks)}>
                                         <span className={css(styles.generalLecture)}>
                                             {lackEssentialGETopic && Object.entries(lackEssentialGETopic).map(([key, value]) => {
-                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === 'VERUM인성') ? 1 : 2;
                                                 return (
                                                     <div key={key}>
                                                         {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
@@ -419,7 +419,7 @@ function GraduTestPage() {
                                     <div className={css(styles.generalLacks)}>
                                         <span className={css(styles.generalLecture)}>
                                             {lackChoiceGETopic && Object.entries(lackChoiceGETopic).map(([key, value]) => {
-                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프') ? 1 : 2;
+                                                const divisor = (key === '봉사활동' || key === 'VERUM캠프' || key === 'VERUM인성') ? 1 : 2;
                                                 return (
                                                     <div key={key}>
                                                         {key} <span className={css(styles.generalLectureSub)}> 중 {value / divisor}과목</span> ({value}학점)
