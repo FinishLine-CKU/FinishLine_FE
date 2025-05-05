@@ -21,7 +21,7 @@
 
   ### 가톨릭관동대 졸업요건 검사 서비스 Finish Line
 
-  <p>2018~2022학년도 <strong>(18~22학번)</strong>, 총 <strong>53개 학과/전공 재학생</strong>의 졸업 요건을 반영했습니다.</p>
+  <p>2018~2025학년도 <strong>(18~25학번)</strong>, 총 <strong>53개 학과/전공 재학생</strong>의 졸업 요건을 반영했습니다.</p>
   <p><strong>재학생 인증</strong>을 통해 서비스에 가입하고, 종합정보시스템 <strong>학기별 성적 조회 PDF</strong>를 첨부하여 기이수과목을 등록할 수 있습니다.</p>
   <p>검사 결과를 시각화하여 <strong>부족한 학점</strong>과 <strong>영역</strong>을 한눈에 파악할 수 있습니다.</p>
   
