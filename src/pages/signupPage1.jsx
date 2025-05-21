@@ -92,12 +92,12 @@ function SignupPage1() {
                             1. 본 서비스는 가톨릭관동대학교 소프트웨어학과 학생들이 운영하는 웹 사이트로 공식적인 효력을 갖지 않습니다.<br />
                             정확한 졸업사정 확인을 위해 <b className={css(styles.emphasizeText)}>소속 단과대 교학팀에서 2차 검증을 권장합니다.</b><br /><br />
                             2. 현재 검사 가능한 학과-학번은 다음과 같습니다. 검사대상에 속하지 않다면 검사가 불가능합니다. <b className={css(styles.emphasizeText)}>꼭 검사대상인지 확인하세요!</b><br />
-                            <b>- 학과 : <b className={css(styles.redText)}>트리니티자유대학/융합대학, 사범대학(불가)</b><b className={css(styles.emphasizeText)}> 을 제외한 모든 학과</b></b><br />
-                            <b>- 학번 : <b className={css(styles.emphasizeText)}>18 ~ 22학번</b></b><br /><br />
+                            <b>- 학과 : <b className={css(styles.emphasizeText)}>53개 모든 학과</b></b><br />
+                            <b>- 학번 : <b className={css(styles.emphasizeText)}>18 ~ 25학번</b></b><br /><br />
                             3. <b className={css(styles.emphasizeText)}>교직이수자, 편입학 대상자</b>의 졸업검사 기준은 포함되지 않아 검사가 불가능합니다.<br /><br />
                             4. 원활한 검사를 위해 <b className={css(styles.emphasizeText)}>PC환경</b>에서 진행할 것을 권장합니다.<br /><br />
-                            5. 검사 기준은 <b className={css(styles.emphasizeText)}>2024학년도 2학기</b> 교육과정을 기준으로 합니다.<br /><br />
-                            6. 졸업요건 기준이 잘못 설정되거나, 오류 발생 시 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCBT68w0bWt445iS7RlFyRDXA93BbgZcjLYeJ-ErdtMuXpGw/viewform?usp=dialog" className={css(styles.feedback)}>하단 폼 링크</a>를 통해 피드백 부탁드립니다.<br /><br />
+                            5. 검사 기준은 <b className={css(styles.emphasizeText)}>2025학년도 1학기</b> 교육과정을 기준으로 합니다.<br /><br />
+                            6. 졸업요건 기준이 잘못 설정되거나, 오류 발생 시 <a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" target="_blank" className={css(styles.feedback)}>하단 폼 링크</a>를 통해 피드백 부탁드립니다.<br /><br />
                         </p>
                         <span className={css(styles.contentTitle)}>개인정보처리방침</span>
                         <p className={css(styles.policyContent)}>
@@ -225,10 +225,6 @@ const styles = StyleSheet.create({
     emphasizeText: {
         fontWeight: '600',
         color: '#006277',
-    },
-    redText: {
-        fontWeight: '600',
-        color: '#FF4921', // 기존 : #FFB2A2
     },
     feedback: {
         color: '#006277',
