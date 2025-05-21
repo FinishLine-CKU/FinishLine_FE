@@ -23,7 +23,7 @@ function OneClickTestPage() {
                     studentPW: studentPW,
                 });
                 if (response.data.success) {
-                    localStorage.setItem('idToken', studentId);
+                    localStorage.setItem('oneClickTest', true);
                     navigate('/graduTestPage');
                     window.scrollTo(0, 0);
                 } else {

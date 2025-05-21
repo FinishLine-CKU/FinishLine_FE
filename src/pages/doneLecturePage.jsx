@@ -167,11 +167,11 @@ function DoneLecturePage() {
 
     //랜더링 될 때마다 내 기이수 과목 목록 갱신
     useEffect(() => {
-        if (!localStorage.getItem('uploadPDF')) {
+        if (localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest')) {
+            myLectureUpdate();
+        } else {
             navigate('/uploadpdf');
             window.scrollTo(0, 0);
-        } else {
-            myLectureUpdate();
         };
     }, []);
 
