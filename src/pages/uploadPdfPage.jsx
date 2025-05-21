@@ -8,7 +8,7 @@ import UploadPdfPageComponents from '../components/uploadPdfComponents';
 function UploadPdfPage() {
 
     useEffect(() => {
-        alert('기이수과목 등록은 PC환경에서 진행해주세요.');
+        alert('기이수과목 등록은 꼭 PC환경에서 진행해주세요.');
     }, []);
 
     return (
