@@ -413,8 +413,8 @@ function MyPage() {
                         {localStorage.getItem('testing') ?
                             !localStorage.getItem('tryAgainTest') ?
                                 <button className={css(styles.button)} onClick={navigateTest}>자세히보기</button>
-                                : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button>
-                            : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') ? navigateTest : goFirst}>검사하기</button>}
+                                : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest') ? navigateTest : goFirst}>검사하기</button>
+                            : <button className={css(styles.button)} onClick={localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest') ? navigateTest : goFirst}>검사하기</button>}
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
                     {!localStorage.getItem('tryAgainTest') ?
@@ -500,14 +500,14 @@ function MyPage() {
                 <div className={css(styles.boundaryContainer)}>
                     <div className={css(styles.titleArea)}>
                         <span className={css(styles.title)}>내 기이수과목</span>
-                        {localStorage.getItem('uploadPDF') ?
+                        {localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest') ?
                             <button className={css(styles.button)} onClick={navigateDoneLecture}>추가하기</button>
                             : <button className={css(styles.button)} onClick={navigateUploadPDF}>등록하기</button>
                         }
                     </div>
                     <hr className={css(styles.horizontal)}></hr>
                     <div className={css(styles.contentTableArea)}>
-                        {localStorage.getItem('uploadPDF') ?
+                        {localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest')?
                             <DoneSubComponents subjects={myLectureList} className={css(styles.resizingTable)} tableType="resize" />
                             : <>
                                 <div className={css(styles.noneContainer)}>

@@ -41,12 +41,12 @@ function Header() {
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li>
                         {localStorage.getItem('idToken') ?
-                            <span onClick={localStorage.getItem('uploadPDF') ? gotograduTestPage : gofirst} className={css(styles.menu)}>졸업요건 검사</span>
+                            <span onClick={localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest') ? gotograduTestPage : gofirst} className={css(styles.menu)}>졸업요건 검사</span>
                             : <span className={css(styles.menu)} onClick={openModal}>졸업요건 검사</span>}
                     </li>
                     <li>
                         {localStorage.getItem('idToken') ?
-                            localStorage.getItem('uploadPDF') ?
+                            localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest')?
                                 <a href="/donelecture" className={css(styles.menu)}>기이수과목 관리</a>
                                 : <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
                             : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span>}
