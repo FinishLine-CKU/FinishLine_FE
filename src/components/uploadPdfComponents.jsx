@@ -56,29 +56,36 @@ function UploadPdfComponents() {
             setLoading(true);
             console.log(formData)
             const response = await axios.post('https://finishline-cku.com/graduation/upload_pdf/', formData);
+            console.log(response.data);
+            const successFiles = response.data.data;
             const duplicateFiles = response.data.duplicate_files;
+            const errorFiles = response.data.error_files;
 
+            if (successFiles.length > 0) {
+                setLoading(false);
+                alert(`파일이 성공적으로 업로드 되었습니다`);
+            }
             if (duplicateFiles.length > 0) {
                 setLoading(false);
                 alert(`중복된 파일이 포함되어 있습니다:\n${duplicateFiles.join('\n')}\n기이수과목 관리로 넘어갑니다.`);
-                setSelectedFiles([]);
-                setFileNames([]);
-                localStorage.setItem('uploadPDF', true);
-                navigate('/donelecture');
-            } else {
+            }
+            if (errorFiles.length > 0) {
                 setLoading(false);
-                localStorage.setItem('uploadPDF', true);
-                alert('파일이 성공적으로 업로드되었습니다.');
-                setSelectedFiles([]);
-                setFileNames([]);
+                alert(`오류 파일이 포함되어 있습니다:\n${errorFiles.join('\n')}\nPDF형식을 다시 확인해주세요.`);
+            }
 
+            setSelectedFiles([]);
+            setFileNames([]);
+
+            if (successFiles.length > 0 || duplicateFiles.length > 0) {
+                localStorage.setItem('uploadPDF', true);
                 if (location.pathname === '/donelecture') {
                     window.location.reload();
                 } else {
-                    localStorage.setItem('uploadPDF', true);
                     navigate('/donelecture');
                 }
             }
+
         } catch (error) {
             setLoading(false);
             console.error('업로드 에러:', error);
