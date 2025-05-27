@@ -36,7 +36,9 @@ function Header() {
             <nav className={css(styles.navigationContainer)}>
                 <ul className={css(styles.navigation)}>
                     {localStorage.getItem('idToken') ?
-                        <li><a href="/oneClickTestPage" className={css(styles.menu)}>원클릭 검사</a></li>
+                        <li className={css(styles.oneClickMenu)}>
+                            <div className={css(styles.badge)}>BETA</div><a href="/oneClickTestPage" className={css(styles.menu)}>원클릭 검사</a>
+                        </li>
                     : null}
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li>
@@ -120,6 +122,22 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         color: '#006277',
         textDecoration: 'underline',
+    },
+    oneClickMenu: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    badge: {
+        width: '34px',
+        height: '13px',
+        border: '1.5px solid #FF4921',
+        borderRadius: '10px',
+        fontSize: '10px',
+        fontWeight: '700',
+        textAlign: 'center',
+        color: '#FF4921',
+        marginRight: '5px',
+        whiteSpace: 'nowrap'
     },
     menu: {
         padding: '13px 0 13px 0',
