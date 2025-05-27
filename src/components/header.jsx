@@ -37,7 +37,7 @@ function Header() {
                 <ul className={css(styles.navigation)}>
                     {localStorage.getItem('idToken') ?
                         <li className={css(styles.oneClickMenu)}>
-                            <div className={css(styles.badge)}>BETA</div><a href="/oneClickTestPage" className={css(styles.menu)}>원클릭 검사</a>
+                            <div className={css(styles.badge)}>NEW</div><a href="/oneClickTestPage" className={css(styles.menu)}>원클릭 검사</a>
                         </li>
                     : null}
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
