@@ -38,7 +38,7 @@ function OneClickTestPage() {
                 setTimeout(() => {
                     setProcess(process + 1);
                  }, 6 * 1000);
-                const response = await axios.post('http://127.0.0.1:8000/graduation/oneclick_test/', {
+                const response = await axios.post('https://finishline-cku.com/graduation/oneclick_test/', {
                     studentId: studentId,
                     studentPW: studentPW,
                 });
