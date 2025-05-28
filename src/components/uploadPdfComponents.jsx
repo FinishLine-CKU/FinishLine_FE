@@ -122,7 +122,7 @@ function UploadPdfComponents() {
                         <span className={css(styles.pcEnvWarn)}>* 원활한 등록을 위해 PC환경을 권장합니다.</span>
                     </div>
                     <hr className={css(styles.custom_hr)} />
-                    {localStorage.getItem('uploadPDF') ? null :
+                    {localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest') ? null :
                     <div className={css(styles.uploadGuide)}>
                         <div className={css(styles.straight)}>
                             <span className={css(styles.guideMessage)}>1. <strong><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.linkInformationSystem)} target="_blank" >종합정보시스템</a></strong> 접속 후 로그인 (PC환경)</span>
