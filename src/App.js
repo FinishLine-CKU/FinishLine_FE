@@ -12,6 +12,7 @@ import MyPage from './pages/myPage';
 import ManageGraduPage from './pages/manageGraduPage';
 import FeatureModal from './components/featureModal';
 import GraduTestPage from './pages/graduTestPage';
+import OneClickTestPage from './pages/oneClickTestPage';
 
 function App() {
     const [modalState, setModalState] = useState(false);
@@ -59,6 +60,7 @@ function App() {
                         <Route path="/myPage" element={<MyPage />} />
                         <Route path="/manageGraduPage" element={<ManageGraduPage />} />
                         <Route path="/graduTestPage" element={<GraduTestPage />} />
+                        <Route path="/oneClickTestPage" element={<OneClickTestPage />} />
                     </Routes>
                 </BrowserRouter>
             </div>
