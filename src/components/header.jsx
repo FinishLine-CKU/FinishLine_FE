@@ -35,15 +35,20 @@ function Header() {
             </a>
             <nav className={css(styles.navigationContainer)}>
                 <ul className={css(styles.navigation)}>
+                    {localStorage.getItem('idToken') ?
+                        <li className={css(styles.oneClickMenu)}>
+                            <div className={css(styles.badge)}>NEW</div><a href="/oneClickTestPage" className={css(styles.menu)}>원클릭 검사</a>
+                        </li>
+                    : null}
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li>
                         {localStorage.getItem('idToken') ?
-                            <span onClick={localStorage.getItem('uploadPDF') ? gotograduTestPage : gofirst} className={css(styles.menu)}>졸업요건 검사</span>
+                            <span onClick={localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest') ? gotograduTestPage : gofirst} className={css(styles.menu)}>졸업요건 검사</span>
                             : <span className={css(styles.menu)} onClick={openModal}>졸업요건 검사</span>}
                     </li>
                     <li>
                         {localStorage.getItem('idToken') ?
-                            localStorage.getItem('uploadPDF') ?
+                            localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest')?
                                 <a href="/donelecture" className={css(styles.menu)}>기이수과목 관리</a>
                                 : <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
                             : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span>}
@@ -117,6 +122,22 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         color: '#006277',
         textDecoration: 'underline',
+    },
+    oneClickMenu: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    badge: {
+        width: '34px',
+        height: '13px',
+        border: '1.5px solid #FF4921',
+        borderRadius: '10px',
+        fontSize: '10px',
+        fontWeight: '700',
+        textAlign: 'center',
+        color: '#FF4921',
+        marginRight: '5px',
+        whiteSpace: 'nowrap'
     },
     menu: {
         padding: '13px 0 13px 0',

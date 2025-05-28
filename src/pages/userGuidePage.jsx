@@ -109,7 +109,7 @@ function UserGuidePage() {
                             F와 NP 처리된 과목은 반영되지 않습니다.
                         </p>
                             <button className={css(styles.commonButton)}
-                                onClick={localStorage.getItem('idToken') ? localStorage.getItem('uploadPDF') ? navigateDoneLecture : navigateUploadPDF : openModal}>등록하기
+                                onClick={localStorage.getItem('idToken') ? (localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest')) ? navigateDoneLecture : navigateUploadPDF : openModal}>등록하기
                         </button>
                         </div>
                         <img src={arrow} alt="화살표" className={css(styles.arrowImage)} />
@@ -130,7 +130,7 @@ function UserGuidePage() {
                         </p> :
                                 null}
                             <button className={css(styles.commonButton)}
-                                onClick={localStorage.getItem('idToken') ? localStorage.getItem('uploadPDF') ? () => { navigate("/graduTestPage"); window.scrollTo(0, 0); } : popMessage : openModal}>결과보기
+                                onClick={localStorage.getItem('idToken') ? (localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest')) ? () => { navigate("/graduTestPage"); window.scrollTo(0, 0); } : popMessage : openModal}>결과보기
                         </button>
                         </div>
                     </div>
