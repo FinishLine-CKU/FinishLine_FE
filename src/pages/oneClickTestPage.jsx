@@ -37,7 +37,7 @@ function OneClickTestPage() {
                 openFeatModal();
                 setTimeout(() => {
                     setProcess(process + 1);
-                 }, 5 * 1000);
+                 }, 4 * 1000);
                 const response = await axios.post('https://finishline-cku.com/graduation/oneclick_test/', {
                     studentId: studentId,
                     studentPW: studentPW,
@@ -76,7 +76,7 @@ function OneClickTestPage() {
         if (process == 1) {
             setTimeout(() => {
                 setProcess(process + 1);
-            }, 4 * 1000);
+            }, 3 * 1000);
         };
     }, [process]);
 
