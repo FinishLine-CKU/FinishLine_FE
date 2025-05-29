@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: '30px 110px 20px 110px',
         backgroundColor: '#FFFEFB',
+        fontFamily: 'Lato',
     },
     mainLogo: {
         width: '127px',
@@ -140,6 +141,7 @@ const styles = StyleSheet.create({
         whiteSpace: 'nowrap'
     },
     eventBadge: {
+        fontFamily: 'Lato',
         width: '36px',
         height: '12px',
         border: '1.5px solid #FF4921',
