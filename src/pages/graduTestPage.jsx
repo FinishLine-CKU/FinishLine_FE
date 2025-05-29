@@ -440,7 +440,7 @@ function GraduTestPage() {
                     기이수 과목 추가하기
                 </button>
                 <a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" className={css(styles.feedbackLink)} target="_blank" title="FinishLine 설문 링크">
-                  문의 및 피드백 하기
+                  오류 및 피드백 제보
                 </a>
             </div>
             <Footer />
