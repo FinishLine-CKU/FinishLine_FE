@@ -17,7 +17,7 @@
 
 <div align="center">
 
-  <img src="https://github.com/user-attachments/assets/fea25f4b-da65-4b12-98af-f446ed502c8c" width="700px">
+  <img src="https://github.com/user-attachments/assets/331f0777-c8e1-4c2e-ad2d-c7e799dcd833" width="700px">
 
   ### 가톨릭관동대 졸업요건 검사 서비스 Finish Line
 
