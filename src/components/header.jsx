@@ -53,7 +53,7 @@ function Header() {
                                 : <a href="/uploadpdf" className={css(styles.menu)}>기이수과목 관리</a>
                             : <span className={css(styles.menu)} onClick={openModal}>기이수과목 관리</span>}
                     </li>
-                    <li className={css(styles.oneClickMenu)}><div className={css(styles.eventBadge)}>EVENT</div><a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" className={css(styles.menu)} target="_blank" title="FinishLine 설문 링크">오류 & 피드백</a></li>
+                    <li><a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" className={css(styles.menu)} target="_blank" title="FinishLine 설문 링크">오류 & 피드백</a></li>
                     <li>
                         {localStorage.getItem('idToken') ?
                             optionState ?
@@ -135,19 +135,6 @@ const styles = StyleSheet.create({
         borderRadius: '10px',
         fontSize: '10px',
         fontWeight: '700',
-        textAlign: 'center',
-        color: '#FF4921',
-        marginRight: '5px',
-        whiteSpace: 'nowrap'
-    },
-    eventBadge: {
-        fontFamily: 'Lato',
-        width: '36px',
-        height: '12px',
-        border: '1.5px solid #FF4921',
-        borderRadius: '10px',
-        fontSize: '9px',
-        fontWeight: '800',
         textAlign: 'center',
         color: '#FF4921',
         marginRight: '5px',
