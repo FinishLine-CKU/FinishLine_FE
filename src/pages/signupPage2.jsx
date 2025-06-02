@@ -281,6 +281,7 @@ export const MAJOR_ALL = [
     { value: '032609*', label: 'CG디자인학과' },
     { value: '032609*', label: '트리니티융합 CG디자인전공' },
     { value: '032609*', label: '트리니티자유 CG디자인전공' },
+    { value: '032609*', label: '미디어콘텐츠학부 CG디자인전공' },
     // 휴먼서비스대학
     { value: '032702*', label: '치매전문재활학과' },
     { value: '032703*', label: '산림치유학과' },
