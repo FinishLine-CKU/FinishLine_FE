@@ -19,6 +19,7 @@ function GraduTestPage() {
     const [doneEssentialGE, setDoneEssentialGE] = useState(0);  // completeEsseCredit => doneEssentialGE
     const [doneChoiceGE, setDoneChoiceGE] = useState(0);  // completeChoiceCredit => doneChoiceGE
     const [doneMD, setDoneMD] = useState(0);  // done_micro_degree => doneMD
+    const [doneEducation, setDoneEducation] = useState(0);
     const [doneMajorRest, setDoneMajorRest] = useState();  // done_major_rest => doneMajorRest
     const [doneSubMajorRest, setDoneSubMajorRest] = useState(0);  // done_major_rest => doneMajorRest
     const [doneGERest, setDoneGERest] = useState(0);  // completeNormalCredit => doneGERest
@@ -31,6 +32,7 @@ function GraduTestPage() {
     const [essentialGEStandard, setEssentialGEStandard] = useState();  // general_essential_credit => essentialGEStandard
     const [choiceGEStandard, setChoiceGEStandard] = useState();  // general_selection_credit => choiceGEStandard
     const [MDStandard, setMDStandard] = useState(0);
+    const [EducationStandard, setEducationStandard] = useState(0);
     const [restStandard, setRestStandard] = useState(0);  // rest_credit => restStandard
 
     const [lackMajor, setLackMajor] = useState(); // need_major => lackMajor
@@ -40,6 +42,7 @@ function GraduTestPage() {
     const [lackChoiceGE, setLackChoiceGE] = useState(0);  // needChoiceCredit => lackChoiceGE
     const [lackChoiceGETopic, setLackChoiceGETopic] = useState({});  // needChoiceArea => lackChoiceGETopic
     const [lackMD, setLackMD] = useState(0);
+    const [lackEducation, setLackEducation] = useState(0);
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
 
@@ -111,6 +114,23 @@ function GraduTestPage() {
         };
     };
 
+    const educationCheck = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/graduation/test_education/', {
+            student_id: localStorage.getItem('idToken')
+        });
+        if (response.data) {
+            const { doneEducation, EducationStandard, lackEducation } = response.data
+            setDoneEducation(doneEducation)
+            setEducationStandard(EducationStandard)
+            setLackEducation(lackEducation)
+            console.log("교직 졸업요건", EducationStandard)
+            console.log("교직 이수학점", doneEducation)
+            console.log("교직 부족학점", lackEducation)
+        } else {
+            alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+        };
+    };
+
     const goToDoneLecture = () => {
         navigate("/donelecture");
         window.scrollTo(0, 0);
@@ -122,6 +142,7 @@ function GraduTestPage() {
         goGraduationCheck();
         localStorage.removeItem('tryAgainTest');
         microDegreeCheck();
+        educationCheck();
     }, []);
 
     return (
