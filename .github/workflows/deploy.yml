@@ -20,6 +20,10 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Create .env file
+        run: |
+          echo "REACT_APP_CHANNEL_TALK_PLUGIN_KEY = ${{ secrets.CHANNEL_TALK_PLUGIN_KEY }}" > .env
+
       - name: Build React app
         run: CI=false yarn build
 
