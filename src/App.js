@@ -13,6 +13,7 @@ import ManageGraduPage from './pages/manageGraduPage';
 import FeatureModal from './components/featureModal';
 import GraduTestPage from './pages/graduTestPage';
 import OneClickTestPage from './pages/oneClickTestPage';
+import ChannelTalk from './utils/channelTalk';
 
 function App() {
     const [modalState, setModalState] = useState(false);
@@ -39,6 +40,7 @@ function App() {
     };
 
     useEffect(() => {
+        ChannelTalk();
         if (new Date().getTime() > localStorage.getItem('expire')) {
             localStorage.clear();
         };
