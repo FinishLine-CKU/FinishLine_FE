@@ -1116,6 +1116,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@channel.io/channel-web-sdk-loader@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@channel.io/channel-web-sdk-loader/-/channel-web-sdk-loader-2.0.0.tgz#d8bc196222a9b8045af6c8418f7693c466db6100"
+  integrity sha512-Z8DDpf2lAaYr/3aAnwQtxg0L8MYWgi/hhGV8c5/SLCV6Fx5Gssj7mfyHHrCVC315B0icmLYqZsXBlmbf6cN8Jg==
+
 "@csstools/normalize.css@*":
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-12.1.1.tgz#f0ad221b7280f3fc814689786fd9ee092776ef8f"
