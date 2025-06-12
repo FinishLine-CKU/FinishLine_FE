@@ -24,6 +24,7 @@ function GraduTestPage() {
     const [doneSubMajorRest, setDoneSubMajorRest] = useState(0);  // done_major_rest => doneMajorRest
     const [doneGERest, setDoneGERest] = useState(0);  // completeNormalCredit => doneGERest
     const [doneMDRest, setDoneMDRest] = useState(0);
+    const [doneEducationRest, setEduacationRest] = useState(0);
     const [doneRest, setDoneRest] = useState();  // done_rest => doneRest
 
     const [totalStandard, setTotalStandard] = useState();  // total_credit => totalStandard
@@ -119,13 +120,11 @@ function GraduTestPage() {
             student_id: localStorage.getItem('idToken')
         });
         if (response.data) {
-            const { doneEducation, EducationStandard, lackEducation } = response.data
+            const { doneEducation, doneEducationRest, EducationStandard, lackEducation } = response.data
             setDoneEducation(doneEducation)
+            setEduacationRest(doneEducationRest)
             setEducationStandard(EducationStandard)
             setLackEducation(lackEducation)
-            console.log("교직 졸업요건", EducationStandard)
-            console.log("교직 이수학점", doneEducation)
-            console.log("교직 부족학점", lackEducation)
         } else {
             alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
         };
@@ -278,13 +277,13 @@ function GraduTestPage() {
                         <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
                                 <span className={css(styles.custom_h)}>일반선택</span>
-                                <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest}</span>
+                                <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest + doneEducationRest}</span>
                                 <span className={css(styles.custom_hr_react)}> / </span>
                                 <span className={css(styles.custom_h_focus)}>{restStandard} 학점</span>
                             </div>
                             <hr className={css(styles.custom_major_hr)} />
                             {/* 일반선택 로직 추가 */}
-                            {(doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) >= restStandard ?
+                            {(doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest + doneEducationRest) >= restStandard ?
                                 <div className={css(styles.majorContentsContainer)}>
                                     <img src={sogood} />
                                     <div className={css(styles.successContainer)}>
@@ -300,8 +299,8 @@ function GraduTestPage() {
                                 <div className={css(styles.majorContentsContainer)}>
                                     <img src={notgood} />
                                     <span className={css(styles.contentAlertText)}>일반 선택</span>
-                                    <span className={css(styles.lackCredit)}>{restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest)}학점</span>
-                                    {localStorage.setItem('lackRestTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) ? restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest) : 0)}
+                                    <span className={css(styles.lackCredit)}>{restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest + doneEducationRest)}학점</span>
+                                    {localStorage.setItem('lackRestTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest + doneEducationRest) ? restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneRest + doneEducationRest) : 0)}
                                     <span className={css(styles.contentAlertText)}>부족합니다.</span>
                                 </div>}
                         </div>}
@@ -454,6 +453,36 @@ function GraduTestPage() {
                         }
                         </div>
                     </div>
+                    {!EducationStandard ? null :
+                        <div className={css(styles.majorContainer)}>
+                            <div className={css(styles.majortitleContainer)}>
+                                <span className={css(styles.custom_h)}>교직</span>
+                                <span className={css(styles.userCredit)}>{doneEducation}</span>
+                                <span className={css(styles.custom_hr_react)}> / </span>
+                                <span className={css(styles.custom_h_focus)}>{EducationStandard} 학점</span>
+                            </div>
+                            <hr className={css(styles.custom_major_hr)} />
+                            {doneEducation >= EducationStandard ?
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={sogood} />
+                                    <div className={css(styles.successContainer)}>
+                                        <span className={css(styles.congratulation)}>축하합니다 🎉</span>
+                                        <div>
+                                            <span className={css(styles.contentAlertText)}>교직 학점</span>
+                                            <span className={css(styles.contextSuccess)}>이수완료</span>
+                                            <span className={css(styles.contentAlertText)}>했습니다!</span>
+                                            {localStorage.removeItem('lackEducation', lackEducation)}
+                                        </div>
+                                    </div>
+                                </div> :
+                                <div className={css(styles.majorContentsContainer)}>
+                                    <img src={notgood} />
+                                    <span className={css(styles.contentAlertText)}>교직</span>
+                                    <span className={css(styles.lackCredit)}>{lackEducation}학점</span>
+                                    {localStorage.setItem('lackEducation', lackEducation)}
+                                    <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                </div>}
+                    </div>}
                 </div>
             </div>
             <div className={css(styles.bottomContainer)}>
@@ -527,7 +556,7 @@ const styles = StyleSheet.create({
     rightContainer: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'left',
         gap: '35px'
     },
     hrContainer: {
