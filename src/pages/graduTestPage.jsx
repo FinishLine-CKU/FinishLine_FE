@@ -20,12 +20,12 @@ function GraduTestPage() {
     const [doneChoiceGE, setDoneChoiceGE] = useState(0);  // completeChoiceCredit => doneChoiceGE
     const [doneMD, setDoneMD] = useState(0);  // done_micro_degree => doneMD
     const [doneEducation, setDoneEducation] = useState(0);
-    const [doneMajorRest, setDoneMajorRest] = useState();  // done_major_rest => doneMajorRest
+    const [doneMajorRest, setDoneMajorRest] = useState(0);  // done_major_rest => doneMajorRest
     const [doneSubMajorRest, setDoneSubMajorRest] = useState(0);  // done_major_rest => doneMajorRest
     const [doneGERest, setDoneGERest] = useState(0);  // completeNormalCredit => doneGERest
     const [doneMDRest, setDoneMDRest] = useState(0);
     const [doneEducationRest, setEduacationRest] = useState(0);
-    const [doneRest, setDoneRest] = useState();  // done_rest => doneRest
+    const [doneRest, setDoneRest] = useState(0);  // done_rest => doneRest
 
     const [totalStandard, setTotalStandard] = useState();  // total_credit => totalStandard
     const [majorStandard, setMajorStandard] = useState();  // major_credit => majorStandard
@@ -471,14 +471,14 @@ function GraduTestPage() {
                                             <span className={css(styles.contentAlertText)}>교직 학점</span>
                                             <span className={css(styles.contextSuccess)}>이수완료</span>
                                             <span className={css(styles.contentAlertText)}>했습니다!</span>
-                                            {localStorage.removeItem('lackEducation', lackEducation)}
+                                            {localStorage.removeItem('lackEducation')}
                                         </div>
                                     </div>
                                 </div> :
                                 <div className={css(styles.majorContentsContainer)}>
                                     <img src={notgood} />
                                     <span className={css(styles.contentAlertText)}>교직</span>
-                                    <span className={css(styles.lackCredit)}>{lackEducation}학점</span>
+                                    <span className={css(styles.lackCredit)}>{lackEducation} 학점</span>
                                     {localStorage.setItem('lackEducation', lackEducation)}
                                     <span className={css(styles.contentAlertText)}>부족합니다.</span>
                                 </div>}
