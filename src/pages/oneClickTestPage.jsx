@@ -185,8 +185,8 @@ function OneClickTestPage() {
                             <span className={css(styles.fastTestText)}><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.ckuLoginLink)} target="_blank">가톨릭관동대학교 포털</a> 계정으로 빠르게 검사하세요.</span>
                             <span className={css(styles.safeGuideText)}>* 입력한 정보는 수강이력 조회 시에만 사용되며 저장되지 않습니다.</span>
                             <div className={css(styles.inputContainer)} onKeyDown={enterSubmit}>
-                                <label className={css(styles.inputLabel)}>아이디</label>
-                                <input className={css(styles.oneClickInput)} value={studentId} onChange={(e) => setStudentId(e.target.value)} type="text" placeholder="아이디를 입력하세요."></input>
+                                <label className={css(styles.inputLabel)}>학번</label>
+                                <input className={css(styles.oneClickInput)} value={studentId} onChange={(e) => setStudentId(e.target.value)} type="text" placeholder="학번을 입력하세요."></input>
                                 <label className={css(styles.inputLabel)}>비밀번호</label>
                                 <input className={css(styles.oneClickInput)} value={studentPW} onChange={(e) => setStudentPW(e.target.value)} type="password" placeholder="비밀번호를 입력하세요."></input>
                             </div>
