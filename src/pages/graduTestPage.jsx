@@ -8,6 +8,7 @@ import Footer from '../components/footer';
 import GraduChartComponets from "../components/graduChartComponents";
 import notgood from "../assets/images/notgood.png";
 import sogood from "../assets/images/sogood.png";
+import light from "../assets/images/light.png";
 import axios from 'axios';
 
 function GraduTestPage() {
@@ -450,7 +451,7 @@ function GraduTestPage() {
                         </div>
                     </div>
                     {!doneEducationRest ? null :
-                        <div className={css(styles.majorContainerOpacity)}>
+                        <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
                                 <span className={css(styles.custom_h)}>교직</span>
                                 <span className={css(styles.userCredit)}>{doneEducationRest}</span>
@@ -475,18 +476,22 @@ function GraduTestPage() {
                                     <div className={css(styles.majorContentsContainer)}>
                                         <img src={notgood} />
                                         <div className={css(styles.successContainer)}>
-                                            <span className={css(styles.congratulation)}>교직 이수를 위한 추가 조건을 확인하세요. </span>
+                                            <span className={css(styles.congratulation)}>교직 이수에 필요한 학점을 표시합니다. </span>
                                             <div>
-                                                <span className={css(styles.contentAlertText)}>교직</span>
-                                                <span className={css(styles.lackCredit)}>{lackEducation} 학점</span>
+                                                <span className={css(styles.contentAlertText)}>교직 이수</span>
+                                                <span className={css(styles.lackCredit)}>{lackEducation}학점</span>
                                                 {localStorage.setItem('lackEducation', lackEducation)}
-                                                <span className={css(styles.contentAlertText)}>부족합니다.</span>
+                                                <span className={css(styles.contentAlertText)}>필요합니다.</span>
                                             </div>
                                         </div>
                                     </div>
-                                </>
-                                }
-                    </div>}
+                                    <div className={css(styles.educationInfoContainer)}>
+                                        <img src={light} className={css(styles.lightEmoji)}/>
+                                        <span className={css(styles.educationInfo)}>교직 이수현황 파악을 위한 영역으로 일반선택 학점 계산에 반영됐습니다.</span>
+                                    </div>
+                                </>}
+                        </div>
+                    }
                 </div>
             </div>
             <div className={css(styles.bottomContainer)}>
@@ -550,15 +555,6 @@ const styles = StyleSheet.create({
     majorContainer: {
         display: 'flex',
         flexDirection: 'column',
-    },
-    majorContainerOpacity: {
-        display: 'flex',
-        flexDirection: 'column',
-        // opacity: '0.2',
-        // ':hover': {
-        //     opacity: '1',
-        //     transition: '1s'
-        // }
     },
     leftContainer: {
         display: 'flex',
@@ -730,6 +726,25 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: 'black',
         paddingBottom: '2px'
+    },
+    educationInfoContainer: {
+        display: 'flex',
+        width: '100%',
+        height: '40px',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: '8px',
+        backgroundColor: '#E9F7FA'
+    },
+    lightEmoji: {
+        width: '15px',
+        paddingRight: '5px'
+    },
+    educationInfo: {
+        fontFamily: 'Lato',
+        fontSize: '13px',
+        color: '#618F9D',
+        fontWeight: '600'
     },
     gradubutton: {
         width: '165px',
