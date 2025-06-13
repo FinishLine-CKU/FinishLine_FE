@@ -43,6 +43,7 @@ function GraduTestPage() {
     const [lackChoiceGETopic, setLackChoiceGETopic] = useState({});  // needChoiceArea => lackChoiceGETopic
     const [lackMD, setLackMD] = useState(0);
     const [lackEducation, setLackEducation] = useState(0);
+
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
 
@@ -468,7 +469,6 @@ function GraduTestPage() {
                                             <span className={css(styles.contentAlertText)}>교직 학점</span>
                                             <span className={css(styles.contextSuccess)}>이수완료</span>
                                             <span className={css(styles.contentAlertText)}>했습니다!</span>
-                                            {localStorage.removeItem('lackEducation')}
                                         </div>
                                     </div>
                                 </div> :
@@ -480,7 +480,6 @@ function GraduTestPage() {
                                             <div>
                                                 <span className={css(styles.contentAlertText)}>교직 이수</span>
                                                 <span className={css(styles.lackCredit)}>{lackEducation}학점</span>
-                                                {localStorage.setItem('lackEducation', lackEducation)}
                                                 <span className={css(styles.contentAlertText)}>필요합니다.</span>
                                             </div>
                                         </div>
@@ -761,9 +760,6 @@ const styles = StyleSheet.create({
         fontSize: '15px',
         fontWeight: '600',
         paddingTop: '0px',
-    },
-    addMessageContainer: {
-
     }
 });
 
