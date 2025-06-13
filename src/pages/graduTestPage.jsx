@@ -116,7 +116,7 @@ function GraduTestPage() {
     };
 
     const educationCheck = async () => {
-        const response = await axios.post('http://127.0.0.1:8000/graduation/test_education/', {
+        const response = await axios.post('https://finishline-cku.com/graduation/test_education/', {
             student_id: localStorage.getItem('idToken')
         });
         if (response.data) {
