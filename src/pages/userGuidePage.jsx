@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F7FA', // # F6F7FA E7EDFF
         borderRadius: '20px',
         padding: '40px',
-        width: '90%',
+        width: '93%',
         minWidth: '900px',
     },
     bannerTextContainer: {
