@@ -61,7 +61,6 @@ function UploadPdfComponents() {
             const errorFiles = response.data.error_files;
             const imageFiles = response.data.image_files;
 
-
             if (imageFiles.length > 0) {
                 setLoading(false);
                 alert(`PDF 파일 형식이 올바르지 않습니다.\n기이수과목 등록은 PC 환경에서 진행해주세요.\n\n파일명:\n${imageFiles.join('\n')}`);
@@ -99,6 +98,7 @@ function UploadPdfComponents() {
                     navigate('/donelecture');
                 }
             } 
+            
         } catch (error) {
             setLoading(false);
             console.error('업로드 에러:', error);
