@@ -6,7 +6,9 @@ import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
+import Modal from '../components/modal';
 import FeatureModal from '../components/featureModal';
+import Symbol from '../assets/images/symbol.png';
 import whiteCKULogo from '../assets/images/whiteCKULogo.png';
 import loading from '../assets/images/loading.gif';
 
@@ -15,7 +17,12 @@ function SignupPage1() {
     const [studentId, setStudentId] = useState('');
     const [studentPW, setStudentPW] = useState('');
     const navigate = useNavigate();
-    const { featModalState, setFeatButtonState, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton } = useContext(ModalContext);
+    const { modalState, openModal, closeModal, featModalState, setFeatButtonState, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton } = useContext(ModalContext);
+    const navigateLoginPage = () => {
+        document.body.style.overflow = 'auto';
+        navigate("/loginPage");
+        closeModal();
+    };
     const checkedState = (e) => {
         setAgree(e.target.checked);
     };
@@ -65,6 +72,9 @@ function SignupPage1() {
 
     return (
         <>
+            {modalState ?
+                <Modal infoMessage="로그인 안내" infoSymbol={Symbol} mainMessage="로그인이 필요한 서비스입니다." contentMessage={<><b>학생 인증을 완료한 회원</b>만 이용 가능합니다.<br />서비스 이용을 위해 로그인 해주세요.</>} mainButton="로그인" mainButtonAction={navigateLoginPage} closeButton={closeModal} />
+                : null}
             {featModalState ?
                 <FeatureModal closeAction={closeFeatModal} mainContents={
                     <div className={css(styles.modalContainer)}>
