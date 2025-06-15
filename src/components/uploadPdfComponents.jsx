@@ -56,16 +56,35 @@ function UploadPdfComponents() {
             setLoading(true);
             console.log(formData)
             const response = await axios.post('http://127.0.0.1:8000/graduation/upload_pdf/', formData);
+            const successFiles = response.data.data;
             const duplicateFiles = response.data.duplicate_files;
+            const errorFiles = response.data.error_files;
+            const imageFiles = response.data.image_files;
+
+            if (imageFiles.length > 0) {
+                setLoading(false);
+                alert(`PDF 파일 형식이 올바르지 않습니다.\n기이수과목 등록은 PC 환경에서 진행해주세요.\n\n파일명:\n${imageFiles.join('\n')}`);
+                setSelectedFiles([]);
+                setFileNames([]);
+            }
+
+            if (errorFiles.length > 0) {
+                setLoading(false);
+                alert(`PDF 파일 형식이 올바르지 않습니다.\n기이수과목 PDF 파일 저장 시 "인쇄 > PDF로 저장"을 확인하세요.\n\n파일명:\n${errorFiles.join('\n')}`);
+                setSelectedFiles([]);
+                setFileNames([]);
+            }
 
             if (duplicateFiles.length > 0) {
                 setLoading(false);
-                alert(`중복된 파일이 포함되어 있습니다:\n${duplicateFiles.join('\n')}\n기이수과목 관리로 넘어갑니다.`);
+                alert(`중복된 파일이 포함되어 있습니다:\n기이수과목 관리 화면으로 넘어갑니다.\n\n파일명:\n${duplicateFiles.join('\n')}`);
                 setSelectedFiles([]);
                 setFileNames([]);
                 localStorage.setItem('uploadPDF', true);
                 navigate('/donelecture');
-            } else {
+            }
+
+            if (successFiles.length > 0){
                 setLoading(false);
                 localStorage.setItem('uploadPDF', true);
                 alert('파일이 성공적으로 업로드되었습니다.');
@@ -78,7 +97,8 @@ function UploadPdfComponents() {
                     localStorage.setItem('uploadPDF', true);
                     navigate('/donelecture');
                 }
-            }
+            } 
+            
         } catch (error) {
             setLoading(false);
             console.error('업로드 에러:', error);
