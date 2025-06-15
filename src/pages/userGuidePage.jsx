@@ -292,8 +292,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F7FA', // # F6F7FA E7EDFF
         borderRadius: '20px',
         padding: '40px',
-        width: '100%',
-        minWidth: '500px',
+        width: '90%',
+        minWidth: '900px',
     },
     bannerTextContainer: {
         display: 'flex',
