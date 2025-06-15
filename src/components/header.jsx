@@ -38,8 +38,11 @@ function Header() {
                     {localStorage.getItem('idToken') ?
                         <li className={css(styles.oneClickMenu)}>
                             <div className={css(styles.badge)}>NEW</div><a href="/oneClickTestPage" className={css(styles.menu)}>원클릭 검사</a>
+                        </li> : 
+                        <li className={css(styles.oneClickMenu)} onClick={openModal}>
+                            <div className={css(styles.badge)}>NEW</div><span className={css(styles.menu)}>원클릭 검사</span>
                         </li>
-                    : null}
+                    }
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
                     <li>
                         {localStorage.getItem('idToken') ?
