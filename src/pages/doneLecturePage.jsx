@@ -7,9 +7,10 @@ import Footer from '../components/footer';
 import { SubSearchComponents, DoneSubComponents } from '../components/doneLectureComponents';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
 import axios from 'axios';
-import { HiArrowCircleRight } from "react-icons/hi";
+import { HiArrowCircleRight, HiPlusCircle } from "react-icons/hi";
 import { GoTriangleDown } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
+import { TbExternalLink } from "react-icons/tb";
 
 export const searchType = [
     {value : "searchCode" , label : "과목코드"},
@@ -17,8 +18,8 @@ export const searchType = [
 ]
 
 export const searchSemester = [
-    {value : "1" , label : "2025/1학기"},
-    {value : "2" , label : "2025/2학기"},
+    {value : "1" , label : "2025-1학기"},
+    {value : "2" , label : "2025-2학기"},
 ]
 
 function DoneLecturePage() {
@@ -35,6 +36,7 @@ function DoneLecturePage() {
     const codeDropDownRef = useRef(null);
     const semesterDropDownRef = useRef(null);
     const navigate = useNavigate();
+    const [showTextboxContainer, setShowTextboxContainer] = useState(false);
 
     const deleteButton = (lecture_code) => {
         const shouldWeDelete = myLectureList.find((subject) => subject.lecture_code === lecture_code);
@@ -165,7 +167,6 @@ function DoneLecturePage() {
             }
 
             myLectureUpdate();
-            alert("저장되었습니다.");
 
             //현재 과목 목록을 내 기이수 과목으로 전달했다면 subjectNew 상태 저장(색상 변경을 위함)
             setMyLectureList(prev =>
@@ -222,6 +223,24 @@ function DoneLecturePage() {
         }
     }, []);
 
+    useEffect(() => {
+        const simulCheck = myLectureList.some(subject => subject.can_delete == true)
+
+        if (simulCheck){
+            setShowTextboxContainer(true);
+        }
+
+        if (localStorage.getItem('testing') === 'true'){
+            setShowTextboxContainer(true);
+        }
+    }, [myLectureList]);
+
+    useEffect(() => {
+        if(myLectureList.some(subject => subject.subjectNew)) {
+            handleSaveAllSubjects();
+        } 
+    }, [myLectureList]);
+
     const enterSubmit = (e) => {
         if (e.key === 'Enter') {
             SubjectSearch();
@@ -234,74 +253,111 @@ function DoneLecturePage() {
             <Template title="기이수 과목 관리" />
             <div className={css(styles.container)}>
                 <div className={css(styles.ColumnContainer)}>
-                    <div className={css(styles.textboxContainer)} onKeyDown={enterSubmit}>
-                        <div className={css(styles.titleContainer)} ref={semesterDropDownRef}>
-                            <button className={css(styles.itemSemesterButton)} onClick={() => setSemesterIsOpen(!semesterIsOpen)}>
-                                {searchSemesterSelect.label}
-                                <IoIosArrowDown className={css(styles.bottomArrowIcon)}/>
-                            </button>
-                            {semesterIsOpen && (
-                                <ul className={css(styles.dropCustomUl)}>
-                                    {searchSemester.map((item) => (
-                                        <li
-                                            className={css(styles.dropCustomLi)}
-                                            key={item.value}
-                                            onClick={() => {
-                                                setSearchSemesterSelect(item); 
-                                                setSemesterIsOpen(false);
+                    <div className={css(styles.textboxContainer, showTextboxContainer ? styles.slideDownActive : styles.slideDownHidden)} onKeyDown={enterSubmit}>
+                        <div className={css(styles.inputListContainer)}>
+                            <div className={css(styles.titleColumnContainer)}>
+                                <div className={css(styles.titleContainer)} ref={semesterDropDownRef}>
+                                    <button className={css(styles.itemSemesterButton)} onClick={() => setSemesterIsOpen(!semesterIsOpen)}>
+                                        {searchSemesterSelect.label}
+                                        <IoIosArrowDown className={css(styles.bottomArrowIcon)}/>
+                                    </button>
+                                    {semesterIsOpen && (
+                                        <ul className={css(styles.dropCustomUlSemester)}>
+                                            {searchSemester.map((item) => (
+                                                <li
+                                                    className={css(styles.dropCustomLi)}
+                                                    key={item.value}
+                                                    onClick={() => {
+                                                        setSearchSemesterSelect(item); 
+                                                        setSemesterIsOpen(false);
+                                                }}
+                                                >
+                                                    {item.label}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        )}
+                                </div>
+                                <div className={css(styles.inputSearchContainer)}>
+                                    <div className={css(styles.inputCodeContainer)} ref={codeDropDownRef}>
+                                        <button className={css(styles.itemCodeButton)} onClick={() => setCodeIsOpen(!codeIsOpen)}>
+                                            <div className={css(styles.labelContainer)}>
+                                                {searchCodeSelect.label}
+                                            </div>
+                                            <GoTriangleDown className={css(styles.triangleIcon)}/>
+                                            <div className={css(styles.shortDivider)}>
+                                            </div>
+                                        </button>
+                                        {codeIsOpen && (
+                                            <ul className={css(styles.dropCustomUlCode)}>
+                                                {searchType.map((item) => (
+                                                    <li
+                                                        className={css(styles.dropCustomLiCode)}
+                                                        key={item.value}
+                                                        onClick={() => {
+                                                            setSearchCodeSelect(item); 
+                                                            setCodeIsOpen(false);
+                                                    }}
+                                                    >
+                                                        {item.label}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                            )}
+                                    </div>
+                                    <input
+                                        type="text"
+                                        id="lectureCode"
+                                        name="Code"
+                                        value={lectureCode}
+                                        onChange={e => {
+                                            const inputCode = e.target.value.trim();
+                                            setLectureCode(inputCode);
+                                            if (inputCode === "") setLectureData([]);
                                         }}
+                                        placeholder={searchCodeSelect.value === "searchCode" ? "과목 코드를 입력하세요" : "과목명을 입력하세요"}
+                                        className={css(styles.inputContainer)} />
+                                    <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>
+                                        <HiArrowCircleRight className={css(styles.ArrowCustom)}/>
+                                    </button>
+                                </div>
+                            </div>
+                        <div className={css(styles.subListContainer)}>
+                            {lectureData.length == 0 ? 
+                            (
+                               <a href='https://info.cku.ac.kr/haksa/undergraduate/subject_search_all.jsp' target="_blank" className={css(styles.linkContainer)}>
+                                    <span>과목코드 조회하기</span>
+                                    <TbExternalLink className={css(styles.linkCustom)}/>
+                                </a>
+                            )
+                               : (lectureData && lectureData.length > 0 ? (
+                                <ul className={css(styles.subInfoListUi)}>
+                                    {lectureData.map((subject, idx) => (
+                                        <li
+                                            key={subject.lecture_code + idx}
+                                            className={css(styles.subInfoListLi)}
                                         >
-                                            {item.label}
+                                            <div className={css(styles.subjectInfo)} onClick={() => handleAddSubject(subject)}>
+                                                <div className={css(styles.subjectMain)}>{subject.lecture_name}</div>
+                                                <div className={css(styles.subjectSub)}>
+                                                    {subject.year} / {subject.semester} · {subject.lecture_code} · {subject.lecture_type} · {subject.lecture_topic} · {subject.credit}학점
+                                                </div>
+                                            </div>
+                                            <div className={css(styles.plusContainer)}>
+                                                <HiPlusCircle className={css(styles.addCustom)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가" />
+                                            </div>
                                         </li>
                                     ))}
-                                </ul>
-                                )}
-                        </div>
-                        <div className={css(styles.inputSearchContainer)}>
-                            <div className={css(styles.inputCodeContainer)} ref={codeDropDownRef}>
-                                <button className={css(styles.itemCodeButton)} onClick={() => setCodeIsOpen(!codeIsOpen)}>
-                                    {searchCodeSelect.label}
-                                    <GoTriangleDown className={css(styles.triangleIcon)}/>
-                                </button>
-                                {codeIsOpen && (
-                                    <ul className={css(styles.dropCustomUl)}>
-                                        {searchType.map((item) => (
-                                            <li
-                                                className={css(styles.dropCustomLi)}
-                                                key={item.value}
-                                                onClick={() => {
-                                                    setSearchCodeSelect(item); 
-                                                    setCodeIsOpen(false);
-                                            }}
-                                            >
-                                                {item.label}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    )}
-                            </div>
-                            <input
-                                type="text"
-                                id="lectureCode"
-                                name="Code"
-                                value={lectureCode}
-                                onChange={(e) => setLectureCode(e.target.value.trim())}
-                                placeholder={ 
-                                    searchCodeSelect.value === "searchCode" ? "과목 코드를 입력하세요"
-                                    : "과목명을 입력하세요"
-                                }
-                                className={css(styles.inputContainer)} />
-                            <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>
-                                <HiArrowCircleRight className={css(styles.ArrowCustom)}/>
-                            </button>
+                                </ul>) : null)}
                         </div>
                     </div>
-                    <div className={css(styles.tableContainer)}>
+                    </div>
+                    {/* <div className={css(styles.tableContainer)}>
                         {lectureData && lectureData.length > 0 ? (<SubSearchComponents subjects={lectureData} onAdd={handleAddSubject} />) : null}
-                    </div>
+                    </div> */}
                     <div className={css(styles.secondTitleContainer)}>
                         <span className={css(styles.secondTitle)}>내 기이수 과목</span>
-                        <button className={css(styles.itemSaveButton)} onClick={handleSaveAllSubjects}>커스텀하기</button>
+                        <button className={css(styles.itemSimulButton)} onClick={() => setShowTextboxContainer(v => !v)}>다음학기 설계하기</button>
                     </div>
                     <hr className={css(styles.custom_hr)} />
                     <div className={css(styles.tableContainerSecond)}>
@@ -336,7 +392,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         border: 'none',
-        width: '500px',
+        width: '450px',
         height: '48px',
         fontFamily: 'Lato',
         fontSize: '14px',
@@ -346,6 +402,7 @@ const styles = StyleSheet.create({
         right: '0px',
         borderTopRightRadius: '18px',
         borderBottomRightRadius: '18px',
+        paddingLeft: '3px',
     },
     tableContainerSecond: {
         justifyContent: 'center',
@@ -384,13 +441,15 @@ const styles = StyleSheet.create({
     },
     textboxContainer: {
         paddingTop: '10px',
-        paddingBottom: '40px',
+        paddingBottom: '10px',
+        paddingLeft: '10px',
+        paddingRight: '10px',
         display: 'flex',
         flexDirection: 'row',
-        width: '100%',
+        width: '880px',
         justifyContent: 'center',
-        gap: '15px',
-        alignItems: 'center',
+        gap: '10px',
+        alignItems: 'flex-start',
     },
     itemTextboxContainer: {
         width: '450px',
@@ -400,7 +459,7 @@ const styles = StyleSheet.create({
         borderRadius: '5px',
     },
     itemSearchButton: {
-        border: '1px solid transparent',
+        border: 'none',
         borderRadius: '18px',
         backgroundColor: 'transparent',
         width: '50px',
@@ -411,9 +470,9 @@ const styles = StyleSheet.create({
         cursor: 'pointer',
         display: 'flex',
         position: 'absolute',
-        alignItems: 'center',      // 수직 중앙
-        justifyContent: 'center',  // 수평 중앙
-        right: '0px',
+        alignItems: 'center',      
+        justifyContent: 'center',  
+        right: '10px',
     },
     secondTitleContainer: {
         paddingTop: '15px',
@@ -458,12 +517,12 @@ const styles = StyleSheet.create({
         fontSize: '15px',
         fontWeight: '700',
     },
-    dropCustomUl: {
+    dropCustomUlSemester: {
         position: 'absolute', 
         textAlign: 'center',
         color: '#595650',
         top: '100%', 
-        left: 0, 
+        left: 10, 
         right: 0,
         margin: 0,
         padding: 0,
@@ -472,14 +531,41 @@ const styles = StyleSheet.create({
         maxHeight: '150px',
         overflowY: 'auto',
         zIndex: 1000,
-        width: '110px',
+        width: '90px',
+        fontSize: '16px',
+        borderRadius: '5px',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+    },
+    dropCustomUlCode: {
+        position: 'absolute', 
+        textAlign: 'flex-start',
+        color: '#595650',
+        top: '100%', 
+        left: 10, 
+        right: 0,
+        margin: 0,
+        padding: 0,
+        listStyle: 'none',
+        backgroundColor: '#FFFEFB',
+        maxHeight: '150px',
+        overflowY: 'auto',
+        zIndex: 1000,
+        width: '90px',
         fontSize: '16px',
         borderRadius: '5px',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
     },
     dropCustomLi: {
+        textAlign: 'center',
         marginBottom: '5px',
         marginTop: '5px',
+        fontSize: '14px',
+    },
+    dropCustomLiCode: {
+        marginLeft: '10px',
+        marginBottom: '5px',
+        marginTop: '5px',
+        fontSize: '14px',
     },
     itemSemesterButton: {
         width: '110px',
@@ -510,7 +596,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         border: '1px solid #E4E4E4',
         flexDirection: 'row',
-        width: '600px',
+        width: '550px',
         height: '50px',
         borderRadius: '30px',
         boxSizing: 'border-box',
@@ -521,6 +607,7 @@ const styles = StyleSheet.create({
         height: '50px',
         borderTopLeftRadius: '30px',
         borderBottomLeftRadius: '30px',
+        whiteSpace: 'nowrap',
     },
     itemCodeButton: {
         border: 'none',
@@ -536,16 +623,168 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         paddingLeft: '15px',
+        paddingRight: '0px',
+        cursor: 'pointer',
     },
     triangleIcon: {
         fontSize: '14px',
         color: '#333',
         marginLeft: '4px',
+        marginRight: '3px',
     },
     bottomArrowIcon: {
         fontSize: '14px',
         color: '#E4E4E4',
         marginLeft: '4px',
+    },
+    linkContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '140px',
+        fontSize: '14px',
+        color: '#888',
+        marginTop: '10px',
+    },
+    linkCustom: {
+        fontSize: '18px',
+        color: '#888',
+        paddingBottom: '0px',
+    },
+    shortDivider: {
+        width: '1px',
+        height: '26px',       
+        background: '#E4E4E4', 
+        margin: '12px 2px',   
+        display: 'inline-block',
+    },
+    inputListContainer: {
+        display: 'flex',
+        position: 'relative',
+        flexDirection: 'column',
+        width: '750px',
+        boxSizing: 'border-box',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    subListContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '520px',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingTop: '10px',
+        height: '150px',
+    },
+    subInfoListLi: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+        padding: '18px 32px 12px 32px',
+        borderRadius: '12px',
+        background: '#fff',
+        boxSizing: 'border-box',
+        marginBottom: '8px',
+        boxShadow: '0 2px 8px 0 rgba(33,37,41,0.10)',
+        cursor: 'pointer',
+        transition: 'background 0.15s, box-shadow 0.15s',
+        gap: '4px',
+        ':hover': {
+            background: '#f8f9fa',
+        },
+    },
+    subInfoListUi: {
+        width: '100%',
+        margin: 0,
+        padding: '12px 0',
+        listStyle: 'none',
+        flexDirection: 'row',
+    },
+    subjectMain: {
+        fontWeight: 700,
+        fontSize: '1.08rem',
+        color: '#212529',
+        marginBottom: '2px',
+        lineHeight: 1.3,
+        width: '400px',
+    },
+    subjectSub: {
+        fontSize: '0.97rem',
+        color: '#868e96',
+        lineHeight: 1.2,
+        wordBreak: 'keep-all',
+        width: '400px',
+    },
+    plusContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        height: '100%',
+    },
+    addCustom: {
+        fontSize: '32px',
+        color: '#006277',
+        cursor: 'pointer',
+        marginLeft: '16px',
+        transition: 'color 0.2s',
+        ':hover': {
+            color: '#004c56',
+        },
+    },
+    subjectInfo: {
+        flex: 1,
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+    },
+    slideDownHidden: {
+        maxHeight: '0px',
+        opacity: 0,
+        overflow: 'hidden',
+        transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s',
+    },
+    slideDownActive: {
+        maxHeight: '1000px',
+        opacity: 1,
+        overflow: 'hidden',
+        transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s',
+    },
+    itemSimulButton: {
+        width: '120px',
+        height: '35px',
+        borderRadius: '8px',
+        border: 'none',
+        backgroundColor: '#006696',
+        background: '#3D5286',
+        boxShadow: '0px 4px 5px #888',
+        color: '#FFFEFB',
+        cursor: 'pointer',
+        ':hover': {
+            backgroundColor: '#3674B5',
+            color: '#FFFEFB'
+        },
+        ':active': {
+            boxShadow: '0 2px 4px 0 #00bfff33, 0 1px 2px 0 rgba(0,0,0,0.10) inset',
+        },
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '700',
+    },
+    titleColumnContainer: {
+        display: 'flex',
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: '10px',
+    },
+    labelContainer: {
+        display: 'flex',
+        width: '50px',
+        minWidth: '50px',
+        textAlign: 'flex-start',
     }
 });
 
