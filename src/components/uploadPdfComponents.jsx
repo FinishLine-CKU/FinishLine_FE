@@ -6,6 +6,9 @@ import axios from 'axios';
 import pdfIcon from '../assets/images/pdfIcon.svg';
 import mockupDevice from '../assets/images/mockupDevice.png';
 import pdfGuide1 from '../assets/images/pdfGuide1.gif';
+import pdfGuide2 from '../assets/images/pdfGuide2.gif';
+import pdfGuide3 from '../assets/images/pdfGuide3.gif';
+import pdfGuide4 from '../assets/images/pdfGuide4.gif';
 import LoadingComponents from "./loadingComponents";
 
 function UploadPdfComponents() {
@@ -212,7 +215,7 @@ function UploadPdfComponents() {
             <div className={css(styles.uploadGuideContainer)}>
                 <div className={css(styles.mockupContainer)}>
                     <img src={mockupDevice} className={css(styles.mockupDevice)}/>
-                    <img src={step === 1 ? pdfGuide1 : pdfGuide1} className={css(styles.showGuideProcess)} />
+                    <img src={step === 1 ? pdfGuide1 : step === 2 ? pdfGuide2 : step === 3 ? pdfGuide3 : step === 4 ? pdfGuide4 : null} className={css(styles.showGuideProcess)} alt="gif" />
                 </div>
                 <div className={css(styles.guideContainer)}>
                     <div className={css(styles.guideTitleContainer)}>
@@ -227,7 +230,7 @@ function UploadPdfComponents() {
                                 {step === 1 && fadeIn ?
                                 <>
                                     <span className={css(styles.guideDescription)}>
-                                        <a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" target="_blank" className={css(styles.pointContent)}>CKU 종합정보시스템 <RiExternalLinkLine className={css(styles.link)}/></a> 에 접속 후
+                                        PC 환경에서 <a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" target="_blank" className={css(styles.pointContent)}>CKU 종합정보시스템 <RiExternalLinkLine className={css(styles.link)}/></a> 으로 접속 후
                                     </span>
                                     <span className={css(styles.guideDescriptionSecond)}>
                                         아이디, 비밀번호를 입력하여 로그인 합니다.
@@ -238,14 +241,21 @@ function UploadPdfComponents() {
                         <div className={css(styles.guideContentsContainer)} onClick={() => { if(!(step === 2 && fadeIn)){setFadeIn(false); setStep(2);} }}>
                             <div className={css(step === 2 ? styles.activateContainer : styles.numberingContainer)} />
                             <div className={css(styles.guideColumn)}>
-                                <span className={css(step === 2 ? styles.activateGuideFont :styles.guideFont)}>2. '학적관리'＞'학기별성적조회및출력' 선택</span>
+                                {/* <span className={css(step === 2 ? styles.activateGuideFont :styles.guideFont)}>2. '학적관리'＞'학기별성적조회및출력' 선택</span> */}
+                                <span className={css(step === 2 ? styles.activateGuideFont :styles.guideFont)}>2. 학기별성적조회및출력 페이지 접속</span>
                                 {step === 2 && fadeIn ?
                                 <>
-                                    <span className={css(styles.guideDescription)}>
+                                    {/* <span className={css(styles.guideDescription)}>
                                         좌측 메뉴에서 '학적관리' 선택 후 
                                     </span>
                                     <span className={css(styles.guideDescriptionSecond)}>
                                         '학기별성적조회및출력' 을 클릭하여 페이지를 이동합니다.
+                                    </span> */}
+                                    <span className={css(styles.guideDescription)}>
+                                        로그인 완료 후 <a href="https://info.cku.ac.kr/haksa/undergraduate/sungjuk_hakki_view.jsp" target="_blank" className={css(styles.pointContent)}>링크 <RiExternalLinkLine className={css(styles.link)}/></a> 를 눌러
+                                    </span>
+                                    <span className={css(styles.guideDescriptionSecond)}>
+                                        학기별성적조회및출력 페이지에 접속합니다.
                                     </span>
                                 </> : null}
                             </div>
@@ -281,7 +291,7 @@ function UploadPdfComponents() {
                                         한컴 PDF, Microsoft Print to PDF 등 다른 옵션은
                                     </span>
                                     <span className={css(styles.guideDescriptionSecondPoint)}>
-                                        지원되지 않으니, 반드시 'PDF로 저장' 확인 후 저장해주세요.
+                                        지원되지 않으니, 반드시 'PDF로 저장'을 확인 후 저장해주세요.
                                     </span>
                                 </> : null}
                             </div>
@@ -336,7 +346,7 @@ const styles = StyleSheet.create({
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
-        gap: '50px',
+        gap: '50px'
     },
     mockupContainer: {
         display: 'flex',
@@ -352,7 +362,8 @@ const styles = StyleSheet.create({
         width: '385px',
         height: '260px',
         borderRadius: '2px',
-        paddingBottom: '5px'
+        paddingBottom: '5px',
+        resizing: ''
     },
     guideContainer: {
         display: 'flex',
