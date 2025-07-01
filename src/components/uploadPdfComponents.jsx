@@ -1,15 +1,23 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
+import { RiExternalLinkLine } from "react-icons/ri";
 import axios from 'axios';
 import pdfIcon from '../assets/images/pdfIcon.svg';
-import LoadingComponents from "./loadingComponents"
+import mockupDevice from '../assets/images/mockupDevice.png';
+import pdfGuide1 from '../assets/images/pdfGuide1.gif';
+import pdfGuide2 from '../assets/images/pdfGuide2.gif';
+import pdfGuide3 from '../assets/images/pdfGuide3.gif';
+import pdfGuide4 from '../assets/images/pdfGuide4.gif';
+import LoadingComponents from "./loadingComponents";
 
 function UploadPdfComponents() {
     const [fileNames, setFileNames] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]); // PDF Files state
     const [loading, setLoading] = useState();
     const [isDrag, setIsDrag] = useState();
+    const [step, setStep] = useState(1);
+    const [fadeIn, setFadeIn] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -132,8 +140,15 @@ function UploadPdfComponents() {
         fileInputHandler(dragFiles);
     };
 
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setFadeIn(true);
+        }, 500);
+        return () => clearTimeout(timeout);
+    }, [step]);
+
     return (
-        <div>
+        <>
             {loading && <LoadingComponents />}
             <div className={css(styles.container)}>
                 <div className={css(styles.donelistcontainer)}>
@@ -142,16 +157,6 @@ function UploadPdfComponents() {
                         <span className={css(styles.pcEnvWarn)}>* 원활한 등록을 위해 PC환경을 권장합니다.</span>
                     </div>
                     <hr className={css(styles.custom_hr)} />
-                    {localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest') ? null :
-                    <div className={css(styles.uploadGuide)}>
-                        <div className={css(styles.straight)}>
-                            <span className={css(styles.guideMessage)}>1. <strong><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" className={css(styles.linkInformationSystem)} target="_blank" >종합정보시스템</a></strong> 접속 후 로그인 (PC환경)</span>
-                            <button className={css(styles.ckuWeb)}><a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" target="_blank" className={css(styles.removeStyle)}>바로가기</a></button>
-                        </div>
-                        <span className={css(styles.guideMessage)}>2. 좌측 메뉴에서 <strong>학적관리＞학기별 성적조회 및 출력</strong> 선택</span>
-                        <span className={css(styles.guideMessage)}>3. <strong>이수년도, 학기</strong> 선택 및 검색</span>
-                        <span className={css(styles.guideMessage)}>4. <strong>인쇄</strong> 및 <strong>PDF로 저장</strong></span>
-                    </div>}
                     <div className={css(styles.itemRowcontainer)}>
                         <div className={css(styles.containerSecond)}>
                             <label className={css(isDrag ? styles.itemboxcontainerActive : styles.itemboxcontainer)}
@@ -206,7 +211,96 @@ function UploadPdfComponents() {
                     </div>
                 </div>
             </div>
-        </div>
+            {localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest') ? null :
+            <div className={css(styles.uploadGuideContainer)}>
+                <div className={css(styles.mockupContainer)}>
+                    <img src={mockupDevice} className={css(styles.mockupDevice)}/>
+                    <img src={step === 1 ? pdfGuide1 : step === 2 ? pdfGuide2 : step === 3 ? pdfGuide3 : step === 4 ? pdfGuide4 : null} className={css(styles.showGuideProcess)} alt="gif" />
+                </div>
+                <div className={css(styles.guideContainer)}>
+                    <div className={css(styles.guideTitleContainer)}>
+                        <span className={css(styles.guideTitle)}>기이수과목 PDF 등록 가이드</span>
+                        <span className={css(styles.guideSubTitle)}>아래 절차에 따라 PDF를 등록해주세요.</span>
+                    </div>
+                    <div className={css(styles.guideContentsLayout)}>
+                        <div className={css(styles.guideContentsContainer)} onClick={() => { if(!(step === 1 && fadeIn)){setFadeIn(false); setStep(1);} }}>
+                            <div className={css(step === 1 ? styles.activateContainer : styles.numberingContainer)} />
+                            <div className={css(styles.guideColumn)}>
+                                <span className={css(step === 1 ? styles.activateGuideFont : styles.guideFont)}>1. 종합정보시스템 접속 및 로그인</span>
+                                {step === 1 && fadeIn ?
+                                <>
+                                    <span className={css(styles.guideDescription)}>
+                                        PC 환경에서 <a href="https://info.cku.ac.kr/haksa/common/loginForm2.jsp" target="_blank" className={css(styles.pointContent)}>CKU 종합정보시스템 <RiExternalLinkLine className={css(styles.link)}/></a> 으로 접속 후
+                                    </span>
+                                    <span className={css(styles.guideDescriptionSecond)}>
+                                        아이디, 비밀번호를 입력하여 로그인 합니다.
+                                    </span>
+                                </> : null}
+                            </div>
+                        </div>
+                        <div className={css(styles.guideContentsContainer)} onClick={() => { if(!(step === 2 && fadeIn)){setFadeIn(false); setStep(2);} }}>
+                            <div className={css(step === 2 ? styles.activateContainer : styles.numberingContainer)} />
+                            <div className={css(styles.guideColumn)}>
+                                {/* <span className={css(step === 2 ? styles.activateGuideFont :styles.guideFont)}>2. '학적관리'＞'학기별성적조회및출력' 선택</span> */}
+                                <span className={css(step === 2 ? styles.activateGuideFont :styles.guideFont)}>2. 학기별성적조회및출력 페이지 접속</span>
+                                {step === 2 && fadeIn ?
+                                <>
+                                    {/* <span className={css(styles.guideDescription)}>
+                                        좌측 메뉴에서 '학적관리' 선택 후 
+                                    </span>
+                                    <span className={css(styles.guideDescriptionSecond)}>
+                                        '학기별성적조회및출력' 을 클릭하여 페이지를 이동합니다.
+                                    </span> */}
+                                    <span className={css(styles.guideDescription)}>
+                                        로그인 완료 후 <a href="https://info.cku.ac.kr/haksa/undergraduate/sungjuk_hakki_view.jsp" target="_blank" className={css(styles.pointContent)}>링크 <RiExternalLinkLine className={css(styles.link)}/></a> 를 눌러
+                                    </span>
+                                    <span className={css(styles.guideDescriptionSecond)}>
+                                        학기별성적조회및출력 페이지에 접속합니다.
+                                    </span>
+                                </> : null}
+                            </div>
+                        </div>
+                        <div className={css(styles.guideContentsContainer)} onClick={() => { if(!(step === 3 && fadeIn)){setFadeIn(false); setStep(3);} }}>
+                            <div className={css(step === 3 ? styles.activateLongContainer : styles.numberingContainer)} />
+                            <div className={css(styles.guideColumn)}>
+                                <span className={css(step === 3 ? styles.activateGuideFont : styles.guideFont)}>3. 이수년도 및 학기 설정 및 조회</span>
+                                {step === 3 && fadeIn ?
+                                <>
+                                    <span className={css(styles.guideDescription)}>
+                                        저장하려는 년도와 학기를 설정하고 검색 버튼을 눌러 검색합니다.
+                                    </span>
+                                    <span className={css(styles.guideDescriptionThird)}>
+                                        단, 계절학기 PDF는 지원되지 않으니
+                                    </span>
+                                    <span className={css(styles.guideDescriptionSecondPoint)}>
+                                        계절학기 검사 희망 시 원클릭 검사를 이용해주세요.
+                                    </span>
+                                </> : null}
+                            </div>
+                        </div>
+                        <div className={css(styles.guideContentsContainer)} onClick={() => { if(!(step === 4 && fadeIn)){setFadeIn(false); setStep(4);} }}>
+                            <div className={css(step === 4 ? styles.activateLongContainer : styles.numberingContainer)} />
+                            <div className={css(styles.guideColumn)}>
+                                <span className={css(step === 4 ? styles.activateGuideFont : styles.guideFont)}>4. 인쇄 및 PDF로 저장</span>
+                                {step === 4 && fadeIn ?
+                                <>
+                                    <span className={css(styles.guideDescription)}>
+                                        인쇄 버튼 클릭 후 'PDF로 저장'을 선택하여 저장합니다.
+                                    </span>
+                                    <span className={css(styles.guideDescriptionThird)}>
+                                        한컴 PDF, Microsoft Print to PDF 등 다른 옵션은
+                                    </span>
+                                    <span className={css(styles.guideDescriptionSecondPoint)}>
+                                        지원되지 않으니, 반드시 'PDF로 저장'을 확인 후 저장해주세요.
+                                    </span>
+                                </> : null}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </>
     );
 }
 
@@ -214,14 +308,13 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         justifyContent: 'center',
-        paddingBottom: '137px',
+        paddingBottom: '100px',
         backgroundColor: '#FFFEFB'
     },
     donelistcontainer: {
-        paddingTop: '50px',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     title: {
         paddingBottom: '5px',
@@ -237,7 +330,7 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         width: '520px',
-        paddingBottom: '5px',
+        padding: '50px 0 5px 0',
         fontFamily: 'Lato',
         fontSize: '23px',
         display: 'flex',
@@ -248,53 +341,134 @@ const styles = StyleSheet.create({
         width: '100%',
         border: '1px solid #E4E4E4',
     },
-    uploadGuide: {
-        width: '95%',
-        padding: '30px 0 30px 0',
+    uploadGuideContainer: {
+        padding: '20px 0 0 0',
+        width: '100%',
         display: 'flex',
-        alignItems: 'flex-start',
-        flexDirection: 'column',
-        gap: '18px'
+        justifyContent: 'center',
+        gap: '50px'
     },
-    straight: {
+    mockupContainer: {
         display: 'flex',
+        justifyContent: 'center',
         alignItems: 'center',
+        padding: '30px 0 30px 0'
     },
-    linkInformationSystem: {
-        color: '#006277',
-        // textDecoration: 'none',
-        padding: '3px 0',
-        transition: 'color 0.1s ease',
-        ':hover': {
-            color: '#EA7175',
-            textDecoration: 'underline',
-        }
+    mockupDevice: {
+        width: '500px',
     },
-    ckuWeb: {
-        backgroundColor: '#006277',
-        font: 'Lato',
-        fontWeight: '600',
-        fontSize: '11px',
-        color: '#FFFEFB',
-        border: '1px solid #006277',
-        borderRadius: '6px',
-        height: '23px',
-        ':hover': {
-            cursor: 'pointer'
-        },
-        ':active': {
-            opacity: '0.8'
-        }
+    showGuideProcess: {
+        position: 'absolute',
+        width: '385px',
+        height: '260px',
+        borderRadius: '2px',
+        paddingBottom: '5px',
+        resizing: ''
     },
-    removeStyle: {
-        textDecoration: 'none',
-        color: '#FFFEFB'
+    guideContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '30px',
+        minHeight: '284px',
+        width: '450px',
+        whiteSpace: 'nowrap'
     },
-    guideMessage: {
+    guideTitleContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        whiteSpace: 'nowrap',
+        gap: '5px'
+    },
+    guideTitle: {
         fontFamily: 'Lato',
-        fontSize: '18px',
-        fontWeight: '500',
-        paddingRight: '15px'
+        fontSize: '25px',
+        fontWeight: '700'
+    },
+    guideSubTitle: {
+        fontSize: '15px',
+        color: '#7A828A'
+    },
+    guideContentsLayout: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '25px'
+    },
+    guideContentsContainer: {
+        display: 'flex',
+        backgroundColor: '#FFFFFF',
+        gap: '20px'
+    },
+    activateContainer: {
+        display: 'flex',
+        backgroundColor: '#3D5286',
+        borderRadius: '10px',
+        width: '3px',
+        height: '80px',
+        transition: 'all 0.3s ease-out'
+    },
+    activateLongContainer: {
+        display: 'flex',
+        backgroundColor: '#3D5286',
+        borderRadius: '10px',
+        width: '3px',
+        height: '110px',
+        transition: 'all 0.3s ease-out'
+    },
+    numberingContainer: {
+        display: 'flex',
+        backgroundColor: '#E4E8F0',
+        borderRadius: '10px',
+        width: '3px',
+        height: '20px',
+        transition: 'all 0.3s ease-out'
+    },
+    guideColumn: {
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    activateGuideFont: {
+        color: '#3D5286',
+        fontFamily: 'Lato',
+        fontSize: '19px',
+        fontWeight: '700',
+        whiteSpace: 'nowrap'
+    },
+    guideFont: {
+        fontFamily: 'Lato',
+        fontSize: '19px',
+        fontWeight: '700',
+        whiteSpace: 'nowrap'
+    },
+    guideDescription: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        paddingTop: '10px'
+    },
+    pointContent: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        textDecorationColor: 'none',
+        color: '#3D5286'  // # 7A828A
+    },
+    link: {
+        fontSize: '16px',
+        marginBottom: '-1.5px'
+    },
+    guideDescriptionThird: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        paddingTop: '5px',
+        color: '#7A828A'
+
+    },
+    guideDescriptionSecond: {
+        fontFamily: 'Lato',
+        fontSize: '15px'
+    },
+    guideDescriptionSecondPoint: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#7A828A'
     },
     itemRowcontainer: {
         paddingTop: '20px',
