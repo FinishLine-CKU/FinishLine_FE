@@ -81,7 +81,7 @@ function UserGuidePage() {
                             <div className={css(styles.bannerContainer)}>
                                 <div className={css(styles.bannerTextContainer)}>
                                     <span className={css(styles.titleTextBold)}>18~25학번 전체학과 검사 지원</span>
-                                    <span className={css(styles.subTitleText)}>모바일에서도 원클릭검사로 쉽고 빠르게 졸업 학점을 계산해보세요.</span>
+                                    <span className={css(styles.subTitleText)}>모바일에서도 원클릭검사로 쉽고 빠르게<br />졸업 학점을 계산해보세요.</span>
                                 </div>
                                 <img src={groupMockup} className={css(styles.groupMockupImg)} />
                             </div>
@@ -131,7 +131,7 @@ function UserGuidePage() {
                             <div className={css(styles.bannerContainer)}>
                                 <div className={css(styles.bannerTextContainer)}>
                                     <span className={css(styles.titleTextBold)}>18~25학번 전체 학과 검사 지원</span>
-                                    <span className={css(styles.subTitleText)}>안내에 따라 기이수과목 PDF 파일을 첨부하고 부족학점을 계산해보세요.</span>
+                                    <span className={css(styles.subTitleText)}>안내에 따라 기이수과목 PDF 파일을 첨부하고<br />부족학점을 계산해보세요.</span>
                                 </div>
                                 <img src={resultMockup} className={css(styles.mockupImg)} />
                             </div>
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     },
     titleTextBold: {
         fontFamily: 'Lato',
-        fontSize: '32px',
+        fontSize: '30px',
         fontWeight: '800'
     },
     subTitleText: {
@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: '18px',
         color: '#7A828A',
+        textAlign: 'left'
     },
     hashTage: {
         fontWeight: '700',
@@ -292,8 +293,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F7FA', // # F6F7FA E7EDFF
         borderRadius: '20px',
         padding: '40px',
-        width: '93%',
-        minWidth: '900px',
+        width: '100%-80px',
+        minWidth: '100%-80px'
     },
     bannerTextContainer: {
         display: 'flex',
