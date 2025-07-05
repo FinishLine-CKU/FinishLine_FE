@@ -7,19 +7,21 @@ import Footer from '../components/footer';
 import { SubSearchComponents, DoneSubComponents } from '../components/doneLectureComponents';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
 import axios from 'axios';
-import { HiArrowCircleRight, HiPlusCircle } from "react-icons/hi";
+import { MdAutoMode } from "react-icons/md";
+import { IoIosArrowRoundForward } from "react-icons/io";
 import { GoTriangleDown } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { TbExternalLink } from "react-icons/tb";
+import { IoSearchCircleSharp } from "react-icons/io5";
 
-export const searchType = [
+const searchType = [
     {value : "searchCode" , label : "과목코드"},
     {value : "searchName" , label : "과목명"},
 ]
 
-export const searchSemester = [
-    {value : "1" , label : "2025-1학기"},
-    {value : "2" , label : "2025-2학기"},
+const searchSemester = [
+    {value : "1" , label : "25년 1학기"},
+    {value : "2" , label : "25년 2학기"},
 ]
 
 function DoneLecturePage() {
@@ -316,9 +318,9 @@ function DoneLecturePage() {
                                             if (inputCode === "") setLectureData([]);
                                         }}
                                         placeholder={searchCodeSelect.value === "searchCode" ? "과목 코드를 입력하세요" : "과목명을 입력하세요"}
-                                        className={css(styles.inputContainer)} />
+                                        className={css(styles.inputContainer, searchCodeSelect.value === "searchCode" ? styles.inputContainer : styles.inputLecturenameContainer)} />
                                     <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>
-                                        <HiArrowCircleRight className={css(styles.ArrowCustom)}/>
+                                        <IoSearchCircleSharp className={css(styles.ArrowCustom)}/>
                                     </button>
                                 </div>
                             </div>
@@ -340,11 +342,15 @@ function DoneLecturePage() {
                                             <div className={css(styles.subjectInfo)} onClick={() => handleAddSubject(subject)}>
                                                 <div className={css(styles.subjectMain)}>{subject.lecture_name}</div>
                                                 <div className={css(styles.subjectSub)}>
-                                                    {subject.year} / {subject.semester} · {subject.lecture_code} · {subject.lecture_type} · {subject.lecture_topic} · {subject.credit}학점
+                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.lecture_topic === '' ? subject.lecture_topic : `-`} | {subject.credit}학점
                                                 </div>
                                             </div>
                                             <div className={css(styles.plusContainer)}>
-                                                <HiPlusCircle className={css(styles.addCustom)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가" />
+                                                <div className={css(styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
+                                                    <span>추가하기</span>
+                                                    <IoIosArrowRoundForward />
+                                                </div>
+                                                {/* <HiPlusCircle className={css(styles.addCustom)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가" /> */}
                                             </div>
                                         </li>
                                     ))}
@@ -357,7 +363,11 @@ function DoneLecturePage() {
                     </div> */}
                     <div className={css(styles.secondTitleContainer)}>
                         <span className={css(styles.secondTitle)}>내 기이수 과목</span>
-                        <button className={css(styles.itemSimulButton)} onClick={() => setShowTextboxContainer(v => !v)}>다음학기 설계하기</button>
+                        {/* <button className={css(styles.itemSimulButton)} onClick={() => setShowTextboxContainer(v => !v)}>이수 과목 시뮬레이션</button> */}
+                        <div className={css(styles.simulationToggleContainer)} onClick={() => setShowTextboxContainer(v => !v)}>
+                            <MdAutoMode />
+                            <span>이수 과목 시뮬레이션</span>
+                        </div>
                     </div>
                     <hr className={css(styles.custom_hr)} />
                     <div className={css(styles.tableContainerSecond)}>
@@ -391,18 +401,34 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     inputContainer: {
-        border: 'none',
-        width: '450px',
-        height: '48px',
-        fontFamily: 'Lato',
-        fontSize: '14px',
-        outline: 'none',
-        backgroundColor: 'transparent',
         position: 'absolute',
-        right: '0px',
+        border: 'none',
+        width: '378px', // 428px
+        height: '95%',
+        backgroundColor: 'transparent',
         borderTopRightRadius: '18px',
         borderBottomRightRadius: '18px',
-        paddingLeft: '3px',
+        paddingLeft: '10px',
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#2a3038',
+        outline: 'none',
+        right: '0px',
+    },
+    inputLecturenameContainer: {
+        position: 'absolute',
+        border: 'none',
+        width: '390px', // 440px
+        height: '95%',
+        backgroundColor: 'transparent',
+        borderTopRightRadius: '18px',
+        borderBottomRightRadius: '18px',
+        paddingLeft: '10px',
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#2a3038',
+        outline: 'none',
+        right: '0px',
     },
     tableContainerSecond: {
         justifyContent: 'center',
@@ -421,8 +447,22 @@ const styles = StyleSheet.create({
         fontSize: '23px',
         fontWeight: '700',
     },
+    simulationToggleContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '5px',
+        color: '#3D5286',
+        fontWeight: '600',
+        ':hover': {
+            color: 'rgba(246, 193, 83, 1)',
+            textShadow: '0 0 5px rgba(246, 193, 83, 0.2)',
+            transition: '0.2s ease-out',
+            cursor: 'pointer'
+        }
+    },
     titleContainer: {
-        width: '110px',
+        width: '120px',
         height: '50px',
         alignItems: 'center',
         justifyContent: 'center',
@@ -459,6 +499,11 @@ const styles = StyleSheet.create({
         borderRadius: '5px',
     },
     itemSearchButton: {
+        display: 'flex',
+        position: 'absolute',
+        alignItems: 'center',      
+        justifyContent: 'center',  
+        right: '0px',
         border: 'none',
         borderRadius: '18px',
         backgroundColor: 'transparent',
@@ -468,11 +513,6 @@ const styles = StyleSheet.create({
         fontSize: '15px',
         fontWeight: '600',
         cursor: 'pointer',
-        display: 'flex',
-        position: 'absolute',
-        alignItems: 'center',      
-        justifyContent: 'center',  
-        right: '10px',
     },
     secondTitleContainer: {
         paddingTop: '15px',
@@ -518,14 +558,15 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     dropCustomUlSemester: {
+        display: 'flex',
+        flexDirection: 'column',
         position: 'absolute', 
         textAlign: 'center',
         color: '#595650',
-        top: '100%', 
+        top: '80%', 
         left: 10, 
         right: 0,
-        margin: 0,
-        padding: 0,
+        padding: 5,
         listStyle: 'none',
         backgroundColor: '#FFFEFB',
         maxHeight: '150px',
@@ -534,41 +575,51 @@ const styles = StyleSheet.create({
         width: '90px',
         fontSize: '16px',
         borderRadius: '5px',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
     },
+
     dropCustomUlCode: {
+        display: 'flex',
+        flexDirection: 'column',
         position: 'absolute', 
-        textAlign: 'flex-start',
         color: '#595650',
-        top: '100%', 
+        top: '80%',
         left: 10, 
-        right: 0,
-        margin: 0,
-        padding: 0,
+        padding: '5px',
         listStyle: 'none',
         backgroundColor: '#FFFEFB',
         maxHeight: '150px',
         overflowY: 'auto',
         zIndex: 1000,
-        width: '90px',
+        width: '80px',
         fontSize: '16px',
         borderRadius: '5px',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
     },
     dropCustomLi: {
-        textAlign: 'center',
-        marginBottom: '5px',
-        marginTop: '5px',
-        fontSize: '14px',
+        padding: '5px 0 5px 0px',
+        fontSize: '15px',
+        color: '#878B93',
+        borderRadius: '4px',
+        ':hover': {
+            backgroundColor: '#F7F8F9'
+        }
     },
     dropCustomLiCode: {
-        marginLeft: '10px',
-        marginBottom: '5px',
-        marginTop: '5px',
-        fontSize: '14px',
+        padding: '5px 0 5px 10px',
+        fontSize: '15px',
+        color: '#878B93',
+        borderRadius: '4px',
+        ':hover': {
+            backgroundColor: '#F7F8F9'
+        }
     },
     itemSemesterButton: {
-        width: '110px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '0 10px',
+        width: '120px',
         height: '50px',
         borderRadius: '30px',
         border: '1px solid #2B2A28',
@@ -580,68 +631,64 @@ const styles = StyleSheet.create({
             borderColor: '#595650'
         },
         fontFamily: 'Lato',
-        fontSize: '13px',
+        fontSize: '15px',
         fontWeight: '700',
-        textAlign: 'center', 
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: '15px',
+        textAlign: 'center',
+        // whiteSpace: 'nowrap'
     },
     ArrowCustom: {
-        width: '40px',
-        height: '40px',
+        width: '45px',
+        height: '45px',
     },
     inputSearchContainer: {
         display: 'flex',
+        alignItems: 'center',
         position: 'relative',
         border: '1px solid #E4E4E4',
-        flexDirection: 'row',
-        width: '550px',
+        width: '500px',
         height: '50px',
         borderRadius: '30px',
         boxSizing: 'border-box',
     },
     inputCodeContainer: {
-        border: 'none',
-        width: '94px',
-        height: '50px',
-        borderTopLeftRadius: '30px',
-        borderBottomLeftRadius: '30px',
+        display: 'flex',
         whiteSpace: 'nowrap',
     },
     itemCodeButton: {
-        border: 'none',
-        width: '100%',
-        height: '50px',
-        borderTopLeftRadius: '30px',
-        borderBottomLeftRadius: '30px',
-        backgroundColor: 'transparent',
-        color: '#2B2A28',
-        fontFamily: 'Lato',
-        fontSize: '14px',
-        fontWeight: '700', 
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: '15px',
-        paddingRight: '0px',
-        cursor: 'pointer',
-    },
-    triangleIcon: {
-        fontSize: '14px',
-        color: '#333',
-        marginLeft: '4px',
-        marginRight: '3px',
-    },
-    bottomArrowIcon: {
-        fontSize: '14px',
-        color: '#E4E4E4',
-        marginLeft: '4px',
-    },
-    linkContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '140px',
+        width: '100%',
+        height: '50px',
+        borderColor: 'transparent',
+        borderTopLeftRadius: '30px',
+        borderBottomLeftRadius: '30px',
+        overflow: 'hidden',
+        backgroundColor: 'transparent',
+        color: '#2B2A28',
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '700',
+        paddingLeft: '20px',
+        outline: 'none',
+        cursor: 'pointer',
+    },
+    triangleIcon: {
+        fontSize: '18px',
+        color: '#2B2A28',
+        padding: '0 10px 0 2px'
+    },
+    bottomArrowIcon: {
+        fontSize: '16px',
+        color: '#E4E4E4',
+        marginLeft: '2px',
+    },
+    linkContainer: {
+        display: 'flex',
+        gap: '3px',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '150px',
         fontSize: '14px',
         color: '#888',
         marginTop: '10px',
@@ -653,10 +700,8 @@ const styles = StyleSheet.create({
     },
     shortDivider: {
         width: '1px',
-        height: '26px',       
-        background: '#E4E4E4', 
-        margin: '12px 2px',   
-        display: 'inline-block',
+        height: '65%',
+        background: '#E4E4E4'
     },
     inputListContainer: {
         display: 'flex',
@@ -671,22 +716,19 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         width: '520px',
-        justifyContent: 'flex-start',
         alignItems: 'center',
         paddingTop: '10px',
         height: '150px',
     },
     subInfoListLi: {
         display: 'flex',
-        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        padding: '20px 30px',
         width: '100%',
-        padding: '18px 32px 12px 32px',
-        borderRadius: '12px',
+        borderRadius: '6px',
         background: '#fff',
         boxSizing: 'border-box',
-        marginBottom: '8px',
         boxShadow: '0 2px 8px 0 rgba(33,37,41,0.10)',
         cursor: 'pointer',
         transition: 'background 0.15s, box-shadow 0.15s',
@@ -696,26 +738,23 @@ const styles = StyleSheet.create({
         },
     },
     subInfoListUi: {
-        width: '100%',
-        margin: 0,
-        padding: '12px 0',
+        position: 'absolute',
+        right: 60,
+        width: '500px',
+        margin: '0',
         listStyle: 'none',
-        flexDirection: 'row',
     },
     subjectMain: {
-        fontWeight: 700,
-        fontSize: '1.08rem',
-        color: '#212529',
-        marginBottom: '2px',
-        lineHeight: 1.3,
-        width: '400px',
+        fontWeight: '700',
+        fontSize: '16px',
+        color: '#2B2A28',
+        width: '350px',
     },
     subjectSub: {
-        fontSize: '0.97rem',
-        color: '#868e96',
-        lineHeight: 1.2,
-        wordBreak: 'keep-all',
-        width: '400px',
+        fontSize: '14px',
+        color: '#7A828A',
+        // wordBreak: 'keep-all',
+        // width: '400px',
     },
     plusContainer: {
         display: 'flex',
@@ -723,9 +762,22 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         height: '100%',
     },
+    addButton: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        backgroundColor: '#3D5286',
+        color: '#FFFEFB',
+        fontFamily: 'Lato',
+        borderRadius: '60px',
+        fontWeight: '600',
+        fontSize: '13px',
+        padding: '5px 10px'
+        // whiteSpace: 'nowrap'
+    },
     addCustom: {
         fontSize: '32px',
-        color: '#006277',
+        color: '#3D5286',
         cursor: 'pointer',
         marginLeft: '16px',
         transition: 'color 0.2s',
@@ -738,7 +790,7 @@ const styles = StyleSheet.create({
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
+        gap: '3px'
     },
     slideDownHidden: {
         maxHeight: '0px',
@@ -776,15 +828,12 @@ const styles = StyleSheet.create({
     titleColumnContainer: {
         display: 'flex',
         width: '100%',
-        flexDirection: 'row',
         justifyContent: 'center',
         gap: '10px',
     },
     labelContainer: {
         display: 'flex',
-        width: '50px',
-        minWidth: '50px',
-        textAlign: 'flex-start',
+        // width: '100%'
     }
 });
 
