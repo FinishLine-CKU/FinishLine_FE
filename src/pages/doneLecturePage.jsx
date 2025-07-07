@@ -19,12 +19,12 @@ import { IoSearchCircleSharp } from "react-icons/io5";
 
 const searchType = [
     {value : "searchCode" , label : "과목코드"},
-    {value : "searchName" , label : "과목명"},
+    // {value : "searchName" , label : "과목명"},
 ]
 
 const searchSemester = [
-    {year : "2025" , semester : "1" , label : "25년 1학기"},
     {year : "2025" , semester : "2" , label : "25년 2학기"},
+    {year : "2025" , semester : "1" , label : "25년 1학기"},
 ]
 
 function DoneLecturePage() {
@@ -37,7 +37,7 @@ function DoneLecturePage() {
     const [searchCodeSelect, setSearchCodeSelect] = useState(searchType[0]);
     const [codeIsOpen, setCodeIsOpen] = useState(false);
     const [semesterIsOpen, setSemesterIsOpen] = useState(false);
-    const [searchSemesterSelect, setSearchSemesterSelect] = useState(searchSemester[0]);
+    const [searchSemesterSelect, setSearchSemesterSelect] = useState(searchSemester[1]);
     const codeDropDownRef = useRef(null);
     const semesterDropDownRef = useRef(null);
     const navigate = useNavigate();
