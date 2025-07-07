@@ -1,12 +1,31 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { StyleSheet, css } from 'aphrodite';
+import { useState, useEffect, useRef } from 'react';
+import { StyleSheet, css, reset } from 'aphrodite';
 import Template from '../components/template';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import { SubSearchComponents, DoneSubComponents } from '../components/doneLectureComponents';
+import { DoneSubComponents } from '../components/doneLectureComponents';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
 import axios from 'axios';
+import { TiDelete } from "react-icons/ti";
+import { MdAutoMode } from "react-icons/md";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { GoTriangleDown } from "react-icons/go";
+import { IoIosArrowDown } from "react-icons/io";
+import { TbExternalLink } from "react-icons/tb";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { FaCircleQuestion } from "react-icons/fa6";
+import { IoSearchCircleSharp } from "react-icons/io5";
+
+const searchType = [
+    {value : "searchCode" , label : "과목코드"},
+    // {value : "searchName" , label : "과목명"},
+]
+
+const searchSemester = [
+    {year : "2025" , semester : "2" , label : "25년 2학기"},
+    {year : "2025" , semester : "1" , label : "25년 1학기"},
+]
 
 function DoneLecturePage() {
 
@@ -15,7 +34,14 @@ function DoneLecturePage() {
     const [error, setError] = useState(null);
     const [myLectureList, setMyLectureList] = useState([]);
     const [filteredSubjects, setFilteredSubjects] = useState([]);
+    const [searchCodeSelect, setSearchCodeSelect] = useState(searchType[0]);
+    const [codeIsOpen, setCodeIsOpen] = useState(false);
+    const [semesterIsOpen, setSemesterIsOpen] = useState(false);
+    const [searchSemesterSelect, setSearchSemesterSelect] = useState(searchSemester[1]);
+    const codeDropDownRef = useRef(null);
+    const semesterDropDownRef = useRef(null);
     const navigate = useNavigate();
+    const [showTextboxContainer, setShowTextboxContainer] = useState(false);
 
     const deleteButton = (lecture_code) => {
         const shouldWeDelete = myLectureList.find((subject) => subject.lecture_code === lecture_code);
@@ -75,19 +101,33 @@ function DoneLecturePage() {
         setError(null);
         setLectureData([]);
 
+        if (!lectureCode || lectureCode.trim() === "") {
+            searchCodeSelect.value === "searchCode" ? alert("과목코드를 입력하세요") : alert("과목명을 입력하세요")
+            return;
+        }
+
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
+            const response = await axios.get(`http://127.0.0.1:8000/graduation/api/nowLectureData/filter/`, {
+                params: {
+                    code: lectureCode,
+                    searchType: searchCodeSelect.value,
+                    year: searchSemesterSelect.year,
+                    semester: searchSemesterSelect.semester,
+                }
+            });
 
             // 과목 찾기로 현재 과목 데이터가 없다면 전체 과목 데이터를 살펴본 후 예외처리 결정
             if (!response.data || response.data.length === 0) {
-                const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter-by-code/${lectureCode}/`);
+                const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter/`, {
+                    params: {
+                        code: lectureCode,
+                    }
+                });
 
                 if (!allResponse.data || allResponse.data.length === 0) {
-                    alert('과목코드를 다시 확인하세요');
+                    searchCodeSelect.value === "searchCode" ? alert("과목코드를 다시 확인하세요.") : alert("과목명을 다시 확인하세요.")
                 } else if (allResponse.data && allResponse.data.length > 0) {
-                    alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
-                } else {
-                    alert('과목코드를 다시 입력하세요');
+                    alert(`20${searchSemesterSelect.label} 내에 존재하지 않는 교과목입니다.\n과목코드를 다시 확인하세요.`);
                 }
                 
             } else {
@@ -146,7 +186,6 @@ function DoneLecturePage() {
             }
 
             myLectureUpdate();
-            alert("저장되었습니다.");
 
             //현재 과목 목록을 내 기이수 과목으로 전달했다면 subjectNew 상태 저장(색상 변경을 위함)
             setMyLectureList(prev =>
@@ -165,6 +204,11 @@ function DoneLecturePage() {
         window.scrollTo(0, 0);
     };
 
+    const deleteText = (e) => {
+        setLectureCode('');
+        setLectureData([])
+    };
+
     //랜더링 될 때마다 내 기이수 과목 목록 갱신
     useEffect(() => {
         if (localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest')) {
@@ -174,6 +218,52 @@ function DoneLecturePage() {
             window.scrollTo(0, 0);
         };
     }, []);
+
+    useEffect(() => {
+        const ClickOutside = (event) => {
+            if (codeDropDownRef.current && !codeDropDownRef.current.contains(event.target)) {
+                setCodeIsOpen(false);
+            }
+        }
+
+        document.addEventListener('mousedown',ClickOutside)
+        
+        return () => {
+            document.removeEventListener('mousedown',ClickOutside)
+        }
+    }, []);
+
+    useEffect(() => {
+        const ClickOutside = (event) => {
+            if (semesterDropDownRef.current && !semesterDropDownRef.current.contains(event.target)) {
+                setSemesterIsOpen(false);
+            }
+        }
+
+        document.addEventListener('mousedown',ClickOutside)
+        
+        return () => {
+            document.removeEventListener('mousedown',ClickOutside)
+        }
+    }, []);
+
+    useEffect(() => {
+        const simulCheck = myLectureList.some(subject => subject.can_delete == true)
+
+        if (simulCheck){
+            setShowTextboxContainer(true);
+        }
+
+        if (localStorage.getItem('testing') === 'true'){
+            setShowTextboxContainer(true);
+        }
+    }, [myLectureList]);
+
+    useEffect(() => {
+        if(myLectureList.some(subject => subject.subjectNew)) {
+            handleSaveAllSubjects();
+        } 
+    }, [myLectureList]);
 
     const enterSubmit = (e) => {
         if (e.key === 'Enter') {
@@ -187,32 +277,140 @@ function DoneLecturePage() {
             <Template title="기이수 과목 관리" />
             <div className={css(styles.container)}>
                 <div className={css(styles.ColumnContainer)}>
-                    <div className={css(styles.titleContainer)}>
-                        <span className={css(styles.title)}>과목 직접 추가</span>
+                    {showTextboxContainer ?
+                        <>
+                            <div className={css(styles.secondTitleContainer)}>
+                                <span className={css(styles.secondTitle)}>이수 과목 시뮬레이션</span>
+                            </div>
+                            <div className={css(styles.secondSubTitleContainer)}>
+                                <span className={css(styles.secondSubTitle)}>원하는 과목을 직접 추가하고 검사 결과를 미리 확인해보세요.</span>
+                            </div>
+                        </> : null
+                    }
+                    <div className={css(styles.textboxContainer, showTextboxContainer ? styles.slideDownActive : styles.slideDownHidden)} onKeyDown={enterSubmit}>
+                        <div className={css(styles.inputListContainer)}>
+                            <div className={css(styles.titleColumnContainer)}>
+                                <div className={css(styles.titleContainer)} ref={semesterDropDownRef}>
+                                    <button className={css(styles.itemSemesterButton)} onClick={() => setSemesterIsOpen(!semesterIsOpen)}>
+                                        {searchSemesterSelect.label}
+                                        <IoIosArrowDown className={css(styles.bottomArrowIcon)}/>
+                                    </button>
+                                    {semesterIsOpen && (
+                                        <ul className={css(styles.dropCustomUlSemester)}>
+                                            {searchSemester.map((item) => (
+                                                <li
+                                                    className={css(styles.dropCustomLi)}
+                                                    key={item.value}
+                                                    onClick={() => {
+                                                        setSearchSemesterSelect(item); 
+                                                        setSemesterIsOpen(false);
+                                                }}
+                                                >
+                                                    {item.label}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        )}
+                                </div>
+                                <div className={css(styles.inputSearchContainer)}>
+                                    <div className={css(styles.inputCodeContainer)} ref={codeDropDownRef}>
+                                        <button className={css(styles.itemCodeButton)} onClick={() => setCodeIsOpen(!codeIsOpen)}>
+                                            <div className={css(styles.labelContainer)}>
+                                                {searchCodeSelect.label}
+                                            </div>
+                                            <GoTriangleDown className={css(styles.triangleIcon)}/>
+                                            <div className={css(styles.shortDivider)}>
+                                            </div>
+                                        </button>
+                                        {codeIsOpen && (
+                                            <ul className={css(styles.dropCustomUlCode)}>
+                                                {searchType.map((item) => (
+                                                    <li
+                                                        className={css(styles.dropCustomLiCode)}
+                                                        key={item.value}
+                                                        onClick={() => {
+                                                            setSearchCodeSelect(item); 
+                                                            setCodeIsOpen(false);
+                                                    }}
+                                                    >
+                                                        {item.label}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                            )}
+                                    </div>
+                                    <input
+                                        type="text"
+                                        id="lectureCode"
+                                        name="Code"
+                                        value={lectureCode}
+                                        onChange={e => {
+                                            const inputCode = e.target.value.trim();
+                                            setLectureCode(inputCode);
+                                            if (inputCode === "") setLectureData([]);
+                                        }}
+                                        placeholder={searchCodeSelect.value === "searchCode" ? "과목 코드를 입력하세요" : "과목명을 입력하세요"}
+                                        className={css(styles.inputContainer, searchCodeSelect.value === "searchCode" ? styles.inputContainer : styles.inputLecturenameContainer)} />
+                                    {lectureCode ?
+                                    <TiDelete className={css(styles.textDeleteButton)} onClick={deleteText} />
+                                    : null}
+                                    <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>
+                                        <IoSearchCircleSharp className={css(styles.ArrowCustom)} />
+                                    </button>
+                                </div>
+                            </div>
+                        <div className={css(styles.subListContainer)}>
+                            {lectureData.length == 0 ? 
+                            (
+                                <a href='https://info.cku.ac.kr/haksa/undergraduate/subject_search_all.jsp' target="_blank" className={css(styles.linkContainer)}>
+                                    <FaCircleQuestion />
+                                    <span>과목코드를 찾으시나요?</span>
+                                    <TbExternalLink className={css(styles.linkCustom)} />
+                                </a>
+                            )
+                               : (lectureData && lectureData.length > 0 ? (
+                                <ul className={css(styles.subInfoListUi)}>
+                                    {lectureData.map((subject, idx) => (
+                                        <li
+                                            key={subject.lecture_code + idx}
+                                            className={css(styles.subInfoListLi)}
+                                        >
+                                            <div className={css(styles.subjectInfo)} onClick={() => handleAddSubject(subject)}>
+                                                <div className={css(styles.subjectMain)}>{subject.lecture_name}</div>
+                                                <div className={css(styles.subjectSub)}>
+                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.lecture_topic === '' ? subject.lecture_topic : `-`} | {subject.credit}학점
+                                                </div>
+                                            </div>
+                                            <div className={css(styles.plusContainer)}>
+                                                <div className={css(styles.addButton, (myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code)) ? styles.alreadyButton : styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
+                                                    {(myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code)) ?
+                                                    <>
+                                                        <span>반영완료</span>
+                                                        <FaRegCheckCircle />
+                                                    </> :
+                                                    <>
+                                                        <span>추가하기</span>
+                                                        <FaArrowRightLong />
+                                                    </>}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>) : null)}
+                        </div>
                     </div>
-                    <hr className={css(styles.custom_hr)} />
-                    <p className={css(styles.small_title)}>과목코드로 검색</p>
-                    <div className={css(styles.textboxContainer)} onKeyDown={enterSubmit}>
-                        <input
-                            type="text"
-                            id="lectureCode"
-                            name="Code"
-                            value={lectureCode}
-                            onChange={(e) => setLectureCode(e.target.value.trim())}
-                            placeholder="과목 코드를 입력하세요"
-                            className={css(styles.inputContainer)} />
-                        <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>검색</button>
-                    </div>
-                    <div className={css(styles.tableContainer)}>
-                        {lectureData && lectureData.length > 0 ? (<SubSearchComponents subjects={lectureData} onAdd={handleAddSubject} />) : null}
                     </div>
                     <div className={css(styles.secondTitleContainer)}>
                         <span className={css(styles.secondTitle)}>내 기이수 과목</span>
-                        {lectureData && lectureData.length > 0 ?
-                            <button className={css(styles.itemSaveButton)} onClick={handleSaveAllSubjects}>저장하기</button>
-                            : null}
+                        {showTextboxContainer ?
+                            null :
+                            <div className={css(styles.simulationToggleContainer)} onClick={() => setShowTextboxContainer(v => !v)}>
+                                <MdAutoMode />
+                                <span>이수 과목 시뮬레이션</span>
+                            </div>
+                        }
                     </div>
-                    <hr className={css(styles.custom_hr)} />
+                    <hr className={css(styles.hrLine)} />
                     <div className={css(styles.tableContainerSecond)}>
                         <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code)} />
                     </div>
@@ -244,16 +442,34 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     inputContainer: {
-        width: '424px',
-        height: '27px',
-        padding: '10px',
-        paddingLeft: '16px',
-        fontFamily: 'Lato',
-        fontSize: '16px',
-        border: '1px solid #CACACA',
-        borderRadius: '4px',
-        outline: 'none',
+        position: 'absolute',
+        border: 'none',
+        width: '378px',
+        height: '95%',
         backgroundColor: 'transparent',
+        borderTopRightRadius: '18px',
+        borderBottomRightRadius: '18px',
+        paddingLeft: '10px',
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#2a3038',
+        outline: 'none',
+        right: '0px',
+    },
+    inputLecturenameContainer: {
+        position: 'absolute',
+        border: 'none',
+        width: '390px',
+        height: '95%',
+        backgroundColor: 'transparent',
+        borderTopRightRadius: '18px',
+        borderBottomRightRadius: '18px',
+        paddingLeft: '10px',
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#2a3038',
+        outline: 'none',
+        right: '0px',
     },
     tableContainerSecond: {
         justifyContent: 'center',
@@ -272,30 +488,52 @@ const styles = StyleSheet.create({
         fontSize: '23px',
         fontWeight: '700',
     },
-    titleContainer: {
+    secondSubTitleContainer: {
+        display: 'flex',
         width: '520px',
+        padding: '10px 0 30px 0'
+    },
+    secondSubTitle: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#7A828A',
+        fontWeight: '600'
+    },
+    simulationToggleContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '5px',
+        color: '#3D5286',
+        fontWeight: '700',
+        ':hover': {
+            color: 'rgba(246, 193, 83, 1)',
+            textShadow: '0 0 5px rgba(246, 193, 83, 0.2)',
+            transition: '0.2s ease-out',
+            cursor: 'pointer'
+        }
+    },
+    titleContainer: {
+        width: '120px',
+        height: '50px',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
     },
-    custom_hr: {
+    hrLine: {
         width: '520px',
         border: '1px solid #E4E4E4',
     },
-    small_title: {
-        fontFamily: 'Lato',
-        fontSize: '20px',
-        fontWeight: '600',
-        textAlign: 'center',
-        color: '#006277',
-    },
     textboxContainer: {
         paddingTop: '10px',
-        paddingBottom: '40px',
+        paddingBottom: '10px',
+        paddingLeft: '10px',
+        paddingRight: '10px',
         display: 'flex',
-        flexDirection: 'row',
-        width: '100%',
+        width: '880px',
         justifyContent: 'center',
-        gap: '15px'
+        gap: '10px',
+        alignItems: 'flex-start',
     },
     itemTextboxContainer: {
         width: '450px',
@@ -304,13 +542,27 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderRadius: '5px',
     },
+    textDeleteButton: {
+        display: 'flex',
+        position: 'absolute',
+        right: '50px',
+        padding: '3px 3px',
+        width: '25px',
+        height: '25px',
+        cursor: 'pointer',
+        color: '#b0b3ba'
+    },
     itemSearchButton: {
-        border: '1px solid black',
-        borderRadius: '4px',
+        display: 'flex',
+        position: 'absolute',
+        alignItems: 'center',      
+        justifyContent: 'center',  
+        right: '0px',
+        border: 'none',
+        borderRadius: '18px',
         backgroundColor: 'transparent',
-        color: 'black',
-        width: '81px',
-        height: '46px',
+        width: '50px',
+        height: '50px',
         fontFamily: 'Lato',
         fontSize: '15px',
         fontWeight: '600',
@@ -348,7 +600,7 @@ const styles = StyleSheet.create({
         width: '165px',
         height: '49px',
         borderRadius: '5px',
-        border: '1px solid transparent',
+        border: 'none',
         backgroundColor: '#006277',
         color: '#FFFFFF',
         cursor: 'pointer',
@@ -359,6 +611,294 @@ const styles = StyleSheet.create({
         fontSize: '15px',
         fontWeight: '700',
     },
+    dropCustomUlSemester: {
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute', 
+        textAlign: 'center',
+        color: '#595650',
+        top: '80%', 
+        left: 10, 
+        right: 0,
+        padding: '5px',
+        listStyle: 'none',
+        backgroundColor: '#FFFEFB',
+        maxHeight: '150px',
+        overflowY: 'auto',
+        zIndex: '1000',
+        width: '90px',
+        fontSize: '16px',
+        borderRadius: '5px',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+    },
+
+    dropCustomUlCode: {
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute', 
+        color: '#595650',
+        top: '80%',
+        left: 10, 
+        padding: '5px',
+        listStyle: 'none',
+        backgroundColor: '#FFFEFB',
+        maxHeight: '150px',
+        overflowY: 'auto',
+        zIndex: '1000',
+        width: '80px',
+        fontSize: '16px',
+        borderRadius: '5px',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+    },
+    dropCustomLi: {
+        padding: '5px 0 5px 0px',
+        fontSize: '15px',
+        color: '#878B93',
+        borderRadius: '4px',
+        ':hover': {
+            backgroundColor: '#F7F8F9'
+        }
+    },
+    dropCustomLiCode: {
+        padding: '5px 0 5px 10px',
+        fontSize: '15px',
+        color: '#878B93',
+        borderRadius: '4px',
+        ':hover': {
+            backgroundColor: '#F7F8F9'
+        }
+    },
+    itemSemesterButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '0 10px',
+        width: '120px',
+        height: '50px',
+        borderRadius: '30px',
+        border: '1px solid #2B2A28',
+        backgroundColor: '#2B2A28',
+        color: '#FFFEFB',
+        cursor: 'pointer',
+        ':active': {
+            backgroundColor: '#595650',
+            borderColor: '#595650'
+        },
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '700',
+        textAlign: 'center',
+        whiteSpace: 'nowrap'
+    },
+    ArrowCustom: {
+        width: '45px',
+        height: '45px',
+    },
+    inputSearchContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        position: 'relative',
+        border: '1px solid #E4E4E4',
+        width: '500px',
+        height: '50px',
+        borderRadius: '30px',
+        boxSizing: 'border-box',
+    },
+    inputCodeContainer: {
+        display: 'flex',
+        whiteSpace: 'nowrap',
+    },
+    itemCodeButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '50px',
+        borderColor: 'transparent',
+        borderTopLeftRadius: '30px',
+        borderBottomLeftRadius: '30px',
+        overflow: 'hidden',
+        backgroundColor: 'transparent',
+        color: '#2B2A28',
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '700',
+        paddingLeft: '20px',
+        outline: 'none',
+        cursor: 'pointer',
+    },
+    triangleIcon: {
+        fontSize: '18px',
+        color: '#2B2A28',
+        padding: '0 10px 0 2px'
+    },
+    bottomArrowIcon: {
+        fontSize: '16px',
+        color: '#E4E4E4',
+        marginLeft: '2px',
+    },
+    linkContainer: {
+        display: 'flex',
+        gap: '5px',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        fontSize: '14px',
+        color: '#7A828A',
+        marginTop: '10px',
+        paddingLeft: '30px'
+    },
+    linkCustom: {
+        fontSize: '18px',
+        color: '#7A828A'
+    },
+    shortDivider: {
+        width: '1px',
+        height: '65%',
+        background: '#E4E4E4'
+    },
+    inputListContainer: {
+        display: 'flex',
+        position: 'relative',
+        flexDirection: 'column',
+        width: '750px',
+        boxSizing: 'border-box',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    subListContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '520px',
+        alignItems: 'center',
+        paddingTop: '10px',
+        height: '100px'
+    },
+    subInfoListLi: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '20px 30px',
+        width: '100%',
+        borderRadius: '6px',
+        background: '#fff',
+        boxSizing: 'border-box',
+        boxShadow: '0 2px 8px 0 rgba(33,37,41,0.10)',
+        cursor: 'pointer',
+        transition: 'background 0.15s, box-shadow 0.15s',
+        gap: '4px',
+        ':hover': {
+            background: '#f8f9fa',
+        },
+    },
+    subInfoListUi: {
+        position: 'absolute',
+        right: 60,
+        width: '500px',
+        margin: '0',
+        listStyle: 'none',
+    },
+    subjectMain: {
+        fontWeight: '700',
+        fontSize: '16px',
+        color: '#2B2A28',
+        width: '350px',
+    },
+    subjectSub: {
+        fontSize: '14px',
+        color: '#7A828A',
+    },
+    plusContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        height: '100%',
+    },
+    addButton: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        backgroundColor: '#3D5286',
+        color: '#FFFEFB',
+        fontFamily: 'Lato',
+        borderRadius: '60px',
+        fontWeight: '700',
+        fontSize: '13px',
+        padding: '5px 10px',
+        gap: '3px'
+    },
+    alreadyButton: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        backgroundColor: '#B9B9B9',
+        color: '#FFFEFB',
+        fontFamily: 'Lato',
+        borderRadius: '60px',
+        fontWeight: '700',
+        fontSize: '13px',
+        padding: '5px 10px',
+        gap: '3px'
+    },
+    addCustom: {
+        fontSize: '32px',
+        color: '#3D5286',
+        cursor: 'pointer',
+        marginLeft: '16px',
+        transition: 'color 0.2s',
+        ':hover': {
+            color: '#004c56',
+        },
+    },
+    subjectInfo: {
+        flex: 1,
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '3px'
+    },
+    slideDownHidden: {
+        maxHeight: '0px',
+        opacity: 0,
+        overflow: 'hidden',
+        transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s',
+    },
+    slideDownActive: {
+        maxHeight: '1000px',
+        opacity: 1,
+        overflow: 'hidden',
+        transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s',
+    },
+    itemSimulButton: {
+        width: '120px',
+        height: '35px',
+        borderRadius: '8px',
+        border: 'none',
+        backgroundColor: '#006696',
+        background: '#3D5286',
+        boxShadow: '0px 4px 5px #888',
+        color: '#FFFEFB',
+        cursor: 'pointer',
+        ':hover': {
+            backgroundColor: '#3674B5',
+            color: '#FFFEFB'
+        },
+        ':active': {
+            boxShadow: '0 2px 4px 0 #00bfff33, 0 1px 2px 0 rgba(0,0,0,0.10) inset',
+        },
+        fontFamily: 'Lato',
+        fontSize: '12px',
+        fontWeight: '700',
+    },
+    titleColumnContainer: {
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'center',
+        gap: '10px',
+    },
+    labelContainer: {
+        display: 'flex',
+    }
 });
 
 export default DoneLecturePage;

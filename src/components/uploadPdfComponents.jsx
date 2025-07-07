@@ -149,68 +149,6 @@ function UploadPdfComponents() {
 
     return (
         <>
-            {loading && <LoadingComponents />}
-            <div className={css(styles.container)}>
-                <div className={css(styles.donelistcontainer)}>
-                    <div className={css(styles.titleContainer)}>
-                        <span className={css(styles.title)}>기이수과목 등록</span>
-                        <span className={css(styles.pcEnvWarn)}>* 원활한 등록을 위해 PC환경을 권장합니다.</span>
-                    </div>
-                    <hr className={css(styles.custom_hr)} />
-                    <div className={css(styles.itemRowcontainer)}>
-                        <div className={css(styles.containerSecond)}>
-                            <label className={css(isDrag ? styles.itemboxcontainerActive : styles.itemboxcontainer)}
-                                onDragEnter={fileDragEnter}
-                                onDragOver={fileDragOver}
-                                onDragLeave={fileDragEnd}
-                                onDrop={fileDrop}>
-                                <input
-                                    type="file"
-                                    id="uploadpdf"
-                                    style={{ display: 'none'}}
-                                    accept=".pdf"
-                                    multiple
-                                    onChange={fileInputHandler}
-                                    htmlFor="uploadpdf"
-                                />
-                                {fileNames.length === 0 ?
-                                <label htmlFor="uploadpdf"
-                                    className={css(isDrag ? styles.itemUploadButtonActive : styles.itemUploadButton)}>
-                                    <img src={pdfIcon}></img>
-                                    이곳을 클릭하거나 파일을 드래그 하여 첨부하세요.
-                                    <div className={css(styles.pdfUploadButton)}>PDF 가져오기</div>
-                                </label> : 
-                                <label htmlFor="uploadpdf" className={css(isDrag ? styles.fileControlContainerActive : styles.fileControlContainer)}>
-                                    <span className={css(styles.fileSelectText)}>파일 선택</span>
-                                    <div className={css(styles.fileControlButtons)}>
-                                        <div htmlFor="uploadpdf" className={css(styles.pdfUploadButton)}>PDF 가져오기</div>
-                                        <button className={css(styles.savePDFButton)} onClick={handleUpload}>등록하기</button>
-                                    </div>
-                                </label>}
-                                {fileNames.length === 0 ? null :
-                                <div className={css(isDrag ? styles.filesContinerActive : styles.filesContiner)}>
-                                {fileNames.map((file, index) => (
-                                <div className={css(styles.filesGap)}>
-                                    <label key={index} className={css(styles.fileNameButtonContainer)}>
-                                        <div className={css(styles.fileInfo)}>
-                                            <img src={pdfIcon} className={css(styles.pdfIcons)}></img>
-                                            <span className={css(styles.fileName)}>{file.name}</span>
-                                            <span className={css(styles.fileSize)}>{file.size}KB</span>
-                                        </div>
-                                        <button
-                                            onClick={(e) => handleDeleteFile(index, e)}
-                                            className={css(styles.itemdeleteButton)}
-                                            type="button"
-                                        >×</button>
-                                    </label>
-                                </div>
-                                ))}
-                                </div>}
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
             {localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest') ? null :
             <div className={css(styles.uploadGuideContainer)}>
                 <div className={css(styles.mockupContainer)}>
@@ -300,6 +238,68 @@ function UploadPdfComponents() {
                 </div>
             </div>
             }
+            {loading && <LoadingComponents />}
+            <div className={css(styles.container)}>
+                <div className={css(styles.donelistcontainer)}>
+                    <div className={css(styles.titleContainer)}>
+                        <span className={css(styles.title)}>기이수과목 등록</span>
+                        <span className={css(styles.pcEnvWarn)}>* 원활한 등록을 위해 반드시 PC환경에서 진행해주세요.</span>
+                    </div>
+                    <hr className={css(styles.custom_hr)} />
+                    <div className={css(styles.itemRowcontainer)}>
+                        <div className={css(styles.containerSecond)}>
+                            <label className={css(isDrag ? styles.itemboxcontainerActive : styles.itemboxcontainer)}
+                                onDragEnter={fileDragEnter}
+                                onDragOver={fileDragOver}
+                                onDragLeave={fileDragEnd}
+                                onDrop={fileDrop}>
+                                <input
+                                    type="file"
+                                    id="uploadpdf"
+                                    style={{ display: 'none'}}
+                                    accept=".pdf"
+                                    multiple
+                                    onChange={fileInputHandler}
+                                    htmlFor="uploadpdf"
+                                />
+                                {fileNames.length === 0 ?
+                                <label htmlFor="uploadpdf"
+                                    className={css(isDrag ? styles.itemUploadButtonActive : styles.itemUploadButton)}>
+                                    <img src={pdfIcon}></img>
+                                    이곳을 클릭하거나 파일을 드래그 하여 첨부하세요.
+                                    <div className={css(styles.pdfUploadButton)}>PDF 가져오기</div>
+                                </label> : 
+                                <label htmlFor="uploadpdf" className={css(isDrag ? styles.fileControlContainerActive : styles.fileControlContainer)}>
+                                    <span className={css(styles.fileSelectText)}>파일 선택</span>
+                                    <div className={css(styles.fileControlButtons)}>
+                                        <div htmlFor="uploadpdf" className={css(styles.pdfUploadButton)}>PDF 가져오기</div>
+                                        <button className={css(styles.savePDFButton)} onClick={handleUpload}>등록하기</button>
+                                    </div>
+                                </label>}
+                                {fileNames.length === 0 ? null :
+                                <div className={css(isDrag ? styles.filesContinerActive : styles.filesContiner)}>
+                                {fileNames.map((file, index) => (
+                                <div className={css(styles.filesGap)}>
+                                    <label key={index} className={css(styles.fileNameButtonContainer)}>
+                                        <div className={css(styles.fileInfo)}>
+                                            <img src={pdfIcon} className={css(styles.pdfIcons)}></img>
+                                            <span className={css(styles.fileName)}>{file.name}</span>
+                                            <span className={css(styles.fileSize)}>{file.size}KB</span>
+                                        </div>
+                                        <button
+                                            onClick={(e) => handleDeleteFile(index, e)}
+                                            className={css(styles.itemdeleteButton)}
+                                            type="button"
+                                        >×</button>
+                                    </label>
+                                </div>
+                                ))}
+                                </div>}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
@@ -342,11 +342,12 @@ const styles = StyleSheet.create({
         border: '1px solid #E4E4E4',
     },
     uploadGuideContainer: {
-        padding: '20px 0 0 0',
+        padding: '50px 0 50px 0',
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
-        gap: '50px'
+        gap: '50px',
+        backgroundColor: '#FFFEFB'
     },
     mockupContainer: {
         display: 'flex',
@@ -395,7 +396,7 @@ const styles = StyleSheet.create({
     },
     guideContentsContainer: {
         display: 'flex',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#FFFEFB',
         gap: '20px'
     },
     activateContainer: {
