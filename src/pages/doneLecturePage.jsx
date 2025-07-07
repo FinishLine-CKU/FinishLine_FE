@@ -23,8 +23,8 @@ const searchType = [
 ]
 
 const searchSemester = [
-    {value : "1" , label : "25년 1학기"},
-    {value : "2" , label : "25년 2학기"},
+    {year : "2025" , semester : "1" , label : "25년 1학기"},
+    {year : "2025" , semester : "2" , label : "25년 2학기"},
 ]
 
 function DoneLecturePage() {
@@ -101,19 +101,33 @@ function DoneLecturePage() {
         setError(null);
         setLectureData([]);
 
+        if (!lectureCode || lectureCode.trim() === "") {
+            searchCodeSelect.value === "searchCode" ? alert("과목코드를 입력하세요") : alert("과목명을 입력하세요")
+            return;
+        }
+
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/graduation/api/nowLectureData/filter-by-code/${lectureCode}/`);
+            const response = await axios.get(`http://127.0.0.1:8000/graduation/api/nowLectureData/filter/`, {
+                params: {
+                    code: lectureCode,
+                    searchType: searchCodeSelect.value,
+                    year: searchSemesterSelect.year,
+                    semester: searchSemesterSelect.semester,
+                }
+            });
 
             // 과목 찾기로 현재 과목 데이터가 없다면 전체 과목 데이터를 살펴본 후 예외처리 결정
             if (!response.data || response.data.length === 0) {
-                const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter-by-code/${lectureCode}/`);
+                const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter/`, {
+                    params: {
+                        code: lectureCode,
+                    }
+                });
 
                 if (!allResponse.data || allResponse.data.length === 0) {
-                    alert('과목코드를 다시 확인하세요');
+                    searchCodeSelect.value === "searchCode" ? alert("과목코드를 다시 확인하세요.") : alert("과목명을 다시 확인하세요.")
                 } else if (allResponse.data && allResponse.data.length > 0) {
-                    alert('현재학기 과목만 조회 가능합니다. 이전학기는 PDF 등록을 이용해주세요.');
-                } else {
-                    alert('과목코드를 다시 입력하세요');
+                    alert(`20${searchSemesterSelect.label} 내에 존재하지 않는 교과목입니다.\n과목코드를 다시 확인하세요.`);
                 }
                 
             } else {
