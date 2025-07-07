@@ -1,17 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { StyleSheet, css } from 'aphrodite';
+import { StyleSheet, css, reset } from 'aphrodite';
 import Template from '../components/template';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import { SubSearchComponents, DoneSubComponents } from '../components/doneLectureComponents';
+import { DoneSubComponents } from '../components/doneLectureComponents';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
 import axios from 'axios';
+import { TiDelete } from "react-icons/ti";
 import { MdAutoMode } from "react-icons/md";
-import { IoIosArrowRoundForward } from "react-icons/io";
+import { FaArrowRightLong } from "react-icons/fa6";
 import { GoTriangleDown } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { TbExternalLink } from "react-icons/tb";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { FaCircleQuestion } from "react-icons/fa6";
 import { IoSearchCircleSharp } from "react-icons/io5";
 
 const searchType = [
@@ -187,6 +190,11 @@ function DoneLecturePage() {
         window.scrollTo(0, 0);
     };
 
+    const deleteText = (e) => {
+        setLectureCode('');
+        setLectureData([])
+    };
+
     //랜더링 될 때마다 내 기이수 과목 목록 갱신
     useEffect(() => {
         if (localStorage.getItem('uploadPDF') || localStorage.getItem('oneClickTest')) {
@@ -255,6 +263,16 @@ function DoneLecturePage() {
             <Template title="기이수 과목 관리" />
             <div className={css(styles.container)}>
                 <div className={css(styles.ColumnContainer)}>
+                    {showTextboxContainer ?
+                        <>
+                            <div className={css(styles.secondTitleContainer)}>
+                                <span className={css(styles.secondTitle)}>이수 과목 시뮬레이션</span>
+                            </div>
+                            <div className={css(styles.secondSubTitleContainer)}>
+                                <span className={css(styles.secondSubTitle)}>원하는 과목을 직접 추가하고 검사 결과를 미리 확인해보세요.</span>
+                            </div>
+                        </> : null
+                    }
                     <div className={css(styles.textboxContainer, showTextboxContainer ? styles.slideDownActive : styles.slideDownHidden)} onKeyDown={enterSubmit}>
                         <div className={css(styles.inputListContainer)}>
                             <div className={css(styles.titleColumnContainer)}>
@@ -319,17 +337,21 @@ function DoneLecturePage() {
                                         }}
                                         placeholder={searchCodeSelect.value === "searchCode" ? "과목 코드를 입력하세요" : "과목명을 입력하세요"}
                                         className={css(styles.inputContainer, searchCodeSelect.value === "searchCode" ? styles.inputContainer : styles.inputLecturenameContainer)} />
+                                    {lectureCode ?
+                                    <TiDelete className={css(styles.textDeleteButton)} onClick={deleteText} />
+                                    : null}
                                     <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>
-                                        <IoSearchCircleSharp className={css(styles.ArrowCustom)}/>
+                                        <IoSearchCircleSharp className={css(styles.ArrowCustom)} />
                                     </button>
                                 </div>
                             </div>
                         <div className={css(styles.subListContainer)}>
                             {lectureData.length == 0 ? 
                             (
-                               <a href='https://info.cku.ac.kr/haksa/undergraduate/subject_search_all.jsp' target="_blank" className={css(styles.linkContainer)}>
-                                    <span>과목코드 조회하기</span>
-                                    <TbExternalLink className={css(styles.linkCustom)}/>
+                                <a href='https://info.cku.ac.kr/haksa/undergraduate/subject_search_all.jsp' target="_blank" className={css(styles.linkContainer)}>
+                                    <FaCircleQuestion />
+                                    <span>과목코드를 찾으시나요?</span>
+                                    <TbExternalLink className={css(styles.linkCustom)} />
                                 </a>
                             )
                                : (lectureData && lectureData.length > 0 ? (
@@ -346,11 +368,17 @@ function DoneLecturePage() {
                                                 </div>
                                             </div>
                                             <div className={css(styles.plusContainer)}>
-                                                <div className={css(styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
-                                                    <span>추가하기</span>
-                                                    <IoIosArrowRoundForward />
+                                                <div className={css(styles.addButton, (myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code)) ? styles.alreadyButton : styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
+                                                    {(myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code)) ?
+                                                    <>
+                                                        <span>반영완료</span>
+                                                        <FaRegCheckCircle />
+                                                    </> :
+                                                    <>
+                                                        <span>추가하기</span>
+                                                        <FaArrowRightLong />
+                                                    </>}
                                                 </div>
-                                                {/* <HiPlusCircle className={css(styles.addCustom)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가" /> */}
                                             </div>
                                         </li>
                                     ))}
@@ -358,18 +386,17 @@ function DoneLecturePage() {
                         </div>
                     </div>
                     </div>
-                    {/* <div className={css(styles.tableContainer)}>
-                        {lectureData && lectureData.length > 0 ? (<SubSearchComponents subjects={lectureData} onAdd={handleAddSubject} />) : null}
-                    </div> */}
                     <div className={css(styles.secondTitleContainer)}>
                         <span className={css(styles.secondTitle)}>내 기이수 과목</span>
-                        {/* <button className={css(styles.itemSimulButton)} onClick={() => setShowTextboxContainer(v => !v)}>이수 과목 시뮬레이션</button> */}
-                        <div className={css(styles.simulationToggleContainer)} onClick={() => setShowTextboxContainer(v => !v)}>
-                            <MdAutoMode />
-                            <span>이수 과목 시뮬레이션</span>
-                        </div>
+                        {showTextboxContainer ?
+                            null :
+                            <div className={css(styles.simulationToggleContainer)} onClick={() => setShowTextboxContainer(v => !v)}>
+                                <MdAutoMode />
+                                <span>이수 과목 시뮬레이션</span>
+                            </div>
+                        }
                     </div>
-                    <hr className={css(styles.custom_hr)} />
+                    <hr className={css(styles.hrLine)} />
                     <div className={css(styles.tableContainerSecond)}>
                         <DoneSubComponents subjects={myLectureList} onDelete={(lecture_code) => deleteButton(lecture_code)} />
                     </div>
@@ -403,7 +430,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         position: 'absolute',
         border: 'none',
-        width: '378px', // 428px
+        width: '378px',
         height: '95%',
         backgroundColor: 'transparent',
         borderTopRightRadius: '18px',
@@ -418,7 +445,7 @@ const styles = StyleSheet.create({
     inputLecturenameContainer: {
         position: 'absolute',
         border: 'none',
-        width: '390px', // 440px
+        width: '390px',
         height: '95%',
         backgroundColor: 'transparent',
         borderTopRightRadius: '18px',
@@ -447,13 +474,24 @@ const styles = StyleSheet.create({
         fontSize: '23px',
         fontWeight: '700',
     },
+    secondSubTitleContainer: {
+        display: 'flex',
+        width: '520px',
+        padding: '10px 0 30px 0'
+    },
+    secondSubTitle: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#7A828A',
+        fontWeight: '600'
+    },
     simulationToggleContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         gap: '5px',
         color: '#3D5286',
-        fontWeight: '600',
+        fontWeight: '700',
         ':hover': {
             color: 'rgba(246, 193, 83, 1)',
             textShadow: '0 0 5px rgba(246, 193, 83, 0.2)',
@@ -468,16 +506,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         position: 'relative',
     },
-    custom_hr: {
+    hrLine: {
         width: '520px',
         border: '1px solid #E4E4E4',
-    },
-    small_title: {
-        fontFamily: 'Lato',
-        fontSize: '20px',
-        fontWeight: '600',
-        textAlign: 'center',
-        color: '#006277',
     },
     textboxContainer: {
         paddingTop: '10px',
@@ -485,7 +516,6 @@ const styles = StyleSheet.create({
         paddingLeft: '10px',
         paddingRight: '10px',
         display: 'flex',
-        flexDirection: 'row',
         width: '880px',
         justifyContent: 'center',
         gap: '10px',
@@ -497,6 +527,16 @@ const styles = StyleSheet.create({
         border: '1px solid black',
         backgroundColor: 'transparent',
         borderRadius: '5px',
+    },
+    textDeleteButton: {
+        display: 'flex',
+        position: 'absolute',
+        right: '50px',
+        padding: '3px 3px',
+        width: '25px',
+        height: '25px',
+        cursor: 'pointer',
+        color: '#b0b3ba'
     },
     itemSearchButton: {
         display: 'flex',
@@ -566,12 +606,12 @@ const styles = StyleSheet.create({
         top: '80%', 
         left: 10, 
         right: 0,
-        padding: 5,
+        padding: '5px',
         listStyle: 'none',
         backgroundColor: '#FFFEFB',
         maxHeight: '150px',
         overflowY: 'auto',
-        zIndex: 1000,
+        zIndex: '1000',
         width: '90px',
         fontSize: '16px',
         borderRadius: '5px',
@@ -590,7 +630,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFEFB',
         maxHeight: '150px',
         overflowY: 'auto',
-        zIndex: 1000,
+        zIndex: '1000',
         width: '80px',
         fontSize: '16px',
         borderRadius: '5px',
@@ -634,7 +674,7 @@ const styles = StyleSheet.create({
         fontSize: '15px',
         fontWeight: '700',
         textAlign: 'center',
-        // whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap'
     },
     ArrowCustom: {
         width: '45px',
@@ -685,18 +725,18 @@ const styles = StyleSheet.create({
     },
     linkContainer: {
         display: 'flex',
-        gap: '3px',
+        gap: '5px',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '150px',
+        width: '100%',
         fontSize: '14px',
-        color: '#888',
+        color: '#7A828A',
         marginTop: '10px',
+        paddingLeft: '30px'
     },
     linkCustom: {
         fontSize: '18px',
-        color: '#888',
-        paddingBottom: '0px',
+        color: '#7A828A'
     },
     shortDivider: {
         width: '1px',
@@ -718,7 +758,7 @@ const styles = StyleSheet.create({
         width: '520px',
         alignItems: 'center',
         paddingTop: '10px',
-        height: '150px',
+        height: '100px'
     },
     subInfoListLi: {
         display: 'flex',
@@ -753,8 +793,6 @@ const styles = StyleSheet.create({
     subjectSub: {
         fontSize: '14px',
         color: '#7A828A',
-        // wordBreak: 'keep-all',
-        // width: '400px',
     },
     plusContainer: {
         display: 'flex',
@@ -770,10 +808,23 @@ const styles = StyleSheet.create({
         color: '#FFFEFB',
         fontFamily: 'Lato',
         borderRadius: '60px',
-        fontWeight: '600',
+        fontWeight: '700',
         fontSize: '13px',
-        padding: '5px 10px'
-        // whiteSpace: 'nowrap'
+        padding: '5px 10px',
+        gap: '3px'
+    },
+    alreadyButton: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        backgroundColor: '#B9B9B9',
+        color: '#FFFEFB',
+        fontFamily: 'Lato',
+        borderRadius: '60px',
+        fontWeight: '700',
+        fontSize: '13px',
+        padding: '5px 10px',
+        gap: '3px'
     },
     addCustom: {
         fontSize: '32px',
@@ -833,7 +884,6 @@ const styles = StyleSheet.create({
     },
     labelContainer: {
         display: 'flex',
-        // width: '100%'
     }
 });
 
