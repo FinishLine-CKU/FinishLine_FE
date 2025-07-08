@@ -495,7 +495,7 @@ function GraduTestPage() {
             </div>
             <div className={css(styles.bottomContainer)}>
                 <button className={css(styles.gradubutton)} onClick={goToDoneLecture}>
-                    기이수 과목 추가하기
+                    이수 과목 시뮬레이션
                 </button>
                 <a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" className={css(styles.feedbackLink)} target="_blank" title="FinishLine 설문 링크">
                   오류 및 피드백 제보
