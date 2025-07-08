@@ -171,7 +171,7 @@ function OneClickTestPage() {
                             <img src={customSubjectMockup} className={css(styles.mockuupIMG)}></img>
                         </div>
                         <div className={css(styles.textSide)}>
-                            <span className={css(styles.featTitle)}>기이수과목 커스텀</span>
+                            <span className={css(styles.featTitle)}>이수 과목 시뮬레이션</span>
                             <span className={css(styles.hookingTitleEmpasize)}><span className={css(styles.navyColorPoint)}>수강 예정 과목</span>을</span>
                             <span className={css(styles.hookingTitleEmpasize)}>직접 추가해서</span>
                             <span className={css(styles.hookingTitleEmpasize)}>검사해보세요</span>

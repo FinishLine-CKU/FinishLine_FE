@@ -37,10 +37,10 @@ function Header() {
                 <ul className={css(styles.navigation)}>
                     {localStorage.getItem('idToken') ?
                         <li className={css(styles.oneClickMenu)}>
-                            <div className={css(styles.badge)}>NEW</div><a href="/oneClickTestPage" className={css(styles.menu)}>원클릭 검사</a>
+                            <a href="/oneClickTestPage" className={css(styles.menu)}>원클릭 검사</a>
                         </li> : 
                         <li className={css(styles.oneClickMenu)} onClick={openModal}>
-                            <div className={css(styles.badge)}>NEW</div><span className={css(styles.menu)}>원클릭 검사</span>
+                            <span className={css(styles.menu)}>원클릭 검사</span>
                         </li>
                     }
                     <li><a href="/userGuidePage" className={css(styles.menu)}>이용 가이드</a></li>
@@ -130,18 +130,6 @@ const styles = StyleSheet.create({
     oneClickMenu: {
         display: 'flex',
         alignItems: 'center'
-    },
-    badge: {
-        width: '34px',
-        height: '13px',
-        border: '1.5px solid #FF4921',
-        borderRadius: '10px',
-        fontSize: '10px',
-        fontWeight: '700',
-        textAlign: 'center',
-        color: '#FF4921',
-        marginRight: '5px',
-        whiteSpace: 'nowrap'
     },
     menu: {
         padding: '13px 0 13px 0',

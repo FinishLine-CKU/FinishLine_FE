@@ -693,6 +693,7 @@ const styles = StyleSheet.create({
     ArrowCustom: {
         width: '45px',
         height: '45px',
+        color: '#2B2A28'
     },
     inputSearchContainer: {
         display: 'flex',
