@@ -179,22 +179,22 @@ function UploadPdfComponents() {
                         <div className={css(styles.guideContentsContainer)} onClick={() => { if(!(step === 2 && fadeIn)){setFadeIn(false); setStep(2);} }}>
                             <div className={css(step === 2 ? styles.activateContainer : styles.numberingContainer)} />
                             <div className={css(styles.guideColumn)}>
-                                {/* <span className={css(step === 2 ? styles.activateGuideFont :styles.guideFont)}>2. '학적관리'＞'학기별성적조회및출력' 선택</span> */}
-                                <span className={css(step === 2 ? styles.activateGuideFont :styles.guideFont)}>2. 학기별성적조회및출력 페이지 접속</span>
+                                <span className={css(step === 2 ? styles.activateGuideFont :styles.guideFont)}>2. '학적관리'＞'학기별성적조회및출력' 선택</span>
+                                {/* <span className={css(step === 2 ? styles.activateGuideFont :styles.guideFont)}>2. 학기별성적조회및출력 페이지 접속</span> */}
                                 {step === 2 && fadeIn ?
                                 <>
-                                    {/* <span className={css(styles.guideDescription)}>
+                                    <span className={css(styles.guideDescription)}>
                                         좌측 메뉴에서 '학적관리' 선택 후 
                                     </span>
                                     <span className={css(styles.guideDescriptionSecond)}>
                                         '학기별성적조회및출력' 을 클릭하여 페이지를 이동합니다.
-                                    </span> */}
-                                    <span className={css(styles.guideDescription)}>
+                                    </span>
+                                    {/* <span className={css(styles.guideDescription)}>
                                         로그인 완료 후 <a href="https://info.cku.ac.kr/haksa/undergraduate/sungjuk_hakki_view.jsp" target="_blank" className={css(styles.pointContent)}>링크 <RiExternalLinkLine className={css(styles.link)}/></a> 를 눌러
                                     </span>
                                     <span className={css(styles.guideDescriptionSecond)}>
                                         학기별성적조회및출력 페이지에 접속합니다.
-                                    </span>
+                                    </span> */}
                                 </> : null}
                             </div>
                         </div>
