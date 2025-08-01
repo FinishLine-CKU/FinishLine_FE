@@ -27,6 +27,76 @@ const searchSemester = [
     {year : "2025" , semester : "1" , label : "25년 1학기"},
 ]
 
+// 최신학과 기준 코드
+export const MAJOR_NEW = [
+    { value: '030503*', label: '의예과' },
+    { value: '030502*', label: '간호학과' },
+    { value: '030503*', label: '의학과' },
+    { value: '030701*', label: '국어교육과' },
+    { value: '030702*', label: '지리교육과' },
+    { value: '030704*', label: '수학교육과' },
+    { value: '030705*', label: '체육교육과' },
+    { value: '030707*', label: '컴퓨터교육과' },
+    { value: '030709*', label: '영어교육과' },
+    { value: '030710*', label: '역사교육과' },
+    { value: '031103*', label: '관광경영학과' },
+    { value: '03300111', label: '스포츠재활의학과' },
+    { value: '03300108', label: '호텔관광경영학과' },
+    { value: '03300110', label: '스포츠레저학과' },
+    { value: '03300112', label: '스포츠지도학과' },
+    { value: '031191*', label: '스포테인먼트전공(F)' },
+    { value: '03300109', label: '조리외식경영학과' },
+    { value: '03300117', label: '건축학과' },
+    { value: '03300118', label: '건축공학과' },
+    { value: '031214*', label: '토목공학과' },
+    { value: '031224*', label: '전자공학과' },
+    { value: '031230*', label: '소프트웨어학과' },
+    { value: '031241*', label: '기술창업학과' },
+    { value: '031241*', label: '창업지식재산학과' },
+    { value: '031295*', label: 'AI융합전공(C)' },
+    { value: '031297*', label: 'AI융합전공(F)' },
+    { value: '031298*', label: '항만물류시스템전공' },
+    { value: '031299*', label: '반도체융합전공' },
+    { value: '03300105', label: '사회복지학과' },
+    { value: '03300106', label: '경영학과' },
+    { value: '03300107', label: '광고홍보학과' },
+    { value: '03301001', label: '경찰행정학과' },
+    { value: '03301002', label: '해양경찰학과' },
+    { value: '03300104', label: '행정학과' },
+    { value: '032391*', label: '스타트업콘텐츠마케팅전공(F)-스타트업콘텐츠마케팅' },
+    { value: '032401*', label: '디지털헬스케어' },
+    { value: '032402*', label: '의료IT학과' },
+    { value: '032403*', label: '의생명과학과' },
+    { value: '03300101', label: '의료경영학과' },
+    { value: '032408*', label: '바이오융합공학과' },
+    { value: '032415*', label: '안경광학과' },
+    { value: '032490*', label: '정밀의료융합전공' },
+    { value: '032492*', label: '스마트수소에너지융합전공' },
+    { value: '032501*', label: '항공운항서비스학과' },
+    { value: '032506*', label: '항공교통물류학과' }, 
+    { value: '03300114', label: '항공운항학과' },
+    { value: '032515*', label: '무인항공학과' },
+    { value: '03300115', label: '항공정비학과' },
+    { value: '032591*', label: '항공설계전공(F-C)' }, 
+    { value: '03260103', label: '실용음악학과' },
+    { value: '03260104', label: '연기예술학과' },
+    { value: '032603*', label: '뷰티디자인학과' },
+    { value: '032608*', label: '트리니티융합-콘텐츠제작전공' },
+    { value: '032609*', label: '트리니티융합-CG디자인전공' },
+    { value: '032702*', label: '치매전문재활학과' },
+    { value: '032703*', label: '산림치유학과' },
+    { value: '032705*', label: '언어재활학과' },
+    { value: '032708*', label: '복지상담학과' },
+    { value: '032709*', label: '스마트통합치유학과' },
+    { value: '032710*', label: '해양치유레저학과' },
+    { value: '032801*', label: '임상병리학과' },
+    { value: '032802*', label: '치위생학과' },
+    { value: '03290112', label: '트리니티자유-반려동물학전공' },
+    { value: '03290113', label: '트리니티자유-군사학전공' },
+    { value: '03300116', label: '트리니티융합-스마트항만공학' },  
+    { value: '033020', label: '자율전공학부' }, 
+];
+
 function DoneLecturePage() {
 
     const [lectureCode, setLectureCode] = useState('');
@@ -133,6 +203,7 @@ function DoneLecturePage() {
                 
             } else {
                 setLectureData(response.data);
+                console.log(response.data)
             }
 
         } catch (error) {
@@ -379,7 +450,7 @@ function DoneLecturePage() {
                                             <div className={css(styles.subjectInfo)} onClick={() => handleAddSubject(subject)}>
                                                 <div className={css(styles.subjectMain)}>{subject.lecture_name}</div>
                                                 <div className={css(styles.subjectSub)}>
-                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.lecture_topic === '' ? subject.lecture_topic : `-`} | {subject.credit}학점
+                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.lecture_topic === '' ? subject.lecture_topic : `-`} | {subject.credit}학점 | {subject.major_code === '' ? `-` : MAJOR_NEW.find(item => item.value === subject.major_code).label}
                                                 </div>
                                             </div>
                                             <div className={css(styles.plusContainer)}>
@@ -799,7 +870,7 @@ const styles = StyleSheet.create({
         width: '500px',
         margin: '0',
         listStyle: 'none',
-        height: '120px',
+        height: '100px',
         overflowY: 'auto',
     },
     subjectMain: {
