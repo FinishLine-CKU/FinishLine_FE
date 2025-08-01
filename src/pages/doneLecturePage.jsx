@@ -19,7 +19,7 @@ import { IoSearchCircleSharp } from "react-icons/io5";
 
 const searchType = [
     {value : "searchCode" , label : "과목코드"},
-    // {value : "searchName" , label : "과목명"},
+    {value : "searchName" , label : "과목명"},
 ]
 
 const searchSemester = [
@@ -121,6 +121,7 @@ function DoneLecturePage() {
                 const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter/`, {
                     params: {
                         code: lectureCode,
+                        searchType: searchCodeSelect.value,
                     }
                 });
 
@@ -779,7 +780,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '20px 30px',
+        padding: '20px 20px',
         width: '100%',
         borderRadius: '6px',
         background: '#fff',
@@ -798,6 +799,8 @@ const styles = StyleSheet.create({
         width: '500px',
         margin: '0',
         listStyle: 'none',
+        height: '120px',
+        overflowY: 'auto',
     },
     subjectMain: {
         fontWeight: '700',
