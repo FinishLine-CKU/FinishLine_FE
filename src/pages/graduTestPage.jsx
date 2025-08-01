@@ -44,6 +44,8 @@ function GraduTestPage() {
     const [lackMD, setLackMD] = useState(0);
     const [lackEducation, setLackEducation] = useState(0);
 
+    const [analasisStep, setAnalasisStep] = useState(0);
+
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
 
@@ -144,6 +146,10 @@ function GraduTestPage() {
 
     return (
         <>
+            {analasisStep === 0 ? 
+            <div className={css(styles.analasisContainer)}>
+            </div>
+            : null}
             <Header />
             <Template title="졸업요건 검사 결과" />
             <div className={css(styles.columnContainer)}>
@@ -493,13 +499,18 @@ function GraduTestPage() {
                     }
                 </div>
             </div>
-            <div className={css(styles.bottomContainer)}>
-                <button className={css(styles.gradubutton)} onClick={goToDoneLecture}>
-                    이수 과목 시뮬레이션
+            <div className={css(styles.bottomColumnContainer)}>
+                <button className={css(styles.resultAnalasis)}>
+                    검사 결과 검토하기
                 </button>
-                <a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" className={css(styles.feedbackLink)} target="_blank" title="FinishLine 설문 링크">
-                  오류 및 피드백 제보
-                </a>
+                <div className={css(styles.bottomContainer)}>
+                    <button className={css(styles.gradubutton)} onClick={goToDoneLecture}>
+                        이수 과목 시뮬레이션
+                    </button>
+                    <a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" className={css(styles.feedbackLink)} target="_blank" title="FinishLine 설문 링크">
+                    오류 및 피드백 제보
+                    </a>
+                </div>
             </div>
             <Footer />
         </>
@@ -507,6 +518,13 @@ function GraduTestPage() {
 }
 
 const styles = StyleSheet.create({
+    analasisContainer: {
+        display: 'flex',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        width: '100vw',
+        height: '100vh',
+        zIndex: '999',
+    },
     columnContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -521,12 +539,43 @@ const styles = StyleSheet.create({
         gap: '100px',
         backgroundColor: '#FFFEFB'
     },
+    bottomColumnContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: '200px',
+        backgroundColor: '#FFFEFB',
+        gap: '50px',
+    },
+    resultAnalasis: {
+        width: '190px',
+        height: '60px',
+        borderRadius: '8px',
+        border: '1px solid transparent',
+        backgroundColor: '#FF8EA8',
+        color: '#FFFEFB',
+        cursor: 'pointer',
+        fontFamily: 'Lato',
+        fontSize: '17px',
+        fontWeight: '700',
+        boxShadow: '0 4px 12px rgba(255, 142, 168, 0.3)',
+        transition: 'all 0.2s ease',
+        ':active': {
+            backgroundColor: '#FF6B8A',
+            transform: 'translateY(2px)',
+            boxShadow: '0 2px 8px rgba(255, 142, 168, 0.4)',
+        },
+        ':hover': {
+            backgroundColor: '#FF6B8A',
+            boxShadow: '0 6px 16px rgba(255, 142, 168, 0.4)',
+        },
+    },
     bottomContainer: {
         display: 'flex',
         // flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: '200px',
         backgroundColor: '#FFFEFB',
         gap: '30px',
     },
