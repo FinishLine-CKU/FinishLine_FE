@@ -449,7 +449,7 @@ function DoneLecturePage() {
                                             <div className={css(styles.subjectInfo)} onClick={() => handleAddSubject(subject)}>
                                                 <div className={css(styles.subjectMain)}>{subject.lecture_name}</div>
                                                 <div className={css(styles.subjectSub)}>
-                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.credit}학점 | {subject.major_code === '' ? `-` : MAJOR_NEW.find(item => item.value === subject.major_code).label}
+                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.credit}학점 | {subject.major_code === ' ' ? `-` : MAJOR_NEW.find(item => item.value === subject.major_code).label}
                                                 </div>
                                             </div>
                                             <div className={css(styles.plusContainer)}>
