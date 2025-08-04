@@ -153,15 +153,15 @@ function DoneLecturePage() {
     };
 
     //과목 목록이 내 기이수 과목에 중복된 요소인 지 확인 함수
-    const handleAddSubject = () => {
-        const isDuplicate = myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code);
+    const handleAddSubject = (subject) => {
+        const isDuplicate = myLectureList.some((item) => item.lecture_code === subject.lecture_code);
 
         if (isDuplicate) {
             alert(`해당 과목은 이미 추가되었습니다.`);
             return;
         }
 
-        setMyLectureList((prevSubjects) => [...prevSubjects, { ...lectureData[0], subjectNew: true }]);
+        setMyLectureList((prevSubjects) => [...prevSubjects, { ...subject, subjectNew: true }]);
         setFilteredSubjects([0]);
     };
 
@@ -449,12 +449,12 @@ function DoneLecturePage() {
                                             <div className={css(styles.subjectInfo)} onClick={() => handleAddSubject(subject)}>
                                                 <div className={css(styles.subjectMain)}>{subject.lecture_name}</div>
                                                 <div className={css(styles.subjectSub)}>
-                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.credit}학점 | {subject.major_code === ' ' ? `-` : MAJOR_NEW.find(item => item.value === subject.major_code).label}
+                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.lecture_topic.trim() == '' ? subject.major_code.trim() == '' ? `-` : MAJOR_NEW.find(item => item.value === subject.major_code).label : subject.lecture_topic} | {subject.credit}학점
                                                 </div>
                                             </div>
                                             <div className={css(styles.plusContainer)}>
-                                                <div className={css(styles.addButton, (myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code)) ? styles.alreadyButton : styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
-                                                    {(myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code)) ?
+                                                <div className={css(styles.addButton, (myLectureList.some((item) => item.lecture_code === subject.lecture_code)) ? styles.alreadyButton : styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
+                                                    {(myLectureList.some((item) => item.lecture_code === subject.lecture_code)) ?
                                                     <>
                                                         <span>반영완료</span>
                                                         <FaRegCheckCircle />
