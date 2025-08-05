@@ -19,13 +19,82 @@ import { IoSearchCircleSharp } from "react-icons/io5";
 
 const searchType = [
     {value : "searchCode" , label : "과목코드"},
-    // {value : "searchName" , label : "과목명"},
+    {value : "searchName" , label : "과목명"},
 ]
 
 const searchSemester = [
     {year : "2025" , semester : "2" , label : "25년 2학기"},
     {year : "2025" , semester : "1" , label : "25년 1학기"},
 ]
+
+// 최신학과 기준 코드
+export const MAJOR_NEW = [
+    { value: '030503*', label: '의예' },
+    { value: '030502*', label: '간호' },
+    { value: '030701*', label: '국어교육' },
+    { value: '030702*', label: '지리교육' },
+    { value: '030704*', label: '수학교육' },
+    { value: '030705*', label: '체육교육' },
+    { value: '030707*', label: '컴퓨터교육' },
+    { value: '030709*', label: '영어교육' },
+    { value: '030710*', label: '역사교육' },
+    { value: '031103*', label: '관광경영' },
+    { value: '03300111', label: '스포츠재활의학' },
+    { value: '03300108', label: '호텔관광경영' },
+    { value: '03300110', label: '스포츠레저' },
+    { value: '03300112', label: '스포츠지도' },
+    { value: '031191*', label: '스포테인먼트전공(F)' },
+    { value: '03300109', label: '조리외식경영' },
+    { value: '03300117', label: '건축학' },
+    { value: '03300118', label: '건축공학' },
+    { value: '031214*', label: '토목공학' },
+    { value: '031224*', label: '전자공학' },
+    { value: '031230*', label: '소프트웨어' },
+    { value: '031241*', label: '기술창업' },
+    { value: '031241*', label: '창업지식재산' },
+    { value: '031295*', label: 'AI융합전공(C)' },
+    { value: '031297*', label: 'AI융합전공(F)' },
+    { value: '031298*', label: '항만물류시스템' },
+    { value: '031299*', label: '반도체융합' },
+    { value: '03300105', label: '사회복지' },
+    { value: '03300106', label: '경영' },
+    { value: '03300107', label: '광고홍보' },
+    { value: '03301001', label: '경찰행정' },
+    { value: '03301002', label: '해양경찰' },
+    { value: '03300104', label: '행정' },
+    { value: '032391*', label: '스타트업콘텐츠마케팅전공(F)-스타트업콘텐츠마케팅' },
+    { value: '032401*', label: '디지털헬스케어' },
+    { value: '032402*', label: '의료IT' },
+    { value: '032403*', label: '의생명과학' },
+    { value: '03300101', label: '의료경영' },
+    { value: '032408*', label: '바이오융합공학' },
+    { value: '032415*', label: '안경광학' },
+    { value: '032490*', label: '정밀의료융합' },
+    { value: '032492*', label: '스마트수소에너지융합' },
+    { value: '032501*', label: '항공운항서비스' },
+    { value: '032506*', label: '항공교통물류' }, 
+    { value: '03300114', label: '항공운항' },
+    { value: '032515*', label: '무인항공' },
+    { value: '03300115', label: '항공정비' },
+    { value: '032591*', label: '항공설계전공(F-C)' }, 
+    { value: '03260103', label: '실용음악' },
+    { value: '03260104', label: '연기예술' },
+    { value: '032603*', label: '뷰티디자인' },
+    { value: '032608*', label: '콘텐츠제작' },
+    { value: '032609*', label: 'CG디자인' },
+    { value: '032702*', label: '치매전문재활' },
+    { value: '032703*', label: '산림치유' },
+    { value: '032705*', label: '언어재활' },
+    { value: '032708*', label: '복지상담' },
+    { value: '032709*', label: '스마트통합치유' },
+    { value: '032710*', label: '해양치유레저' },
+    { value: '032801*', label: '임상병리' },
+    { value: '032802*', label: '치위생학' },
+    { value: '03290112', label: '반려동물' },
+    { value: '03290113', label: '군사학' },
+    { value: '03300116', label: '스마트항만공학' },  
+    { value: '033020', label: '자율전공학부' }, 
+];
 
 function DoneLecturePage() {
 
@@ -84,15 +153,15 @@ function DoneLecturePage() {
     };
 
     //과목 목록이 내 기이수 과목에 중복된 요소인 지 확인 함수
-    const handleAddSubject = () => {
-        const isDuplicate = myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code);
+    const handleAddSubject = (subject) => {
+        const isDuplicate = myLectureList.some((item) => item.lecture_code === subject.lecture_code);
 
         if (isDuplicate) {
             alert(`해당 과목은 이미 추가되었습니다.`);
             return;
         }
 
-        setMyLectureList((prevSubjects) => [...prevSubjects, { ...lectureData[0], subjectNew: true }]);
+        setMyLectureList((prevSubjects) => [...prevSubjects, { ...subject, subjectNew: true }]);
         setFilteredSubjects([0]);
     };
 
@@ -121,6 +190,7 @@ function DoneLecturePage() {
                 const allResponse = await axios.get(`http://127.0.0.1:8000/graduation/api/allLectureData/filter/`, {
                     params: {
                         code: lectureCode,
+                        searchType: searchCodeSelect.value,
                     }
                 });
 
@@ -132,6 +202,7 @@ function DoneLecturePage() {
                 
             } else {
                 setLectureData(response.data);
+                console.log(response.data)
             }
 
         } catch (error) {
@@ -378,12 +449,12 @@ function DoneLecturePage() {
                                             <div className={css(styles.subjectInfo)} onClick={() => handleAddSubject(subject)}>
                                                 <div className={css(styles.subjectMain)}>{subject.lecture_name}</div>
                                                 <div className={css(styles.subjectSub)}>
-                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.lecture_topic === '' ? subject.lecture_topic : `-`} | {subject.credit}학점
+                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.lecture_topic.trim() == '' ? subject.major_code.trim() == '' ? `-` : MAJOR_NEW.find(item => item.value === subject.major_code).label : subject.lecture_topic} | {subject.credit}학점
                                                 </div>
                                             </div>
                                             <div className={css(styles.plusContainer)}>
-                                                <div className={css(styles.addButton, (myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code)) ? styles.alreadyButton : styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
-                                                    {(myLectureList.some((subject) => subject.lecture_code === lectureData[0].lecture_code)) ?
+                                                <div className={css(styles.addButton, (myLectureList.some((item) => item.lecture_code === subject.lecture_code)) ? styles.alreadyButton : styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
+                                                    {(myLectureList.some((item) => item.lecture_code === subject.lecture_code)) ?
                                                     <>
                                                         <span>반영완료</span>
                                                         <FaRegCheckCircle />
@@ -766,6 +837,7 @@ const styles = StyleSheet.create({
         boxSizing: 'border-box',
         justifyContent: 'center',
         alignItems: 'center',
+        height: '180px',
     },
     subListContainer: {
         display: 'flex',
@@ -779,7 +851,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '20px 30px',
+        padding: '20px 20px',
         width: '100%',
         borderRadius: '6px',
         background: '#fff',
@@ -798,6 +870,8 @@ const styles = StyleSheet.create({
         width: '500px',
         margin: '0',
         listStyle: 'none',
+        height: '120px',
+        overflowY: 'auto',
     },
     subjectMain: {
         fontWeight: '700',
