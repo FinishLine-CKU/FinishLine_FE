@@ -300,7 +300,8 @@ export const MAJOR_ALL = [
     { value: '03290112', label: '트리니티자유 반려동물학전공' },
     { value: '03290113', label: '트리니티자유 군사학전공' },
     { value: '03300116', label: '트리니티융합 스마트항만공학' },
-    { value: '033020', label: '자율전공학부' }, 
+    { value: '033020', label: '자율전공학부' },
+    { value: '033020', label: '자율전공학부 자율전공' },
 ];
 // 최신학과 기준 코드
 export const MAJOR_NEW = [
