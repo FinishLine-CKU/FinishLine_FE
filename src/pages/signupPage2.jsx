@@ -150,159 +150,471 @@ export const MAJOR = [
 ];
 // 학생신상기록카드 대비 코드
 export const MAJOR_ALL = [
-    // 의과대학
-    { value: '030503*', label: '의예과' },
-    { value: '030502*', label: '간호학과' },
-    { value: '030503*', label: '의학과' },
-    // 사범대학
-    { value: '030701*', label: '국어교육과' },
-    { value: '030702*', label: '지리교육과' },
-    { value: '030704*', label: '수학교육과' },
-    { value: '030705*', label: '체육교육과' },
-    { value: '030707*', label: '컴퓨터교육과' },
-    { value: '030709*', label: '영어교육과' },
-    { value: '030710*', label: '역사교육과' },
-    // 일반학과 + 트리니티
-    { value: '031103*', label: '관광경영학과' },
-    { value: '03300111', label: '스포츠건강관리학과' },
-    { value: '03300111', label: '트리니티융합 스포츠건강관리학전공' },
-    { value: '03300111', label: '트리니티융합 스포츠재활의학전공' },
-    { value: '03300111', label: '트리니티자유 스포츠건강관리학전공' },
-    { value: '03300111', label: '트리니티자유 스포츠재활의학전공' },
-    { value: '03300108', label: '호텔경영학과' },
-    { value: '03300108', label: '트리니티융합 호텔경영학전공' },
-    { value: '03300108', label: '트리니티자유 호텔경영학전공' },
-    { value: '03300108', label: '트리니티융합 호텔관광경영학전공' },
-    { value: '03300108', label: '트리니티자유 호텔관광경영학전공' },
-    { value: '03300110', label: '스포츠레저학과' },
-    { value: '03300110', label: '트리니티융합 스포츠레저학전공' },
-    { value: '03300110', label: '트리니티자유 스포츠레저학전공' },
-    { value: '03300112', label: '스포츠지도학과' },
-    { value: '03300112', label: '트리니티융합 스포츠지도학전공' },
-    { value: '03300112', label: '트리니티자유 스포츠지도학전공' },
-    { value: '03300112', label: '경기지도학과' },
-    { value: '03300112', label: '스포츠레저학부' },
-    { value: '03300112', label: '스포츠레저학부 경기지도학전공' },
-    { value: '03300112', label: '스포츠레저학부-경기지도학전공' },
-    { value: '031191*', label: '스포테인먼트전공(F)' },
-    { value: '03300109', label: '조리외식경영학과' },
-    { value: '03300109', label: '트리니티융합 조리외식경영학전공' },
-    { value: '03300109', label: '트리니티자유 조리외식경영학전공' },
-    { value: '03300118', label: '건축학부' },   // 건축학 or 건축공학 확인 필요
-    { value: '03300118', label: '건축학부 건축공학' },
-    { value: '03300118', label: '건축학부 건축공학전공' },
-    { value: '03300117', label: '건축학부 건축학전공' },
-    { value: '03300117', label: '트리니티융합 건축학전공' },
-    { value: '03300117', label: '트리니티자유 건축학전공' },
-    { value: '03300117', label: '건축학부 건축학' },
-    { value: '03300118', label: '트리니티융합 건축공학전공' },
-    { value: '03300118', label: '트리니티자유 건축공학전공' },
-    { value: '031214*', label: '토목공학과' },
-    { value: '031224*', label: '전자공학과' },
-    { value: '031230*', label: '소프트웨어학과' },
-    { value: '031241*', label: '기술창업학과' },
-    { value: '031241*', label: '창업지식재산학과' },
-    { value: '031295*', label: 'AI융합전공(C)' },
-    { value: '031297*', label: 'AI융합전공(F)' },
-    { value: '031298*', label: '항만물류시스템전공' },
-    { value: '031299*', label: '반도체융합전공' },
-    { value: '03300105', label: '사회복지학과' },
-    { value: '03300105', label: '트리니티융합 사회복지학전공' },
-    { value: '03300105', label: '트리니티자유 사회복지학전공' },
-    { value: '03300106', label: '경영학과' },
-    { value: '03300106', label: '트리니티융합 경영학전공' }, 
-    { value: '03300106', label: '트리니티자유 경영학전공' }, 
-    { value: '03300107', label: '광고홍보학과' },
-    { value: '03300107', label: '트리니티융합 광고홍보학전공' },
-    { value: '03300107', label: '트리니티자유 광고홍보학전공' },
-    { value: '03301001', label: '경찰행정학부' },
-    { value: '03301001', label: '경찰행정학과' },
-    { value: '03301001', label: '경찰행정학부 경찰행정학' },
-    { value: '03301001', label: '경찰행정학부 경찰행정학전공' },
-    { value: '03301001', label: '경찰학부 경찰행정학' },
-    { value: '03301001', label: '경찰학부 경찰행정학전공' },
-    { value: '03301001', label: '경찰공공행정학부 경찰행정학전공' },
-    { value: '03301001', label: '트리니티융합 경찰행정학전공' },
-    { value: '03301001', label: '트리니티자유 경찰행정학전공' },
-    { value: '03301002', label: '경찰행정학부 해양경찰' },
-    { value: '03301002', label: '경찰행정학부 해양경찰전공' },
-    { value: '03301002', label: '경찰학부 해양경찰' },
-    { value: '03301002', label: '경찰학부 해양경찰전공' },
-    { value: '03301001', label: '트리니티융합 해양경찰학전공' },
-    { value: '03301001', label: '트리니티자유 해양경찰학전공' },
-    { value: '03300104', label: '경찰공공행정학부 공공행정학전공' },
-    { value: '03300104', label: '행정학과' },
-    { value: '03300104', label: '트리니티융합 행정학전공' },
-    { value: '03300104', label: '트리니티자유 행정학전공' },
-    { value: '032391*', label: '스타트업콘텐츠마케팅전공(F) 스타트업콘텐츠마케팅' },
-    { value: '032391*', label: '스타트업콘텐츠마케팅전공(F)-스타트업콘텐츠마케팅' },
-    { value: '032401*', label: '의료공학과' },
-    { value: '032401*', label: '트리니티융합 디지털헬스케어전공' },
-    { value: '032401*', label: '트리니티자유 디지털헬스케어전공' },
-    { value: '032402*', label: '의료IT학과' },
-    { value: '032403*', label: '의생명과학과' },
-    { value: '032403*', label: '트리니티융합 의생명과학전공' },
-    { value: '032403*', label: '트리니티자유 의생명과학전공' },
-    { value: '032403*', label: '트리니티융합 바이오메디컬전공' },
-    { value: '032403*', label: '트리니티자유 바이오메디컬전공' },
-    { value: '03300101', label: '의료경영학과' },
-    { value: '03300101', label: '트리니티융합 의료경영학전공' },
-    { value: '03300101', label: '트리니티자유 의료경영학전공' },
-    { value: '032408*', label: '바이오융합공학과' },
-    { value: '032415*', label: '안경광학과' },
-    { value: '032490*', label: '정밀의료융합전공' },
-    { value: '032492*', label: '스마트수소에너지융합전공' },
-    { value: '032501*', label: '항공운항서비스학과' },
-    { value: '032506*', label: '항공경영학과' },
-    { value: '032506*', label: '항공경영물류학과' },
-    { value: '032506*', label: '항공교통물류학과' },
-    { value: '032506*', label: '트리니티융합 항공교통물류전공' },
-    { value: '032506*', label: '트리니티자유 항공교통물류전공' }, 
-    { value: '03300114', label: '항공운항학과' },
-    { value: '03300114', label: '트리니티융합 항공운항전공' },
-    { value: '03300114', label: '트리니티자유 항공운항전공' },
-    { value: '032515*', label: '무인항공학과' },
-    { value: '03300115', label: '항공정비학과' },
-    { value: '03300115', label: '트리니티융합 항공정비학전공' },
-    { value: '03300115', label: '트리니티자유 항공정비학전공' },
-    { value: '032591*', label: '항공설계전공(F-C)' },
-    { value: '03260103', label: '공연예술학부' },
-    { value: '03260103', label: '공연예술학부 실용음악' },
-    { value: '03260103', label: '트리니티융합 실용음악전공' },
-    { value: '03260103', label: '트리니티자유 실용음악전공' },
-    { value: '03260104', label: '공연예술학부 방송연예전공' },
-    { value: '03260104', label: '공연예술학부-방송연예전공' },
-    { value: '03260104', label: '공연예술학부 연기예술전공' },
-    { value: '03260104', label: '공연예술학부-연기예술전공' },
-    { value: '032603*', label: '뷰티디자인학과' },
-    { value: '032603*', label: '공연예술학부 뷰티디자인학전공' },
-    { value: '032603*', label: '공연예술학부-뷰티디자인학전공' },
-    { value: '032608*', label: '콘텐츠제작학과' },
-    { value: '032608*', label: '트리니티융합 콘텐츠제작전공' },
-    { value: '032608*', label: '트리니티자유 콘텐츠제작전공' },
-    { value: '032609*', label: 'CG디자인학과' },
-    { value: '032609*', label: '트리니티융합 CG디자인전공' },
-    { value: '032609*', label: '트리니티자유 CG디자인전공' },
-    { value: '032609*', label: '미디어콘텐츠학부 CG디자인전공' },
-    // 휴먼서비스대학
-    { value: '032702*', label: '치매전문재활학과' },
-    { value: '032703*', label: '산림치유학과' },
-    { value: '032705*', label: '언어재활학과' },
-    { value: '032708*', label: '중독재활학과' },
-    { value: '032708*', label: '중독재활상담학과' },
-    { value: '032708*', label: '복지상담학과' },
-    { value: '032709*', label: '통합치유학과' },
-    { value: '032709*', label: '스마트통합치유학과' },
-    { value: '032710*', label: '해양치유레저학과' },
-    // 헬스케어융합대학
-    { value: '032801*', label: '임상병리학과' },
-    { value: '032802*', label: '치위생학과' },
-    // 기타
-    { value: '03290112', label: '트리니티자유 반려동물학전공' },
-    { value: '03290113', label: '트리니티자유 군사학전공' },
-    { value: '03300116', label: '트리니티융합 스마트항만공학' },
-    { value: '033020', label: '자율전공학부' },
-    { value: '033020', label: '자율전공학부 자율전공' },
+  // 의과대학
+  {
+    value: '030503*',
+    representativeLabel: '의예과',
+    allLabels: ['의예과', '의학과']
+  },
+  {
+    value: '030502*',
+    representativeLabel: '간호학과',
+    allLabels: ['간호학과']
+  },
+  
+  // 사범대학
+  {
+    value: '030701*',
+    representativeLabel: '국어교육과',
+    allLabels: ['국어교육과']
+  },
+  {
+    value: '030702*',
+    representativeLabel: '지리교육과',
+    allLabels: ['지리교육과']
+  },
+  {
+    value: '030704*',
+    representativeLabel: '수학교육과',
+    allLabels: ['수학교육과']
+  },
+  {
+    value: '030705*',
+    representativeLabel: '체육교육과',
+    allLabels: ['체육교육과']
+  },
+  {
+    value: '030707*',
+    representativeLabel: '컴퓨터교육과',
+    allLabels: ['컴퓨터교육과']
+  },
+  {
+    value: '030709*',
+    representativeLabel: '영어교육과',
+    allLabels: ['영어교육과']
+  },
+  {
+    value: '030710*',
+    representativeLabel: '역사교육과',
+    allLabels: ['역사교육과']
+  },
+  
+  // 일반학과 + 트리니티
+  {
+    value: '031103*',
+    representativeLabel: '관광경영학과',
+    allLabels: ['관광경영학과']
+  },
+  {
+    value: '03300111',
+    representativeLabel: '스포츠건강관리학과',
+    allLabels: [
+      '스포츠건강관리학과',
+      '트리니티융합 스포츠건강관리학전공',
+      '트리니티융합 스포츠재활의학전공',
+      '트리니티자유 스포츠건강관리학전공',
+      '트리니티자유 스포츠재활의학전공'
+    ]
+  },
+  {
+    value: '03300108',
+    representativeLabel: '호텔경영학과',
+    allLabels: [
+      '호텔경영학과',
+      '트리니티융합 호텔경영학전공',
+      '트리니티자유 호텔경영학전공',
+      '트리니티융합 호텔관광경영학전공',
+      '트리니티자유 호텔관광경영학전공'
+    ]
+  },
+  {
+    value: '03300110',
+    representativeLabel: '스포츠레저학과',
+    allLabels: [
+      '스포츠레저학과',
+      '트리니티융합 스포츠레저학전공',
+      '트리니티자유 스포츠레저학전공'
+    ]
+  },
+  {
+    value: '03300112',
+    representativeLabel: '스포츠지도학과',
+    allLabels: [
+      '스포츠지도학과',
+      '트리니티융합 스포츠지도학전공',
+      '트리니티자유 스포츠지도학전공',
+      '경기지도학과',
+      '스포츠레저학부',
+      '스포츠레저학부 경기지도학전공',
+      '스포츠레저학부-경기지도학전공'
+    ]
+  },
+  {
+    value: '031191*',
+    representativeLabel: '스포테인먼트전공(F)',
+    allLabels: ['스포테인먼트전공(F)']
+  },
+  {
+    value: '03300109',
+    representativeLabel: '조리외식경영학과',
+    allLabels: [
+      '조리외식경영학과',
+      '트리니티융합 조리외식경영학전공',
+      '트리니티자유 조리외식경영학전공'
+    ]
+  },
+  {
+    value: '03300118',
+    representativeLabel: '건축학부',
+    allLabels: [
+      '건축학부',
+      '건축학부 건축공학',
+      '건축학부 건축공학전공',
+      '트리니티융합 건축공학전공',
+      '트리니티자유 건축공학전공'
+    ]
+  },
+  {
+    value: '03300117',
+    representativeLabel: '건축학부 건축학',
+    allLabels: [
+      '건축학부 건축학전공',
+      '트리니티융합 건축학전공',
+      '트리니티자유 건축학전공',
+      '건축학부 건축학'
+    ]
+  },
+  {
+    value: '031214*',
+    representativeLabel: '토목공학과',
+    allLabels: ['토목공학과']
+  },
+  {
+    value: '031224*',
+    representativeLabel: '전자공학과',
+    allLabels: ['전자공학과']
+  },
+  {
+    value: '031230*',
+    representativeLabel: '소프트웨어학과',
+    allLabels: ['소프트웨어학과']
+  },
+  {
+    value: '031241*',
+    representativeLabel: '기술창업학과',
+    allLabels: ['기술창업학과', '창업지식재산학과']
+  },
+  {
+    value: '031295*',
+    representativeLabel: 'AI융합전공(C)',
+    allLabels: ['AI융합전공(C)']
+  },
+  {
+    value: '031297*',
+    representativeLabel: 'AI융합전공(F)',
+    allLabels: ['AI융합전공(F)']
+  },
+  {
+    value: '031298*',
+    representativeLabel: '항만물류시스템전공',
+    allLabels: ['항만물류시스템전공']
+  },
+  {
+    value: '031299*',
+    representativeLabel: '반도체융합전공',
+    allLabels: ['반도체융합전공']
+  },
+  {
+    value: '03300105',
+    representativeLabel: '사회복지학과',
+    allLabels: [
+      '사회복지학과',
+      '트리니티융합 사회복지학전공',
+      '트리니티자유 사회복지학전공'
+    ]
+  },
+  {
+    value: '03300106',
+    representativeLabel: '경영학과',
+    allLabels: [
+      '경영학과',
+      '트리니티융합 경영학전공',
+      '트리니티자유 경영학전공'
+    ]
+  },
+  {
+    value: '03300107',
+    representativeLabel: '광고홍보학과',
+    allLabels: [
+      '광고홍보학과',
+      '트리니티융합 광고홍보학전공',
+      '트리니티자유 광고홍보학전공'
+    ]
+  },
+  {
+    value: '03301001',
+    representativeLabel: '경찰행정학부',
+    allLabels: [
+      '경찰행정학부',
+      '경찰행정학과',
+      '경찰행정학부 경찰행정학',
+      '경찰행정학부 경찰행정학전공',
+      '경찰학부 경찰행정학',
+      '경찰학부 경찰행정학전공',
+      '경찰공공행정학부 경찰행정학전공',
+      '트리니티융합 경찰행정학전공',
+      '트리니티자유 경찰행정학전공',
+      '트리니티융합 해양경찰학전공',
+      '트리니티자유 해양경찰학전공'
+    ]
+  },
+  {
+    value: '03301002',
+    representativeLabel: '경찰행정학부 해양경찰',
+    allLabels: [
+      '경찰행정학부 해양경찰',
+      '경찰행정학부 해양경찰전공',
+      '경찰학부 해양경찰',
+      '경찰학부 해양경찰전공'
+    ]
+  },
+  {
+    value: '03300104',
+    representativeLabel: '행정학과',
+    allLabels: [
+      '경찰공공행정학부 공공행정학전공',
+      '행정학과',
+      '트리니티융합 행정학전공',
+      '트리니티자유 행정학전공'
+    ]
+  },
+  {
+    value: '032391*',
+    representativeLabel: '스타트업콘텐츠마케팅전공(F) 스타트업콘텐츠마케팅',
+    allLabels: [
+      '스타트업콘텐츠마케팅전공(F) 스타트업콘텐츠마케팅',
+      '스타트업콘텐츠마케팅전공(F)-스타트업콘텐츠마케팅'
+    ]
+  },
+  {
+    value: '032401*',
+    representativeLabel: '의료공학과',
+    allLabels: [
+      '의료공학과',
+      '트리니티융합 디지털헬스케어전공',
+      '트리니티자유 디지털헬스케어전공'
+    ]
+  },
+  {
+    value: '032402*',
+    representativeLabel: '의료IT학과',
+    allLabels: ['의료IT학과']
+  },
+  {
+    value: '032403*',
+    representativeLabel: '의생명과학과',
+    allLabels: [
+      '의생명과학과',
+      '트리니티융합 의생명과학전공',
+      '트리니티자유 의생명과학전공',
+      '트리니티융합 바이오메디컬전공',
+      '트리니티자유 바이오메디컬전공'
+    ]
+  },
+  {
+    value: '03300101',
+    representativeLabel: '의료경영학과',
+    allLabels: [
+      '의료경영학과',
+      '트리니티융합 의료경영학전공',
+      '트리니티자유 의료경영학전공'
+    ]
+  },
+  {
+    value: '032408*',
+    representativeLabel: '바이오융합공학과',
+    allLabels: ['바이오융합공학과']
+  },
+  {
+    value: '032415*',
+    representativeLabel: '안경광학과',
+    allLabels: ['안경광학과']
+  },
+  {
+    value: '032490*',
+    representativeLabel: '정밀의료융합전공',
+    allLabels: ['정밀의료융합전공']
+  },
+  {
+    value: '032492*',
+    representativeLabel: '스마트수소에너지융합전공',
+    allLabels: ['스마트수소에너지융합전공']
+  },
+  {
+    value: '032501*',
+    representativeLabel: '항공운항서비스학과',
+    allLabels: ['항공운항서비스학과']
+  },
+  {
+    value: '032506*',
+    representativeLabel: '항공교통물류학과',
+    allLabels: [
+      '항공경영학과',
+      '항공경영물류학과',
+      '항공교통물류학과',
+      '트리니티융합 항공교통물류전공',
+      '트리니티자유 항공교통물류전공'
+    ]
+  },
+  {
+    value: '03300114',
+    representativeLabel: '항공운항학과',
+    allLabels: [
+      '항공운항학과',
+      '트리니티융합 항공운항전공',
+      '트리니티자유 항공운항전공'
+    ]
+  },
+  {
+    value: '032515*',
+    representativeLabel: '무인항공학과',
+    allLabels: ['무인항공학과']
+  },
+  {
+    value: '03300115',
+    representativeLabel: '항공정비학과',
+    allLabels: [
+      '항공정비학과',
+      '트리니티융합 항공정비학전공',
+      '트리니티자유 항공정비학전공'
+    ]
+  },
+  {
+    value: '032591*',
+    representativeLabel: '항공설계전공(F-C)',
+    allLabels: ['항공설계전공(F-C)']
+  },
+  {
+    value: '03260103',
+    representativeLabel: '공연예술학부',
+    allLabels: [
+      '공연예술학부',
+      '공연예술학부 실용음악',
+      '트리니티융합 실용음악전공',
+      '트리니티자유 실용음악전공'
+    ]
+  },
+  {
+    value: '03260104',
+    representativeLabel: '공연예술학부 연기예술',
+    allLabels: [
+      '공연예술학부 방송연예전공',
+      '공연예술학부-방송연예전공',
+      '공연예술학부 연기예술전공',
+      '공연예술학부-연기예술전공'
+    ]
+  },
+  {
+    value: '032603*',
+    representativeLabel: '뷰티디자인학과',
+    allLabels: [
+      '뷰티디자인학과',
+      '공연예술학부 뷰티디자인학전공',
+      '공연예술학부-뷰티디자인학전공'
+    ]
+  },
+  {
+    value: '032608*',
+    representativeLabel: '콘텐츠제작학과',
+    allLabels: [
+      '콘텐츠제작학과',
+      '트리니티융합 콘텐츠제작전공',
+      '트리니티자유 콘텐츠제작전공'
+    ]
+  },
+  {
+    value: '032609*',
+    representativeLabel: 'CG디자인학과',
+    allLabels: [
+      'CG디자인학과',
+      '트리니티융합 CG디자인전공',
+      '트리니티자유 CG디자인전공',
+      '미디어콘텐츠학부 CG디자인전공'
+    ]
+  },
+  // 휴먼서비스대학
+  {
+    value: '032702*',
+    representativeLabel: '치매전문재활학과',
+    allLabels: ['치매전문재활학과']
+  },
+  {
+    value: '032703*',
+    representativeLabel: '산림치유학과',
+    allLabels: ['산림치유학과']
+  },
+  {
+    value: '032705*',
+    representativeLabel: '언어재활학과',
+    allLabels: ['언어재활학과']
+  },
+  {
+    value: '032708*',
+    representativeLabel: '복지상담학과',
+    allLabels: [
+      '중독재활학과',
+      '중독재활상담학과',
+      '복지상담학과'
+    ]
+  },
+  {
+    value: '032709*',
+    representativeLabel: '스마트통합치유학과',
+    allLabels: [
+      '통합치유학과',
+      '스마트통합치유학과'
+    ]
+  },
+  {
+    value: '032710*',
+    representativeLabel: '해양치유레저학과',
+    allLabels: ['해양치유레저학과']
+  },
+  // 헬스케어융합대학
+  {
+    value: '032801*',
+    representativeLabel: '임상병리학과',
+    allLabels: ['임상병리학과']
+  },
+  {
+    value: '032802*',
+    representativeLabel: '치위생학과',
+    allLabels: ['치위생학과']
+  },
+  // 기타
+  {
+    value: '03290112',
+    representativeLabel: '트리니티자유 반려동물학전공',
+    allLabels: ['트리니티자유 반려동물학전공']
+  },
+  {
+    value: '03290113',
+    representativeLabel: '트리니티자유 군사학전공',
+    allLabels: ['트리니티자유 군사학전공']
+  },
+  {
+    value: '03300116',
+    representativeLabel: '트리니티융합 스마트항만공학',
+    allLabels: ['트리니티융합 스마트항만공학']
+  },
+  {
+    value: '033020',
+    representativeLabel: '자율전공학부',
+    allLabels: [
+      '자율전공학부',
+      '자율전공학부 자율전공'
+    ]
+  }
 ];
 // 최신학과 기준 코드
 export const MAJOR_NEW = [
@@ -355,54 +667,6 @@ export const MAJOR_NEW = [
     { value: '03301001', label: '경찰학부-경찰행정학' },
     { value: '03301002', label: '경찰학부 해양경찰' },
     { value: '03301002', label: '경찰학부-해양경찰' },
-    { value: '03300104', label: '트리니티융합 행정학전공' },
-    { value: '03300104', label: '트리니티융합-행정학전공' },
-    { value: '032391*', label: '스타트업콘텐츠마케팅전공(F) 스타트업콘텐츠마케팅' },
-    { value: '032391*', label: '스타트업콘텐츠마케팅전공(F)-스타트업콘텐츠마케팅' },
-    { value: '032401*', label: '트리니티융합 디지털헬스케어전공' },
-    { value: '032401*', label: '트리니티융합-디지털헬스케어전공' },
-    { value: '032402*', label: '의료IT학과' },
-    { value: '032403*', label: '트리니티융합 의생명과학전공' },
-    { value: '032403*', label: '트리니티융합-의생명과학전공' },
-    { value: '03300101', label: '트리니티융합 의료경영학전공' },
-    { value: '03300101', label: '트리니티융합-의료경영학전공' },
-    { value: '032408*', label: '바이오융합공학과' },
-    { value: '032415*', label: '안경광학과' },
-    { value: '032490*', label: '정밀의료융합전공' },
-    { value: '032492*', label: '스마트수소에너지융합전공' },
-    { value: '032501*', label: '항공운항서비스학과' },
-    { value: '032506*', label: '트리니티융합 항공교통물류전공' },
-    { value: '032506*', label: '트리니티융합-항공교통물류전공' },
-    { value: '03300114', label: '트리니티융합 항공운항전공' }, 
-    { value: '03300114', label: '트리니티융합-항공운항전공' },
-    { value: '032515*', label: '무인항공학과' },
-    { value: '03300115', label: '트리니티융합 항공정비학전공' },
-    { value: '03300115', label: '트리니티융합-항공정비학전공' },
-    { value: '032591*', label: '항공설계전공(F-C)' },
-    { value: '03260103', label: '공연예술학부' }, 
-    { value: '03260103', label: '트리니티융합 실용음악전공' }, 
-    { value: '03260103', label: '트리니티융합-실용음악전공' },
-    { value: '03260104', label: '공연예술학부 연기예술전공' }, 
-    { value: '03260104', label: '공연예술학부-연기예술전공' },
-    { value: '032603*', label: '뷰티디자인학과' },
-    { value: '032608*', label: '트리니티융합 콘텐츠제작전공' },
-    { value: '032608*', label: '트리니티융합-콘텐츠제작전공' },
-    { value: '032609*', label: '트리니티융합 CG디자인전공' },
-    { value: '032609*', label: '트리니티융합-CG디자인전공' },
-    { value: '032702*', label: '치매전문재활학과' },
-    { value: '032703*', label: '산림치유학과' },
-    { value: '032705*', label: '언어재활학과' },
-    { value: '032708*', label: '복지상담학과' },
-    { value: '032709*', label: '스마트통합치유학과' },
-    { value: '032710*', label: '해양치유레저학과' },
-    { value: '032801*', label: '임상병리학과' },
-    { value: '032802*', label: '치위생학과' },
-    { value: '03290112', label: '트리니티자유 반려동물학전공' },
-    { value: '03290112', label: '트리니티자유-반려동물학전공' },
-    { value: '03290113', label: '트리니티자유 군사학전공' },
-    { value: '03290113', label: '트리니티자유-군사학전공' },
-    { value: '03300116', label: '트리니티융합 스마트항만공학' },
-    { value: '03300116', label: '트리니티융합-스마트항만공학' },  
     { value: '033020', label: '자율전공학부' }, 
 ];
 export const MICRO_DEGREE = [
@@ -498,7 +762,7 @@ function SignupPage2() {
         try {
             const response = await axios.post('http://127.0.0.1:8000/user/register_info/', {
                 name: name,
-                major: MAJOR_ALL.find(item => item.label === major).value,
+                major: MAJOR_ALL.find(item => item.representativeLabel === major || item.allLabels.includes(major))?.value || null,
                 student_id: student_id,
                 additionalMajorType: additionalMajorType,
                 additionalMajor: additionalMajor,
