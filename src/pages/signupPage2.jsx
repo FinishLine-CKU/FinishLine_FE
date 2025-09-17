@@ -626,7 +626,7 @@ function SignupPage2() {
                             <option value="">해당 없음</option>
                             <option value="double">복수전공</option>
                             <option value="minor">부전공</option>
-                            <option value="linked" disabled>연계전공</option>
+                            <option value="linked" disabled>연계전공(미지원)</option>
                         </select>
                         <select className={css(styles.majorSelect)} onChange={checkMajor}>
                             {additionalMajorType ? (
