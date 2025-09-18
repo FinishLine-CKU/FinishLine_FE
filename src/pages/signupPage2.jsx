@@ -137,7 +137,7 @@ export const MAJOR = [
   },
   {
     value: '03300117',
-    label: '건축학부 건축학전공',
+    label: '건축학전공',
     contents: [
       '건축학부 건축학전공',
       '트리니티융합 건축학전공',
@@ -175,11 +175,11 @@ export const MAJOR = [
   //   label: 'AI융합전공(F)',
   //   contents: ['AI융합전공(F)']
   // },
-  {
-    value: '031298*',
-    label: '항만물류시스템전공',
-    contents: ['항만물류시스템전공']
-  },
+  // {
+  //   value: '031298*',
+  //   label: '항만물류시스템전공',
+  //   contents: ['항만물류시스템전공']
+  // },
   // {
   //   value: '031299*',
   //   label: '반도체융합전공',
@@ -216,6 +216,7 @@ export const MAJOR = [
     value: '03301001',
     label: '경찰행정학전공',
     contents: [
+      '경찰학부',
       '경찰행정학부',
       '경찰행정학과',
       '경찰행정학부 경찰행정학',
@@ -357,7 +358,7 @@ export const MAJOR = [
   // },
   {
     value: '03260103',
-    label: '공연예술학부 실용음악전공',
+    label: '실용음악전공',
     contents: [
       '공연예술학부',
       '공연예술학부 실용음악',
@@ -367,7 +368,7 @@ export const MAJOR = [
   },
   {
     value: '03260104',
-    label: '공연예술학부 연기예술',
+    label: '연기예술전공',
     contents: [
       '공연예술학부 방송연예전공',
       '공연예술학부-방송연예전공',
