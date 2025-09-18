@@ -13,7 +13,7 @@ import Symbol from '../assets/images/symbol.png';
 export const MAJOR = [
   // 의과대학
   {
-    value: '030501*',  // '030501*'(= 의예과) '030503*'(= 의학과)
+    value: '030503*',
     label: '의예과(의학과)',
     contents: ['의예과', '의학과']
   },
