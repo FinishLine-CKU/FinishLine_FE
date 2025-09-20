@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
-import { MAJOR_NEW, SUBMAJORTYPE } from '../pages/signupPage2';
+import { MAJOR, SUBMAJORTYPE } from '../pages/signupPage2';
 import Template from '../components/template';
 import Header from '../components/header';
 import Footer from '../components/footer';
@@ -151,7 +151,7 @@ function GraduTestPage() {
                     <p className={css(styles.whole)}>전체</p>
                     <hr className={css(styles.custom_hr)} />
                 </div>
-                <span className={css(styles.custom_result_hr)}> {MAJOR_NEW.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</span>
+                <span className={css(styles.custom_result_hr)}> {MAJOR.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</span>
                 <GraduChartComponets earned={doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajorRest + doneEducationRest + doneRest} total={totalStandard} />
                 <div className={css(styles.textContainer)}>
                     <div>
