@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
 import { ModalContext } from '../utils/hooks/modalContext';
 import { DoneSubComponents } from '../components/doneLectureComponents';
-import { MAJOR, MAJOR_NEW, MICRO_DEGREE, SUBMAJORTYPE } from '../pages/signupPage2';
+import { MAJOR, MICRO_DEGREE, SUBMAJORTYPE } from '../pages/signupPage2';
 import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
@@ -387,7 +387,7 @@ function MyPage() {
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>학과</span>
-                            <span className={css(styles.content)}>{MAJOR_NEW.find(item => item.value === major)?.label || major}</span>
+                            <span className={css(styles.content)}>{MAJOR.find(item => item.value === major)?.label || major}</span>
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>학번</span>
