@@ -90,11 +90,11 @@
 <details>
   <summary>
     
-  #### [ 기이수 과목 커스텀 ]
+  #### [ 이수 과목 시뮬레이션 ]
   
   </summary>
 
-  | ![기이수 과목 커스텀](https://github.com/user-attachments/assets/a29d2d5c-818d-47f4-af0d-0c981b9e5890) |
+  | ![이수 과목 시뮬레이션](https://github.com/user-attachments/assets/a29d2d5c-818d-47f4-af0d-0c981b9e5890) |
   |:--:|
   | **기이수 과목 커스텀** |
 
