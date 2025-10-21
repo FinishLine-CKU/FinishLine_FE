@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
 import { MAJOR, SUBMAJORTYPE } from '../pages/signupPage2';
+import { ModalContext } from '../utils/hooks/modalContext';
 import Template from '../components/template';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import GraduChartComponets from "../components/graduChartComponents";
+import DetailModal from '../components/detailModal';
 import notgood from "../assets/images/notgood.png";
 import sogood from "../assets/images/sogood.png";
 import light from "../assets/images/light.png";
@@ -47,6 +49,7 @@ function GraduTestPage() {
 
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
+    const { detailModalState, setDetailModalState, openDetailModal, closeDetailModal } = useContext(ModalContext);
 
     const testing = async () => {
         const response = await axios.post('http://127.0.0.1:8000/graduation/test_major/', {
@@ -145,6 +148,13 @@ function GraduTestPage() {
 
     return (
         <>
+            {detailModalState ? 
+                <DetailModal detailModalTitle="교양 상세 정보" detailMainContents={
+                    <>
+                    </>
+                } closeButton={closeDetailModal} />
+                : null
+            }
             <Header />
             <Template title="졸업요건 검사 결과" />
             <div className={css(styles.columnContainer)}>
@@ -322,7 +332,7 @@ function GraduTestPage() {
                                 <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
                             </div>
                             <div className={css(styles.detailsButtonContainer)}>
-                                <div className={css(styles.detailsButtons)}>
+                                <div className={css(styles.detailsButtons)} onClick={openDetailModal}>
                                     <img src={magnifyingGlass} className={css(styles.detailsButtonImage)}></img>
                                     <span className={css(styles.detailsButtonText)}>상세</span>
                                 </div>
