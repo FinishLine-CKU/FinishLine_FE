@@ -9,6 +9,7 @@ import GraduChartComponets from "../components/graduChartComponents";
 import notgood from "../assets/images/notgood.png";
 import sogood from "../assets/images/sogood.png";
 import light from "../assets/images/light.png";
+import magnifyingGlass from "../assets/images/magnifyingGlass.png";
 import axios from 'axios';
 
 function GraduTestPage() {
@@ -184,10 +185,12 @@ function GraduTestPage() {
                 <div className={css(styles.leftContainer)}>
                     <div className={css(styles.majorContainer)}>
                         <div className={css(styles.majortitleContainer)}>
-                            <span className={css(styles.custom_h)}>전공</span>
-                            <span className={css(styles.userCredit)}>{doneMajor}</span>
-                            <span className={css(styles.custom_hr_react)}> / </span>
-                            <span className={css(styles.custom_h_focus)}>{majorStandard} 학점</span>
+                            <div className={css(styles.leftAlign)}>
+                                <span className={css(styles.custom_h)}>전공</span>
+                                <span className={css(styles.userCredit)}>{doneMajor}</span>
+                                <span className={css(styles.custom_hr_react)}> / </span>
+                                <span className={css(styles.custom_h_focus)}>{majorStandard} 학점</span>
+                            </div>
                         </div>
                         <hr className={css(styles.custom_major_hr)} />
                         {doneMajor >= majorStandard ?
@@ -213,10 +216,12 @@ function GraduTestPage() {
                     {subMajorType ?
                         <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
-                                <span className={css(styles.custom_h)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
-                                <span className={css(styles.userCredit)}>{doneSubMajor}</span>
-                                <span className={css(styles.custom_hr_react)}> / </span>
-                                <span className={css(styles.custom_h_focus)}>{subMajorStandard} 학점</span>
+                                <div className={css(styles.leftAlign)}>
+                                    <span className={css(styles.custom_h)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
+                                    <span className={css(styles.userCredit)}>{doneSubMajor}</span>
+                                    <span className={css(styles.custom_hr_react)}> / </span>
+                                    <span className={css(styles.custom_h_focus)}>{subMajorStandard} 학점</span>
+                                </div>
                             </div>
                             <hr className={css(styles.custom_major_hr)} />
                             {doneSubMajor >= subMajorStandard ?
@@ -244,10 +249,12 @@ function GraduTestPage() {
                     {!MDStandard ? null :
                         <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
-                                <span className={css(styles.custom_h)}>소단위전공</span>
-                                <span className={css(styles.userCredit)}>{doneMD}</span>
-                                <span className={css(styles.custom_hr_react)}> / </span>
-                                <span className={css(styles.custom_h_focus)}>{MDStandard} 학점</span>
+                                <div className={css(styles.leftAlign)}>
+                                    <span className={css(styles.custom_h)}>소단위전공</span>
+                                    <span className={css(styles.userCredit)}>{doneMD}</span>
+                                    <span className={css(styles.custom_hr_react)}> / </span>
+                                    <span className={css(styles.custom_h_focus)}>{MDStandard} 학점</span>
+                                </div>
                             </div>
                             <hr className={css(styles.custom_major_hr)} />
                             {doneMD >= MDStandard ?
@@ -274,10 +281,12 @@ function GraduTestPage() {
                     {!restStandard ? null :
                         <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
-                                <span className={css(styles.custom_h)}>일반선택</span>
-                                <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest}</span>
-                                <span className={css(styles.custom_hr_react)}> / </span>
-                                <span className={css(styles.custom_h_focus)}>{restStandard} 학점</span>
+                                <div className={css(styles.leftAlign)}>
+                                    <span className={css(styles.custom_h)}>일반선택</span>
+                                    <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest}</span>
+                                    <span className={css(styles.custom_hr_react)}> / </span>
+                                    <span className={css(styles.custom_h_focus)}>{restStandard} 학점</span>
+                                </div>
                             </div>
                             <hr className={css(styles.custom_major_hr)} />
                             {/* 일반선택 로직 추가 */}
@@ -306,10 +315,18 @@ function GraduTestPage() {
                 <div className={css(styles.rightContainer)}>
                     <div className={css(styles.majorContainer)}>
                         <div className={css(styles.majortitleContainer)}>
-                            <span className={css(styles.custom_h)}>교양</span>
-                            <span className={css(styles.userCredit)}>{doneEssentialGE + doneChoiceGE}</span>
-                            <span className={css(styles.custom_hr_react)}> / </span>
-                            <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
+                            <div className={css(styles.leftAlign)}>
+                                <span className={css(styles.custom_h)}>교양</span>
+                                <span className={css(styles.userCredit)}>{doneEssentialGE + doneChoiceGE}</span>
+                                <span className={css(styles.custom_hr_react)}> / </span>
+                                <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
+                            </div>
+                            <div className={css(styles.detailsButtonContainer)}>
+                                <div className={css(styles.detailsButtons)}>
+                                    <img src={magnifyingGlass} className={css(styles.detailsButtonImage)}></img>
+                                    <span className={css(styles.detailsButtonText)}>상세</span>
+                                </div>
+                            </div>
                         </div>
                         <hr className={css(styles.custom_major_hr)} />
                         <div className={css(styles.generalContainer)}>
@@ -454,10 +471,12 @@ function GraduTestPage() {
                     {!doneEducationRest ? null :
                         <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
-                                <span className={css(styles.custom_h)}>교직</span>
-                                <span className={css(styles.userCredit)}>{doneEducationRest}</span>
-                                <span className={css(styles.custom_hr_react)}> / </span>
-                                <span className={css(styles.custom_h_focus)}>22 학점</span>
+                                <div className={css(styles.leftAlign)}>
+                                    <span className={css(styles.custom_h)}>교직</span>
+                                    <span className={css(styles.userCredit)}>{doneEducationRest}</span>
+                                    <span className={css(styles.custom_hr_react)}> / </span>
+                                    <span className={css(styles.custom_h_focus)}>22 학점</span>
+                                </div>
                             </div>
                             <hr className={css(styles.custom_major_hr)} />
                             {doneEducationRest >= 22 ?
@@ -582,7 +601,13 @@ const styles = StyleSheet.create({
     majortitleContainer: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end'
+    },
+    leftAlign: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-end'
     },
     majorContentsContainer: {
         display: 'flex',
@@ -725,6 +750,32 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: 'black',
         paddingBottom: '2px'
+    },
+    detailsButtonContainer:
+    {
+        display: 'flex',
+    },
+    detailsButtons: {
+        border: '1.3px solid #3D5286',
+        borderRadius: '6px',
+        padding: '6px 10px',
+        color: '#3D5286',
+        cursor: 'pointer',
+        ':active' : {
+            border: '1.3px solid #FFFEFB',
+            color: '#FFFEFB',
+            backgroundColor: '#3D5286',
+            transitionDuration: '0.2s',
+        }
+    },
+    detailsButtonImage: {
+        width: '15px'
+    },
+    detailsButtonText: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '600',
+        paddingLeft: '5px'
     },
     educationInfoContainer: {
         display: 'flex',
