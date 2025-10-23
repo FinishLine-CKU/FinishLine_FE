@@ -41,11 +41,11 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
                                 </div>
-                                {tableData[0].subject.map((subject, index) => (
+                                {Array.from(new Set(tableData[0].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                 <>
-                                    {tableData[0].topic !== subject.lecture_topic ?
+                                    {tableData[0].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
-                                        <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                     </div> : null} 
                                 </>))}
                             </div>
@@ -70,11 +70,11 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
                                 </div>
-                                {tableData[1].subject.map((subject, index) => (
+                                {Array.from(new Set(tableData[1].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                 <>
-                                    {tableData[1].topic !== subject.lecture_topic ?
+                                    {tableData[1].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
-                                        <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                     </div> : null} 
                                 </>))}
                             </div>
@@ -99,11 +99,11 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
                                 </div>
-                                {tableData[2].subject.map((subject, index) => (
+                                {Array.from(new Set(tableData[2].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                 <>
-                                    {tableData[2].topic !== subject.lecture_topic ?
+                                    {tableData[2].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
-                                        <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                     </div> : null} 
                                 </>))}
                             </div>
@@ -129,11 +129,11 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[3]?.topic}</span>
                                 </div>
-                                {tableData[3].subject.map((subject, index) => (
+                                {Array.from(new Set(tableData[3].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                 <>
-                                    {tableData[3].topic !== subject.lecture_topic ?
+                                    {tableData[3].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
-                                        <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                     </div> : null} 
                                 </>))}
                             </div>
@@ -161,11 +161,11 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[tableData.length-4]?.topic}</span>
                                 </div>
-                                {tableData[tableData.length-4].subject.map((subject, index) => (
+                                {Array.from(new Set(tableData[tableData.length-4].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                 <>
-                                    {tableData[tableData.length-4].topic !== subject.lecture_topic ?
+                                    {tableData[tableData.length-4].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
-                                        <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                     </div> : null} 
                                 </>))}
                             </div>
@@ -190,11 +190,11 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[tableData.length-3]?.topic}</span>
                                 </div>
-                                {tableData[tableData.length-3].subject.map((subject, index) => (
+                                {Array.from(new Set(tableData[tableData.length-3].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                 <>
-                                    {tableData[tableData.length-3].topic !== subject.lecture_topic ?
+                                    {tableData[tableData.length-3].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
-                                        <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                     </div> : null} 
                                 </>))}
                             </div>
@@ -219,11 +219,11 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[tableData.length-2]?.topic}</span>
                                 </div>
-                                {tableData[tableData.length-2].subject.map((subject, index) => (
+                                {Array.from(new Set(tableData[tableData.length-2].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                 <>
-                                    {tableData[tableData.length-2].topic !== subject.lecture_topic ?
+                                    {tableData[tableData.length-2].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
-                                        <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                     </div> : null} 
                                 </>))}
                             </div>
@@ -292,11 +292,11 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
                                         </div>
-                                        {tableData[0].subject.map((subject, index) => (
+                                        {Array.from(new Set(tableData[0].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                         <>
-                                            {tableData[0].topic !== subject.lecture_topic ?
+                                            {tableData[0].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
-                                                <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                             </div> : null} 
                                         </>))}
                                     </div>
@@ -323,11 +323,11 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
                                             </div>
-                                            {tableData[1].subject.map((subject, index) => (
+                                            {Array.from(new Set(tableData[1].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                             <>
-                                                {tableData[1].topic !== subject.lecture_topic ?
+                                                {tableData[1].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
-                                                    <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                    <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                                 </div> : null} 
                                             </>))}
                                         </div>
@@ -352,11 +352,11 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
                                             </div>
-                                            {tableData[2].subject.map((subject, index) => (
+                                            {Array.from(new Set(tableData[2].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                             <>
-                                                {tableData[2].topic !== subject.lecture_topic ?
+                                                {tableData[2].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
-                                                    <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                    <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                                 </div> : null} 
                                             </>))}
                                         </div>
@@ -381,11 +381,11 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[3]?.topic}</span>
                                             </div>
-                                            {tableData[3].subject.map((subject, index) => (
+                                            {Array.from(new Set(tableData[3].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                             <>
-                                                {tableData[3].topic !== subject.lecture_topic ?
+                                                {tableData[3].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
-                                                    <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                    <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                                 </div> : null} 
                                             </>))}
                                         </div>
@@ -413,11 +413,11 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[4]?.topic}</span>
                                         </div>
-                                        {tableData[4].subject.map((subject, index) => (
+                                        {Array.from(new Set(tableData[4].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                         <>
-                                            {tableData[4].topic !== subject.lecture_topic ?
+                                            {tableData[4].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
-                                                <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                             </div> : null} 
                                         </>))}
                                     </div>
@@ -443,11 +443,11 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
                                         </div>
-                                        {tableData[1].subject.map((subject, index) => (
+                                        {Array.from(new Set(tableData[1].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                         <>
-                                            {tableData[1].topic !== subject.lecture_topic ?
+                                            {tableData[1].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
-                                                <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                             </div> : null} 
                                         </>))}
                                     </div>
@@ -474,11 +474,11 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
                                             </div>
-                                            {tableData[2].subject.map((subject, index) => (
+                                            {Array.from(new Set(tableData[2].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                             <>
-                                                {tableData[2].topic !== subject.lecture_topic ?
+                                                {tableData[2].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
-                                                    <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                    <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                                 </div> : null} 
                                             </>))}
                                         </div>
@@ -503,11 +503,11 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[3]?.topic}</span>
                                             </div>
-                                            {tableData[3].subject.map((subject, index) => (
+                                            {Array.from(new Set(tableData[3].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                             <>
-                                                {tableData[3].topic !== subject.lecture_topic ?
+                                                {tableData[3].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
-                                                    <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                    <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                                 </div> : null} 
                                             </>))}
                                         </div>
@@ -532,11 +532,11 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[4]?.topic}</span>
                                             </div>
-                                            {tableData[4].subject.map((subject, index) => (
+                                            {Array.from(new Set(tableData[4].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                             <>
-                                                {tableData[4].topic !== subject.lecture_topic ?
+                                                {tableData[4].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
-                                                    <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                    <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                                 </div> : null} 
                                             </>))}
                                         </div>
@@ -574,11 +574,11 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[5]?.topic}</span>
                                         </div>
-                                        {tableData[5].subject.map((subject, index) => (
+                                        {Array.from(new Set(tableData[5].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                         <>
-                                            {tableData[5].topic !== subject.lecture_topic ?
+                                            {tableData[5].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
-                                                <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                             </div> : null} 
                                         </>))}
                                     </div>
@@ -603,11 +603,11 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[6]?.topic}</span>
                                         </div>
-                                        {tableData[6].subject.map((subject, index) => (
+                                        {Array.from(new Set(tableData[6].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                         <>
-                                            {tableData[6].topic !== subject.lecture_topic ?
+                                            {tableData[6].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
-                                                <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                             </div> : null} 
                                         </>))}
                                     </div>    
@@ -632,11 +632,11 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[7]?.topic}</span>
                                         </div>
-                                        {tableData[7].subject.map((subject, index) => (
+                                        {Array.from(new Set(tableData[7].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                         <>
-                                            {tableData[7].topic !== subject.lecture_topic ?
+                                            {tableData[7].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
-                                                <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                             </div> : null} 
                                         </>))}
                                     </div>
@@ -661,11 +661,11 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[8]?.topic}</span>
                                         </div>
-                                        {tableData[8].subject.map((subject, index) => (
+                                        {Array.from(new Set(tableData[8].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
                                         <>
-                                            {tableData[8].topic !== subject.lecture_topic ?
+                                            {tableData[8].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
-                                                <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
+                                                <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                             </div> : null} 
                                         </>))}
                                     </div>
@@ -1028,10 +1028,10 @@ export function RestTable({ tableData }){
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData.topic}</span>
                                 </div>
-                                {tableData.subject.map((subject, index) => (
+                                {Array.from(new Set(tableData.subject.map(subject => subject.lecture_topic))).map((topic, index) =>
                                 <div className={css(styles.insteadDataTopicContainer)}>
-                                    <span className={css(styles.insteadDataTopic)}>{subject.lecture_topic}</span>
-                                </div>))}
+                                    <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                </div>)}
                             </div>
                             <div className={css(styles.restContainer)}>
                                 {tableData.subject.map((subject, index) => (
@@ -1197,7 +1197,7 @@ const styles = StyleSheet.create({
         borderRight: '1px solid #B9B9B9',
     },
     restTableHeader: {
-        width: '50px',
+        width: '10%',
         height: '36px',
         padding: '0 1.5px',
         fontFamily: 'Lato',
@@ -1294,7 +1294,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     restLectureContainer: {
-        width: '180px',
+        width: '40%', // 180px
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
