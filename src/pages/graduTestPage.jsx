@@ -8,6 +8,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import GraduChartComponets from "../components/graduChartComponents";
 import DetailModal from '../components/detailModal';
+import { EssentialGETable, ChoiceGETable, HumanismGETable, BasicGETable, FusionGETable, RestTable } from '../components/detailTableComponent';
 import notgood from "../assets/images/notgood.png";
 import sogood from "../assets/images/sogood.png";
 import light from "../assets/images/light.png";
@@ -46,6 +47,15 @@ function GraduTestPage() {
     const [lackChoiceGETopic, setLackChoiceGETopic] = useState({});  // needChoiceArea => lackChoiceGETopic
     const [lackMD, setLackMD] = useState(0);
     const [lackEducation, setLackEducation] = useState(0);
+
+    const [essentialGEData, setEssentialGEData] = useState();
+    const [choiceGEData, setChoiceGEData] = useState();
+    const [fusionGEData, setFusionGEData] = useState();
+    const [restData, setRestData] = useState();
+
+    const [essentialGESuccess, setEssentialGESuccess] = useState();
+    const [choiceGESuccess, setChoiceGESuccess] = useState();
+    const [fusionGESuccess, setFusionGESuccess] = useState();
 
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
@@ -108,7 +118,7 @@ function GraduTestPage() {
             student_id: localStorage.getItem('idToken')
         });
         if (response.data) {
-            const { doneMD, doneMDRest, MDStandard, restStandard, lackMD } = response.data
+            const { doneMD, doneMDRest, MDStandard, restStandard, lackMD } = response.data;
             setDoneMD(doneMD)
             setDoneMDRest(doneMDRest)
             setMDStandard(MDStandard)
@@ -124,12 +134,30 @@ function GraduTestPage() {
             student_id: localStorage.getItem('idToken')
         });
         if (response.data) {
-            const { doneEducationRest, lackEducation } = response.data
+            const { doneEducationRest, lackEducation } = response.data;
             setDoneEducationRest(doneEducationRest)
             setLackEducation(lackEducation)
         } else {
             alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
         };
+    };
+
+    const detailCheck = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/graduation/ge_detail_view/', {
+            student_id: localStorage.getItem('idToken')
+        });
+        if (response.data) {
+            const { essentialTable, choiceTable, fusionTable, restTable } = response.data;
+            setEssentialGEData(essentialTable);
+            setEssentialGESuccess(essentialTable[essentialTable.length-1].success);
+            setChoiceGEData(choiceTable);
+            setChoiceGESuccess(choiceTable[choiceTable.length-1].success);
+            setFusionGEData(fusionTable);
+            setFusionGESuccess(fusionTable[fusionTable?.length-1]?.success);
+            setRestData(restTable);
+        } else {
+            alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+        }
     };
 
     const goToDoneLecture = () => {
@@ -151,6 +179,39 @@ function GraduTestPage() {
             {detailModalState ? 
                 <DetailModal detailModalTitle="교양 상세 정보" detailMainContents={
                     <>
+                        {year < 2023 ?
+                            <div className={css(styles.tableContainer)}>
+                                <div className={css(essentialGESuccess ? styles.leftTableContainer : styles.lackLeftTableContainer)}>
+                                    <EssentialGETable tableData={essentialGEData} success={essentialGESuccess}/>
+                                </div>
+                                <div className={css(styles.rightTableContainer)}>
+                                    <div className={css(choiceGESuccess ? styles.choiceGETableContainer : styles.lackChoiceGETableContainer)}>
+                                        <ChoiceGETable tableData={choiceGEData} success={choiceGESuccess} />
+                                    </div>
+                                    <div className={css(styles.restTableContainer)}>
+                                        <RestTable tableData={restData} />
+                                    </div>
+                                </div>
+                            </div>:
+                            <div className={css(styles.tableContainer)}>
+                                <div className={css(essentialGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
+                                    <HumanismGETable tableData={essentialGEData} />
+                                </div>
+                                <div className={css(styles.trinityRightTableContainer)}>
+                                    <div className={css(styles.basicAndFutionContainer)}>
+                                        <div className={css(choiceGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
+                                            <BasicGETable tableData={choiceGEData} />
+                                        </div>
+                                        <div className={css(fusionGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
+                                            <FusionGETable tableData={fusionGEData} />
+                                        </div>
+                                    </div>
+                                    <div className={css(styles.restTableContainer)}>
+                                        <RestTable tableData={restData} />
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </>
                 } closeButton={closeDetailModal} />
                 : null
@@ -334,7 +395,7 @@ function GraduTestPage() {
                             <div className={css(styles.detailsButtonContainer)}>
                                 <div className={css(styles.detailsButtons)} onClick={openDetailModal}>
                                     <img src={magnifyingGlass} className={css(styles.detailsButtonImage)}></img>
-                                    <span className={css(styles.detailsButtonText)}>상세</span>
+                                    <span className={css(styles.detailsButtonText)} onClick={detailCheck}>상세</span>
                                 </div>
                             </div>
                         </div>
@@ -536,6 +597,76 @@ function GraduTestPage() {
 }
 
 const styles = StyleSheet.create({
+    tableContainer: {
+        display: 'flex',
+        gap: '30px',
+        width: '100%'
+    },
+    leftTableContainer: {
+        display: 'flex',
+        width: '288px',
+        height: 'fit-content',
+        border: '1px solid #86C46D',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    lackLeftTableContainer: {
+        display: 'flex',
+        width: '288px',
+        border: '1px solid #FF4921',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    rightTableContainer: {
+        display: 'flex',
+        width: '628px',
+        flexDirection: 'column',
+        gap: '30px'
+    },
+    choiceGETableContainer: {
+        display: 'flex',
+        border: '1px solid #86C46D',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    lackChoiceGETableContainer: {
+        display: 'flex',
+        border: '1px solid #FF4921',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    restTableContainer: {
+        display: 'flex',
+        border: '1px solid #7A828A',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    trinityTableContainer: {
+        display: 'flex',
+        width: '262px',
+        height: 'fit-content',
+        border: '1px solid #86C46D',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    lackTrinityTableContainer: {
+        display: 'flex',
+        width: '262px',
+        height: 'fit-content',
+        border: '1px solid #FF4921',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    trinityRightTableContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '30px',
+        // width: '100%'
+    },
+    basicAndFutionContainer: {
+        display: 'flex',
+        gap: '30px'
+    },
     columnContainer: {
         display: 'flex',
         flexDirection: 'column',

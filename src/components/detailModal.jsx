@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     mainContents: {
         display: 'flex',
         justifyContent: 'center',
-        padding: '25px 40px 30px 40px',
+        padding: '25px 40px 30px 40px'
     },
 });
 
