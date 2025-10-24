@@ -11,7 +11,7 @@ export function EssentialGETable({ tableData, success }) {
                 <div className={css(styles.titleLeftContainer)}>
                     <span className={css(styles.mainTitle)}>교양 필수</span>
                     <div className={css(styles.creditContainer)}>
-                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>{tableData?.reduce((sum, data) => sum + (data.subject?.reduce((sum, subject) => sum + (subject.credit || 0), 0) || 0), 0) || 0}</span>
+                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>{tableData?.reduce((sum, data) => sum + (data.subject?.reduce((sum, subject) => sum + (subject?.credit || 0), 0) || 0), 0) || 0}</span>
                         <span className={css(styles.totalStandard)}>/</span>
                         <span className={css(styles.totalStandard)}>{tableData?.reduce((sum, data) => sum + (data.standard || 0), 0)} 학점</span>
                     </div>
@@ -41,7 +41,7 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
                                 </div>
-                                {Array.from(new Set(tableData[0].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                {Array.from(new Set(tableData[0].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[0].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
@@ -49,7 +49,7 @@ export function EssentialGETable({ tableData, success }) {
                                     </div> : null} 
                                 </>))}
                             </div>
-                            {tableData[0].subject.map((subject, index) => (
+                            {tableData[0].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
@@ -70,7 +70,7 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
                                 </div>
-                                {Array.from(new Set(tableData[1].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                {Array.from(new Set(tableData[1].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[1].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
@@ -78,7 +78,7 @@ export function EssentialGETable({ tableData, success }) {
                                     </div> : null} 
                                 </>))}
                             </div>
-                            {tableData[1].subject.map((subject, index) => (
+                            {tableData[1].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
@@ -99,7 +99,7 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
                                 </div>
-                                {Array.from(new Set(tableData[2].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                {Array.from(new Set(tableData[2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[2].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
@@ -107,7 +107,7 @@ export function EssentialGETable({ tableData, success }) {
                                     </div> : null} 
                                 </>))}
                             </div>
-                            {tableData[2].subject.map((subject, index) => (
+                            {tableData[2].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
@@ -129,7 +129,7 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[3]?.topic}</span>
                                 </div>
-                                {Array.from(new Set(tableData[3].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                {Array.from(new Set(tableData[3].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[3].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
@@ -137,7 +137,7 @@ export function EssentialGETable({ tableData, success }) {
                                     </div> : null} 
                                 </>))}
                             </div>
-                            {tableData[3].subject.map((subject, index) => (
+                            {tableData[3].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
@@ -161,7 +161,7 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[tableData.length-4]?.topic}</span>
                                 </div>
-                                {Array.from(new Set(tableData[tableData.length-4].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                {Array.from(new Set(tableData[tableData.length-4].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[tableData.length-4].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
@@ -169,7 +169,7 @@ export function EssentialGETable({ tableData, success }) {
                                     </div> : null} 
                                 </>))}
                             </div>
-                            {tableData[tableData.length-4].subject.map((subject, index) => (
+                            {tableData[tableData.length-4].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
@@ -190,7 +190,7 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[tableData.length-3]?.topic}</span>
                                 </div>
-                                {Array.from(new Set(tableData[tableData.length-3].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                {Array.from(new Set(tableData[tableData.length-3].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[tableData.length-3].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
@@ -198,7 +198,7 @@ export function EssentialGETable({ tableData, success }) {
                                     </div> : null} 
                                 </>))}
                             </div>
-                            {tableData[tableData.length-3].subject.map((subject, index) => (
+                            {tableData[tableData.length-3].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
@@ -219,7 +219,7 @@ export function EssentialGETable({ tableData, success }) {
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData[tableData.length-2]?.topic}</span>
                                 </div>
-                                {Array.from(new Set(tableData[tableData.length-2].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                {Array.from(new Set(tableData[tableData.length-2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[tableData.length-2].topic !== topic ?
                                     <div className={css(styles.insteadDataTopicContainer)}>
@@ -227,7 +227,7 @@ export function EssentialGETable({ tableData, success }) {
                                     </div> : null} 
                                 </>))}
                             </div>
-                            {tableData[tableData.length-2].subject.map((subject, index) => (
+                            {tableData[tableData.length-2].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
@@ -258,7 +258,7 @@ export function ChoiceGETable({ tableData, success }) {
                 <div className={css(styles.titleLeftContainer)}>
                     <span className={css(styles.mainTitle)}>교양 선택</span>
                     <div className={css(styles.creditContainer)}>
-                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>{tableData?.reduce((sum, data) => sum + (data.subject?.reduce((sum, subject) => sum + (subject.credit || 0), 0) || 0), 0) || 0}</span>
+                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>{tableData?.reduce((sum, data) => sum + (data.subject?.reduce((sum, subject) => sum + (subject?.credit || 0), 0) || 0), 0) || 0}</span>
                         <span className={css(styles.totalStandard)}>/</span>
                         <span className={css(styles.totalStandard)}>{tableData?.reduce((sum, data) => sum + (data.standard || 0), 0)} 학점</span>
                     </div>
@@ -292,7 +292,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
                                         </div>
-                                        {Array.from(new Set(tableData[0].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                        {Array.from(new Set(tableData[0].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                         <>
                                             {tableData[0].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
@@ -300,7 +300,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div> : null} 
                                         </>))}
                                     </div>
-                                    {tableData[0].subject.map((subject, index) => (
+                                    {tableData[0].subject?.map((subject, index) => (
                                     <div className={css(styles.lectureContainer)}>
                                         <div className={css(styles.lectureLeftside)}>
                                             <img src={Books} className={css(styles.lectureIcon)} />
@@ -323,7 +323,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
                                             </div>
-                                            {Array.from(new Set(tableData[1].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                            {Array.from(new Set(tableData[1].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                             <>
                                                 {tableData[1].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
@@ -331,7 +331,7 @@ export function ChoiceGETable({ tableData, success }) {
                                                 </div> : null} 
                                             </>))}
                                         </div>
-                                        {tableData[1].subject.map((subject, index) => (
+                                        {tableData[1].subject?.map((subject, index) => (
                                         <div className={css(styles.lectureContainer)}>
                                             <div className={css(styles.lectureLeftside)}>
                                                 <img src={Books} className={css(styles.lectureIcon)} />
@@ -352,7 +352,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
                                             </div>
-                                            {Array.from(new Set(tableData[2].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                            {Array.from(new Set(tableData[2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                             <>
                                                 {tableData[2].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
@@ -360,7 +360,7 @@ export function ChoiceGETable({ tableData, success }) {
                                                 </div> : null} 
                                             </>))}
                                         </div>
-                                        {tableData[2].subject.map((subject, index) => (
+                                        {tableData[2].subject?.map((subject, index) => (
                                         <div className={css(styles.lectureContainer)}>
                                             <div className={css(styles.lectureLeftside)}>
                                                 <img src={Books} className={css(styles.lectureIcon)} />
@@ -381,7 +381,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[3]?.topic}</span>
                                             </div>
-                                            {Array.from(new Set(tableData[3].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                            {Array.from(new Set(tableData[3].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                             <>
                                                 {tableData[3].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
@@ -389,7 +389,7 @@ export function ChoiceGETable({ tableData, success }) {
                                                 </div> : null} 
                                             </>))}
                                         </div>
-                                        {tableData[3].subject.map((subject, index) => (
+                                        {tableData[3].subject?.map((subject, index) => (
                                         <div className={css(styles.lectureContainer)}>
                                             <div className={css(styles.lectureLeftside)}>
                                                 <img src={Books} className={css(styles.lectureIcon)} />
@@ -413,7 +413,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[4]?.topic}</span>
                                         </div>
-                                        {Array.from(new Set(tableData[4].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                        {Array.from(new Set(tableData[4].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                         <>
                                             {tableData[4].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
@@ -421,7 +421,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div> : null} 
                                         </>))}
                                     </div>
-                                    {tableData[4].subject.map((subject, index) => (
+                                    {tableData[4].subject?.map((subject, index) => (
                                     <div className={css(styles.lectureContainer)}>
                                         <div className={css(styles.lectureLeftside)}>
                                             <img src={Books} className={css(styles.lectureIcon)} />
@@ -443,7 +443,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
                                         </div>
-                                        {Array.from(new Set(tableData[1].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                        {Array.from(new Set(tableData[1].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                         <>
                                             {tableData[1].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
@@ -451,7 +451,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div> : null} 
                                         </>))}
                                     </div>
-                                    {tableData[1].subject.map((subject, index) => (
+                                    {tableData[1].subject?.map((subject, index) => (
                                     <div className={css(styles.lectureContainer)}>
                                         <div className={css(styles.lectureLeftside)}>
                                             <img src={Books} className={css(styles.lectureIcon)} />
@@ -474,7 +474,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
                                             </div>
-                                            {Array.from(new Set(tableData[2].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                            {Array.from(new Set(tableData[2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                             <>
                                                 {tableData[2].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
@@ -482,7 +482,7 @@ export function ChoiceGETable({ tableData, success }) {
                                                 </div> : null} 
                                             </>))}
                                         </div>
-                                        {tableData[2].subject.map((subject, index) => (
+                                        {tableData[2].subject?.map((subject, index) => (
                                         <div className={css(styles.lectureContainer)}>
                                             <div className={css(styles.lectureLeftside)}>
                                                 <img src={Books} className={css(styles.lectureIcon)} />
@@ -503,7 +503,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[3]?.topic}</span>
                                             </div>
-                                            {Array.from(new Set(tableData[3].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                            {Array.from(new Set(tableData[3].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                             <>
                                                 {tableData[3].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
@@ -511,7 +511,7 @@ export function ChoiceGETable({ tableData, success }) {
                                                 </div> : null} 
                                             </>))}
                                         </div>
-                                        {tableData[3].subject.map((subject, index) => (
+                                        {tableData[3].subject?.map((subject, index) => (
                                         <div className={css(styles.lectureContainer)}>
                                             <div className={css(styles.lectureLeftside)}>
                                                 <img src={Books} className={css(styles.lectureIcon)} />
@@ -532,7 +532,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             <div className={css(styles.tableDataTopicContainer)}>
                                                 <span className={css(styles.tableDataTopic)}>{tableData[4]?.topic}</span>
                                             </div>
-                                            {Array.from(new Set(tableData[4].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                            {Array.from(new Set(tableData[4].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                             <>
                                                 {tableData[4].topic !== topic ?
                                                 <div className={css(styles.insteadDataTopicContainer)}>
@@ -540,7 +540,7 @@ export function ChoiceGETable({ tableData, success }) {
                                                 </div> : null} 
                                             </>))}
                                         </div>
-                                        {tableData[4].subject.map((subject, index) => (
+                                        {tableData[4].subject?.map((subject, index) => (
                                         <div className={css(styles.lectureContainer)}>
                                             <div className={css(styles.lectureLeftside)}>
                                                 <img src={Books} className={css(styles.lectureIcon)} />
@@ -574,7 +574,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[5]?.topic}</span>
                                         </div>
-                                        {Array.from(new Set(tableData[5].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                        {Array.from(new Set(tableData[5].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                         <>
                                             {tableData[5].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
@@ -582,7 +582,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div> : null} 
                                         </>))}
                                     </div>
-                                    {tableData[5].subject.map((subject, index) => (
+                                    {tableData[5].subject?.map((subject, index) => (
                                     <div className={css(styles.lectureContainer)}>
                                         <div className={css(styles.lectureLeftside)}>
                                             <img src={Books} className={css(styles.lectureIcon)} />
@@ -603,7 +603,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[6]?.topic}</span>
                                         </div>
-                                        {Array.from(new Set(tableData[6].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                        {Array.from(new Set(tableData[6].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                         <>
                                             {tableData[6].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
@@ -611,7 +611,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div> : null} 
                                         </>))}
                                     </div>    
-                                    {tableData[6].subject.map((subject, index) => (
+                                    {tableData[6].subject?.map((subject, index) => (
                                     <div className={css(styles.lectureContainer)}>
                                         <div className={css(styles.lectureLeftside)}>
                                             <img src={Books} className={css(styles.lectureIcon)} />
@@ -632,7 +632,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[7]?.topic}</span>
                                         </div>
-                                        {Array.from(new Set(tableData[7].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                        {Array.from(new Set(tableData[7].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                         <>
                                             {tableData[7].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
@@ -640,7 +640,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div> : null} 
                                         </>))}
                                     </div>
-                                    {tableData[7].subject.map((subject, index) => (
+                                    {tableData[7].subject?.map((subject, index) => (
                                     <div className={css(styles.lectureContainer)}>
                                         <div className={css(styles.lectureLeftside)}>
                                             <img src={Books} className={css(styles.lectureIcon)} />
@@ -661,7 +661,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         <div className={css(styles.tableDataTopicContainer)}>
                                             <span className={css(styles.tableDataTopic)}>{tableData[8]?.topic}</span>
                                         </div>
-                                        {Array.from(new Set(tableData[8].subject.map(subject => subject.lecture_topic))).map((topic, index) => (
+                                        {Array.from(new Set(tableData[8].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                         <>
                                             {tableData[8].topic !== topic ?
                                             <div className={css(styles.insteadDataTopicContainer)}>
@@ -669,7 +669,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div> : null} 
                                         </>))}
                                     </div>
-                                    {tableData[8].subject.map((subject, index) => (
+                                    {tableData[8].subject?.map((subject, index) => (
                                     <div className={css(styles.lectureContainer)}>
                                         <div className={css(styles.lectureLeftside)}>
                                             <img src={Books} className={css(styles.lectureIcon)} />
@@ -693,8 +693,7 @@ export function ChoiceGETable({ tableData, success }) {
     )
 };
 
-export function HumanismGETable({ tableData }) {
-    const [success, setSuccess] = useState(true);
+export function HumanismGETable({ tableData, success }) {
     const [year, setYear] = useState(localStorage.getItem('idToken').substr(0, 4));
     const [trinity, setTrinity] = useState(false);
 
@@ -704,9 +703,9 @@ export function HumanismGETable({ tableData }) {
                 <div className={css(styles.titleLeftContainer)}>
                     <span className={css(styles.mainTitle)}>교양 인성</span>
                     <div className={css(styles.creditContainer)}>
-                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>17</span>
+                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>{tableData?.reduce((sum, data) => sum + (data.subject?.reduce((sum, subject) => sum + (subject?.credit || 0), 0) || 0), 0) || 0}</span>
                         <span className={css(styles.totalStandard)}>/</span>
-                        <span className={css(styles.totalStandard)}>16 학점</span>
+                        <span className={css(styles.totalStandard)}>{tableData?.reduce((sum, data) => sum + (data.standard || 0), 0)} 학점</span>
                     </div>
                 </div>
                 {success ?
@@ -725,64 +724,105 @@ export function HumanismGETable({ tableData }) {
                         <th className={css(styles.tableHeader)}>학점</th>
                     </tr>
                 </thead>
+                {tableData && tableData.length > 0 && (
                 <tbody>
                     <tr>
                         <th rowSpan={year == 2023 && trinity ? '2' : '3'} className={css(styles.threeCellsHeader)}>공동체</th>
                         <td className={css(styles.tableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>인간학</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[0].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[0].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[0].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
-                                    <span className={css(styles.lectureName)}>인간:지혜와사랑</span>
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
                                 </div>
                                 <div className={css(styles.lectureRightside)}>
-                                    <span className={css(styles.lectureInfo)}>20-1</span>
-                                    <span className={css(styles.lectureInfo)}>인간학</span>
-                                    <span className={css(styles.lectureCredit)}>2학점</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
                                 </div>
-                            </div>
-                            <div className={css(styles.lectureContainer)}>
-                                <div className={css(styles.lectureLeftside)}>
-                                    <img src={Books} className={css(styles.lectureIcon)} />
-                                    <span className={css(styles.lectureName)}>인간:과학기술과신학의만남</span>
-                                </div>
-                                <div className={css(styles.lectureRightside)}>
-                                    <span className={css(styles.lectureInfo)}>20-2</span>
-                                    <span className={css(styles.lectureInfo)}>인간학</span>
-                                    <span className={css(styles.lectureCredit)}>2학점</span>
-                                </div>
-                            </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>4학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td>
                     </tr>
                     {year == 2023 && trinity ? null :
                     <tr>
                         <td className={css(styles.tableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>철학적인간학</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[1].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[1].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[1].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>2학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td>
                     </tr>}
                     <tr>
                         <td className={css(styles.tableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>봉사활동</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[tableData.length-2]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[tableData.length-2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[tableData.length-2].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[tableData.length-2].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>2학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[tableData.length-2]?.standard}학점</td>
                     </tr>
-                </tbody>
+                </tbody>)}
             </table>
         </div>
 
     )
 };
 
-export function BasicGETable({ tableData }) {
-    const [success, setSuccess] = useState(true);
+export function BasicGETable({ tableData, success }) {
     const [year, setYear] = useState(localStorage.getItem('idToken').substr(0, 4));
     const [trinity, setTrinity] = useState(true);
 
@@ -792,9 +832,9 @@ export function BasicGETable({ tableData }) {
                 <div className={css(styles.titleLeftContainer)}>
                     <span className={css(styles.mainTitle)}>교양 기초</span>
                     <div className={css(styles.creditContainer)}>
-                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>17</span>
+                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>{tableData?.reduce((sum, data) => sum + (data.subject?.reduce((sum, subject) => sum + (subject?.credit || 0), 0) || 0), 0) || 0}</span>
                         <span className={css(styles.totalStandard)}>/</span>
-                        <span className={css(styles.totalStandard)}>16 학점</span>
+                        <span className={css(styles.totalStandard)}>{tableData?.reduce((sum, data) => sum + (data.standard || 0), 0)} 학점</span>
                     </div>
                 </div>
                 {success ?
@@ -813,104 +853,165 @@ export function BasicGETable({ tableData }) {
                         <th className={css(styles.tableHeader)}>학점</th>
                     </tr>
                 </thead>
+                {tableData && tableData.length > 0 && (
                 <tbody>
                     <tr>
                         <th rowSpan='2' className={css(styles.threeCellsHeader)}>소통</th>
                         <td className={css(styles.tableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>인간학</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[0].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[0].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[0].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
-                                    <span className={css(styles.lectureName)}>인간:지혜와사랑</span>
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
                                 </div>
                                 <div className={css(styles.lectureRightside)}>
-                                    <span className={css(styles.lectureInfo)}>20-1</span>
-                                    <span className={css(styles.lectureInfo)}>인간학</span>
-                                    <span className={css(styles.lectureCredit)}>2학점</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
                                 </div>
-                            </div>
-                            <div className={css(styles.lectureContainer)}>
-                                <div className={css(styles.lectureLeftside)}>
-                                    <img src={Books} className={css(styles.lectureIcon)} />
-                                    <span className={css(styles.lectureName)}>인간:과학기술과신학의만남</span>
-                                </div>
-                                <div className={css(styles.lectureRightside)}>
-                                    <span className={css(styles.lectureInfo)}>20-2</span>
-                                    <span className={css(styles.lectureInfo)}>인간학</span>
-                                    <span className={css(styles.lectureCredit)}>2학점</span>
-                                </div>
-                            </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>4학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td>
                     </tr>
                     <tr>
                         <td className={css(styles.tableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>철학적인간학</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[1].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[1].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[1].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>2학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td>
                     </tr>
                     <tr>
                         <th rowSpan={year === 2023 && trinity ? '3': year === 2023 && !trinity ? '2' : '1'} className={css(styles.threeCellsHeader)}>자기<br/>관리</th>
                         <td className={css(year != 2023 ? styles.wideTableDataLectures : styles.tableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>인간학</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[2].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[2].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
-                                    <span className={css(styles.lectureName)}>인간:지혜와사랑</span>
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
                                 </div>
                                 <div className={css(styles.lectureRightside)}>
-                                    <span className={css(styles.lectureInfo)}>20-1</span>
-                                    <span className={css(styles.lectureInfo)}>인간학</span>
-                                    <span className={css(styles.lectureCredit)}>2학점</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
                                 </div>
-                            </div>
-                            <div className={css(styles.lectureContainer)}>
-                                <div className={css(styles.lectureLeftside)}>
-                                    <img src={Books} className={css(styles.lectureIcon)} />
-                                    <span className={css(styles.lectureName)}>인간:과학기술과신학의만남</span>
-                                </div>
-                                <div className={css(styles.lectureRightside)}>
-                                    <span className={css(styles.lectureInfo)}>20-2</span>
-                                    <span className={css(styles.lectureInfo)}>인간학</span>
-                                    <span className={css(styles.lectureCredit)}>2학점</span>
-                                </div>
-                            </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>4학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td>
                     </tr>
                     {year === 2023 &&
                     <tr>
                         <td className={css(styles.tableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>철학적인간학</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[3]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[3].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[3].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[3].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>2학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[3]?.standard}학점</td>
                     </tr>}
                     {year === 2023 && trinity &&
                     <tr>
                         <td className={css(styles.tableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>철학적인간학</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[4]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[4].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[4].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[4].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>2학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[4]?.standard}학점</td>
                     </tr>}
-                </tbody>
+                </tbody>)}
             </table>
         </div>
 
     )
 };
 
-export function FusionGETable({ tableData }) {
-    const [success, setSuccess] = useState(true);
+export function FusionGETable({ tableData, success }) {
     const [year, setYear] = useState(localStorage.getItem('idToken').substr(0, 4));
     const [trinity, setTrinity] = useState(false);
 
@@ -920,9 +1021,9 @@ export function FusionGETable({ tableData }) {
                 <div className={css(styles.titleLeftContainer)}>
                     <span className={css(styles.mainTitle)}>교양 융합</span>
                     <div className={css(styles.creditContainer)}>
-                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>17</span>
+                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>{tableData?.reduce((sum, data) => sum + (data.subject?.reduce((sum, subject) => sum + (subject?.credit || 0), 0) || 0), 0) || 0}</span>
                         <span className={css(styles.totalStandard)}>/</span>
-                        <span className={css(styles.totalStandard)}>16 학점</span>
+                        <span className={css(styles.totalStandard)}>{tableData?.reduce((sum, data) => sum + (data.standard || 0), 0)} 학점</span>
                     </div>
                 </div>
                 {success ?
@@ -941,57 +1042,99 @@ export function FusionGETable({ tableData }) {
                         <th className={css(styles.tableHeader)}>학점</th>
                     </tr>
                 </thead>
+                {tableData && tableData.length > 0 && (
                 <tbody>
                     <tr>
                         <th className={css(styles.threeCellsHeader)}>정보<br/>활용</th>
                         <td className={css(styles.wideTableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>인간학</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[0].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[0].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[0].subject?.map((subject, index) => (
                             <div className={css(styles.lectureContainer)}>
                                 <div className={css(styles.lectureLeftside)}>
                                     <img src={Books} className={css(styles.lectureIcon)} />
-                                    <span className={css(styles.lectureName)}>인간:지혜와사랑</span>
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
                                 </div>
                                 <div className={css(styles.lectureRightside)}>
-                                    <span className={css(styles.lectureInfo)}>20-1</span>
-                                    <span className={css(styles.lectureInfo)}>인간학</span>
-                                    <span className={css(styles.lectureCredit)}>2학점</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
                                 </div>
-                            </div>
-                            <div className={css(styles.lectureContainer)}>
-                                <div className={css(styles.lectureLeftside)}>
-                                    <img src={Books} className={css(styles.lectureIcon)} />
-                                    <span className={css(styles.lectureName)}>인간:과학기술과신학의만남</span>
-                                </div>
-                                <div className={css(styles.lectureRightside)}>
-                                    <span className={css(styles.lectureInfo)}>20-2</span>
-                                    <span className={css(styles.lectureInfo)}>인간학</span>
-                                    <span className={css(styles.lectureCredit)}>2학점</span>
-                                </div>
-                            </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>4학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td>
                     </tr>
                     <tr>
                         <th className={css(styles.threeCellsHeader)}>창의<br/>융합</th>
                         <td className={css(styles.wideTableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>철학적인간학</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[1].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[1].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[1].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>2학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td>
                     </tr>
                     <tr>
                         <th className={css(styles.threeCellsHeader)}>문제<br/>해결</th>
                         <td className={css(styles.wideTableDataLectures)}>
-                            <div className={css(styles.tableDataTopicContainer)}>
-                                <span className={css(styles.tableDataTopic)}>봉사활동</span>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[2].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null} 
+                                </>))}
                             </div>
+                            {tableData[2].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
                         </td>
-                        <td className={css(styles.tableDataStandard)}>2학점</td>
+                        <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td>
                     </tr>
-                </tbody>
+                </tbody>)}
             </table>
         </div>
 
@@ -1005,7 +1148,7 @@ export function RestTable({ tableData }){
                 <div className={css(styles.titleLeftContainer)}>
                     <span className={css(styles.mainTitle)}>일반 선택</span>
                     <div className={css(styles.creditContainer)}>
-                        <span className={css(styles.totalCredit)}>{tableData?.subject?.reduce((sum, subject) => sum + (subject.credit || 0), 0) || 0}</span>
+                        <span className={css(styles.totalCredit)}>{tableData?.subject?.reduce((sum, subject) => sum + (subject?.credit || 0), 0) || 0}</span>
                         <span className={css(styles.totalStandard)}>/</span>
                         <span className={css(styles.totalStandard)}>{tableData?.standard || 0} 학점</span>
                     </div>
@@ -1028,22 +1171,22 @@ export function RestTable({ tableData }){
                                 <div className={css(styles.tableDataTopicContainer)}>
                                     <span className={css(styles.tableDataTopic)}>{tableData.topic}</span>
                                 </div>
-                                {Array.from(new Set(tableData.subject.map(subject => subject.lecture_topic))).map((topic, index) =>
+                                {Array.from(new Set(tableData.subject?.map(subject => subject?.lecture_topic))).map((topic, index) =>
                                 <div className={css(styles.insteadDataTopicContainer)}>
                                     <span className={css(styles.insteadDataTopic)}>{topic}</span>
                                 </div>)}
                             </div>
                             <div className={css(styles.restContainer)}>
-                                {tableData.subject.map((subject, index) => (
+                                {tableData.subject?.map((subject, index) => (
                                 <div className={css(styles.restLectureContainer)}>
                                     <div className={css(styles.lectureLeftside)}>
                                         <img src={Books} className={css(styles.lectureIcon)} />
-                                        <span className={css(styles.lectureName)}>{subject.lecture_name}</span>
+                                        <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
                                     </div>
                                     <div className={css(styles.lectureRightside)}>
-                                        <span className={css(styles.lectureInfo)}>{subject.year}-{subject.semester}</span>
-                                        <span className={css(styles.lectureInfo)}>{subject.lecture_topic}</span>
-                                        <span className={css(styles.lectureCredit)}>{subject.credit}학점</span>
+                                        <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                        <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                        <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
                                     </div>
                                 </div>
                                 ))}
@@ -1153,7 +1296,7 @@ const styles = StyleSheet.create({
     },
     tableHeader: {
         width: 'auto',
-        minWith: 'fit-content',
+        minWidth: '25px',
         height: '36px',
         padding: '0 1.5px',
         fontFamily: 'Lato',
@@ -1188,6 +1331,7 @@ const styles = StyleSheet.create({
         paddingLeft: '12px'
     },
     threeCellsHeader: {
+        minWidth: '25px',
         fontFamily: 'Lato',
         fontSize: '10px',
         fontWeight: '500',
@@ -1280,6 +1424,7 @@ const styles = StyleSheet.create({
     },
     lectureContainer: {
         display: 'flex',
+        width: 'auto',
         justifyContent: 'space-between',
         alignItems: 'center',
         border: '1px solid #E6F2FC',
@@ -1294,7 +1439,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     restLectureContainer: {
-        width: '40%', // 180px
+        maxWidth: '40%', // 180px
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -1309,7 +1454,8 @@ const styles = StyleSheet.create({
         width: 'fit-content',
         maxWidth: '50%',
         textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        marginRight: '-100px'
     },
     lectureIcon: {
         width: '7px'
@@ -1320,17 +1466,23 @@ const styles = StyleSheet.create({
         fontSize: '7px',
         color: '#2B2A28',
         textAlign: 'left',
-        width: '20px'
+        width: '100px',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden'
     },
     lectureRightside: {
         display: 'flex',
+        alignItems: 'center',
+        maxWidth: '60%',
         gap: '5px'
     },
     lectureInfo: {
         fontFamily: 'Lato',
         fontWeight: 'bold',
         fontSize: '7px',
-        color: '#7A828A'
+        color: '#7A828A',
+        whiteSpace: 'nowrap'
     },
     lectureCredit: {
         fontFamily: 'Lato',
@@ -1339,7 +1491,7 @@ const styles = StyleSheet.create({
         color: '#3D5286'
     },
     tableDataStandard: {
-        minWith: 'fit-content',
+        minWidth: '28px',
         textAlign: 'center',
         fontFamily: 'Lato',
         fontSize: '10px',

@@ -195,15 +195,15 @@ function GraduTestPage() {
                             </div>:
                             <div className={css(styles.tableContainer)}>
                                 <div className={css(essentialGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
-                                    <HumanismGETable tableData={essentialGEData} />
+                                    <HumanismGETable tableData={essentialGEData} success={essentialGESuccess} />
                                 </div>
                                 <div className={css(styles.trinityRightTableContainer)}>
                                     <div className={css(styles.basicAndFutionContainer)}>
                                         <div className={css(choiceGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
-                                            <BasicGETable tableData={choiceGEData} />
+                                            <BasicGETable tableData={choiceGEData} success={choiceGESuccess} />
                                         </div>
                                         <div className={css(fusionGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
-                                            <FusionGETable tableData={fusionGEData} />
+                                            <FusionGETable tableData={fusionGEData} success={fusionGESuccess} />
                                         </div>
                                     </div>
                                     <div className={css(styles.restTableContainer)}>
