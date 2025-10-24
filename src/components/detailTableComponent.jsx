@@ -1179,7 +1179,7 @@ export function RestTable({ tableData }){
                             <div className={css(styles.restContainer)}>
                                 {tableData.subject?.map((subject, index) => (
                                 <div className={css(styles.restLectureContainer)}>
-                                    <div className={css(styles.lectureLeftside)}>
+                                    <div className={css(styles.restLectureLeftside)}>
                                         <img src={Books} className={css(styles.lectureIcon)} />
                                         <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
                                     </div>
@@ -1439,6 +1439,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     restLectureContainer: {
+        width: '40%',
         maxWidth: '40%', // 180px
         display: 'flex',
         justifyContent: 'space-between',
@@ -1456,6 +1457,14 @@ const styles = StyleSheet.create({
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         marginRight: '-100px'
+    },
+    restLectureLeftside: {
+        display: 'flex',
+        gap: '3px',
+        width: 'fit-content',
+        maxWidth: '50%',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap'
     },
     lectureIcon: {
         width: '7px'
