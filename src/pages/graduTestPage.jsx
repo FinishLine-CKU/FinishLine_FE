@@ -57,6 +57,8 @@ function GraduTestPage() {
     const [choiceGESuccess, setChoiceGESuccess] = useState();
     const [fusionGESuccess, setFusionGESuccess] = useState();
 
+    const [trinity, setTrinity] = useState();
+
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
     const { detailModalState, setDetailModalState, openDetailModal, closeDetailModal } = useContext(ModalContext);
@@ -149,12 +151,13 @@ function GraduTestPage() {
         if (response.data) {
             const { essentialTable, choiceTable, fusionTable, restTable } = response.data;
             setEssentialGEData(essentialTable);
-            setEssentialGESuccess(essentialTable[essentialTable.length-1].success);
+            setEssentialGESuccess(essentialTable[essentialTable.length-2].success);
             setChoiceGEData(choiceTable);
-            setChoiceGESuccess(choiceTable[choiceTable.length-1].success);
+            setChoiceGESuccess(choiceTable[choiceTable.length-2].success);
             setFusionGEData(fusionTable);
-            setFusionGESuccess(fusionTable[fusionTable?.length-1]?.success);
+            setFusionGESuccess(fusionTable[fusionTable?.length-2]?.success);
             setRestData(restTable);
+            setTrinity(essentialTable[essentialTable.length-1].trinity);
         } else {
             alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
         }
@@ -195,15 +198,15 @@ function GraduTestPage() {
                             </div>:
                             <div className={css(styles.tableContainer)}>
                                 <div className={css(essentialGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
-                                    <HumanismGETable tableData={essentialGEData} success={essentialGESuccess} />
+                                    <HumanismGETable tableData={essentialGEData} success={essentialGESuccess} trinity={trinity} />
                                 </div>
                                 <div className={css(styles.trinityRightTableContainer)}>
                                     <div className={css(styles.basicAndFutionContainer)}>
                                         <div className={css(choiceGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
-                                            <BasicGETable tableData={choiceGEData} success={choiceGESuccess} />
+                                            <BasicGETable tableData={choiceGEData} success={choiceGESuccess} trinity={trinity} />
                                         </div>
                                         <div className={css(fusionGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
-                                            <FusionGETable tableData={fusionGEData} success={fusionGESuccess} />
+                                            <FusionGETable tableData={fusionGEData} success={fusionGESuccess} trinity={trinity} />
                                         </div>
                                     </div>
                                     <div className={css(styles.restTableContainer)}>
@@ -643,7 +646,8 @@ const styles = StyleSheet.create({
     },
     trinityTableContainer: {
         display: 'flex',
-        width: '262px',
+        minWidth: '262px',
+        maxWidth: '262px',
         height: 'fit-content',
         border: '1px solid #86C46D',
         borderRadius: '10px',
@@ -651,7 +655,8 @@ const styles = StyleSheet.create({
     },
     lackTrinityTableContainer: {
         display: 'flex',
-        width: '262px',
+        minWidth: '262px',
+        maxWidth: '262px',
         height: 'fit-content',
         border: '1px solid #FF4921',
         borderRadius: '10px',
@@ -660,8 +665,7 @@ const styles = StyleSheet.create({
     trinityRightTableContainer: {
         display: 'flex',
         flexDirection: 'column',
-        gap: '30px',
-        // width: '100%'
+        gap: '30px'
     },
     basicAndFutionContainer: {
         display: 'flex',

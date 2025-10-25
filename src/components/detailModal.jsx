@@ -69,6 +69,8 @@ const styles = StyleSheet.create({
     },
     mainContents: {
         display: 'flex',
+        maxHeight: '90vh',
+        overflowY: 'scroll',
         justifyContent: 'center',
         padding: '25px 40px 30px 40px'
     },

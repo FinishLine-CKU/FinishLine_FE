@@ -35,7 +35,7 @@ export function EssentialGETable({ tableData, success }) {
                 {tableData && tableData.length > 0 && (
                 <tbody>
                     <tr>
-                        <th rowSpan={year === 2018 ? '4' : '3'} className={css(styles.threeCellsHeader)}>인성</th>
+                        <th rowSpan={year == 2018 ? '4' : '3'} className={css(styles.threeCellsHeader)}>인성</th>
                         <td className={css(styles.tableDataLectures)}>
                             <div className={css(styles.insteadTopicContainer)}>
                                 <div className={css(styles.tableDataTopicContainer)}>
@@ -122,7 +122,7 @@ export function EssentialGETable({ tableData, success }) {
                         </td>
                         <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td>
                     </tr>
-                    {year === 2018 &&
+                    {year == 2018 &&
                     <tr>
                         <td className={css(styles.tableDataLectures)}>
                             <div className={css(styles.insteadTopicContainer)}>
@@ -693,9 +693,8 @@ export function ChoiceGETable({ tableData, success }) {
     )
 };
 
-export function HumanismGETable({ tableData, success }) {
+export function HumanismGETable({ tableData, success, trinity }) {
     const [year, setYear] = useState(localStorage.getItem('idToken').substr(0, 4));
-    const [trinity, setTrinity] = useState(false);
 
     return (
         <div className={css(styles.container)}>
@@ -822,9 +821,8 @@ export function HumanismGETable({ tableData, success }) {
     )
 };
 
-export function BasicGETable({ tableData, success }) {
+export function BasicGETable({ tableData, success, trinity }) {
     const [year, setYear] = useState(localStorage.getItem('idToken').substr(0, 4));
-    const [trinity, setTrinity] = useState(true);
 
     return (
         <div className={css(styles.container)}>
@@ -859,9 +857,10 @@ export function BasicGETable({ tableData, success }) {
                         <th rowSpan='2' className={css(styles.threeCellsHeader)}>소통</th>
                         <td className={css(styles.tableDataLectures)}>
                             <div className={css(styles.insteadTopicContainer)}>
+                                {tableData[0]?.topic.split(',').map((topic, idx) => (
                                 <div className={css(styles.tableDataTopicContainer)}>
-                                    <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
-                                </div>
+                                    <span className={css(styles.tableDataTopic)}>{topic}</span>
+                                </div>))}
                                 {Array.from(new Set(tableData[0].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[0].topic !== topic ?
@@ -915,12 +914,13 @@ export function BasicGETable({ tableData, success }) {
                         <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td>
                     </tr>
                     <tr>
-                        <th rowSpan={year === 2023 && trinity ? '3': year === 2023 && !trinity ? '2' : '1'} className={css(styles.threeCellsHeader)}>자기<br/>관리</th>
+                        <th rowSpan={year == 2023 && trinity ? '3': year == 2023 && !trinity ? '2' : '1'} className={css(styles.threeCellsHeader)}>자기<br/>관리</th>
                         <td className={css(year != 2023 ? styles.wideTableDataLectures : styles.tableDataLectures)}>
                             <div className={css(styles.insteadTopicContainer)}>
+                                {tableData[2]?.topic.split(',').map((topic, idx) => (
                                 <div className={css(styles.tableDataTopicContainer)}>
-                                    <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
-                                </div>
+                                    <span className={css(styles.tableDataTopic)}>{topic}</span>
+                                </div>))}
                                 {Array.from(new Set(tableData[2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[2].topic !== topic ?
@@ -944,7 +944,7 @@ export function BasicGETable({ tableData, success }) {
                         </td>
                         <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td>
                     </tr>
-                    {year === 2023 &&
+                    {year == 2023 &&
                     <tr>
                         <td className={css(styles.tableDataLectures)}>
                             <div className={css(styles.insteadTopicContainer)}>
@@ -974,7 +974,7 @@ export function BasicGETable({ tableData, success }) {
                         </td>
                         <td className={css(styles.tableDataStandard)}>{tableData[3]?.standard}학점</td>
                     </tr>}
-                    {year === 2023 && trinity &&
+                    {year == 2023 && trinity &&
                     <tr>
                         <td className={css(styles.tableDataLectures)}>
                             <div className={css(styles.insteadTopicContainer)}>
@@ -1011,9 +1011,8 @@ export function BasicGETable({ tableData, success }) {
     )
 };
 
-export function FusionGETable({ tableData, success }) {
+export function FusionGETable({ tableData, success, trinity }) {
     const [year, setYear] = useState(localStorage.getItem('idToken').substr(0, 4));
-    const [trinity, setTrinity] = useState(false);
 
     return (
         <div className={css(styles.container)}>
@@ -1048,9 +1047,10 @@ export function FusionGETable({ tableData, success }) {
                         <th className={css(styles.threeCellsHeader)}>정보<br/>활용</th>
                         <td className={css(styles.wideTableDataLectures)}>
                             <div className={css(styles.insteadTopicContainer)}>
+                                {tableData[0]?.topic.split(',').map((topic, idx) => (
                                 <div className={css(styles.tableDataTopicContainer)}>
-                                    <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
-                                </div>
+                                    <span className={css(styles.tableDataTopic)}>{topic}</span>
+                                </div>))}
                                 {Array.from(new Set(tableData[0].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[0].topic !== topic ?
@@ -1078,9 +1078,10 @@ export function FusionGETable({ tableData, success }) {
                         <th className={css(styles.threeCellsHeader)}>창의<br/>융합</th>
                         <td className={css(styles.wideTableDataLectures)}>
                             <div className={css(styles.insteadTopicContainer)}>
+                                {tableData[1]?.topic.split(',').map((topic, idx) => (
                                 <div className={css(styles.tableDataTopicContainer)}>
-                                    <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
-                                </div>
+                                    <span className={css(styles.tableDataTopic)}>{topic}</span>
+                                </div>))}
                                 {Array.from(new Set(tableData[1].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[1].topic !== topic ?
@@ -1108,9 +1109,10 @@ export function FusionGETable({ tableData, success }) {
                         <th className={css(styles.threeCellsHeader)}>문제<br/>해결</th>
                         <td className={css(styles.wideTableDataLectures)}>
                             <div className={css(styles.insteadTopicContainer)}>
+                                {tableData[2]?.topic.split(',').map((topic, idx) => (
                                 <div className={css(styles.tableDataTopicContainer)}>
-                                    <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
-                                </div>
+                                    <span className={css(styles.tableDataTopic)}>{topic}</span>
+                                </div>))}
                                 {Array.from(new Set(tableData[2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
                                 <>
                                     {tableData[2].topic !== topic ?
@@ -1298,7 +1300,7 @@ const styles = StyleSheet.create({
         width: 'auto',
         minWidth: '25px',
         height: '36px',
-        padding: '0 1.5px',
+        padding: '0 3px',
         fontFamily: 'Lato',
         fontSize: '12px',
         fontWeight: '600',
@@ -1386,6 +1388,7 @@ const styles = StyleSheet.create({
     insteadTopicContainer: {
         display: 'flex',
         alignItems: 'center',
+        flexWrap: 'wrap',
         gap: '2px'
     },
     tableDataTopicContainer: {
@@ -1483,7 +1486,8 @@ const styles = StyleSheet.create({
     lectureRightside: {
         display: 'flex',
         alignItems: 'center',
-        maxWidth: '60%',
+        width: 'fit-content',
+        whiteSpace: 'nowrap',
         gap: '5px'
     },
     lectureInfo: {
