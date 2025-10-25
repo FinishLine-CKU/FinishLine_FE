@@ -151,11 +151,11 @@ function GraduTestPage() {
         if (response.data) {
             const { essentialTable, choiceTable, fusionTable, restTable } = response.data;
             setEssentialGEData(essentialTable);
-            setEssentialGESuccess(essentialTable[essentialTable.length-2].success);
+            setEssentialGESuccess(essentialTable[essentialTable.length-1].success);
             setChoiceGEData(choiceTable);
-            setChoiceGESuccess(choiceTable[choiceTable.length-2].success);
+            setChoiceGESuccess(choiceTable[choiceTable.length-1].success);
             setFusionGEData(fusionTable);
-            setFusionGESuccess(fusionTable[fusionTable?.length-2]?.success);
+            setFusionGESuccess(fusionTable[fusionTable?.length-1]?.success);
             setRestData(restTable);
             setTrinity(essentialTable[essentialTable.length-1].trinity);
         } else {
