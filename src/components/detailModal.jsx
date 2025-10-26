@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { IoClose } from 'react-icons/io5';
+import { FaBedPulse } from 'react-icons/fa6';
 
 function DetailModal({ closeButton, detailModalTitle, detailMainContents }) {
 
@@ -8,7 +10,9 @@ function DetailModal({ closeButton, detailModalTitle, detailMainContents }) {
             <div className={css(styles.container)}>
                 <div className={css(styles.modalContainer)}>
                     <div className={css(styles.closeButtonContainer)}>
-                        <span className={css(styles.modalTitle)}>{detailModalTitle}</span>
+                        <div className={css(styles.modalTitleContainer)}>
+                            {detailModalTitle}
+                        </div>
                         <button className={css(styles.close)} onClick={closeButton}><IoClose className={css(styles.closeIcon)} /></button>
                     </div>
                     <div className={css(styles.mainContents)}>
@@ -42,18 +46,23 @@ const styles = StyleSheet.create({
         border: '1px solid #7A828A',
         borderRadius: '6px',
         zIndex: '1000',
+        maxHeight: '100vh',
+        overflowY: 'auto',
+        '::-webkit-scrollbar': {
+            display: 'none'
+        }
     },
     closeButtonContainer: {
         display: 'flex',
-        padding: '25px 40px 25px 40px',
+        padding: '20px 40px 20px 40px',
         justifyContent: 'space-between',
+        alignItems: 'center',
         borderBottom: '1px solid #E0E0E0'
     },
-    modalTitle: {
-        fontFamily: 'Lato',
-        fontWeight: 'bold',
-        fontSize: '26px',
-        color: '#2B2A28'
+    modalTitleContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '3px'
     },
     close: {
         display: 'flex',
@@ -69,8 +78,6 @@ const styles = StyleSheet.create({
     },
     mainContents: {
         display: 'flex',
-        maxHeight: '90vh',
-        overflowY: 'scroll',
         justifyContent: 'center',
         padding: '25px 40px 30px 40px'
     },

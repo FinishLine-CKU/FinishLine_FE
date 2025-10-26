@@ -180,7 +180,22 @@ function GraduTestPage() {
     return (
         <>
             {detailModalState ? 
-                <DetailModal detailModalTitle="교양 상세 정보" detailMainContents={
+                <DetailModal detailModalTitle={
+                    <>
+                        <span className={css(styles.modalTitle)}>교양 상세 정보</span>
+                        <div className={css(styles.topicContainer)}>
+                            <div className={css(styles.tableDataTopicContainer)}>
+                                <span className={css(styles.tableDataTopic)}>주제</span>
+                            </div>
+                            <div className={css(styles.tableInsteadDataTopicContainer)}>
+                                <span className={css(styles.tableInsteadDataTopic)}>대체 인정과목 주제</span>
+                            </div>
+                            <div className={css(styles.tableChooseDataTopicContainer)}>
+                                <span className={css(styles.tableChooseDataTopic)}>선택 가능 역량</span>
+                            </div>
+                        </div>
+                    </>
+                    } detailMainContents={
                     <>
                         {year < 2023 ?
                             <div className={css(styles.tableContainer)}>
@@ -193,6 +208,9 @@ function GraduTestPage() {
                                     </div>
                                     <div className={css(styles.restTableContainer)}>
                                         <RestTable tableData={restData} />
+                                    </div>
+                                    <div className={css(styles.topicInfoContainer)}>
+                                        <span className={css(styles.calculateTopics)}>교양필수({year > 2019 ? '인성 - 학문도구' : '인성 - 학문기초'}) - 교양선택({year > 2019 ? '균형 - 계열기초 - 인문' : '균형 - 인문중점 - 인문융합'})</span><span className={css(styles.calculateTopicsInfo)}>순서로 계산되었습니다.</span>
                                     </div>
                                 </div>
                             </div>:
@@ -211,6 +229,9 @@ function GraduTestPage() {
                                     </div>
                                     <div className={css(styles.restTableContainer)}>
                                         <RestTable tableData={restData} />
+                                    </div>
+                                    <div className={css(styles.topicInfoContainer)}>
+                                        <span className={css(styles.calculateTopics)}>교양인성 - 교양융합 - 교양기초(소통 - 자기관리)</span><span className={css(styles.calculateTopicsInfo)}>순서로 계산되었습니다.</span>
                                     </div>
                                 </div>
                             </div>
@@ -600,6 +621,69 @@ function GraduTestPage() {
 }
 
 const styles = StyleSheet.create({
+    modalTitle: {
+        fontFamily: 'Lato',
+        fontWeight: 'bold',
+        fontSize: '22px',
+        color: '#2B2A28'
+    },
+    topicContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '2px'
+    },
+    tableDataTopicContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '1px solid #CDD7FB',
+        borderRadius: '20px',
+        backgroundColor: '#EFF2FE',
+        padding: '2px 6px',
+        width: 'fit-content'
+    },
+    tableInsteadDataTopicContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '1px solid rgba(202,202,202,0.5)',
+        borderRadius: '20px',
+        backgroundColor: 'rgba(228,228,228,0.3)',
+        padding: '2px 6px',
+        width: 'fit-content'
+    },
+    tableChooseDataTopicContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '1px solid #B5F2FF',
+        borderRadius: '20px',
+        backgroundColor: '#F1FDFF',
+        padding: '2px 6px',
+        width: 'fit-content'
+    },
+    tableDataTopic: {
+        fontFamily: 'Lato',
+        fontSize: '8px',
+        fontWeight: '700',
+        color: '#3D5286',
+        whiteSpace: 'nowrap'
+    },
+    tableInsteadDataTopic: {
+        fontFamily: 'Lato',
+        fontSize: '8px',
+        fontWeight: '700',
+        color: 'rgba(122,130,138,0.5)',
+        whiteSpace: 'nowrap'
+    },
+    tableChooseDataTopic: {
+        fontFamily: 'Lato',
+        fontSize: '8px',
+        fontWeight: '700',
+        color: '#006277',
+        whiteSpace: 'nowrap'
+    },
     tableContainer: {
         display: 'flex',
         gap: '30px',
@@ -616,6 +700,7 @@ const styles = StyleSheet.create({
     lackLeftTableContainer: {
         display: 'flex',
         width: '288px',
+        height: 'fit-content',
         border: '1px solid #FF4921',
         borderRadius: '10px',
         padding: '20px 25px'
@@ -643,6 +728,25 @@ const styles = StyleSheet.create({
         border: '1px solid #7A828A',
         borderRadius: '10px',
         padding: '20px 25px'
+    },
+    topicInfoContainer: {
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        gap: '5px',
+        marginTop: '-15px'
+    },
+    calculateTopics: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: 'bold',
+        color: '#7A828A'
+    },
+    calculateTopicsInfo: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#7A828A'
     },
     trinityTableContainer: {
         display: 'flex',
