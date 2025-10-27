@@ -147,7 +147,6 @@ function GraduTestPage() {
     };
 
     const detailCheck = async () => {
-        setLoading(true);
         const response = await axios.post('http://127.0.0.1:8000/graduation/ge_detail_view/', {
             student_id: localStorage.getItem('idToken')
         });
@@ -161,9 +160,7 @@ function GraduTestPage() {
             setFusionGESuccess(fusionTable[fusionTable?.length-1]?.success);
             setRestData(restTable);
             setTrinity(essentialTable[essentialTable.length-1].trinity);
-            setLoading(false);
         } else {
-            setLoading(false);
             alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
         }
     };
@@ -171,6 +168,11 @@ function GraduTestPage() {
     const goToDoneLecture = () => {
         navigate("/donelecture");
         window.scrollTo(0, 0);
+    };
+
+    const lodingSecond = () => {
+        setLoading(true)
+        setTimeout(() => {setLoading(false)}, 2000);
     };
 
     useEffect(() => {
@@ -185,7 +187,7 @@ function GraduTestPage() {
     return (
         <>
         {loading && <LoadingComponents />}
-            {detailModalState ? 
+            {detailModalState && !loading? 
                 <DetailModal detailModalTitle={
                     <>
                         <span className={css(styles.modalTitle)}>교양 상세 정보</span>
@@ -422,7 +424,7 @@ function GraduTestPage() {
                                 <span className={css(styles.custom_hr_react)}> / </span>
                                 <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
                             </div>
-                            <div className={css(styles.detailsButtonContainer)}>
+                            <div className={css(styles.detailsButtonContainer)} onClick={lodingSecond}>
                                 <div className={css(styles.detailsButtons)} onClick={openDetailModal}>
                                     <img src={magnifyingGlass} className={css(styles.detailsButtonImage)}></img>
                                     <span className={css(styles.detailsButtonText)} onClick={detailCheck}>상세</span>

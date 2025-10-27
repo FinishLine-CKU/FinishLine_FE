@@ -40,7 +40,7 @@ function App() {
     };
     const openDetailModal = () => {
         document.body.style.overflow = 'hidden';
-        setDetailModalState(true);
+        setTimeout(() => {setDetailModalState(true)} ,2000);
     };
     const closeDetailModal = () => {
         document.body.style.overflow = 'auto';
