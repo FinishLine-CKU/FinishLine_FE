@@ -14,6 +14,7 @@ import sogood from "../assets/images/sogood.png";
 import light from "../assets/images/light.png";
 import magnifyingGlass from "../assets/images/magnifyingGlass.png";
 import axios from 'axios';
+import LoadingComponents from "../components/loadingComponents";
 
 function GraduTestPage() {
     const [major, setMajor] = useState();
@@ -58,6 +59,7 @@ function GraduTestPage() {
     const [fusionGESuccess, setFusionGESuccess] = useState();
 
     const [trinity, setTrinity] = useState();
+    const [loading, setLoading] = useState();
 
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
@@ -145,6 +147,7 @@ function GraduTestPage() {
     };
 
     const detailCheck = async () => {
+        setLoading(true);
         const response = await axios.post('http://127.0.0.1:8000/graduation/ge_detail_view/', {
             student_id: localStorage.getItem('idToken')
         });
@@ -158,7 +161,9 @@ function GraduTestPage() {
             setFusionGESuccess(fusionTable[fusionTable?.length-1]?.success);
             setRestData(restTable);
             setTrinity(essentialTable[essentialTable.length-1].trinity);
+            setLoading(false);
         } else {
+            setLoading(false);
             alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
         }
     };
@@ -179,6 +184,7 @@ function GraduTestPage() {
 
     return (
         <>
+        {loading && <LoadingComponents />}
             {detailModalState ? 
                 <DetailModal detailModalTitle={
                     <>
