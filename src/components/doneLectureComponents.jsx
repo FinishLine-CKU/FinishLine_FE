@@ -34,8 +34,7 @@ export function SubSearchComponents({ subjects, onAdd }) {
                                 <td className={css(styles.yearCell)}>{subject.lecture_type}</td>
                                 <td className={css(styles.yearCell)} title={subject.lecture_topic}>{subject.lecture_topic}</td>
                                 <td className={css(styles.yearCell)}>{subject.credit}</td>
-                                <td className={css(styles.lastCell)}>
-                                </td>
+                                <td className={css(styles.lastCell)}></td>
                             </tr>
                         ))
                     }

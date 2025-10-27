@@ -10,7 +10,6 @@ import UserGuidePage from './pages/userGuidePage';
 import IntroPage from './pages/introPage';
 import MyPage from './pages/myPage';
 import ManageGraduPage from './pages/manageGraduPage';
-import FeatureModal from './components/featureModal';
 import GraduTestPage from './pages/graduTestPage';
 import OneClickTestPage from './pages/oneClickTestPage';
 import ChannelTalk from './utils/channelTalk';
@@ -21,6 +20,7 @@ function App() {
     const [featModalState, setFeatModalState] = useState(false);
     const [featButtonState, setFeatButtonState] = useState(true);
     const [featCloseButton, setFeatCloseButton] = useState(true);
+    const [detailModalState, setDetailModalState] = useState(false);
     const [addSubject, setAddSubject] = useState(0);    // 추가 Context 필요
     const openModal = () => {
         document.body.style.overflow = 'hidden';
@@ -38,6 +38,14 @@ function App() {
         document.body.style.overflow = 'auto';
         setFeatModalState(false);
     };
+    const openDetailModal = () => {
+        document.body.style.overflow = 'hidden';
+        setDetailModalState(true);
+    };
+    const closeDetailModal = () => {
+        document.body.style.overflow = 'auto';
+        setDetailModalState(false);
+    };
 
     useEffect(() => {
         ChannelTalk();
@@ -47,11 +55,10 @@ function App() {
     })
 
     return (
-        <ModalContext.Provider value={{ modalState, setModalState, featModalState, setFeatModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, featCloseButton, setFeatCloseButton, addSubject, setAddSubject }}>
+        <ModalContext.Provider value={{ modalState, setModalState, featModalState, setFeatModalState, detailModalState, setDetailModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, openDetailModal, closeDetailModal, featCloseButton, setFeatCloseButton, addSubject, setAddSubject }}>
             <div className="App">
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/featureModal" element={<FeatureModal />} />
                         <Route path="/signupPage1" element={<SignupPage1 />} />
                         <Route path="/uploadpdf" element={<UploadPdfPage />} />
                         <Route path="/donelecture" element={<DoneLecturePage />} />
