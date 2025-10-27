@@ -1,14 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
 import { MAJOR, SUBMAJORTYPE } from '../pages/signupPage2';
+import { ModalContext } from '../utils/hooks/modalContext';
 import Template from '../components/template';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import GraduChartComponets from "../components/graduChartComponents";
+import DetailModal from '../components/detailModal';
+import { EssentialGETable, ChoiceGETable, HumanismGETable, BasicGETable, FusionGETable, RestTable } from '../components/detailTableComponent';
 import notgood from "../assets/images/notgood.png";
 import sogood from "../assets/images/sogood.png";
 import light from "../assets/images/light.png";
+import magnifyingGlass from "../assets/images/magnifyingGlass.png";
 import axios from 'axios';
 
 function GraduTestPage() {
@@ -44,8 +48,20 @@ function GraduTestPage() {
     const [lackMD, setLackMD] = useState(0);
     const [lackEducation, setLackEducation] = useState(0);
 
+    const [essentialGEData, setEssentialGEData] = useState();
+    const [choiceGEData, setChoiceGEData] = useState();
+    const [fusionGEData, setFusionGEData] = useState();
+    const [restData, setRestData] = useState();
+
+    const [essentialGESuccess, setEssentialGESuccess] = useState();
+    const [choiceGESuccess, setChoiceGESuccess] = useState();
+    const [fusionGESuccess, setFusionGESuccess] = useState();
+
+    const [trinity, setTrinity] = useState();
+
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
+    const { detailModalState, setDetailModalState, openDetailModal, closeDetailModal } = useContext(ModalContext);
 
     const testing = async () => {
         const response = await axios.post('https://finishline-cku.com/graduation/test_major/', {
@@ -104,7 +120,7 @@ function GraduTestPage() {
             student_id : localStorage.getItem('idToken')
         });
         if (response.data) {
-            const { doneMD, doneMDRest, MDStandard, restStandard, lackMD } = response.data
+            const { doneMD, doneMDRest, MDStandard, restStandard, lackMD } = response.data;
             setDoneMD(doneMD)
             setDoneMDRest(doneMDRest)
             setMDStandard(MDStandard)
@@ -120,12 +136,31 @@ function GraduTestPage() {
             student_id: localStorage.getItem('idToken')
         });
         if (response.data) {
-            const { doneEducationRest, lackEducation } = response.data
+            const { doneEducationRest, lackEducation } = response.data;
             setDoneEducationRest(doneEducationRest)
             setLackEducation(lackEducation)
         } else {
             alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
         };
+    };
+
+    const detailCheck = async () => {
+        const response = await axios.post('http://127.0.0.1:8000/graduation/ge_detail_view/', {
+            student_id: localStorage.getItem('idToken')
+        });
+        if (response.data) {
+            const { essentialTable, choiceTable, fusionTable, restTable } = response.data;
+            setEssentialGEData(essentialTable);
+            setEssentialGESuccess(essentialTable[essentialTable.length-1].success);
+            setChoiceGEData(choiceTable);
+            setChoiceGESuccess(choiceTable[choiceTable.length-1].success);
+            setFusionGEData(fusionTable);
+            setFusionGESuccess(fusionTable[fusionTable?.length-1]?.success);
+            setRestData(restTable);
+            setTrinity(essentialTable[essentialTable.length-1].trinity);
+        } else {
+            alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+        }
     };
 
     const goToDoneLecture = () => {
@@ -144,6 +179,67 @@ function GraduTestPage() {
 
     return (
         <>
+            {detailModalState ? 
+                <DetailModal detailModalTitle={
+                    <>
+                        <span className={css(styles.modalTitle)}>교양 상세 정보</span>
+                        <div className={css(styles.topicContainer)}>
+                            <div className={css(styles.tableDataTopicContainer)}>
+                                <span className={css(styles.tableDataTopic)}>주제</span>
+                            </div>
+                            <div className={css(styles.tableInsteadDataTopicContainer)}>
+                                <span className={css(styles.tableInsteadDataTopic)}>대체 인정과목 주제</span>
+                            </div>
+                            <div className={css(styles.tableChooseDataTopicContainer)}>
+                                <span className={css(styles.tableChooseDataTopic)}>선택 가능 역량</span>
+                            </div>
+                        </div>
+                    </>
+                    } detailMainContents={
+                    <>
+                        {year < 2023 ?
+                            <div className={css(styles.tableContainer)}>
+                                <div className={css(essentialGESuccess ? styles.leftTableContainer : styles.lackLeftTableContainer)}>
+                                    <EssentialGETable tableData={essentialGEData} success={essentialGESuccess}/>
+                                </div>
+                                <div className={css(styles.rightTableContainer)}>
+                                    <div className={css(choiceGESuccess ? styles.choiceGETableContainer : styles.lackChoiceGETableContainer)}>
+                                        <ChoiceGETable tableData={choiceGEData} success={choiceGESuccess} />
+                                    </div>
+                                    <div className={css(styles.restTableContainer)}>
+                                        <RestTable tableData={restData} />
+                                    </div>
+                                    <div className={css(styles.topicInfoContainer)}>
+                                        <span className={css(styles.calculateTopics)}>교양필수({year > 2019 ? '인성 - 학문도구' : '인성 - 학문기초'}) - 교양선택({year > 2019 ? '균형 - 계열기초 - 인문' : '균형 - 인문중점 - 인문융합'})</span><span className={css(styles.calculateTopicsInfo)}>순서로 계산되었습니다.</span>
+                                    </div>
+                                </div>
+                            </div>:
+                            <div className={css(styles.tableContainer)}>
+                                <div className={css(essentialGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
+                                    <HumanismGETable tableData={essentialGEData} success={essentialGESuccess} trinity={trinity} />
+                                </div>
+                                <div className={css(styles.trinityRightTableContainer)}>
+                                    <div className={css(styles.basicAndFutionContainer)}>
+                                        <div className={css(choiceGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
+                                            <BasicGETable tableData={choiceGEData} success={choiceGESuccess} trinity={trinity} />
+                                        </div>
+                                        <div className={css(fusionGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
+                                            <FusionGETable tableData={fusionGEData} success={fusionGESuccess} trinity={trinity} />
+                                        </div>
+                                    </div>
+                                    <div className={css(styles.restTableContainer)}>
+                                        <RestTable tableData={restData} />
+                                    </div>
+                                    <div className={css(styles.topicInfoContainer)}>
+                                        <span className={css(styles.calculateTopics)}>교양인성 - 교양융합 - 교양기초(소통 - 자기관리)</span><span className={css(styles.calculateTopicsInfo)}>순서로 계산되었습니다.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </>
+                } closeButton={closeDetailModal} />
+                : null
+            }
             <Header />
             <Template title="졸업요건 검사 결과" />
             <div className={css(styles.columnContainer)}>
@@ -184,10 +280,12 @@ function GraduTestPage() {
                 <div className={css(styles.leftContainer)}>
                     <div className={css(styles.majorContainer)}>
                         <div className={css(styles.majortitleContainer)}>
-                            <span className={css(styles.custom_h)}>전공</span>
-                            <span className={css(styles.userCredit)}>{doneMajor}</span>
-                            <span className={css(styles.custom_hr_react)}> / </span>
-                            <span className={css(styles.custom_h_focus)}>{majorStandard} 학점</span>
+                            <div className={css(styles.leftAlign)}>
+                                <span className={css(styles.custom_h)}>전공</span>
+                                <span className={css(styles.userCredit)}>{doneMajor}</span>
+                                <span className={css(styles.custom_hr_react)}> / </span>
+                                <span className={css(styles.custom_h_focus)}>{majorStandard} 학점</span>
+                            </div>
                         </div>
                         <hr className={css(styles.custom_major_hr)} />
                         {doneMajor >= majorStandard ?
@@ -213,10 +311,12 @@ function GraduTestPage() {
                     {subMajorType ?
                         <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
-                                <span className={css(styles.custom_h)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
-                                <span className={css(styles.userCredit)}>{doneSubMajor}</span>
-                                <span className={css(styles.custom_hr_react)}> / </span>
-                                <span className={css(styles.custom_h_focus)}>{subMajorStandard} 학점</span>
+                                <div className={css(styles.leftAlign)}>
+                                    <span className={css(styles.custom_h)}>{SUBMAJORTYPE.find(item => item.value === subMajorType).label}</span>
+                                    <span className={css(styles.userCredit)}>{doneSubMajor}</span>
+                                    <span className={css(styles.custom_hr_react)}> / </span>
+                                    <span className={css(styles.custom_h_focus)}>{subMajorStandard} 학점</span>
+                                </div>
                             </div>
                             <hr className={css(styles.custom_major_hr)} />
                             {doneSubMajor >= subMajorStandard ?
@@ -244,10 +344,12 @@ function GraduTestPage() {
                     {!MDStandard ? null :
                         <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
-                                <span className={css(styles.custom_h)}>소단위전공</span>
-                                <span className={css(styles.userCredit)}>{doneMD}</span>
-                                <span className={css(styles.custom_hr_react)}> / </span>
-                                <span className={css(styles.custom_h_focus)}>{MDStandard} 학점</span>
+                                <div className={css(styles.leftAlign)}>
+                                    <span className={css(styles.custom_h)}>소단위전공</span>
+                                    <span className={css(styles.userCredit)}>{doneMD}</span>
+                                    <span className={css(styles.custom_hr_react)}> / </span>
+                                    <span className={css(styles.custom_h_focus)}>{MDStandard} 학점</span>
+                                </div>
                             </div>
                             <hr className={css(styles.custom_major_hr)} />
                             {doneMD >= MDStandard ?
@@ -274,10 +376,12 @@ function GraduTestPage() {
                     {!restStandard ? null :
                         <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
-                                <span className={css(styles.custom_h)}>일반선택</span>
-                                <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest}</span>
-                                <span className={css(styles.custom_hr_react)}> / </span>
-                                <span className={css(styles.custom_h_focus)}>{restStandard} 학점</span>
+                                <div className={css(styles.leftAlign)}>
+                                    <span className={css(styles.custom_h)}>일반선택</span>
+                                    <span className={css(styles.userCredit)}>{doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest}</span>
+                                    <span className={css(styles.custom_hr_react)}> / </span>
+                                    <span className={css(styles.custom_h_focus)}>{restStandard} 학점</span>
+                                </div>
                             </div>
                             <hr className={css(styles.custom_major_hr)} />
                             {/* 일반선택 로직 추가 */}
@@ -306,10 +410,18 @@ function GraduTestPage() {
                 <div className={css(styles.rightContainer)}>
                     <div className={css(styles.majorContainer)}>
                         <div className={css(styles.majortitleContainer)}>
-                            <span className={css(styles.custom_h)}>교양</span>
-                            <span className={css(styles.userCredit)}>{doneEssentialGE + doneChoiceGE}</span>
-                            <span className={css(styles.custom_hr_react)}> / </span>
-                            <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
+                            <div className={css(styles.leftAlign)}>
+                                <span className={css(styles.custom_h)}>교양</span>
+                                <span className={css(styles.userCredit)}>{doneEssentialGE + doneChoiceGE}</span>
+                                <span className={css(styles.custom_hr_react)}> / </span>
+                                <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
+                            </div>
+                            <div className={css(styles.detailsButtonContainer)}>
+                                <div className={css(styles.detailsButtons)} onClick={openDetailModal}>
+                                    <img src={magnifyingGlass} className={css(styles.detailsButtonImage)}></img>
+                                    <span className={css(styles.detailsButtonText)} onClick={detailCheck}>상세</span>
+                                </div>
+                            </div>
                         </div>
                         <hr className={css(styles.custom_major_hr)} />
                         <div className={css(styles.generalContainer)}>
@@ -454,10 +566,12 @@ function GraduTestPage() {
                     {!doneEducationRest ? null :
                         <div className={css(styles.majorContainer)}>
                             <div className={css(styles.majortitleContainer)}>
-                                <span className={css(styles.custom_h)}>교직</span>
-                                <span className={css(styles.userCredit)}>{doneEducationRest}</span>
-                                <span className={css(styles.custom_hr_react)}> / </span>
-                                <span className={css(styles.custom_h_focus)}>22 학점</span>
+                                <div className={css(styles.leftAlign)}>
+                                    <span className={css(styles.custom_h)}>교직</span>
+                                    <span className={css(styles.userCredit)}>{doneEducationRest}</span>
+                                    <span className={css(styles.custom_hr_react)}> / </span>
+                                    <span className={css(styles.custom_h_focus)}>22 학점</span>
+                                </div>
                             </div>
                             <hr className={css(styles.custom_major_hr)} />
                             {doneEducationRest >= 22 ?
@@ -507,6 +621,160 @@ function GraduTestPage() {
 }
 
 const styles = StyleSheet.create({
+    modalTitle: {
+        fontFamily: 'Lato',
+        fontWeight: 'bold',
+        fontSize: '22px',
+        color: '#2B2A28'
+    },
+    topicContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '2px'
+    },
+    tableDataTopicContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '1px solid #CDD7FB',
+        borderRadius: '20px',
+        backgroundColor: '#EFF2FE',
+        padding: '2px 6px',
+        width: 'fit-content'
+    },
+    tableInsteadDataTopicContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '1px solid rgba(202,202,202,0.5)',
+        borderRadius: '20px',
+        backgroundColor: 'rgba(228,228,228,0.3)',
+        padding: '2px 6px',
+        width: 'fit-content'
+    },
+    tableChooseDataTopicContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '1px solid #B5F2FF',
+        borderRadius: '20px',
+        backgroundColor: '#F1FDFF',
+        padding: '2px 6px',
+        width: 'fit-content'
+    },
+    tableDataTopic: {
+        fontFamily: 'Lato',
+        fontSize: '8px',
+        fontWeight: '700',
+        color: '#3D5286',
+        whiteSpace: 'nowrap'
+    },
+    tableInsteadDataTopic: {
+        fontFamily: 'Lato',
+        fontSize: '8px',
+        fontWeight: '700',
+        color: 'rgba(122,130,138,0.5)',
+        whiteSpace: 'nowrap'
+    },
+    tableChooseDataTopic: {
+        fontFamily: 'Lato',
+        fontSize: '8px',
+        fontWeight: '700',
+        color: '#006277',
+        whiteSpace: 'nowrap'
+    },
+    tableContainer: {
+        display: 'flex',
+        gap: '30px',
+        width: '100%'
+    },
+    leftTableContainer: {
+        display: 'flex',
+        width: '288px',
+        height: 'fit-content',
+        border: '1px solid #86C46D',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    lackLeftTableContainer: {
+        display: 'flex',
+        width: '288px',
+        height: 'fit-content',
+        border: '1px solid #FF4921',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    rightTableContainer: {
+        display: 'flex',
+        width: '628px',
+        flexDirection: 'column',
+        gap: '30px'
+    },
+    choiceGETableContainer: {
+        display: 'flex',
+        border: '1px solid #86C46D',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    lackChoiceGETableContainer: {
+        display: 'flex',
+        border: '1px solid #FF4921',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    restTableContainer: {
+        display: 'flex',
+        border: '1px solid #7A828A',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    topicInfoContainer: {
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        gap: '5px',
+        marginTop: '-15px'
+    },
+    calculateTopics: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: 'bold',
+        color: '#7A828A'
+    },
+    calculateTopicsInfo: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        color: '#7A828A'
+    },
+    trinityTableContainer: {
+        display: 'flex',
+        minWidth: '262px',
+        maxWidth: '262px',
+        height: 'fit-content',
+        border: '1px solid #86C46D',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    lackTrinityTableContainer: {
+        display: 'flex',
+        minWidth: '262px',
+        maxWidth: '262px',
+        height: 'fit-content',
+        border: '1px solid #FF4921',
+        borderRadius: '10px',
+        padding: '20px 25px'
+    },
+    trinityRightTableContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '30px'
+    },
+    basicAndFutionContainer: {
+        display: 'flex',
+        gap: '30px'
+    },
     columnContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -582,7 +850,13 @@ const styles = StyleSheet.create({
     majortitleContainer: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end'
+    },
+    leftAlign: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-end'
     },
     majorContentsContainer: {
         display: 'flex',
@@ -725,6 +999,32 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: 'black',
         paddingBottom: '2px'
+    },
+    detailsButtonContainer:
+    {
+        display: 'flex',
+    },
+    detailsButtons: {
+        border: '1.3px solid #3D5286',
+        borderRadius: '6px',
+        padding: '6px 10px',
+        color: '#3D5286',
+        cursor: 'pointer',
+        ':active' : {
+            border: '1.3px solid #FFFEFB',
+            color: '#FFFEFB',
+            backgroundColor: '#3D5286',
+            transitionDuration: '0.2s',
+        }
+    },
+    detailsButtonImage: {
+        width: '15px'
+    },
+    detailsButtonText: {
+        fontFamily: 'Lato',
+        fontSize: '15px',
+        fontWeight: '600',
+        paddingLeft: '5px'
     },
     educationInfoContainer: {
         display: 'flex',
