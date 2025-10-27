@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     modalTitleContainer: {
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'flex-end',
         gap: '3px'
     },
     close: {

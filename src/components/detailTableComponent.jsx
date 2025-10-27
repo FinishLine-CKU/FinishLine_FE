@@ -62,7 +62,7 @@ export function EssentialGETable({ tableData, success }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[0]?.standard) <= (tableData[0].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[0]?.standard) <= (tableData[0]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[0]?.standard}학점</td>}
                     </tr>
@@ -93,7 +93,7 @@ export function EssentialGETable({ tableData, success }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[1]?.standard) <= (tableData[1].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[1]?.standard) <= (tableData[1]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[1]?.standard}학점</td>}
                     </tr>
@@ -124,7 +124,7 @@ export function EssentialGETable({ tableData, success }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[2]?.standard) <= (tableData[2].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[2]?.standard) <= (tableData[2]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[2]?.standard}학점</td>}
                     </tr>
@@ -156,7 +156,7 @@ export function EssentialGETable({ tableData, success }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[3]?.standard) <= (tableData[3].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[3]?.standard) <= (tableData[3]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[3]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[3]?.standard}학점</td>}
                     </tr>}
@@ -190,7 +190,7 @@ export function EssentialGETable({ tableData, success }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[tableData.length-4]?.standard) <= (tableData[tableData.length-4].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[tableData.length-4]?.standard) <= (tableData[tableData.length-4]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[tableData.length-4]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[tableData.length-4]?.standard}학점</td>}
                     </tr>
@@ -221,7 +221,7 @@ export function EssentialGETable({ tableData, success }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[tableData.length-3]?.standard) <= (tableData[tableData.length-3].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[tableData.length-3]?.standard) <= (tableData[tableData.length-3]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[tableData.length-3]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[tableData.length-3]?.standard}학점</td>}
                     </tr>
@@ -252,7 +252,7 @@ export function EssentialGETable({ tableData, success }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[tableData.length-2]?.standard) <= (tableData[tableData.length-2].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[tableData.length-2]?.standard) <= (tableData[tableData.length-2]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[tableData.length-2]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[tableData.length-2]?.standard}학점</td>}
                     </tr>
@@ -327,7 +327,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         </div>
                                     </div>))}
                                 </td>
-                                {(tableData[0]?.standard) <= (tableData[0].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                {(tableData[0]?.standard) <= (tableData[0]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                 <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td> :
                                 <td className={css(styles.tableDataLackStandard)}>{tableData[0]?.standard}학점</td>}
                             </tr>
@@ -360,7 +360,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div>
                                         </div>))}
                                     </td>
-                                    {(tableData[1]?.standard) <= (tableData[1].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                    {(tableData[1]?.standard) <= (tableData[1]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                     <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td> :
                                     <td className={css(styles.tableDataLackStandard)}>{tableData[1]?.standard}학점</td>}
                                 </tr>
@@ -391,7 +391,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div>
                                         </div>))}
                                     </td>
-                                    {(tableData[2]?.standard) <= (tableData[2].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                    {(tableData[2]?.standard) <= (tableData[2]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                     <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td> :
                                     <td className={css(styles.tableDataLackStandard)}>{tableData[2]?.standard}학점</td>}
                                 </tr>
@@ -422,7 +422,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div>
                                         </div>))}
                                     </td>
-                                    {(tableData[3]?.standard) <= (tableData[3].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                    {(tableData[3]?.standard) <= (tableData[3]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                     <td className={css(styles.tableDataStandard)}>{tableData[3]?.standard}학점</td> :
                                     <td className={css(styles.tableDataLackStandard)}>{tableData[3]?.standard}학점</td>}
                                 </tr>
@@ -456,7 +456,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         </div>
                                     </div>))}
                                 </td>
-                                {(tableData[4]?.standard) <= (tableData[4].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                {(tableData[4]?.standard) <= (tableData[4]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                 <td className={css(styles.tableDataStandard)}>{tableData[4]?.standard}학점</td> :
                                 <td className={css(styles.tableDataLackStandard)}>{tableData[4]?.standard}학점</td>}
                             </tr> :
@@ -488,7 +488,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         </div>
                                     </div>))}
                                 </td>
-                                {(tableData[1]?.standard) <= (tableData[1].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                {(tableData[1]?.standard) <= (tableData[1]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                 <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td> :
                                 <td className={css(styles.tableDataLackStandard)}>{tableData[1]?.standard}학점</td>}
                             </tr>}
@@ -521,7 +521,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div>
                                         </div>))}
                                     </td>
-                                    {(tableData[2]?.standard) <= (tableData[2].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                    {(tableData[2]?.standard) <= (tableData[2]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                     <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td> :
                                     <td className={css(styles.tableDataLackStandard)}>{tableData[2]?.standard}학점</td>}
                                 </tr>
@@ -552,7 +552,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div>
                                         </div>))}
                                     </td>
-                                    {(tableData[3]?.standard) <= (tableData[3].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                    {(tableData[3]?.standard) <= (tableData[3]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                     <td className={css(styles.tableDataStandard)}>{tableData[3]?.standard}학점</td> :
                                     <td className={css(styles.tableDataLackStandard)}>{tableData[3]?.standard}학점</td>}
                                 </tr>
@@ -583,7 +583,7 @@ export function ChoiceGETable({ tableData, success }) {
                                             </div>
                                         </div>))}
                                     </td>
-                                    {(tableData[4]?.standard) <= (tableData[4].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                    {(tableData[4]?.standard) <= (tableData[4]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                     <td className={css(styles.tableDataStandard)}>{tableData[4]?.standard}학점</td> :
                                     <td className={css(styles.tableDataLackStandard)}>{tableData[4]?.standard}학점</td>}
                                 </tr>
@@ -627,7 +627,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         </div>
                                     </div>))}
                                 </td>
-                                {(tableData[5]?.standard) <= (tableData[5].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                {(tableData[5]?.standard) <= (tableData[5]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                 <td className={css(styles.tableDataStandard)}>{tableData[5]?.standard}학점</td> :
                                 <td className={css(styles.tableDataLackStandard)}>{tableData[5]?.standard}학점</td>}
                             </tr>
@@ -658,7 +658,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         </div>
                                     </div>))}
                                 </td>
-                                {(tableData[6]?.standard) <= (tableData[6].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                {(tableData[6]?.standard) <= (tableData[6]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                 <td className={css(styles.tableDataStandard)}>{tableData[6]?.standard}학점</td> :
                                 <td className={css(styles.tableDataLackStandard)}>{tableData[6]?.standard}학점</td>}
                             </tr>
@@ -689,7 +689,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         </div>
                                     </div>))}
                                 </td>
-                                {(tableData[7]?.standard) <= (tableData[7].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                {(tableData[7]?.standard) <= (tableData[7]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                 <td className={css(styles.tableDataStandard)}>{tableData[7]?.standard}학점</td> :
                                 <td className={css(styles.tableDataLackStandard)}>{tableData[7]?.standard}학점</td>}
                             </tr>
@@ -720,7 +720,7 @@ export function ChoiceGETable({ tableData, success }) {
                                         </div>
                                     </div>))}
                                 </td>
-                                {(tableData[8]?.standard) <= (tableData[8].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                                {(tableData[8]?.standard) <= (tableData[8]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                                 <td className={css(styles.tableDataStandard)}>{tableData[8]?.standard}학점</td> :
                                 <td className={css(styles.tableDataLackStandard)}>{tableData[8]?.standard}학점</td>}
                             </tr>
@@ -793,7 +793,7 @@ export function HumanismGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[0]?.standard) <= (tableData[0].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[0]?.standard) <= (tableData[0]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[0]?.standard}학점</td>}
                     </tr>
@@ -825,7 +825,7 @@ export function HumanismGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[1]?.standard) <= (tableData[1].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[1]?.standard) <= (tableData[1]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[1]?.standard}학점</td>}
                     </tr>}
@@ -856,7 +856,7 @@ export function HumanismGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[tableData.length-2]?.standard) <= (tableData[tableData.length-2].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[tableData.length-2]?.standard) <= (tableData[tableData.length-2]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[tableData.length-2]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[tableData.length-2]?.standard}학점</td>}
                     </tr>
@@ -928,7 +928,7 @@ export function BasicGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[0]?.standard) <= (tableData[0].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[0]?.standard) <= (tableData[0]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[0]?.standard}학점</td>}
                     </tr>
@@ -959,7 +959,7 @@ export function BasicGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[1]?.standard) <= (tableData[1].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[1]?.standard) <= (tableData[1]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[1]?.standard}학점</td>}
                     </tr>
@@ -992,7 +992,7 @@ export function BasicGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[2]?.standard) <= (tableData[2].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[2]?.standard) <= (tableData[2]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[2]?.standard}학점</td>}
                     </tr>
@@ -1024,7 +1024,7 @@ export function BasicGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[3]?.standard) <= (tableData[3].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[3]?.standard) <= (tableData[3]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[3]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[3]?.standard}학점</td>}
                     </tr>}
@@ -1056,7 +1056,7 @@ export function BasicGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[4]?.standard) <= (tableData[4].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[4]?.standard) <= (tableData[4]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[4]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[4]?.standard}학점</td>}
                     </tr>}
@@ -1128,7 +1128,7 @@ export function FusionGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[0]?.standard) <= (tableData[0].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[0]?.standard) <= (tableData[0]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[0]?.standard}학점</td>}
                     </tr>
@@ -1161,7 +1161,7 @@ export function FusionGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[1]?.standard) <= (tableData[1].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[1]?.standard) <= (tableData[1]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[1]?.standard}학점</td>}
                     </tr>
@@ -1194,7 +1194,7 @@ export function FusionGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[2]?.standard) <= (tableData[2].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[2]?.standard) <= (tableData[2]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[2]?.standard}학점</td>}
                     </tr>
@@ -1221,7 +1221,7 @@ export function FusionGETable({ tableData, success, trinity }) {
                                 </div>
                             </div>))}
                         </td>
-                        {(tableData[tableData.length-2]?.standard) <= (tableData[tableData.length-2].subject.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        {(tableData[tableData.length-2]?.standard) <= (tableData[tableData.length-2]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
                         <td className={css(styles.tableDataStandard)}>{tableData[tableData.length-2]?.standard}학점</td> :
                         <td className={css(styles.tableDataLackStandard)}>{tableData[tableData.length-2]?.standard}학점</td>}
                     </tr>)}
