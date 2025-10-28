@@ -417,9 +417,9 @@ function GraduTestPage() {
                                 <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
                             </div>
                             <div className={css(styles.detailsButtonContainer)}>
-                                <div className={css(styles.detailsButtons)} onClick={openDetailModal}>
+                                <div className={css(styles.detailsButtons)} onClick={() => {detailCheck(); openDetailModal();}}>
                                     <img src={magnifyingGlass} className={css(styles.detailsButtonImage)}></img>
-                                    <span className={css(styles.detailsButtonText)} onClick={detailCheck}>상세</span>
+                                    <span className={css(styles.detailsButtonText)}>상세</span>
                                 </div>
                             </div>
                         </div>
