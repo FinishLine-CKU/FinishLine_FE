@@ -14,7 +14,6 @@ import sogood from "../assets/images/sogood.png";
 import light from "../assets/images/light.png";
 import magnifyingGlass from "../assets/images/magnifyingGlass.png";
 import axios from 'axios';
-import LoadingComponents from "../components/loadingComponents";
 
 function GraduTestPage() {
     const [major, setMajor] = useState();
@@ -59,7 +58,6 @@ function GraduTestPage() {
     const [fusionGESuccess, setFusionGESuccess] = useState();
 
     const [trinity, setTrinity] = useState();
-    const [loading, setLoading] = useState();
 
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
@@ -170,11 +168,6 @@ function GraduTestPage() {
         window.scrollTo(0, 0);
     };
 
-    const lodingSecond = () => {
-        setLoading(true)
-        setTimeout(() => {setLoading(false)}, 2000);
-    };
-
     useEffect(() => {
         testing();
         localStorage.setItem('testing', true);
@@ -186,8 +179,7 @@ function GraduTestPage() {
 
     return (
         <>
-        {loading && <LoadingComponents />}
-            {detailModalState && !loading? 
+            {detailModalState ? 
                 <DetailModal detailModalTitle={
                     <>
                         <span className={css(styles.modalTitle)}>교양 상세 정보</span>
@@ -424,10 +416,10 @@ function GraduTestPage() {
                                 <span className={css(styles.custom_hr_react)}> / </span>
                                 <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
                             </div>
-                            <div className={css(styles.detailsButtonContainer)} onClick={lodingSecond}>
-                                <div className={css(styles.detailsButtons)} onClick={openDetailModal}>
+                            <div className={css(styles.detailsButtonContainer)} onClick={() => {detailCheck(); openDetailModal();}}>
+                                <div className={css(styles.detailsButtons)}>
                                     <img src={magnifyingGlass} className={css(styles.detailsButtonImage)}></img>
-                                    <span className={css(styles.detailsButtonText)} onClick={detailCheck}>상세</span>
+                                    <span className={css(styles.detailsButtonText)}>상세</span>
                                 </div>
                             </div>
                         </div>
