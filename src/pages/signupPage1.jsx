@@ -38,10 +38,10 @@ function SignupPage1() {
                     studentId: studentId,
                     studentPW: studentPW,
                 });
-                if (response.data.student_id && response.data.name && response.data.major) {
-                    const { student_id, name, major } = response.data;
+                if (response.data.student_id && response.data.name && response.data.major && response.data.college) {
+                    const { student_id, name, major, college } = response.data;
                     closeFeatModal();
-                    navigate('/signupPage2', { state: { student_id, name, major } });
+                    navigate('/signupPage2', { state: { student_id, name, major, college } });
                     window.scrollTo(0, 0);
                 } else {
                     const { error } = response.data;
@@ -106,7 +106,7 @@ function SignupPage1() {
                             <b>- 학번 : <b className={css(styles.emphasizeText)}>18 ~ 25학번</b></b><br /><br />
                             3. <b className={css(styles.emphasizeText)}>교직이수자, 편입학 대상자</b>의 졸업검사 기준은 포함되지 않아 검사가 불가능합니다.<br /><br />
                             4. 원활한 검사를 위해 <b className={css(styles.emphasizeText)}>PC환경</b>에서 진행할 것을 권장합니다.<br /><br />
-                            5. 검사 기준은 <b className={css(styles.emphasizeText)}>2025학년도 1학기</b> 교육과정을 기준으로 합니다.<br /><br />
+                            5. 검사 기준은 <b className={css(styles.emphasizeText)}>2025학년도 2학기</b> 교육과정을 기준으로 합니다.<br /><br />
                             6. 졸업요건 기준이 잘못 설정되거나, 오류 발생 시 <a href="https://docs.google.com/forms/d/15ueJU2u7EiEBA8uVJI2hExoQqREngYg23wntCTzBZhM/edit#responses" target="_blank" className={css(styles.feedback)}>하단 폼 링크</a>를 통해 피드백 부탁드립니다.<br /><br />
                         </p>
                         <span className={css(styles.contentTitle)}>개인정보처리방침</span>

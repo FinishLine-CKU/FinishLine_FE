@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import { ModalContext } from '../utils/hooks/modalContext';
@@ -513,15 +513,17 @@ function SignupPage2() {
     const [error, setError] = useState('');
     const [checkError, setCheckError] = useState('');
     const [microDegree, setMicroDegree] = useState('');
+    const [majorMap, setMajorMap] = useState([]);
+    const [MDMap, setMDMap] = useState([]);
     const navigate = useNavigate();
     const { modalState, openModal, closeModal } = useContext(ModalContext);
     const location = useLocation();
-    const { student_id, name, major } = location.state;
+    const { student_id, name, major, college } = location.state;
 
     // 추가 전공 선택 (MAJOR)
     const checkMajor = (e) => {
         const input = e.target.value
-        if (input === MAJOR.find(item => item.label === major).value) {
+        if (input === majorMap.find(item => item.major_label === major).major_code) {
             alert('주전공과 동일한 전공은 선택할 수 없습니다.');
             e.target.value = '';
             setAdditionalMajor(e.target.value);
@@ -572,7 +574,7 @@ function SignupPage2() {
         try {
             const response = await axios.post('https://finishline-cku.com/user/register_info/', {
                 name: name,
-                major: MAJOR.find(item => item.label === major || item.contents.includes(major))?.value || null,
+                major: majorMap.find(item => item.major_label === major || item.major_label.includes(major))?.major_code || null,
                 student_id: student_id,
                 additionalMajorType: additionalMajorType,
                 additionalMajor: additionalMajor,
@@ -601,6 +603,21 @@ function SignupPage2() {
             };
         };
     };
+    const majorMapping = async () => {
+      const response = await axios.get('http://127.0.0.1:8000/user/major_mapping/');
+      if (response.data) {
+          const { majors, MDs } = response.data;
+          setMajorMap(majors);
+          setMDMap(MDs);
+      } else {
+          alert("학과 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+      };
+  };
+
+  useEffect(() => {
+    majorMapping();
+  }, [])
+
     return (
         <>
             {modalState ?
@@ -634,16 +651,16 @@ function SignupPage2() {
                             {additionalMajorType ? (
                                 <>
                                     <option value="">선택</option>
-                                    {MAJOR.map((item) => (
-                                        <option value={item.value}>{item.label}</option>
+                                    {majorMap.map((item) => (
+                                        <option value={item.major_code} disabled={college !== "사범대학" && (item.college === '사범대학' ||  item.college === '의과대학')}>{item.major_label}</option>
                                     ))}
                                 </>) : (<option value=""></option>)}
                         </select>
                         <label className={css(styles.infoLable)}>소단위전공</label>
                         <select className={css(styles.majorSelect)} onChange={(e) => setMicroDegree(e.target.value)}>
                             <option value="">해당 없음</option>
-                            {MICRO_DEGREE.map((item) => (
-                                <option value={item.value}>{item.label}</option>
+                            {MDMap.map((item) => (
+                                <option value={item.major_code}>{item.major_label}</option>
                             ))}
                         </select>
                         <div className={css(styles.pwLabelSpace)}>

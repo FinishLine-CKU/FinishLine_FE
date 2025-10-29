@@ -8,19 +8,32 @@ import success from '../assets/images/success.png';
 Chart.register(ArcElement, Tooltip, Legend);
 
 const GraduChartComponenets = ({ earned, total }) => {
-    var remaining = total - earned;
+    let remaining = total - earned;
     if (remaining < 0) {
         remaining = 0
     };
+
+let colors;
+let hoverColors;
+
+if (localStorage.getItem('lackTotal') === null) {
+    // 부족 영역 없음
+    colors = ["#FF8EA8", "#E0E0E0"];
+    hoverColors = ['#EA7175', '#BDBDBD'];
+} else {
+    // // 부족 영역이 있을 때
+    colors = ["#3D5286", "#E0E0E0"];
+    hoverColors = ["#3D5286", "#BDBDBD"];
+}
+
 
     const data = {
         labels: ["취득 학점", "남은 학점"],
         datasets: [
             {
                 data: [earned, remaining],
-                backgroundColor: remaining > 0 ? ["#3D5286", "#E0E0E0"] : ["#FF8EA8", '#E0E0E0'],
-                hoverBackgroundColor: remaining > 0 ? ["#3D5286", "#BDBDBD"] : ['#EA7175', '#BDBDBD'],
-
+                backgroundColor: colors,
+                hoverBackgroundColor: hoverColors,
                 rotation: 225,
                 circumference: 270,
                 borderRadius: [50, 50, 0, 0],
@@ -46,14 +59,14 @@ const GraduChartComponenets = ({ earned, total }) => {
         <div className={css(styles.container)}>
             <Doughnut data={data} options={options} />
 
-            {earned >= total ?
+            {earned >= total && !localStorage.getItem('lackTotal') ?
                 <>
                     <img src={bouquet} alt="학생" className={css(styles.bouquet)} />
                     <img src={success} alt="졸업학생" className={css(styles.success)} />
                 </>
                 : <img src={graduatedstudent} alt="학생" className={css(styles.studentImg)} />}
             <div className={css(styles.statContainer)}>
-                {earned >= total ?
+                {earned >= total && !localStorage.getItem('lackTotal') ?
                     <span className={css(styles.successEarn)}>{earned}</span>
                     : <span className={css(styles.earn)}>{earned}</span>}
                 <span className={css(styles.standard)}> / {total} 학점</span>
