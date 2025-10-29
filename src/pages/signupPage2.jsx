@@ -604,7 +604,7 @@ function SignupPage2() {
         };
     };
     const majorMapping = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/user/major_mapping/');
+      const response = await axios.get('https://finishline-cku.com/user/major_mapping/');
       if (response.data) {
           const { majors, MDs } = response.data;
           setMajorMap(majors);
