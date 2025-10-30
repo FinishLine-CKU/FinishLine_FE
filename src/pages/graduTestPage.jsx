@@ -19,7 +19,7 @@ function GraduTestPage() {
     const [major, setMajor] = useState();
     const [subMajorType, setSubMajorType] = useState();
 
-    const [doneMajor, setDoneMajor] = useState();  // user_major => doneMajor
+    const [doneMajor, setDoneMajor] = useState(0);  // user_major => doneMajor
     const [doneSubMajor, setDoneSubMajor] = useState(0);  // user_sub_major => doneSubMajor
     const [doneEssentialGE, setDoneEssentialGE] = useState(0);  // completeEsseCredit => doneEssentialGE
     const [doneChoiceGE, setDoneChoiceGE] = useState(0);  // completeChoiceCredit => doneChoiceGE
@@ -31,16 +31,16 @@ function GraduTestPage() {
     const [doneEducationRest, setDoneEducationRest] = useState(0);
     const [doneRest, setDoneRest] = useState(0);  // done_rest => doneRest
 
-    const [totalStandard, setTotalStandard] = useState();  // total_credit => totalStandard
-    const [majorStandard, setMajorStandard] = useState();  // major_credit => majorStandard
-    const [subMajorStandard, setSubMajorStandard] = useState();  // sub_major_credit => subMajorStandard
-    const [essentialGEStandard, setEssentialGEStandard] = useState();  // general_essential_credit => essentialGEStandard
-    const [choiceGEStandard, setChoiceGEStandard] = useState();  // general_selection_credit => choiceGEStandard
+    const [totalStandard, setTotalStandard] = useState(0);  // total_credit => totalStandard
+    const [majorStandard, setMajorStandard] = useState(0);  // major_credit => majorStandard
+    const [subMajorStandard, setSubMajorStandard] = useState(0);  // sub_major_credit => subMajorStandard
+    const [essentialGEStandard, setEssentialGEStandard] = useState(0);  // general_essential_credit => essentialGEStandard
+    const [choiceGEStandard, setChoiceGEStandard] = useState(0);  // general_selection_credit => choiceGEStandard
     const [MDStandard, setMDStandard] = useState(0);
     const [restStandard, setRestStandard] = useState(0);  // rest_credit => restStandard
 
-    const [lackMajor, setLackMajor] = useState(); // need_major => lackMajor
-    const [lackSubMajor, setLackSubMajor] = useState();  // need_sub_major => lackSubMajor
+    const [lackMajor, setLackMajor] = useState(0); // need_major => lackMajor
+    const [lackSubMajor, setLackSubMajor] = useState(0);  // need_sub_major => lackSubMajor
     const [lackEssentialGE, setLackEssentialGE] = useState(0);  // needEsseCredit => lackEssentialGE
     const [lackEssentialGETopic, setLackEssentialGETopic] = useState({});  // needNessArea => lackEssentialGETopic
     const [lackChoiceGE, setLackChoiceGE] = useState(0);  // needChoiceCredit => lackChoiceGE
@@ -251,7 +251,7 @@ function GraduTestPage() {
                 <GraduChartComponets earned={doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajorRest + doneEducationRest + doneRest} total={totalStandard} />
                 <div className={css(styles.textContainer)}>
                     <div>
-                        {lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD <= 0 ?
+                        {lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) <= 0 ?
                             <>
                                 <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
                                 {localStorage.removeItem('lackTotal')}
