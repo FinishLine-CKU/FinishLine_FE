@@ -18,8 +18,8 @@ import { FaCircleQuestion } from "react-icons/fa6";
 import { IoSearchCircleSharp } from "react-icons/io5";
 
 const searchType = [
-    {value : "searchCode" , label : "과목코드"},
     {value : "searchName" , label : "과목명"},
+    {value : "searchCode" , label : "과목코드"}
 ]
 
 const searchSemester = [
