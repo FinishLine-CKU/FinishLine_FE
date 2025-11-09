@@ -4,6 +4,7 @@ import SideBar from '../components/sideBar';
 import Template from '../components/template';
 import Footer from '../components/footer';
 import { SUBMAJORTYPE } from '../pages/signupPage2';
+import axios from 'axios';
 
 function ManageGraduPage() {
     const [visibleTable, setVisibleTable] = useState(false);
@@ -166,7 +167,7 @@ function ManageGraduPage() {
                                 </select>
                                 <select className={css(styles.settingMajor)} value={majorDB} onChange={(e) => setMajorDB(e.target.value)}>
                                     <option value="">전공 설정</option>
-                                    {MAJOR.map((item) => (
+                                    {majorMap.map((item) => (
                                         <option value={item.value}>{item.label}</option>
                                     ))}
                                 </select>
