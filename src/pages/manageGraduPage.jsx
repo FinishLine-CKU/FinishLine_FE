@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 import SideBar from '../components/sideBar';
 import Template from '../components/template';
 import Footer from '../components/footer';
-import { MAJOR, SUBMAJORTYPE, MICRO_DEGREE } from '../pages/signupPage2';
+import { SUBMAJORTYPE } from '../pages/signupPage2';
 
 function ManageGraduPage() {
     const [visibleTable, setVisibleTable] = useState(false);
@@ -20,12 +20,29 @@ function ManageGraduPage() {
     const [addMajorCredit, setAddMajorCredit] = useState('');
     const [microDegreeCredit, setMicroDegreeCredit] = useState('');
     const [totalCredit, setTotalCredit] = useState('0');
+    const [majorMap, setMajorMap] = useState([]);
+    const [MDMap, setMDMap] = useState([]);
+
     const creatTable = () => {
         year && major ? setVisibleTable(true) : alert('등록년도와 전공을 선택해주세요.');
         if (visibleTable) {
             alert('이미 테이블이 생성되어있습니다.');
         }
     };
+    const majorMapping = async () => {
+        const response = await axios.get('http://127.0.0.1:8000/user/major_mapping/');
+        if (response.data) {
+            const { majors, MDs } = response.data;
+            setMajorMap(majors);
+            setMDMap(MDs);
+        } else {
+            alert("학과 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+        };
+    };
+    
+    useEffect(() => {
+        majorMapping();
+    }, [])
     useEffect(() => {
         if (!additionalMajor) {
             setAddMajorCredit(0);
@@ -63,8 +80,8 @@ function ManageGraduPage() {
                                     </select>
                                     <select className={css(styles.settingMajor)} value={major} onChange={(e) => { if (visibleTable && !e.target.value) { alert('작업 중인 졸업요건이 존재합니다. 등록을 마무리해주세요.'); return; } setMajor(e.target.value); }}>
                                         <option value="">전공 선택</option>
-                                        {MAJOR.map((item) => (
-                                            <option value={item.value}>{item.label}</option>
+                                        {majorMap.map((item) => (
+                                            <option value={item.major_code}>{item.major_label}</option>
                                         ))}
                                     </select>
                                     <select className={css(styles.settingAdditionalMajor)} value={additionalMajor} onChange={(e) => setAdditionalMajor(e.target.value)}>
@@ -75,8 +92,8 @@ function ManageGraduPage() {
                                     </select>
                                     <select className={css(styles.settingMicroDegerr)} value={microDegree} onChange={(e) => setMicroDegree(e.target.value)}>
                                         <option value="">소단위 전공 선택</option>
-                                        {MICRO_DEGREE.map((item) => (
-                                            <option value={item.value}>{item.label}</option>
+                                        {MDMap.map((item) => (
+                                            <option value={item.major_code}>{item.major_label}</option>
                                         ))}
                                     </select>
                                 </div>
@@ -85,8 +102,8 @@ function ManageGraduPage() {
                             {visibleTable ?
                                 <div className={css(styles.contentContainer)}>
                                     <span className={css(styles.tabelTitle)}>
-                                        {year}학년도 {major ? MAJOR.find(item => item.value === major).label : null}
-                                        {additionalMajor ? microDegree ? ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label} + ${MICRO_DEGREE.find(item => item.value === microDegree).label})` : ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label})` : microDegree ? ` (${MICRO_DEGREE.find(item => item.value === microDegree).label})` : null}
+                                        {year}학년도 {major ? majorMap.find(item => item.major_code === major).major_label : null}
+                                        {additionalMajor ? microDegree ? ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label} + ${MDMap.find(item => item.major_code === microDegree).major_label})` : ` (${SUBMAJORTYPE.find(item => item.value === additionalMajor).label})` : microDegree ? ` (${MDMap.find(item => item.major_code === microDegree).major_label})` : null}
                                     </span>
                                     <table className={css(styles.tableLayout)}>
                                         <thead>
