@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
 import { ModalContext } from '../utils/hooks/modalContext';
 import { DoneSubComponents } from '../components/doneLectureComponents';
-import { MAJOR, MICRO_DEGREE, SUBMAJORTYPE } from '../pages/signupPage2';
+import { SUBMAJORTYPE } from '../pages/signupPage2';
 import axios from 'axios';
 import Header from '../components/header';
 import Template from '../components/template';
@@ -28,10 +28,12 @@ function MyPage() {
     const [removeInfoCheck, setRemoveInfoCheck] = useState(false);
     const [successChangePW, setSuccessChangePW] = useState(false);
     const [myLectureList, setMyLectureList] = useState([]);
+    const [majorMap, setMajorMap] = useState([]);
+    const [MDMap, setMDMap] = useState([]);
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
     const { modalState, featModalState, openModal, closeModal, openFeatModal, closeFeatModal, setFeatButtonState, setFeatCloseButton } = useContext(ModalContext);
-    
+
     const myInfo = async () => {
         const response = await axios.post('http://127.0.0.1:8000/user/my_info/', {
             idToken: localStorage.getItem('idToken')
@@ -262,12 +264,23 @@ function MyPage() {
     const goFirst = () => {
         alert('기이수 과목 등록을 먼저 진행해주세요.');
     };
+    const majorMapping = async () => {
+        const response = await axios.get('http://127.0.0.1:8000/user/major_mapping/');
+        if (response.data) {
+            const { majors, MDs } = response.data;
+            setMajorMap(majors);
+            setMDMap(MDs);
+        } else {
+            alert("학과 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+        };
+    };
 
     useEffect(() => {
         myInfo();
         myLectureUpdate();
         setFeatCloseButton(true);
         lackCredit();
+        majorMapping();
     }, []);
 
     useEffect(() => {
@@ -313,15 +326,15 @@ function MyPage() {
                                         sub_major ? (
                                             <>
                                                 <option value="">선택</option>
-                                                {MAJOR.map((item) => (
-                                                    <option value={item.value} selected={item.value === sub_major ? true : undefined}>{item.label}</option>
+                                                {majorMap.map((item) => (
+                                                    <option value={item.major_code} disabled={(majorMap.find(item => item.major_code === major)?.college || "일반대학") !== "사범대학" && (item.college === '사범대학' ||  item.college === '의과대학')} selected={item.major_code === sub_major ? true : undefined}>{item.major_label}</option>
                                                 ))}
                                             </>)
                                             : (
                                                 <>
                                                     <option value="">선택</option>
-                                                    {MAJOR.map((item) => (
-                                                        <option value={item.value}>{item.label}</option>
+                                                    {majorMap.map((item) => (
+                                                        <option value={item.major_code} disabled={(majorMap.find(item => item.major_code === major)?.college || "일반대학") !== "사범대학" && (item.college === '사범대학' ||  item.college === '의과대학')}>{item.major_label}</option>
                                                     ))}
                                                 </>)
                                         : (<option value=""></option>)}
@@ -331,14 +344,14 @@ function MyPage() {
                                     {micro_degree ?
                                         <>
                                             <option value="">해당 없음</option>
-                                            {MICRO_DEGREE.map((item) => (
-                                                <option value={item.value} selected={item.value === micro_degree ? true : undefined}>{item.label}</option>
+                                            {MDMap.map((item) => (
+                                                <option value={item.major_code} selected={item.major_code === micro_degree ? true : undefined}>{item.major_label}</option>
                                             ))}
                                         </>
                                         : <>
                                             <option value="">해당 없음</option>
-                                            {MICRO_DEGREE.map((item) => (
-                                                <option value={item.value}>{item.label}</option>
+                                            {MDMap.map((item) => (
+                                                <option value={item.major_code}>{item.major_label}</option>
                                             ))}
                                         </>
                                     }
@@ -387,7 +400,7 @@ function MyPage() {
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>학과</span>
-                            <span className={css(styles.content)}>{MAJOR.find(item => item.value === major)?.label || major}</span>
+                            <span className={css(styles.content)}>{majorMap.find(item => item.major_code === major)?.major_label || major}</span>
                         </div>
                         <div className={css(styles.contentContainer)}>
                             <span className={css(styles.contentTitle)}>학번</span>
@@ -396,13 +409,13 @@ function MyPage() {
                         {sub_major && sub_major_type ?
                             <div className={css(styles.contentContainer)}>
                                 <span className={css(styles.contentTitle)}>{SUBMAJORTYPE.find(item => item.value === sub_major_type)?.label || sub_major_type}</span>
-                                <span className={css(styles.content)}>{MAJOR.find(item => item.value === sub_major)?.label || sub_major}</span>
+                                <span className={css(styles.content)}>{majorMap.find(item => item.major_code === sub_major)?.major_label || sub_major}</span>
                             </div>
                             : null}
                         {micro_degree ?
                             <div className={css(styles.contentContainer)}>
                                 <span className={css(styles.contentTitle)}>소단위전공</span>
-                                <span className={css(styles.content)}>{MICRO_DEGREE.find(item => item.value === micro_degree)?.label || micro_degree}</span>
+                                <span className={css(styles.content)}>{MDMap.find(item => item.major_code === micro_degree)?.major_label || micro_degree}</span>
                             </div>
                             : null}
                     </div>
