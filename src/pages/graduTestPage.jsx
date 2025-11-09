@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
-import { MAJOR, SUBMAJORTYPE } from '../pages/signupPage2';
+import { SUBMAJORTYPE } from '../pages/signupPage2';
 import { ModalContext } from '../utils/hooks/modalContext';
 import Template from '../components/template';
 import Header from '../components/header';
@@ -58,6 +58,8 @@ function GraduTestPage() {
     const [fusionGESuccess, setFusionGESuccess] = useState();
 
     const [trinity, setTrinity] = useState();
+    const [majorMap, setMajorMap] = useState([]);
+    const [MDMap, setMDMap] = useState([]);
 
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
@@ -168,6 +170,17 @@ function GraduTestPage() {
         window.scrollTo(0, 0);
     };
 
+    const majorMapping = async () => {
+        const response = await axios.get('http://127.0.0.1:8000/user/major_mapping/');
+        if (response.data) {
+            const { majors, MDs } = response.data;
+            setMajorMap(majors);
+            setMDMap(MDs);
+        } else {
+            alert("학과 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+        };
+    };
+
     useEffect(() => {
         testing();
         localStorage.setItem('testing', true);
@@ -175,6 +188,7 @@ function GraduTestPage() {
         localStorage.removeItem('tryAgainTest');
         microDegreeCheck();
         educationCheck();
+        majorMapping();
     }, []);
 
     return (
@@ -247,7 +261,7 @@ function GraduTestPage() {
                     <p className={css(styles.whole)}>전체</p>
                     <hr className={css(styles.custom_hr)} />
                 </div>
-                <span className={css(styles.custom_result_hr)}> {MAJOR.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</span>
+                <span className={css(styles.custom_result_hr)}> {majorMap.find(item => item.major_code === major)?.major_label || major} {localStorage.getItem('name')}님의 결과입니다</span>
                 <GraduChartComponets earned={doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajorRest + doneEducationRest + doneRest} total={totalStandard} />
                 <div className={css(styles.textContainer)}>
                     <div>

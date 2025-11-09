@@ -167,13 +167,11 @@ function MyPage() {
             setError('비밀번호 필수 입력');
         };
     };
-
     const enterSubmit = (e) => {
         if (e.key === 'Enter') {
             passwordCheck();
         }
     };
-
     const enterSubmitDone = (e) => {
         const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!#^%*?&])[a-zA-Z\d@$!#^%*?&]{8,20}$/;
         if (e.key === 'Enter') {
@@ -189,7 +187,6 @@ function MyPage() {
             }
         }
     };
-
     const saveNewPassword = () => {
         if (checkPassword !== '') {
             if (error === '' && checkError === '') {
