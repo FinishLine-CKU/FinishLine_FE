@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
-import { MAJOR, SUBMAJORTYPE } from '../pages/signupPage2';
+import { SUBMAJORTYPE } from '../pages/signupPage2';
 import { ModalContext } from '../utils/hooks/modalContext';
 import Template from '../components/template';
 import Header from '../components/header';
@@ -58,6 +58,8 @@ function GraduTestPage() {
     const [fusionGESuccess, setFusionGESuccess] = useState();
 
     const [trinity, setTrinity] = useState();
+    const [majorMap, setMajorMap] = useState([]);
+    const [MDMap, setMDMap] = useState([]);
 
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
@@ -168,6 +170,17 @@ function GraduTestPage() {
         window.scrollTo(0, 0);
     };
 
+    const majorMapping = async () => {
+        const response = await axios.get('http://127.0.0.1:8000/user/major_mapping/');
+        if (response.data) {
+            const { majors, MDs } = response.data;
+            setMajorMap(majors);
+            setMDMap(MDs);
+        } else {
+            alert("학과 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+        };
+    };
+
     useEffect(() => {
         testing();
         localStorage.setItem('testing', true);
@@ -175,6 +188,7 @@ function GraduTestPage() {
         localStorage.removeItem('tryAgainTest');
         microDegreeCheck();
         educationCheck();
+        majorMapping();
     }, []);
 
     return (
@@ -213,7 +227,7 @@ function GraduTestPage() {
                                         <span className={css(styles.calculateTopics)}>교양필수({year > 2019 ? '인성 - 학문도구' : '인성 - 학문기초'}) - 교양선택({year > 2019 ? '균형 - 계열기초 - 인문' : '균형 - 인문중점 - 인문융합'})</span><span className={css(styles.calculateTopicsInfo)}>순서로 계산되었습니다.</span>
                                     </div>
                                 </div>
-                            </div>:
+                            </div> :
                             <div className={css(styles.tableContainer)}>
                                 <div className={css(essentialGESuccess ? styles.trinityTableContainer : styles.lackTrinityTableContainer)}>
                                     <HumanismGETable tableData={essentialGEData} success={essentialGESuccess} trinity={trinity} />
@@ -247,11 +261,12 @@ function GraduTestPage() {
                     <p className={css(styles.whole)}>전체</p>
                     <hr className={css(styles.custom_hr)} />
                 </div>
-                <span className={css(styles.custom_result_hr)}> {MAJOR.find(item => item.value === major)?.label || major} {localStorage.getItem('name')}님의 결과입니다</span>
+                <span className={css(styles.custom_result_hr)}> {majorMap.find(item => item.major_code === major)?.major_label || major} {localStorage.getItem('name')}님의 결과입니다</span>
                 <GraduChartComponets earned={doneMajor + doneSubMajor + doneEssentialGE + doneChoiceGE + doneMD + doneSubMajorRest + doneEducationRest + doneRest} total={totalStandard} />
                 <div className={css(styles.textContainer)}>
                     <div>
-                        {lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) <= 0 ?
+                        {(restStandard <= (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) ?
+                            lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD <= 0 ?
                             <>
                                 <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
                                 {localStorage.removeItem('lackTotal')}
@@ -261,13 +276,33 @@ function GraduTestPage() {
                                 <span className={css(styles.custom_title_result_text)}>졸업까지</span>
                                 {subMajorType ?
                                     <>
-                                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest) ? lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
-                                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest) ? lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) : lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD)}
+                                        <span className={css(styles.restCredit)}>{lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
+                                        {localStorage.setItem('lackTotal', lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD)}
                                         <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
                                     </>
                                     : <>
-                                        <span className={css(styles.restCredit)}>{restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
-                                        {localStorage.setItem('lackTotal', restStandard > (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest) ? lackMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) : lackMajor + lackEssentialGE + lackChoiceGE + lackMD)}
+                                        <span className={css(styles.restCredit)}>{lackMajor + lackEssentialGE + lackChoiceGE + lackMD}학점</span>
+                                        {localStorage.setItem('lackTotal', lackMajor + lackEssentialGE + lackChoiceGE + lackMD)}
+                                        <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+                                    </>}
+                            </> :
+                            lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) <= 0 ?
+                            <>
+                                <span className={css(styles.cheer)}>졸업을 축하합니다!</span>
+                                {localStorage.removeItem('lackTotal')}
+                            </>
+                            :
+                            <>
+                                <span className={css(styles.custom_title_result_text)}>졸업까지</span>
+                                {subMajorType ?
+                                    <>
+                                        <span className={css(styles.restCredit)}>{lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest))}학점</span>
+                                        {localStorage.setItem('lackTotal', lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)))}
+                                        <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
+                                    </>
+                                    : <>
+                                        <span className={css(styles.restCredit)}>{lackMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest))}학점</span>
+                                        {localStorage.setItem('lackTotal', lackMajor + lackEssentialGE + lackChoiceGE + lackMD + (restStandard - (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)))}
                                         <span className={css(styles.custom_title_result_text)}>남았습니다!</span>
                                     </>}
                             </>
