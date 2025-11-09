@@ -14,6 +14,7 @@ import sogood from "../assets/images/sogood.png";
 import light from "../assets/images/light.png";
 import magnifyingGlass from "../assets/images/magnifyingGlass.png";
 import axios from 'axios';
+import Realistic from 'react-canvas-confetti/dist/presets/realistic';
 
 function GraduTestPage() {
     const [major, setMajor] = useState();
@@ -60,6 +61,7 @@ function GraduTestPage() {
     const [trinity, setTrinity] = useState();
     const [majorMap, setMajorMap] = useState([]);
     const [MDMap, setMDMap] = useState([]);
+    const [confetti, setConfetti] = useState(false);
 
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
@@ -181,6 +183,14 @@ function GraduTestPage() {
         };
     };
 
+    const popConfetti = () => {
+        if (restStandard <= (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest) && (lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD <= 0)){
+            setTimeout(() => {
+                setConfetti(true);
+            }, 1000);
+        };
+    };
+
     useEffect(() => {
         testing();
         localStorage.setItem('testing', true);
@@ -189,10 +199,14 @@ function GraduTestPage() {
         microDegreeCheck();
         educationCheck();
         majorMapping();
+        popConfetti();
     }, []);
 
     return (
         <>
+            {confetti &&
+                <Realistic autorun={{ speed: 0.3, duration: 5 }} />
+            }
             {detailModalState ? 
                 <DetailModal detailModalTitle={
                     <>
