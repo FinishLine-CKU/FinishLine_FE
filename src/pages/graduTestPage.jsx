@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
 import { SUBMAJORTYPE } from '../pages/signupPage2';
@@ -61,7 +61,10 @@ function GraduTestPage() {
     const [trinity, setTrinity] = useState();
     const [majorMap, setMajorMap] = useState([]);
     const [MDMap, setMDMap] = useState([]);
+
+    const [loadingState, setLoadingState] = useState(false);
     const [confetti, setConfetti] = useState(false);
+    const [graduationState, setGraduationState] = useState(false);
 
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
@@ -88,6 +91,7 @@ function GraduTestPage() {
             setLackMajor(lackMajor)
             setLackSubMajor(lackSubMajor)
             { localStorage.setItem('lackSubMajor', lackSubMajor) }
+            setLoadingState(true)
         } else {
             alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
         };
@@ -183,14 +187,6 @@ function GraduTestPage() {
         };
     };
 
-    const popConfetti = () => {
-        if (restStandard <= (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest) && (lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD <= 0)){
-            setTimeout(() => {
-                setConfetti(true);
-            }, 1000);
-        };
-    };
-
     useEffect(() => {
         testing();
         localStorage.setItem('testing', true);
@@ -199,8 +195,23 @@ function GraduTestPage() {
         microDegreeCheck();
         educationCheck();
         majorMapping();
-        popConfetti();
     }, []);
+
+    useEffect(() => {
+        if (!loadingState) return;
+        const successGraduation = (restStandard <= (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) && (lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD <= 0)
+        setGraduationState(successGraduation)
+    }, [loadingState, restStandard, doneMajorRest, doneSubMajorRest, doneGERest, doneMDRest, doneEducationRest, doneRest, lackMajor, lackSubMajor, lackEssentialGE, lackChoiceGE, lackMD]);
+
+    useEffect(() => {
+        if (graduationState) {
+            setTimeout(() => {
+                setConfetti(true);
+            }, 500);
+        } else {
+            setConfetti(false);
+        };
+    }, [graduationState])
 
     return (
         <>
