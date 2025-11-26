@@ -262,7 +262,7 @@ function MyPage() {
         alert('기이수 과목 등록을 먼저 진행해주세요.');
     };
     const majorMapping = async () => {
-        const response = await axios.get('http://127.0.0.1:8000/user/major_mapping/');
+        const response = await axios.get('http://finishline-cku.com/user/major_mapping/');
         if (response.data) {
             const { majors, MDs } = response.data;
             setMajorMap(majors);
