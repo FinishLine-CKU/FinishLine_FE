@@ -7,6 +7,15 @@
         <!-- 홈페이지 위의 작은 아이콘 변경 -->
         <link rel="icon" href="%PUBLIC_URL%/homePage.png">
         <title>Finish Line</title>
+        <script>
+            if ('%REACT_APP_MODE%' === 'production') {
+                (function(j,ennifer) {
+                    j['dmndata']=[];j['jenniferFront']=function(args){window.dmndata.push(args)};
+                    j['dmnaid']=ennifer;j['dmnatime']=new Date();j['dmnanocookie']=false;j['dmnajennifer']='JENNIFER_FRONT@INTG';
+                }(window, '54e1cb23'));
+            }
+        </script>
+        <script async src="https://d-collect.jennifersoft.com/54e1cb23/demian.js"></script>
     </head>
     <body>
         <div id="root"></div>
