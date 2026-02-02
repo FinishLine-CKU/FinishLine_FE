@@ -23,8 +23,8 @@ const searchType = [
 ]
 
 const searchSemester = [
-    {year : "2025" , semester : "2" , label : "25년 2학기"},
-    // {year : "2025" , semester : "1" , label : "25년 1학기"},
+    {year : "2026" , semester : "1" , label : "26년 1학기"},
+    {year : "2025" , semester : "2" , label : "25년 2학기"}
 ]
 
 // 최신학과 기준 코드
