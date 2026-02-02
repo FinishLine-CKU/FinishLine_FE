@@ -63,7 +63,7 @@ export const MAJOR_NEW = [
     { value: '03301002', label: '해양경찰' },
     { value: '03300104', label: '행정' },
     { value: '032391*', label: '스타트업콘텐츠마케팅전공(F)-스타트업콘텐츠마케팅' },
-    { value: '032401*', label: '디지털헬스케어' },
+    { value: '032401*', label: 'AI헬스케어' },
     { value: '032402*', label: '의료IT' },
     { value: '032403*', label: '의생명과학' },
     { value: '03300101', label: '의료경영' },
@@ -80,7 +80,7 @@ export const MAJOR_NEW = [
     { value: '03260103', label: '실용음악' },
     { value: '03260104', label: '연기예술' },
     { value: '032603*', label: '뷰티디자인' },
-    { value: '032608*', label: '콘텐츠제작' },
+    { value: '032608*', label: '미디어콘텐츠' },
     { value: '032609*', label: 'CG디자인' },
     { value: '032702*', label: '치매전문재활' },
     { value: '032703*', label: '산림치유' },
@@ -93,7 +93,8 @@ export const MAJOR_NEW = [
     { value: '03290112', label: '반려동물' },
     { value: '03290113', label: '군사학' },
     { value: '03300116', label: '스마트항만공학' },  
-    { value: '033020', label: '자율전공학부' }, 
+    { value: '033020', label: '자율전공학부' },
+    { value: '032810*', label: '작업치료' },
 ];
 
 function DoneLecturePage() {
