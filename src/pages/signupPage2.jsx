@@ -574,7 +574,7 @@ function SignupPage2() {
         try {
             const response = await axios.post('https://finishline-cku.com/user/register_info/', {
                 name: name,
-                major: majorMap.find(item => item.major_label === major || item.major_label.includes(major))?.major_code || null,
+                major: majorMap.find(item => item.major_label === major)?.major_code || null,
                 student_id: student_id,
                 additionalMajorType: additionalMajorType,
                 additionalMajor: additionalMajor,
