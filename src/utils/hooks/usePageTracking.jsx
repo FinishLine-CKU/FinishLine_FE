@@ -22,7 +22,9 @@ function PageTracking() {
     const location = useLocation();
 
     useEffect(() => {
-        sendPageView(location.pathname + location.search, PAGE_TITLES[location.pathname]);
+        // 경로에는 쿼리스트링을 넣지 않는다. UTM이 붙은 랜딩이 별도 경로로 쪼개지는 것을 막기 위함이다.
+        // UTM 수집은 전체 URL을 담는 page_location이 맡으므로 영향받지 않는다.
+        sendPageView(location.pathname, PAGE_TITLES[location.pathname]);
     }, [location.pathname, location.search]);
 
     return null;

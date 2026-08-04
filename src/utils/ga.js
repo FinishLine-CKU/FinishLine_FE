@@ -29,6 +29,9 @@ function initGA() {
 function sendPageView(path, title) {
     if (!initialized) return;
     gtag('event', 'page_view', {
+        // page_path는 GA4 표준 파라미터가 아니다(UA 시절 필드).
+        // 표준 보고서의 경로는 page_location에서 도출되고, 이 값은 쿼리스트링 없는 경로를
+        // 따로 보고 싶을 때 맞춤 측정기준으로 등록해 쓰는 용도다.
         page_path: path,
         page_location: window.location.href,
         page_title: title ?? document.title,
