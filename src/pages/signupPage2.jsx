@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import { ModalContext } from '../utils/hooks/modalContext';
 import axios from 'axios';
+import { sendEvent, setUserId } from '../utils/ga';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
@@ -582,6 +583,12 @@ function SignupPage2() {
                 password: password
             });
             if (response.data === true) {
+                await setUserId(student_id);
+                sendEvent('sign_up', {
+                    method: 'cku_portal',
+                    sub_major_type: additionalMajorType || 'none',
+                    micro_degree: microDegree ? 'yes' : 'no'
+                });
                 openModal();
             } else {
                 alert("회원 정보가 정상적으로 저장되지 않았습니다. 잠시 후 다시 시도해주세요.");

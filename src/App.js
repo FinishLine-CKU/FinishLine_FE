@@ -13,6 +13,8 @@ import ManageGraduPage from './pages/manageGraduPage';
 import GraduTestPage from './pages/graduTestPage';
 import OneClickTestPage from './pages/oneClickTestPage';
 import ChannelTalk from './utils/channelTalk';
+import PageTracking from './utils/hooks/usePageTracking';
+import { setUserId } from './utils/ga';
 
 function App() {
     const [modalState, setModalState] = useState(false);
@@ -54,10 +56,16 @@ function App() {
         };
     })
 
+    // 이미 로그인된 상태로 재방문한 경우에도 기기 간 사용자 연결이 되도록 한다.
+    useEffect(() => {
+        setUserId(localStorage.getItem('idToken'));
+    }, []);
+
     return (
         <ModalContext.Provider value={{ modalState, setModalState, featModalState, setFeatModalState, detailModalState, setDetailModalState, subButtonState, setSubButtonState, featButtonState, setFeatButtonState, openModal, closeModal, openFeatModal, closeFeatModal, openDetailModal, closeDetailModal, featCloseButton, setFeatCloseButton, addSubject, setAddSubject }}>
             <div className="App">
                 <BrowserRouter>
+                    <PageTracking />
                     <Routes>
                         <Route path="/signupPage1" element={<SignupPage1 />} />
                         <Route path="/uploadpdf" element={<UploadPdfPage />} />

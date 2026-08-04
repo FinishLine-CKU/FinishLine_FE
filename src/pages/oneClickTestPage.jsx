@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import { ModalContext } from '../utils/hooks/modalContext';
 import axios from 'axios';
+import { sendEvent } from '../utils/ga';
 import Lottie from "lottie-react";
 import Header from '../components/header';
 import Template from '../components/template';
@@ -44,6 +45,7 @@ function OneClickTestPage() {
                 });
                 if (response.data.success) {
                     localStorage.setItem('oneClickTest', true);
+                    sendEvent('oneclick_test', { status: 'success' });
                     navigate('/graduTestPage');
                     closeFeatModal();
                     setProcess(0);
@@ -52,11 +54,13 @@ function OneClickTestPage() {
                     const { error } = response.data;
                     closeFeatModal();
                     setProcess(0);
+                    sendEvent('oneclick_test', { status: 'fail' });
                     alert(error);
                 };
             } catch {
                 closeFeatModal();
                 setProcess(0);
+                sendEvent('oneclick_test', { status: 'error' });
                 alert("인증과정에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
             };
         };

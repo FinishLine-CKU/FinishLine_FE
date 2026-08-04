@@ -3,6 +3,7 @@ import { StyleSheet, css } from "aphrodite";
 import { useNavigate } from "react-router-dom";
 import { ModalContext } from '../utils/hooks/modalContext';
 import axios from 'axios';
+import { sendEvent, setUserId } from '../utils/ga';
 import Header from "../components/header";
 import Template from "../components/template";
 import Footer from "../components/footer";
@@ -30,6 +31,7 @@ function LoginPage() {
             });
 
             if (response.data.error) {
+                sendEvent('login_failed', { reason: 'rejected' });
                 alert(response.data.error);
                 return;
             }
@@ -64,11 +66,16 @@ function LoginPage() {
                 if (lackTotal) {
                     localStorage.setItem('lackTotal', lackTotal);
                 };
+                await setUserId(idToken);   // login 이벤트부터 사용자 식별이 붙도록 먼저 설정한다.
+                sendEvent('login', { method: 'student_id' });
                 navigate("/userGuidePage");
                 window.scrollTo(0, 0);
-            } 
-        } 
+            } else {
+                sendEvent('login_failed', { reason: 'no_token' });
+            }
+        }
         catch (error) {
+            sendEvent('login_failed', { reason: 'error' });
             alert("로그인에 실패했습니다. 학번과 비밀번호를 확인해주세요.");
         };
     };
