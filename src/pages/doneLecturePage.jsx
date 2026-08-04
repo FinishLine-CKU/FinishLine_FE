@@ -18,13 +18,12 @@ import { FaCircleQuestion } from "react-icons/fa6";
 import { IoSearchCircleSharp } from "react-icons/io5";
 
 const searchType = [
-    {value : "searchName" , label : "과목명"},
-    {value : "searchCode" , label : "과목코드"}
+    { value: "searchName", label: "과목명" },
+    { value: "searchCode", label: "과목코드" }
 ]
 
 const searchSemester = [
-    {year : "2026" , semester : "1" , label : "26년 1학기"},
-    {year : "2025" , semester : "2" , label : "25년 2학기"}
+    { year: "2026", semester: "2", label: "26년 2학기" }
 ]
 
 // 최신학과 기준 코드
@@ -72,11 +71,11 @@ export const MAJOR_NEW = [
     { value: '032490*', label: '정밀의료융합' },
     { value: '032492*', label: '스마트수소에너지융합' },
     { value: '032501*', label: '항공운항서비스' },
-    { value: '032506*', label: '항공교통물류' }, 
+    { value: '032506*', label: '항공교통물류' },
     { value: '03300114', label: '항공운항' },
     { value: '032515*', label: '무인항공' },
     { value: '03300115', label: '항공정비' },
-    { value: '032591*', label: '항공설계전공(F-C)' }, 
+    { value: '032591*', label: '항공설계전공(F-C)' },
     { value: '03260103', label: '실용음악' },
     { value: '03260104', label: '연기예술' },
     { value: '032603*', label: '뷰티디자인' },
@@ -92,9 +91,10 @@ export const MAJOR_NEW = [
     { value: '032802*', label: '치위생학' },
     { value: '03290112', label: '반려동물' },
     { value: '03290113', label: '군사학' },
-    { value: '03300116', label: '스마트항만공학' },  
+    { value: '03300116', label: '스마트항만공학' },
     { value: '033020', label: '자율전공학부' },
     { value: '032810*', label: '작업치료' },
+    { value: '03303001', label: '컴퓨터소프트웨어' }
 ];
 
 function DoneLecturePage() {
@@ -115,7 +115,7 @@ function DoneLecturePage() {
 
     const deleteButton = (lecture_code) => {
         const shouldWeDelete = myLectureList.find((subject) => subject.lecture_code === lecture_code);
-    
+
         if (shouldWeDelete && shouldWeDelete.can_delete === true) {
             deleteButtonToDb(lecture_code);
         } else {
@@ -128,10 +128,10 @@ function DoneLecturePage() {
         const updatedMyLectures = myLectureList.filter(subject => subject.lecture_code !== lecture_code);
         setMyLectureList(updatedMyLectures);
     };
-    
+
     const deleteButtonToDb = async (lecture_code) => {
         const userId = localStorage.getItem("idToken");
-    
+
         try {
             const response = await axios.delete(`http://127.0.0.1:8000/graduation/api/mydonelecture/${lecture_code}/`, {
                 data: {
@@ -200,7 +200,7 @@ function DoneLecturePage() {
                 } else if (allResponse.data && allResponse.data.length > 0) {
                     alert(`20${searchSemesterSelect.label} 내에 존재하지 않는 교과목입니다.\n과목코드를 다시 확인하세요.`);
                 }
-                
+
             } else {
                 setLectureData(response.data);
                 console.log(response.data)
@@ -298,10 +298,10 @@ function DoneLecturePage() {
             }
         }
 
-        document.addEventListener('mousedown',ClickOutside)
-        
+        document.addEventListener('mousedown', ClickOutside)
+
         return () => {
-            document.removeEventListener('mousedown',ClickOutside)
+            document.removeEventListener('mousedown', ClickOutside)
         }
     }, []);
 
@@ -312,29 +312,29 @@ function DoneLecturePage() {
             }
         }
 
-        document.addEventListener('mousedown',ClickOutside)
-        
+        document.addEventListener('mousedown', ClickOutside)
+
         return () => {
-            document.removeEventListener('mousedown',ClickOutside)
+            document.removeEventListener('mousedown', ClickOutside)
         }
     }, []);
 
     useEffect(() => {
         const simulCheck = myLectureList.some(subject => subject.can_delete == true)
 
-        if (simulCheck){
+        if (simulCheck) {
             setShowTextboxContainer(true);
         }
 
-        if (localStorage.getItem('testing') === 'true'){
+        if (localStorage.getItem('testing') === 'true') {
             setShowTextboxContainer(true);
         }
     }, [myLectureList]);
 
     useEffect(() => {
-        if(myLectureList.some(subject => subject.subjectNew)) {
+        if (myLectureList.some(subject => subject.subjectNew)) {
             handleSaveAllSubjects();
-        } 
+        }
     }, [myLectureList]);
 
     const enterSubmit = (e) => {
@@ -365,7 +365,7 @@ function DoneLecturePage() {
                                 <div className={css(styles.titleContainer)} ref={semesterDropDownRef}>
                                     <button className={css(styles.itemSemesterButton)} onClick={() => setSemesterIsOpen(!semesterIsOpen)}>
                                         {searchSemesterSelect.label}
-                                        <IoIosArrowDown className={css(styles.bottomArrowIcon)}/>
+                                        <IoIosArrowDown className={css(styles.bottomArrowIcon)} />
                                     </button>
                                     {semesterIsOpen && (
                                         <ul className={css(styles.dropCustomUlSemester)}>
@@ -374,15 +374,15 @@ function DoneLecturePage() {
                                                     className={css(styles.dropCustomLi)}
                                                     key={item.value}
                                                     onClick={() => {
-                                                        setSearchSemesterSelect(item); 
+                                                        setSearchSemesterSelect(item);
                                                         setSemesterIsOpen(false);
-                                                }}
+                                                    }}
                                                 >
                                                     {item.label}
                                                 </li>
                                             ))}
                                         </ul>
-                                        )}
+                                    )}
                                 </div>
                                 <div className={css(styles.inputSearchContainer)}>
                                     <div className={css(styles.inputCodeContainer)} ref={codeDropDownRef}>
@@ -390,7 +390,7 @@ function DoneLecturePage() {
                                             <div className={css(styles.labelContainer)}>
                                                 {searchCodeSelect.label}
                                             </div>
-                                            <GoTriangleDown className={css(styles.triangleIcon)}/>
+                                            <GoTriangleDown className={css(styles.triangleIcon)} />
                                             <div className={css(styles.shortDivider)}>
                                             </div>
                                         </button>
@@ -401,15 +401,15 @@ function DoneLecturePage() {
                                                         className={css(styles.dropCustomLiCode)}
                                                         key={item.value}
                                                         onClick={() => {
-                                                            setSearchCodeSelect(item); 
+                                                            setSearchCodeSelect(item);
                                                             setCodeIsOpen(false);
-                                                    }}
+                                                        }}
                                                     >
                                                         {item.label}
                                                     </li>
                                                 ))}
                                             </ul>
-                                            )}
+                                        )}
                                     </div>
                                     <input
                                         type="text"
@@ -424,53 +424,53 @@ function DoneLecturePage() {
                                         placeholder={searchCodeSelect.value === "searchCode" ? "과목 코드를 입력하세요" : "과목명을 입력하세요"}
                                         className={css(styles.inputContainer, searchCodeSelect.value === "searchCode" ? styles.inputContainer : styles.inputLecturenameContainer)} />
                                     {lectureCode ?
-                                    <TiDelete className={css(styles.textDeleteButton)} onClick={deleteText} />
-                                    : null}
+                                        <TiDelete className={css(styles.textDeleteButton)} onClick={deleteText} />
+                                        : null}
                                     <button className={css(styles.itemSearchButton)} onClick={SubjectSearch}>
                                         <IoSearchCircleSharp className={css(styles.ArrowCustom)} />
                                     </button>
                                 </div>
                             </div>
-                        <div className={css(styles.subListContainer)}>
-                            {lectureData.length == 0 ? 
-                            (
-                                <a href='https://info.cku.ac.kr/haksa/undergraduate/subject_search_all.jsp' target="_blank" className={css(styles.linkContainer)}>
-                                    <FaCircleQuestion />
-                                    <span>과목코드를 찾으시나요?</span>
-                                    <TbExternalLink className={css(styles.linkCustom)} />
-                                </a>
-                            )
-                               : (lectureData && lectureData.length > 0 ? (
-                                <ul className={css(styles.subInfoListUi)}>
-                                    {lectureData.map((subject, idx) => (
-                                        <li
-                                            key={subject.lecture_code + idx}
-                                            className={css(styles.subInfoListLi)}
-                                        >
-                                            <div className={css(styles.subjectInfo)} onClick={() => handleAddSubject(subject)}>
-                                                <div className={css(styles.subjectMain)}>{subject.lecture_name}</div>
-                                                <div className={css(styles.subjectSub)}>
-                                                    {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.lecture_topic.trim() == '' ? subject.major_code.trim() == '' ? `-` : MAJOR_NEW.find(item => item.value === subject.major_code).label : subject.lecture_topic} | {subject.credit}학점
-                                                </div>
-                                            </div>
-                                            <div className={css(styles.plusContainer)}>
-                                                <div className={css(styles.addButton, (myLectureList.some((item) => item.lecture_code === subject.lecture_code)) ? styles.alreadyButton : styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
-                                                    {(myLectureList.some((item) => item.lecture_code === subject.lecture_code)) ?
-                                                    <>
-                                                        <span>반영완료</span>
-                                                        <FaRegCheckCircle />
-                                                    </> :
-                                                    <>
-                                                        <span>추가하기</span>
-                                                        <FaArrowRightLong />
-                                                    </>}
-                                                </div>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>) : null)}
+                            <div className={css(styles.subListContainer)}>
+                                {lectureData.length == 0 ?
+                                    (
+                                        <a href='https://info.cku.ac.kr/haksa/undergraduate/subject_search_all.jsp' target="_blank" className={css(styles.linkContainer)}>
+                                            <FaCircleQuestion />
+                                            <span>과목코드를 찾으시나요?</span>
+                                            <TbExternalLink className={css(styles.linkCustom)} />
+                                        </a>
+                                    )
+                                    : (lectureData && lectureData.length > 0 ? (
+                                        <ul className={css(styles.subInfoListUi)}>
+                                            {lectureData.map((subject, idx) => (
+                                                <li
+                                                    key={subject.lecture_code + idx}
+                                                    className={css(styles.subInfoListLi)}
+                                                >
+                                                    <div className={css(styles.subjectInfo)} onClick={() => handleAddSubject(subject)}>
+                                                        <div className={css(styles.subjectMain)}>{subject.lecture_name}</div>
+                                                        <div className={css(styles.subjectSub)}>
+                                                            {subject.year}년 {subject.semester}학기 | {subject.lecture_code} | {subject.lecture_type} | {subject.lecture_topic.trim() == '' ? subject.major_code.trim() == '' ? `-` : MAJOR_NEW.find(item => item.value === subject.major_code).label : subject.lecture_topic} | {subject.credit}학점
+                                                        </div>
+                                                    </div>
+                                                    <div className={css(styles.plusContainer)}>
+                                                        <div className={css(styles.addButton, (myLectureList.some((item) => item.lecture_code === subject.lecture_code)) ? styles.alreadyButton : styles.addButton)} onClick={() => handleAddSubject(subject)} title="내 기이수 과목에 추가">
+                                                            {(myLectureList.some((item) => item.lecture_code === subject.lecture_code)) ?
+                                                                <>
+                                                                    <span>반영완료</span>
+                                                                    <FaRegCheckCircle />
+                                                                </> :
+                                                                <>
+                                                                    <span>추가하기</span>
+                                                                    <FaArrowRightLong />
+                                                                </>}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>) : null)}
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div className={css(styles.secondTitleContainer)}>
                         <span className={css(styles.secondTitle)}>내 기이수 과목</span>
@@ -627,8 +627,8 @@ const styles = StyleSheet.create({
     itemSearchButton: {
         display: 'flex',
         position: 'absolute',
-        alignItems: 'center',      
-        justifyContent: 'center',  
+        alignItems: 'center',
+        justifyContent: 'center',
         right: '0px',
         border: 'none',
         borderRadius: '18px',
@@ -686,11 +686,11 @@ const styles = StyleSheet.create({
     dropCustomUlSemester: {
         display: 'flex',
         flexDirection: 'column',
-        position: 'absolute', 
+        position: 'absolute',
         textAlign: 'center',
         color: '#595650',
-        top: '80%', 
-        left: 10, 
+        top: '80%',
+        left: 10,
         right: 0,
         padding: '5px',
         listStyle: 'none',
@@ -707,10 +707,10 @@ const styles = StyleSheet.create({
     dropCustomUlCode: {
         display: 'flex',
         flexDirection: 'column',
-        position: 'absolute', 
+        position: 'absolute',
         color: '#595650',
         top: '80%',
-        left: 10, 
+        left: 10,
         padding: '5px',
         listStyle: 'none',
         backgroundColor: '#FFFEFB',
