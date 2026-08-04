@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { StyleSheet, css } from 'aphrodite';
 import { ModalContext } from '../utils/hooks/modalContext';
+import { clearUserId } from '../utils/ga';
 import mainLogo from '../assets/images/mainLogo.png';
 
 function Header() {
@@ -11,6 +12,7 @@ function Header() {
     const logOut = () => {
         if (localStorage.getItem('idToken')) {
             localStorage.clear();
+            clearUserId();
             navigate("/loginPage");
         }
     };

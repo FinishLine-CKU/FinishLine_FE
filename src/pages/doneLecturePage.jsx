@@ -7,6 +7,7 @@ import Footer from '../components/footer';
 import { DoneSubComponents } from '../components/doneLectureComponents';
 import UploadPdfPageComponents from '../components/uploadPdfComponents';
 import axios from 'axios';
+import { sendEvent } from '../utils/ga';
 import { TiDelete } from "react-icons/ti";
 import { MdAutoMode } from "react-icons/md";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -196,17 +197,21 @@ function DoneLecturePage() {
                 });
 
                 if (!allResponse.data || allResponse.data.length === 0) {
+                    sendEvent('search_lecture', { search_type: searchCodeSelect.value, search_term: lectureCode, status: 'not_found' });
                     searchCodeSelect.value === "searchCode" ? alert("과목코드를 다시 확인하세요.") : alert("과목명을 다시 확인하세요.")
                 } else if (allResponse.data && allResponse.data.length > 0) {
+                    sendEvent('search_lecture', { search_type: searchCodeSelect.value, search_term: lectureCode, status: 'other_semester' });
                     alert(`20${searchSemesterSelect.label} 내에 존재하지 않는 교과목입니다.\n과목코드를 다시 확인하세요.`);
                 }
 
             } else {
+                sendEvent('search_lecture', { search_type: searchCodeSelect.value, search_term: lectureCode, status: 'found', result_count: response.data.length });
                 setLectureData(response.data);
                 console.log(response.data)
             }
 
         } catch (error) {
+            sendEvent('search_lecture', { search_type: searchCodeSelect.value, search_term: lectureCode, status: 'error' });
             setError('과목 정보를 가져오는데 실패했습니다.');
             alert('과목 정보를 가져오는데 실패했습니다.');
         }
@@ -257,6 +262,7 @@ function DoneLecturePage() {
                 alert("과목 저장에 실패했습니다.");
             }
 
+            sendEvent('save_done_lecture', { subject_count: subjectsToSave.length });
             myLectureUpdate();
 
             //현재 과목 목록을 내 기이수 과목으로 전달했다면 subjectNew 상태 저장(색상 변경을 위함)
@@ -476,7 +482,7 @@ function DoneLecturePage() {
                         <span className={css(styles.secondTitle)}>내 기이수 과목</span>
                         {showTextboxContainer ?
                             null :
-                            <div className={css(styles.simulationToggleContainer)} onClick={() => setShowTextboxContainer(v => !v)}>
+                            <div className={css(styles.simulationToggleContainer)} onClick={() => { sendEvent('open_simulation'); setShowTextboxContainer(v => !v); }}>
                                 <MdAutoMode />
                                 <span>이수 과목 시뮬레이션</span>
                             </div>

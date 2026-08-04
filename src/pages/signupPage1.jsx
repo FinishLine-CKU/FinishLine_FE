@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import { ModalContext } from '../utils/hooks/modalContext';
 import axios from 'axios';
+import { sendEvent } from '../utils/ga';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
@@ -41,15 +42,18 @@ function SignupPage1() {
                 if (response.data.student_id && response.data.name && response.data.major && response.data.college) {
                     const { student_id, name, major, college } = response.data;
                     closeFeatModal();
+                    sendEvent('student_auth', { status: 'success' });
                     navigate('/signupPage2', { state: { student_id, name, major, college } });
                     window.scrollTo(0, 0);
                 } else {
                     const { error } = response.data;
                     closeFeatModal();
+                    sendEvent('student_auth', { status: 'fail' });
                     alert(error);
                 };
             } catch {
                 closeFeatModal();
+                sendEvent('student_auth', { status: 'error' });
                 alert("인증과정에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
             };
         };

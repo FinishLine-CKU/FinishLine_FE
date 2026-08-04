@@ -5,6 +5,7 @@ import { ModalContext } from '../utils/hooks/modalContext';
 import { DoneSubComponents } from '../components/doneLectureComponents';
 import { SUBMAJORTYPE } from '../pages/signupPage2';
 import axios from 'axios';
+import { clearUserId } from '../utils/ga';
 import Header from '../components/header';
 import Template from '../components/template';
 import Footer from '../components/footer';
@@ -104,6 +105,7 @@ function MyPage() {
         if (response.data) {
             if (response.data.result === true) {
                 localStorage.clear();
+                clearUserId();
                 closeModal();
                 navigate("/loginPage");
             } else {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo } from 'react';
+import { useState, useEffect, useContext, useMemo, useRef } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { useNavigate } from 'react-router-dom';
 import { SUBMAJORTYPE } from '../pages/signupPage2';
@@ -14,6 +14,7 @@ import sogood from "../assets/images/sogood.png";
 import light from "../assets/images/light.png";
 import magnifyingGlass from "../assets/images/magnifyingGlass.png";
 import axios from 'axios';
+import { sendEvent } from '../utils/ga';
 import Realistic from 'react-canvas-confetti/dist/presets/realistic';
 
 function GraduTestPage() {
@@ -66,34 +67,44 @@ function GraduTestPage() {
     const [confetti, setConfetti] = useState(false);
     const [graduationState, setGraduationState] = useState(false);
 
+    const [checkDone, setCheckDone] = useState(0);  // 전공/교양/소단위/교직 검사 완료 개수 (GA 결과 집계용)
+    const graduationEventSent = useRef(false);
+
     const year = parseInt(localStorage.getItem('idToken').substr(0, 4));
     const navigate = useNavigate();
     const { detailModalState, setDetailModalState, openDetailModal, closeDetailModal } = useContext(ModalContext);
 
     const testing = async () => {
-        const response = await axios.post('https://finishline-cku.com/graduation/test_major/', {
-            student_id : localStorage.getItem('idToken')
-        });
-        if (response.data) {
-            const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, lackMajor, lackSubMajor } = response.data;
-            setMajor(major)
-            setSubMajorType(subMajorType)  // subMajorType / doneSubMajor / subMajorStandard
-            setDoneMajor(doneMajor)
-            setDoneSubMajor(doneSubMajor)
-            setDoneMajorRest(doneMajorRest)
-            setDoneSubMajorRest(doneSubMajorRest)
-            setDoneRest(doneRest)
-            setTotalStandard(totalStandard)
-            setMajorStandard(majorStandard)
-            setSubMajorStandard(subMajorStandard)
-            setEssentialGEStandard(essentialGEStandard)
-            setChoiceGEStandard(choiceGEStandard)
-            setLackMajor(lackMajor)
-            setLackSubMajor(lackSubMajor)
-            { localStorage.setItem('lackSubMajor', lackSubMajor) }
-            setLoadingState(true)
-        } else {
-            alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+        try {
+            const response = await axios.post('https://finishline-cku.com/graduation/test_major/', {
+                student_id : localStorage.getItem('idToken')
+            });
+            if (response.data) {
+                const { major, subMajorType, doneMajor, doneSubMajor, doneMajorRest, doneSubMajorRest, doneRest, totalStandard, majorStandard, subMajorStandard, essentialGEStandard, choiceGEStandard, lackMajor, lackSubMajor } = response.data;
+                setMajor(major)
+                setSubMajorType(subMajorType)  // subMajorType / doneSubMajor / subMajorStandard
+                setDoneMajor(doneMajor)
+                setDoneSubMajor(doneSubMajor)
+                setDoneMajorRest(doneMajorRest)
+                setDoneSubMajorRest(doneSubMajorRest)
+                setDoneRest(doneRest)
+                setTotalStandard(totalStandard)
+                setMajorStandard(majorStandard)
+                setSubMajorStandard(subMajorStandard)
+                setEssentialGEStandard(essentialGEStandard)
+                setChoiceGEStandard(choiceGEStandard)
+                setLackMajor(lackMajor)
+                setLackSubMajor(lackSubMajor)
+                { localStorage.setItem('lackSubMajor', lackSubMajor) }
+                setLoadingState(true)
+                setCheckDone(prev => prev + 1)
+            } else {
+                sendEvent('graduation_test_failed', { step: 'major', reason: 'empty_response' });
+                alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+            };
+        } catch (error) {
+            console.error('전공 검사 실패: ', error);
+            sendEvent('graduation_test_failed', { step: 'major', reason: 'error' });
         };
     };
 
@@ -115,60 +126,83 @@ function GraduTestPage() {
                 setLackEssentialGETopic(generalData['lackEssentialGETopic']);
                 setLackChoiceGETopic(generalData['lackChoiceGETopic']);
                 setDoneGERest(generalData['doneGERest']);
+                setCheckDone(prev => prev + 1);
             } else {
+                sendEvent('graduation_test_failed', { step: 'general', reason: 'no_user_id' });
                 console.error('user_id가 로컬스토리지에 없습니다.');
             }
         } catch (error) {
+            sendEvent('graduation_test_failed', { step: 'general', reason: 'error' });
             console.error('Error fetching data: ', error);
         }
     };
 
     const microDegreeCheck = async () => {
-        const response = await axios.post('https://finishline-cku.com/graduation/test_micro_degree/', {
-            student_id : localStorage.getItem('idToken')
-        });
-        if (response.data) {
-            const { doneMD, doneMDRest, MDStandard, restStandard, lackMD } = response.data;
-            setDoneMD(doneMD)
-            setDoneMDRest(doneMDRest)
-            setMDStandard(MDStandard)
-            setRestStandard(restStandard)
-            setLackMD(lackMD)
-        } else {
-            alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+        try {
+            const response = await axios.post('https://finishline-cku.com/graduation/test_micro_degree/', {
+                student_id : localStorage.getItem('idToken')
+            });
+            if (response.data) {
+                const { doneMD, doneMDRest, MDStandard, restStandard, lackMD } = response.data;
+                setDoneMD(doneMD)
+                setDoneMDRest(doneMDRest)
+                setMDStandard(MDStandard)
+                setRestStandard(restStandard)
+                setLackMD(lackMD)
+                setCheckDone(prev => prev + 1)
+            } else {
+                sendEvent('graduation_test_failed', { step: 'micro_degree', reason: 'empty_response' });
+                alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+            };
+        } catch (error) {
+            console.error('소단위전공 검사 실패: ', error);
+            sendEvent('graduation_test_failed', { step: 'micro_degree', reason: 'error' });
         };
     };
 
     const educationCheck = async () => {
-        const response = await axios.post('https://finishline-cku.com/graduation/test_education/', {
-            student_id: localStorage.getItem('idToken')
-        });
-        if (response.data) {
-            const { doneEducationRest, lackEducation } = response.data;
-            setDoneEducationRest(doneEducationRest)
-            setLackEducation(lackEducation)
-        } else {
-            alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+        try {
+            const response = await axios.post('https://finishline-cku.com/graduation/test_education/', {
+                student_id: localStorage.getItem('idToken')
+            });
+            if (response.data) {
+                const { doneEducationRest, lackEducation } = response.data;
+                setDoneEducationRest(doneEducationRest)
+                setLackEducation(lackEducation)
+                setCheckDone(prev => prev + 1)
+            } else {
+                sendEvent('graduation_test_failed', { step: 'education', reason: 'empty_response' });
+                alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+            };
+        } catch (error) {
+            console.error('교직 검사 실패: ', error);
+            sendEvent('graduation_test_failed', { step: 'education', reason: 'error' });
         };
     };
 
     const detailCheck = async () => {
-        const response = await axios.post('https://finishline-cku.com/graduation/ge_detail_view/', {
-            student_id: localStorage.getItem('idToken')
-        });
-        if (response.data) {
-            const { essentialTable, choiceTable, fusionTable, restTable } = response.data;
-            setEssentialGEData(essentialTable);
-            setEssentialGESuccess(essentialTable[essentialTable.length-1].success);
-            setChoiceGEData(choiceTable);
-            setChoiceGESuccess(choiceTable[choiceTable.length-1].success);
-            setFusionGEData(fusionTable);
-            setFusionGESuccess(fusionTable[fusionTable?.length-1]?.success);
-            setRestData(restTable);
-            setTrinity(essentialTable[essentialTable.length-1].trinity);
-        } else {
-            alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
-        }
+        try {
+            const response = await axios.post('https://finishline-cku.com/graduation/ge_detail_view/', {
+                student_id: localStorage.getItem('idToken')
+            });
+            if (response.data) {
+                const { essentialTable, choiceTable, fusionTable, restTable } = response.data;
+                setEssentialGEData(essentialTable);
+                setEssentialGESuccess(essentialTable[essentialTable.length-1].success);
+                setChoiceGEData(choiceTable);
+                setChoiceGESuccess(choiceTable[choiceTable.length-1].success);
+                setFusionGEData(fusionTable);
+                setFusionGESuccess(fusionTable[fusionTable?.length-1]?.success);
+                setRestData(restTable);
+                setTrinity(essentialTable[essentialTable.length-1].trinity);
+            } else {
+                sendEvent('graduation_test_failed', { step: 'ge_detail', reason: 'empty_response' });
+                alert('서버와 연결이 불안정합니다. 잠시 후 다시 시도해주세요.');
+            }
+        } catch (error) {
+            console.error('교양 상세 조회 실패: ', error);
+            sendEvent('graduation_test_failed', { step: 'ge_detail', reason: 'error' });
+        };
     };
 
     const goToDoneLecture = () => {
@@ -201,7 +235,13 @@ function GraduTestPage() {
         if (!loadingState) return;
         const successGraduation = (restStandard <= (doneMajorRest + doneSubMajorRest + doneGERest + doneMDRest + doneEducationRest + doneRest)) && (lackMajor + lackSubMajor + lackEssentialGE + lackChoiceGE + lackMD <= 0)
         setGraduationState(successGraduation)
-    }, [loadingState, restStandard, doneMajorRest, doneSubMajorRest, doneGERest, doneMDRest, doneEducationRest, doneRest, lackMajor, lackSubMajor, lackEssentialGE, lackChoiceGE, lackMD]);
+
+        // 4종 검사 응답이 모두 도착한 뒤에야 결과가 확정되므로, 그때 한 번만 GA에 기록한다.
+        if (checkDone >= 4 && !graduationEventSent.current) {
+            graduationEventSent.current = true;
+            sendEvent('graduation_test', { result: successGraduation ? 'possible' : 'lack' });
+        };
+    }, [loadingState, checkDone, restStandard, doneMajorRest, doneSubMajorRest, doneGERest, doneMDRest, doneEducationRest, doneRest, lackMajor, lackSubMajor, lackEssentialGE, lackChoiceGE, lackMD]);
 
     useEffect(() => {
         if (graduationState) {
@@ -477,7 +517,7 @@ function GraduTestPage() {
                                 <span className={css(styles.custom_h_focus)}>{essentialGEStandard + choiceGEStandard} 학점</span>
                             </div>
                             <div className={css(styles.detailsButtonContainer)}>
-                                <div className={css(styles.detailsButtons)} onClick={() => {detailCheck(); openDetailModal();}}>
+                                <div className={css(styles.detailsButtons)} onClick={() => {sendEvent('view_ge_detail'); detailCheck(); openDetailModal();}}>
                                     <img src={magnifyingGlass} className={css(styles.detailsButtonImage)}></img>
                                     <span className={css(styles.detailsButtonText)}>상세</span>
                                 </div>

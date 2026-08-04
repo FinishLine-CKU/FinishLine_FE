@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 import { RiExternalLinkLine } from "react-icons/ri";
 import axios from 'axios';
+import { sendEvent } from '../utils/ga';
 import pdfIcon from '../assets/images/pdfIcon.svg';
 import mockupDevice from '../assets/images/mockupDevice.png';
 import pdfGuide1 from '../assets/images/pdfGuide1.gif';
@@ -71,6 +72,7 @@ function UploadPdfComponents() {
 
             if (imageFiles.length > 0) {
                 setLoading(false);
+                sendEvent('upload_pdf', { status: 'image_file', file_count: imageFiles.length });
                 alert(`PDF 파일 형식이 올바르지 않습니다.\n기이수과목 등록은 PC 환경에서 진행해주세요.\n\n파일명:\n${imageFiles.join('\n')}`);
                 setSelectedFiles([]);
                 setFileNames([]);
@@ -78,6 +80,7 @@ function UploadPdfComponents() {
 
             if (errorFiles.length > 0) {
                 setLoading(false);
+                sendEvent('upload_pdf', { status: 'invalid_format', file_count: errorFiles.length });
                 alert(`PDF 파일 형식이 올바르지 않습니다.\n기이수과목 PDF 파일 저장 시 "인쇄 > PDF로 저장"을 확인하세요.\n\n파일명:\n${errorFiles.join('\n')}`);
                 setSelectedFiles([]);
                 setFileNames([]);
@@ -85,6 +88,7 @@ function UploadPdfComponents() {
 
             if (duplicateFiles.length > 0) {
                 setLoading(false);
+                sendEvent('upload_pdf', { status: 'duplicate', file_count: duplicateFiles.length });
                 alert(`중복된 파일이 포함되어 있습니다:\n기이수과목 관리 화면으로 넘어갑니다.\n\n파일명:\n${duplicateFiles.join('\n')}`);
                 setSelectedFiles([]);
                 setFileNames([]);
@@ -95,6 +99,7 @@ function UploadPdfComponents() {
             if (successFiles.length > 0){
                 setLoading(false);
                 localStorage.setItem('uploadPDF', true);
+                sendEvent('upload_pdf', { status: 'success', file_count: successFiles.length });
                 alert('파일이 성공적으로 업로드되었습니다.');
                 setSelectedFiles([]);
                 setFileNames([]);
@@ -110,6 +115,7 @@ function UploadPdfComponents() {
         } catch (error) {
             setLoading(false);
             console.error('업로드 에러:', error);
+            sendEvent('upload_pdf', { status: 'error', file_count: selectedFiles.length });
             alert(error.response?.data?.message || '파일 업로드 중 오류가 발생했습니다.');
             setSelectedFiles([]);
             setFileNames([]);
