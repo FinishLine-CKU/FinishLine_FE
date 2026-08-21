@@ -8,7 +8,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import GraduChartComponets from "../components/graduChartComponents";
 import DetailModal from '../components/detailModal';
-import { EssentialGETable, ChoiceGETable, HumanismGETable, BasicGETable, FusionGETable, RestTable } from '../components/detailTableComponent';
+import { EssentialGETable, ChoiceGETable, HumanismGETable, BasicGETable, FusionGETable, RestTable, Essential2026GETable, Choice2026GETable } from '../components/detailTableComponent';
 import notgood from "../assets/images/notgood.png";
 import sogood from "../assets/images/sogood.png";
 import light from "../assets/images/light.png";
@@ -236,7 +236,24 @@ function GraduTestPage() {
                     </>
                     } detailMainContents={
                     <>
-                        {year < 2023 ?
+                        {year >= 2026 ?
+                            <div className={css(styles.tableContainer)}>
+                                <div className={css(essentialGESuccess ? styles.leftTableContainer : styles.lackLeftTableContainer)}>
+                                    <Essential2026GETable tableData={essentialGEData} success={essentialGESuccess}/>
+                                </div>
+                                <div className={css(styles.rightTableContainer)}>
+                                    <div className={css(choiceGESuccess ? styles.choiceGETableContainer : styles.lackChoiceGETableContainer)}>
+                                        <Choice2026GETable tableData={choiceGEData} success={choiceGESuccess} />
+                                    </div>
+                                    <div className={css(styles.restTableContainer)}>
+                                        <RestTable tableData={restData} />
+                                    </div>
+                                    <div className={css(styles.topicInfoContainer)}>
+                                        <span className={css(styles.calculateTopics)}>교양필수(공동체 - 소통·공감) - 교양선택(미래설계 - 디지털융합·지역혁신·지속가능발전)</span><span className={css(styles.calculateTopicsInfo)}>순서로 계산되었습니다.</span>
+                                    </div>
+                                </div>
+                            </div> :
+                        year < 2023 ?
                             <div className={css(styles.tableContainer)}>
                                 <div className={css(essentialGESuccess ? styles.leftTableContainer : styles.lackLeftTableContainer)}>
                                     <EssentialGETable tableData={essentialGEData} success={essentialGESuccess}/>
@@ -851,7 +868,6 @@ const styles = StyleSheet.create({
     },
     bottomContainer: {
         display: 'flex',
-        // flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: '200px',
