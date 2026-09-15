@@ -1232,6 +1232,276 @@ export function FusionGETable({ tableData, success, trinity }) {
     )
 };
 
+export function Essential2026GETable({ tableData, success }) {
+    return (
+        <div className={css(styles.container)}>
+            <div className={css(styles.titleContainer)}>
+                <div className={css(styles.titleLeftContainer)}>
+                    <span className={css(styles.mainTitle)}>교양 필수</span>
+                    <div className={css(styles.creditContainer)}>
+                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>{tableData?.reduce((sum, data) => sum + (data.subject?.reduce((sum, subject) => sum + (subject?.credit || 0), 0) || 0), 0) || 0}</span>
+                        <span className={css(styles.totalStandard)}>/</span>
+                        <span className={css(styles.totalStandard)}>{tableData?.reduce((sum, data) => sum + (data.standard || 0), 0)} 학점</span>
+                    </div>
+                </div>
+                {success ?
+                <div className={css(styles.successContainer)}>
+                    <span className={css(styles.successText)}>완료</span>
+                </div> :
+                <div className={css(styles.lackContainer)}>
+                    <span className={css(styles.lackText)}>미충족</span>
+                </div>}
+            </div>
+            <table className={css(styles.tableContainer)}>
+                <thead>
+                    <tr>
+                        <th className={css(styles.tableHeader)}>대표역량</th>
+                        <th className={css(styles.tableHeaderLeftAlign)}>주제 및 교과목</th>
+                        <th className={css(styles.tableHeader)}>학점</th>
+                    </tr>
+                </thead>
+                {tableData && tableData.length > 0 && (
+                <tbody>
+                    <tr>
+                        <th rowSpan='2' className={css(styles.threeCellsHeader)}>공동체</th>
+                        <td className={css(styles.tableDataLectures)}>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[0]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[0].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[0].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null}
+                                </>))}
+                            </div>
+                            {tableData[0].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
+                        </td>
+                        {(tableData[0]?.standard) <= (tableData[0]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td> :
+                        <td className={css(styles.tableDataLackStandard)}>{tableData[0]?.standard}학점</td>}
+                    </tr>
+                    <tr>
+                        <td className={css(styles.tableDataLectures)}>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[1]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[1].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[1].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null}
+                                </>))}
+                            </div>
+                            {tableData[1].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
+                        </td>
+                        {(tableData[1]?.standard) <= (tableData[1]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td> :
+                        <td className={css(styles.tableDataLackStandard)}>{tableData[1]?.standard}학점</td>}
+                    </tr>
+                    <tr>
+                        <th rowSpan='2' className={css(styles.threeCellsHeader)}>소통<br/>공감</th>
+                        <td className={css(styles.tableDataLectures)}>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[2]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[2].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[2].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null}
+                                </>))}
+                            </div>
+                            {tableData[2].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
+                        </td>
+                        {(tableData[2]?.standard) <= (tableData[2]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        <td className={css(styles.tableDataStandard)}>{tableData[2]?.standard}학점</td> :
+                        <td className={css(styles.tableDataLackStandard)}>{tableData[2]?.standard}학점</td>}
+                    </tr>
+                    <tr>
+                        <td className={css(styles.tableDataLectures)}>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{tableData[3]?.topic}</span>
+                                </div>
+                                {Array.from(new Set(tableData[3].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {tableData[3].topic !== topic ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null}
+                                </>))}
+                            </div>
+                            {tableData[3].subject?.map((subject, index) => (
+                            <div className={css(styles.lectureContainer)}>
+                                <div className={css(styles.lectureLeftside)}>
+                                    <img src={Books} className={css(styles.lectureIcon)} />
+                                    <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                </div>
+                                <div className={css(styles.lectureRightside)}>
+                                    <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                    <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                    <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                </div>
+                            </div>))}
+                        </td>
+                        {(tableData[3]?.standard) <= (tableData[3]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        <td className={css(styles.tableDataStandard)}>{tableData[3]?.standard}학점</td> :
+                        <td className={css(styles.tableDataLackStandard)}>{tableData[3]?.standard}학점</td>}
+                    </tr>
+                </tbody>)}
+            </table>
+        </div>
+
+    )
+};
+
+export function Choice2026GETable({ tableData, success }) {
+    return (
+        <div className={css(styles.container)}>
+            <div className={css(styles.titleContainer)}>
+                <div className={css(styles.titleLeftContainer)}>
+                    <span className={css(styles.mainTitle)}>교양 선택</span>
+                    <div className={css(styles.creditContainer)}>
+                        <span className={css(success ? styles.successTotalCredit : styles.lackTotalCredit)}>{tableData?.reduce((sum, data) => sum + (data.subject?.reduce((sum, subject) => sum + (subject?.credit || 0), 0) || 0), 0) || 0}</span>
+                        <span className={css(styles.totalStandard)}>/</span>
+                        <span className={css(styles.totalStandard)}>{tableData?.reduce((sum, data) => sum + (data.standard || 0), 0)} 학점</span>
+                    </div>
+                </div>
+                {success ?
+                <div className={css(styles.successContainer)}>
+                    <span className={css(styles.successText)}>완료</span>
+                </div> :
+                <div className={css(styles.lackContainer)}>
+                    <span className={css(styles.lackText)}>미충족</span>
+                </div>}
+            </div>
+            <table className={css(styles.tableContainer)}>
+                <thead>
+                    <tr>
+                        <th className={css(styles.tableHeader)}>대표역량</th>
+                        <th className={css(styles.tableHeaderLeftAlign)}>주제 및 교과목</th>
+                        <th className={css(styles.tableHeader)}>학점</th>
+                    </tr>
+                </thead>
+                {tableData && tableData.length > 0 && (
+                <tbody>
+                    <tr>
+                        <th className={css(styles.wideThreeCellsHeader)}>미래<br/>설계</th>
+                        <td className={css(styles.restTableDataLectures)}>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                {tableData[0]?.topic.split(',').map((topic, idx) => (
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{topic}</span>
+                                </div>))}
+                                {Array.from(new Set(tableData[0].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {!tableData[0].topic.includes(topic) ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null}
+                                </>))}
+                            </div>
+                            <div className={css(styles.restContainer)}>
+                                {tableData[0].subject?.map((subject, index) => (
+                                <div className={css(styles.restLectureContainer)}>
+                                    <div className={css(styles.restLectureLeftside)}>
+                                        <img src={Books} className={css(styles.lectureIcon)} />
+                                        <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                    </div>
+                                    <div className={css(styles.lectureRightside)}>
+                                        <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                        <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                        <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                    </div>
+                                </div>))}
+                            </div>
+                        </td>
+                        {(tableData[0]?.standard) <= (tableData[0]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        <td className={css(styles.tableDataStandard)}>{tableData[0]?.standard}학점</td> :
+                        <td className={css(styles.tableDataLackStandard)}>{tableData[0]?.standard}학점</td>}
+                    </tr>
+                    <tr>
+                        <th className={css(styles.wideThreeCellsHeader)}>디지털융합<br/>지역혁신<br/>지속가능발전</th>
+                        <td className={css(styles.restTableDataLectures)}>
+                            <div className={css(styles.insteadTopicContainer)}>
+                                {tableData[1]?.topic.split(',').map((topic, idx) => (
+                                <div className={css(styles.tableDataTopicContainer)}>
+                                    <span className={css(styles.tableDataTopic)}>{topic}</span>
+                                </div>))}
+                                {Array.from(new Set(tableData[1].subject?.map(subject => subject?.lecture_topic))).map((topic, index) => (
+                                <>
+                                    {!tableData[1].topic.includes(topic) ?
+                                    <div className={css(styles.insteadDataTopicContainer)}>
+                                        <span className={css(styles.insteadDataTopic)}>{topic}</span>
+                                    </div> : null}
+                                </>))}
+                            </div>
+                            <div className={css(styles.restContainer)}>
+                                {tableData[1].subject?.map((subject, index) => (
+                                <div className={css(styles.restLectureContainer)}>
+                                    <div className={css(styles.restLectureLeftside)}>
+                                        <img src={Books} className={css(styles.lectureIcon)} />
+                                        <span className={css(styles.lectureName)}>{subject?.lecture_name}</span>
+                                    </div>
+                                    <div className={css(styles.lectureRightside)}>
+                                        <span className={css(styles.lectureInfo)}>{subject?.year}-{subject?.semester}</span>
+                                        <span className={css(styles.lectureInfo)}>{subject?.lecture_topic}</span>
+                                        <span className={css(styles.lectureCredit)}>{subject?.credit}학점</span>
+                                    </div>
+                                </div>))}
+                            </div>
+                        </td>
+                        {(tableData[1]?.standard) <= (tableData[1]?.subject?.reduce((sum, data) => sum + (data.credit || 0), 0)) ?
+                        <td className={css(styles.tableDataStandard)}>{tableData[1]?.standard}학점</td> :
+                        <td className={css(styles.tableDataLackStandard)}>{tableData[1]?.standard}학점</td>}
+                    </tr>
+                </tbody>)}
+            </table>
+        </div>
+
+    )
+};
+
 export function RestTable({ tableData }){
     return (
         <div className={css(styles.container)}>
@@ -1423,6 +1693,17 @@ const styles = StyleSheet.create({
     },
     threeCellsHeader: {
         minWidth: '25px',
+        fontFamily: 'Lato',
+        fontSize: '10px',
+        fontWeight: '500',
+        color: '#81807F',
+        backgroundColor: 'rgba(255,255,255,0.02)',
+        borderTop: '1px solid #B9B9B9',
+        borderRight: '1px solid #B9B9B9',
+    },
+    wideThreeCellsHeader: {
+        minWidth: '48px',
+        whiteSpace: 'nowrap',
         fontFamily: 'Lato',
         fontSize: '10px',
         fontWeight: '500',
